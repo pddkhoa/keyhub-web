@@ -1,14 +1,33 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.entity.Users;
-import com.example.Keyhub.data.entity.dto.request.UserDTO;
+import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.dto.request.UserDTO;
+import com.example.Keyhub.data.entity.VerificationToken;
+import com.example.Keyhub.data.payload.ProfileInfor;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 public interface IUserService {
+    Users findByEmail(String email);
+    void resetPassword(Users user);
+    void createResetToken(String email);
+
     Optional<Users> findByUsername(String name); //Tim kiem User co ton tai trong DB khong?
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+    void createVerificationToken(Users user, String token);
     Users save(Users users);
     Users registerNewUserAccount(UserDTO dto);
+    VerificationToken getVerificationToken(String VerificationToken);
+    void registerAccount(Users user);
+
+    void changeInfo(BigInteger user_id, ProfileInfor body);
+    void changeAvatar(BigInteger user_id, MultipartFile imageFile);
+    void removeAvatar(BigInteger user_id);
+    AvatarUser saveAvatarToStorage( BigInteger userid);
+    void removeAvatarToStorage(BigInteger user_id);
+
 }

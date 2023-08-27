@@ -11,7 +11,16 @@ import java.util.regex.Pattern;
 @Component
 public class ValidatorUtils {
     //Accept image files extension
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg, \"image/gif\",\n" +
+            "    \"image/bmp\",\n" +
+            "    \"image/tiff\",\n" +
+            "    \"image/webp\",\n" +
+            "    \"image/svg+xml\"");
+    private static final List<String> videoContentTypes = Arrays.asList(
+            "video/mp4",
+            "video/webm",
+            "video/ogg"
+    );
 
     public static final String EMAIL_REGEX = "^[a-z0-9_\\.]{5,48}@[a-z0-9]{2,}(\\.[a-z0-9]{2,}){1,5}$";
     public static final String VIETNAMESE_REGEX = "^[0-9a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾ" +
@@ -37,6 +46,12 @@ public class ValidatorUtils {
     public static boolean validateMineFile(MultipartFile file) {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType))
+            return true;
+        return false;
+    }
+    public static boolean validateMineVideoFile(MultipartFile file) {
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(videoContentTypes))
             return true;
         return false;
     }

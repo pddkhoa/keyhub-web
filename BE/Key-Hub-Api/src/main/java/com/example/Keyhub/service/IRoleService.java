@@ -1,7 +1,7 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.entity.Role;
-import com.example.Keyhub.data.entity.RoleName;
+import com.example.Keyhub.data.entity.ProdfileUser.Role;
+import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
 
 import java.util.Optional;
 

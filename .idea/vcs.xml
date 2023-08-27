@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$/BE/Key-Hub-Api" vcs="Git" />
+=======
+>>>>>>> b16ac25d808b37ee45685f27e85bfd03d6456c04
   </component>
 </project>
