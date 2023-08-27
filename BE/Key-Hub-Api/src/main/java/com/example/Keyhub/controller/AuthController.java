@@ -1,10 +1,10 @@
 package com.example.Keyhub.controller;
 
+import com.example.Keyhub.data.entity.Users;
 import com.example.Keyhub.data.entity.dto.request.LoginRequest;
 import com.example.Keyhub.data.entity.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.dto.response.JwtResponse;
 import com.example.Keyhub.data.entity.dto.response.ResponseMessage;
-import com.example.Keyhub.data.entity.Users;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.security.userpincal.UserPrinciple;
 import com.example.Keyhub.service.impl.UserServiceImpl;
