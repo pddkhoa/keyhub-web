@@ -1,8 +1,8 @@
 package com.example.Keyhub.service.impl;
 
-import com.example.Keyhub.data.entity.Role;
-import com.example.Keyhub.data.entity.RoleName;
-import com.example.Keyhub.data.entity.repository.IRoleRepository;
+import com.example.Keyhub.data.entity.ProdfileUser.Role;
+import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
+import com.example.Keyhub.data.repository.IRoleRepository;
 import com.example.Keyhub.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

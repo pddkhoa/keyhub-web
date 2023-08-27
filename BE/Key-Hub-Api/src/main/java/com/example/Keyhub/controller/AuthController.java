@@ -1,26 +1,41 @@
 package com.example.Keyhub.controller;
 
-import com.example.Keyhub.data.entity.dto.request.LoginRequest;
-import com.example.Keyhub.data.entity.dto.request.UserDTO;
-import com.example.Keyhub.data.entity.dto.response.JwtResponse;
-import com.example.Keyhub.data.entity.dto.response.ResponseMessage;
-import com.example.Keyhub.data.entity.Users;
+import com.example.Keyhub.controller.exception.TokenRefreshException;
+import com.example.Keyhub.data.dto.request.LoginRequest;
+import com.example.Keyhub.data.dto.request.TokenRequest;
+import com.example.Keyhub.data.dto.request.UserDTO;
+import com.example.Keyhub.data.dto.response.JwtResponse;
+import com.example.Keyhub.data.dto.response.ResponseMessage;
+import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.ResetPassToken;
+import com.example.Keyhub.data.entity.VerificationToken;
+import com.example.Keyhub.data.exception.CustomExceptionRuntime;
+import com.example.Keyhub.data.payload.ResetPass;
+import com.example.Keyhub.data.payload.TokenRefreshRequest;
+import com.example.Keyhub.data.payload.respone.CustomResponse;
+import com.example.Keyhub.data.payload.respone.TokenRefreshResponse;
+import com.example.Keyhub.data.repository.RefreshTokenRepository;
+import com.example.Keyhub.data.repository.ResetPassTokenRepos;
+import com.example.Keyhub.event.OnRegistrationCompleteEvent;
 import com.example.Keyhub.security.jwt.JwtProvider;
-import com.example.Keyhub.security.userpincal.UserPrinciple;
+//import com.example.Keyhub.security.userpincal.UserPrinciple;
+import com.example.Keyhub.security.userpincal.CustomUserDetails;
+import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Calendar;
 
 @RequestMapping("/api/auth")
 @RestController
@@ -30,18 +45,52 @@ public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
+    IRefreshTokenService refreshTokenService;
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
+    @Autowired
+    ResetPassTokenRepos resetPassTokenRepos;
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+    @Autowired
     JwtProvider jwtProvider;
     @PostMapping("/signup")
-    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO){
+    public CustomResponse register(@Valid @RequestBody UserDTO userDTO){
         if(userService.existsByUsername(userDTO.getUsername())){
-            return new ResponseEntity<>(new ResponseMessage("The username is existed"), HttpStatus.OK);
+            return new CustomResponse(400, "The username is existed", System.currentTimeMillis());
         }
         if(userService.existsByEmail(userDTO.getEmail())){
-            return new ResponseEntity<>(new ResponseMessage("The email is existed"), HttpStatus.OK);
+            return new CustomResponse(400, "The email is existed", System.currentTimeMillis());
         } else {
-                Users users = userService.registerNewUserAccount(userDTO);
-            return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+            Users users = userService.registerNewUserAccount(userDTO);
+            applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent(users));
+            return new CustomResponse(200, "Create success!", System.currentTimeMillis());
         }
+    }
+    @PostMapping("/verify-account")
+    public CustomResponse verifyAccount(@RequestParam String token) {
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        Calendar cal = Calendar.getInstance();
+        if (verificationToken == null && verificationToken.isUsed() == true || (verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return new CustomResponse(200, "Token not has expiry or not valid", System.currentTimeMillis());
+        }
+        Users user = verificationToken.getUser();
+        user.setStatus(true);
+        userService.registerAccount(user);
+        return new CustomResponse(200, "Verify account has success", System.currentTimeMillis());
+    }
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        return refreshTokenRepository.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtProvider.generateTokenFromUsername(user.getUsername());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
@@ -50,7 +99,40 @@ public class AuthController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.createToken(authentication);
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getName(), userPrinciple.getAuthorities()));
+        CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
+        return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getUsername(), userPrinciple.getAuthorities(),userPrinciple.getUsers().getId(), refreshToken.getToken()));
+    }
+    @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
+    public CustomResponse forgotPassword(@RequestParam String email) {
+        Users us = userService.findByEmail(email);
+        CustomResponse response;
+        if (us != null) {
+            userService.createResetToken(email);
+            response = new CustomResponse(200, "Create reset pass token succes, check email",
+                    System.currentTimeMillis());
+        } else throw new CustomExceptionRuntime(400, "Create reset pass token fail check email or try again");
+        return response;
+    }
+
+    @RequestMapping(value = "/reset-password", method = RequestMethod.PATCH)
+    public CustomResponse resetPassword(@RequestBody @Valid ResetPass resetPass,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new CustomExceptionRuntime(400, "The request has failed to execute. Please check the input data.");
+        Users user = userService.findByEmail(resetPass.getEmail());
+        ResetPassToken token = resetPassTokenRepos.findResetPassTokenReposByToken(resetPass.getToken());
+        if (!resetPass.getNew_pass().equals(resetPass.getOld_pass()))
+        {
+            throw new CustomExceptionRuntime(400, "The old password does not match the new password. Please re-enter.");
+        }
+        if (user != null && token != null
+                && token.getUser().getId() == user.getId()) {
+
+            user.setPassword(resetPass.getNew_pass());
+            userService.resetPassword(user);
+            return new CustomResponse(200, "Reset password for user has success", System.currentTimeMillis());
+        }
+        return new CustomResponse(400, "Token has not valid", System.currentTimeMillis());
     }
 }

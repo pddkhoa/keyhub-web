@@ -1,9 +1,11 @@
 package com.example.Keyhub.security.jwt;
 
-import com.example.Keyhub.security.userpincal.UserPrinciple;
+//import com.example.Keyhub.security.userpincal.UserPrinciple;
+import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +13,17 @@ import java.util.Date;
 @Component
 public class JwtProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-    private String jwtSecret = "chinh.nguyen@codegym.vn";
-    private int jwtExpiration = 86400;
+    @Value("${api.app.jwtSerectKey}")
+    private String jwtSecret;
+    @Value("${api.app.jwtRefreshExpirationMs}")
+    private int jwtExpirationMs;
+
+    @Value("${api.app.jwtExpiration}")
+    private int jwtExpiration;
     public String createToken(Authentication authentication){
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return Jwts.builder().setSubject(userPrinciple.getUsername()).setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime()+jwtExpiration*1000))
+        CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
+        return Jwts.builder().setSubject(userPrinciple.getUsername()).setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime()+jwtExpiration))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
@@ -39,6 +47,11 @@ public class JwtProvider {
     public String getUserNameFromToken(String token){
         String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
         return userName;
+    }
+    public String generateTokenFromUsername(String username) {
+        return Jwts.builder().setSubject(username).setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 
 }
