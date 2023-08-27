@@ -1,12 +1,7 @@
 package com.example.Keyhub.controller;
 
-<<<<<<< HEAD
-import com.example.Keyhub.data.entity.Users;
-import com.example.Keyhub.data.entity.dto.request.LoginRequest;
-import com.example.Keyhub.data.entity.dto.request.UserDTO;
-import com.example.Keyhub.data.entity.dto.response.JwtResponse;
-import com.example.Keyhub.data.entity.dto.response.ResponseMessage;
-=======
+
+
 import com.example.Keyhub.controller.exception.TokenRefreshException;
 import com.example.Keyhub.data.dto.request.LoginRequest;
 import com.example.Keyhub.data.dto.request.TokenRequest;
@@ -25,7 +20,7 @@ import com.example.Keyhub.data.payload.respone.TokenRefreshResponse;
 import com.example.Keyhub.data.repository.RefreshTokenRepository;
 import com.example.Keyhub.data.repository.ResetPassTokenRepos;
 import com.example.Keyhub.event.OnRegistrationCompleteEvent;
->>>>>>> b16ac25d808b37ee45685f27e85bfd03d6456c04
+
 import com.example.Keyhub.security.jwt.JwtProvider;
 //import com.example.Keyhub.security.userpincal.UserPrinciple;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;

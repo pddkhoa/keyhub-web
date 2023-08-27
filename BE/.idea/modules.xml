@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BE.iml" filepath="$PROJECT_DIR$/.idea/BE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KeyHUb.main.iml" filepath="$PROJECT_DIR$/.idea/modules/KeyHUb.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Key-Hub-Api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Key-Hub-Api.main.iml" />
     </modules>
   </component>
 </project>
