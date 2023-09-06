@@ -1,27 +1,32 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import api from "../../api/axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "../../context/authProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [password, setPwd] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
   const { setAuth } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
-      const response = await api.post(`/api/login`, { email, password });
+      const response = await api.post(`/api/auth/login`, {
+        username,
+        password,
+      });
 
-      const token = response?.data;
-      if (response.data) {
-        setAuth({ email, password, token });
-        // navigate("/home");
+      const token = response?.data.token;
+      const refreshToken = response?.data.refreshToken;
+      console.log(response?.data);
+      if (token) {
+        setAuth({ username, password, token, refreshToken });
+        navigate("/home");
         console.log(from);
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
       }
     } catch (error) {
       console.error(error);
@@ -29,90 +34,87 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900">
-      <div className="flex justify-center h-screen">
-        <div
-          className="hidden bg-cover lg:block lg:w-2/3"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)",
-          }}
-        >
-          <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
-            <div>
-              <h2 className="text-4xl font-bold text-white">Brand</h2>
-              <p className="max-w-xl mt-3 text-gray-300">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
-                autem ipsa, nulla laboriosam dolores, repellendus perferendis
-                libero suscipit nam temporibus molestiae
-              </p>
-            </div>
+    <>
+      <div className="w-full  absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-hidden"></div>
+      <div className=" relative min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
+        <div className="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 mr-20">
+          <div className="self-start  lg:flex flex-col  text-gray-300">
+            <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
+            <p className="text-xl opacity-75">
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups
+            </p>
           </div>
         </div>
-        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
-          <div className="flex-1">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold text-center text-gray-700 dark:text-white">
-                Brand
-              </h2>
-              <p className="mt-3 text-gray-500 dark:text-gray-300">
-                Sign in to access your account
+        <div className="flex justify-center self-center z-10">
+          <div className="p-12 bg-white mx-auto rounded-3xl w-96 ">
+            <div className="mb-7">
+              <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
+              <p className="text-gray-400">
+                Don'thave an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-sm text-purple-700 hover:text-purple-700"
+                >
+                  Sign Up
+                </Link>
               </p>
             </div>
-            <div className="mt-8">
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm text-gray-600 dark:text-gray-200"
+            <div className="space-y-6">
+              <div>
+                <input
+                  className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
+                  placeholder="Email"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="relative" x-data="{ show: true }">
+                <input
+                  className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
+                  placeholder="Password"
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+                <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5"></div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-sm ml-auto">
+                  <Link
+                    to="#"
+                    className="text-purple-700 hover:text-purple-600"
                   >
-                    Email Address
-                  </label>
-                  <input
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="eve.holt@reqres.in"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                  />
+                    Forgot your password?
+                  </Link>
                 </div>
-                <div className="mt-6">
-                  <div className="flex justify-between mb-2">
-                    <label
-                      htmlFor="password"
-                      className="text-sm text-gray-600 dark:text-gray-200"
-                    >
-                      Password
-                    </label>
-                  </div>
-                  <input
-                    onChange={(e) => setPwd(e.target.value)}
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="cityslicka"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                  />
-                </div>
-                <div className="mt-6">
-                  <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                    Sign in
-                  </button>
-                </div>
-              </form>
-              <p className="mt-6 text-sm text-center text-gray-400">
-                Don't have an account yet?{"{"}" "{"}"}
-                <button className="text-blue-500 focus:outline-none focus:underline hover:underline">
-                  Sign up
+              </div>
+              <div>
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="w-full flex justify-center bg-gray-900  hover:bg-pink-950 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
+                >
+                  Sign in
                 </button>
-                .
-              </p>
+              </div>
+              <div className="flex items-center justify-center space-x-2 my-5">
+                <span className="h-px w-16 bg-gray-100" />
+                <span className="text-gray-300 font-normal">or</span>
+                <span className="h-px w-16 bg-gray-100" />
+              </div>
+              <div className="flex justify-center gap-5 w-full ">
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:bg-gray-600 hover:text-white text-sm text-gray-500 p-3  rounded-lg tracking-wide font-medium  cursor-pointer transition ease-in duration-500"
+                >
+                  <FcGoogle className="w-6 h-6 mr-2" />
+                  <span className="text-xl uppercase">Google</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Login;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://reqres.in",
+  baseURL: "http://localhost:8081",
   headers: {
     "Content-Type": "application/json",
   },
@@ -34,4 +34,10 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const axiosPrivate = axios.create({
+  baseURL: "http://localhost:8081",
+  headers: { "Content-Type": "application/json" },
+});
+
 export default api;

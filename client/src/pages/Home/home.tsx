@@ -1,29 +1,17 @@
 import { useState, useEffect } from "react";
 import User from "../../types/user";
-import axios from "axios";
 import api from "../../api/axios";
 import { useAuth } from "../../hooks/useAuth";
+import useRefreshToken from "../../hooks/useRefreshToken";
+import { IconButton } from "../../components/Button/button";
 
 const Home = () => {
+  const refresh = useRefreshToken();
   const [user, setUser] = useState<User[]>();
   const { auth } = useAuth();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(`/api/users?page=1`);
-
-        if (response) {
-          setUser(response.data.data);
-        } else {
-          console.log("error");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    console.log(auth);
-    fetchData();
-  }, []);
+    // console.log(auth.refreshToken);
+  }, [auth]);
 
   return (
     <>
@@ -40,24 +28,9 @@ const Home = () => {
                 necessitatibus odio quam quasi, quibusdam rem tempora
                 voluptates. Cumque debitis dignissimos id quam vel!
               </p>
-              <div className="flex justify-center lg:justify-start mt-6">
-                <a
-                  className="px-4 py-3 bg-gray-900 text-gray-200 text-xs font-semibold rounded hover:bg-gray-800"
-                  href="#"
-                >
-                  Get Started
-                </a>
-                <a
-                  className="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
-                  href="#"
-                >
-                  Learn More
-                </a>
-              </div>
-              {user?.length &&
-                user?.map((item, index) => {
-                  return <div key={index}>{item.email}</div>;
-                })}
+              <IconButton>
+                <span onClick={() => refresh()}>RefreshToken</span>
+              </IconButton>
             </div>
           </div>
           <div
