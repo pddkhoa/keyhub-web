@@ -12,4 +12,5 @@ public interface IRefreshTokenService {
     RefreshToken createRefreshToken(BigInteger userId);
     RefreshToken verifyExpiration(RefreshToken token);
    int deleteByUserId(BigInteger userId);
+
 }

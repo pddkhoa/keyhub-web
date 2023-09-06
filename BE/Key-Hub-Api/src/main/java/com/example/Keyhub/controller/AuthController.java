@@ -2,10 +2,8 @@ package com.example.Keyhub.controller;
 
 import com.example.Keyhub.controller.exception.TokenRefreshException;
 import com.example.Keyhub.data.dto.request.LoginRequest;
-import com.example.Keyhub.data.dto.request.TokenRequest;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.dto.response.JwtResponse;
-import com.example.Keyhub.data.dto.response.ResponseMessage;
 import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.ResetPassToken;
@@ -19,13 +17,11 @@ import com.example.Keyhub.data.repository.RefreshTokenRepository;
 import com.example.Keyhub.data.repository.ResetPassTokenRepos;
 import com.example.Keyhub.event.OnRegistrationCompleteEvent;
 import com.example.Keyhub.security.jwt.JwtProvider;
-//import com.example.Keyhub.security.userpincal.UserPrinciple;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,11 +32,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Calendar;
+import java.util.Objects;
 
 @RequestMapping("/api/auth")
 @RestController
 public class AuthController {
-    @Autowired
+    final
     UserServiceImpl userService;
     @Autowired
     AuthenticationManager authenticationManager;
@@ -54,6 +51,11 @@ public class AuthController {
     private ApplicationEventPublisher applicationEventPublisher;
     @Autowired
     JwtProvider jwtProvider;
+
+    public AuthController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/signup")
     public CustomResponse register(@Valid @RequestBody UserDTO userDTO){
         if(userService.existsByUsername(userDTO.getUsername())){
@@ -101,7 +103,9 @@ public class AuthController {
         String token = jwtProvider.createToken(authentication);
         CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
-        return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getUsername(), userPrinciple.getAuthorities(),userPrinciple.getUsers().getId(), refreshToken.getToken()));
+        String refresh = refreshToken.getToken();
+        return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
+
     }
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
     public CustomResponse forgotPassword(@RequestParam String email) {
@@ -127,7 +131,7 @@ public class AuthController {
             throw new CustomExceptionRuntime(400, "The old password does not match the new password. Please re-enter.");
         }
         if (user != null && token != null
-                && token.getUser().getId() == user.getId()) {
+                && Objects.equals(token.getUser().getId(), user.getId())) {
 
             user.setPassword(resetPass.getNew_pass());
             userService.resetPassword(user);

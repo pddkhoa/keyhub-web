@@ -11,11 +11,25 @@ import java.util.regex.Pattern;
 @Component
 public class ValidatorUtils {
     //Accept image files extension
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg, \"image/gif\",\n" +
-            "    \"image/bmp\",\n" +
-            "    \"image/tiff\",\n" +
-            "    \"image/webp\",\n" +
-            "    \"image/svg+xml\"");
+    private static final List<String> contentTypes = Arrays.asList(
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            "image/gif",
+            "image/bmp",
+            "image/tiff",
+            "image/webp",
+            "image/svg+xml",
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-powerpoint",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "application/vnd.oasis.opendocument.text",
+            "application/vnd.oasis.opendocument.spreadsheet"
+    );
     private static final List<String> videoContentTypes = Arrays.asList(
             "video/mp4",
             "video/webm",
@@ -51,7 +65,7 @@ public class ValidatorUtils {
     }
     public static boolean validateMineVideoFile(MultipartFile file) {
         String fileContentType = file.getContentType();
-        if (contentTypes.contains(videoContentTypes))
+        if (videoContentTypes.contains(fileContentType))
             return true;
         return false;
     }

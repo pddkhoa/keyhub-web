@@ -13,5 +13,5 @@ public interface ICompanyRepository extends JpaRepository<Company, BigInteger> {
     Optional<Company> findById(BigInteger id);
     @Query("select i from Company i where  i.users.id=?1 AND i.Company = ?2")
     List<Company> findbyUserIdAndName(BigInteger users_id, String company);
-
+    List<Company> findByUsers_Id(BigInteger user_id);
 }

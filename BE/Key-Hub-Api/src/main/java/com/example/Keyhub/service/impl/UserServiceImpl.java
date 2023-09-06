@@ -1,6 +1,8 @@
 package com.example.Keyhub.service.impl;
 
+import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.Role;
 import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
@@ -9,10 +11,7 @@ import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.ProfileInfor;
-import com.example.Keyhub.data.repository.IAvatarRepository;
-import com.example.Keyhub.data.repository.IUserRepository;
-import com.example.Keyhub.data.repository.IVerificationTokenRepos;
-import com.example.Keyhub.data.repository.ResetPassTokenRepos;
+import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.service.IEmailService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
@@ -33,6 +32,8 @@ public class UserServiceImpl implements IUserService {
     private ModelMapper mapper;
     @Autowired
     UserServiceImpl userService;
+    @Autowired
+    ISeriesRepository iSeriesRepository;
     @Autowired
     RoleServiceImpl roleService;
     @Autowired
@@ -182,9 +183,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void changeAvatar(BigInteger user_id, MultipartFile imageFile) {
         Users us = userRepository.findById(user_id).orElseThrow(null);
-        if (us.getAvatar() != null) {
-            uploadImageService.removeFile(us.getAvatar());
-        }
         String new_avatar = uploadImageService.uploadFile(imageFile);
         us.setAvatar(new_avatar);
         userRepository.save(us);
@@ -214,4 +212,18 @@ public class UserServiceImpl implements IUserService {
     public void removeAvatarToStorage(BigInteger user_id) {
         iAvatarRepository.deleteByUserId(user_id);
     }
+
+    @Override
+    public Series addSeries(SeriesDTO seriesDTO, Users users) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Series series = new Series();
+        series.setDescription(seriesDTO.getDescription());
+        series.setUser(users);
+        series.setSumBlog(BigInteger.valueOf(0));
+        series.setName(seriesDTO.getName());
+        series.setCreateday(timestamp);
+        return iSeriesRepository.save(series);
+    }
+
+
 }

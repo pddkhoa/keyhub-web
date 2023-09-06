@@ -14,7 +14,7 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @Entity
-@Table(name = "")
+@Table(name = "school")
 public class School {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

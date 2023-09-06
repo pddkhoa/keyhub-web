@@ -46,6 +46,17 @@ public class AccountStoryController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
+    @GetMapping(value = "country")
+    public CustomResponse getCountry() {
+        List<Country> list =countryRepository.findByUsers_Id(getUserFromAuthentication().getId());
+        if (list.isEmpty())
+        {
+            return new CustomResponse(403,"User has no country",System.currentTimeMillis());
+        }
+        return new CustomResponse(403,"User has no country",System.currentTimeMillis());
+
+
+    }
     @RequestMapping(value = "/add/country", method = RequestMethod.POST)
     public ResponseEntity addCoutry(@Valid @RequestBody CountryDTO countryDTO,
                                             BindingResult bindingResult) {
@@ -95,6 +106,16 @@ public class AccountStoryController {
             return ResponseEntity.ok("Insert country was successful");
         }
         throw new CustomExceptionRuntime(400, "Request was failed. Company is exists");
+    }
+    @GetMapping(value = "company")
+    public ResponseEntity getCompany() {
+        List<Company> list =companyRepository.findByUsers_Id(getUserFromAuthentication().getId());
+        if (list.isEmpty())
+        {
+            return ResponseEntity.ok("User has no company");
+        }
+        return ResponseEntity.ok(list);
+
     }
     @RequestMapping(value = "/{company_id}/remove/company", method = RequestMethod.POST)
     public ResponseEntity removeCompany(@Valid @RequestBody
@@ -148,6 +169,16 @@ public class AccountStoryController {
             return ResponseEntity.ok("Delete country was successful");
         }
     }
+    @GetMapping(value = "school")
+    public ResponseEntity getSchool() {
+        List<School> list = schoolRepository.findByUsers_Id(getUserFromAuthentication().getId());
+        if (list.isEmpty())
+        {
+            return ResponseEntity.ok ("User has no school");
+        }
+        return ResponseEntity.ok(list);
+
+    }
     @RequestMapping(value = "/{school_id}/edit/school", method = RequestMethod.PATCH)
     public ResponseEntity editSchool(@Valid @RequestBody SchoolDTO schoolDTO,
                                       @PathVariable BigInteger school_id) {
@@ -200,7 +231,7 @@ public class AccountStoryController {
             return ResponseEntity.ok("Edit country was successful");
         }
     }
-    @RequestMapping(value = "/block/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/block/list", method = RequestMethod.GET)
     public ResponseEntity<List<BlockUserDTO>> getBlockList() {
         List<BlockUserDTO> blocks = storyService.findBlockedUsersByUserBlock(getUserFromAuthentication());
         if (blocks.isEmpty()) {

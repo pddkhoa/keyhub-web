@@ -28,6 +28,7 @@ import java.util.Set;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private BigInteger id;
     @NotBlank
     @Size(min = 3, max = 50)

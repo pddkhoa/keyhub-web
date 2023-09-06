@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_image")
+@Table(name = "user_images")
 public class AvatarUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
