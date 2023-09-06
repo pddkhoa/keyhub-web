@@ -35,22 +35,4 @@ public class CloudinaryUtils {
         //url_token[7] = filename.png
         return url_token[7].split("\\.")[0];//public_id without extension file
     }
-
-    public static void main(String[] args) throws IOException {
-//        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-//                "cloud_name", "dmpru0wgq",
-//                "api_key", "644726543393577",
-//                "api_secret", "pg6HkQN7Et7IzSIzYyQGA9qNbFE"));
-//        Map url = cloudinary.uploader().upload("C:\\Users\\Admin\\Pictures\\305856838_2342381015915707_7068943110264526048_n.jpg", ObjectUtils.emptyMap());
-//        Map video = cloudinary.uploader().upload("C:\\Users\\Admin\\Documents\\Zalo Received Files\\mov_bbb.webm",
-//                ObjectUtils.asMap("resource_type", "video",
-//                        "public_id", "myfolder",
-//                        "eager", Arrays.asList(
-//                                new EagerTransformation().width(300).height(300).crop("pad").audioCodec("none"),
-//                                new EagerTransformation().width(160).height(100).crop("crop").gravity("south").audioCodec("none")),
-//                        "eager_async", true,
-//                        "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
-
-
-    }
 }

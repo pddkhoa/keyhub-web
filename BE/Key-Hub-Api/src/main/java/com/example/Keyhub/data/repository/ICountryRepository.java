@@ -14,4 +14,5 @@ public interface ICountryRepository extends JpaRepository<Country, BigInteger> {
     List<Country> findbyUserIdAndName(BigInteger users_id, String name);
 
     Optional<Country> findById(BigInteger id);
+    List<Country> findByUsers_Id(BigInteger users_id);
 }

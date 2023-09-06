@@ -1,5 +1,7 @@
 package com.example.Keyhub.data.dto.response;
 
+import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
+import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,20 +11,13 @@ import java.util.Collection;
 @Getter
 @Setter
 public class JwtResponse {
-    private BigInteger id;
     String token;
     private String type = "Bearer";
-    private String username;
     private String refreshToken;
-    private Collection<? extends GrantedAuthority> roles;
 
-    public JwtResponse() {
-    }
-    public JwtResponse(String token, String username, Collection<? extends GrantedAuthority> authorities, BigInteger id,String refreshToken ) {
+    public JwtResponse(String token, CustomUserDetails customUserDetail,String refreshToken ) {
         this.token = token;
-        this.username = username;
-        this.roles = authorities;
         this.refreshToken=refreshToken;
-        this.id=id;
+
     }
 }

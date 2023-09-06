@@ -1,15 +1,15 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.entity.ProductImage;
+import com.example.Keyhub.data.entity.Blog.BlogImage;
 
 import java.util.List;
 
 public interface IProductImage {
-    List<ProductImage> getAllOfProductId(String productId);
+    List<BlogImage> getAllOfProductId(String productId);
 
-    ProductImage findById(long imageId);
+    BlogImage findById(long imageId);
 
-    void insertImage(ProductImage productImage);
+    void insertImage(BlogImage blogImage);
 
-    void updateImage(ProductImage productImage);
+    void updateImage(BlogImage blogImage);
 }

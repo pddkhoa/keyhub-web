@@ -1,5 +1,6 @@
-package com.example.Keyhub.data.entity;
+package com.example.Keyhub.data.entity.Blog;
 
+import com.example.Keyhub.data.entity.Blog.Blog;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-public class ProductImage {
+@Table(name = "blog_image")
+public class BlogImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;

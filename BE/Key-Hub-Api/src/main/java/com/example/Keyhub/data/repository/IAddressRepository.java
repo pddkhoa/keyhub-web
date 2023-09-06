@@ -15,4 +15,5 @@ public interface IAddressRepository extends JpaRepository<Address, BigInteger> {
     List<Address> findByNameAndUserId(BigInteger users_id, String name);
 
     Optional<Address> findById(BigInteger id);
+
 }

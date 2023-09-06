@@ -28,7 +28,6 @@ public class UserDTO {
     private String password;
     private Set<String> roles;
     private Timestamp createDate;
-    @Column
     private Timestamp updateDate;
     @Pattern(regexp = ValidatorUtils.PHONE_REGEX)
     private String phone;
