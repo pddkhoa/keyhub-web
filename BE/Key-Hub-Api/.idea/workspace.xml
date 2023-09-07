@@ -14,6 +14,9 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
@@ -161,7 +164,12 @@
       <workItem from="1693894764368" duration="2617000" />
       <workItem from="1693916776844" duration="2863000" />
       <workItem from="1693965511233" duration="2940000" />
-      <workItem from="1693968471469" duration="15000" />
+      <workItem from="1693968471469" duration="4615000" />
+      <workItem from="1693973451372" duration="4607000" />
+      <workItem from="1693982593273" duration="1332000" />
+      <workItem from="1693996432244" duration="37000" />
+      <workItem from="1694051253927" duration="6891000" />
+      <workItem from="1694061453571" duration="1916000" />
     </task>
     <servers />
   </component>

@@ -19,12 +19,9 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
     @Column(columnDefinition = "TEXT")
-    private String RoleBusiness;
-    @Column(columnDefinition = "TEXT")
     private String Company;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name =  "user_id")
     private Users users;
-    private Boolean BusinessStatus;
 }

@@ -4,6 +4,7 @@ import com.example.Keyhub.controller.exception.TokenRefreshException;
 import com.example.Keyhub.data.dto.request.LoginRequest;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.dto.response.JwtResponse;
+import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.ResetPassToken;
@@ -22,6 +23,7 @@ import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,6 +56,10 @@ public class AuthController {
 
     public AuthController(UserServiceImpl userService) {
         this.userService = userService;
+    }
+    private Users getUserFromAuthentication() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
 
     @PostMapping("/signup")
@@ -106,6 +112,20 @@ public class AuthController {
         String refresh = refreshToken.getToken();
         return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
 
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestParam("refreshToken") String refreshToken) {
+        RefreshToken delete = refreshTokenRepository.findByToken(refreshToken).get();
+        if (delete!=null) {
+            return refreshTokenService.logout(refreshToken);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .message("Logout failed!")
+                        .result("Please login before logout!")
+                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .build());
     }
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
     public CustomResponse forgotPassword(@RequestParam String email) {
