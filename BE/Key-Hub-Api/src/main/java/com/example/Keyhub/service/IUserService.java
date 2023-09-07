@@ -7,6 +7,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.VerificationToken;
 import com.example.Keyhub.data.payload.ProfileInfor;
+import com.example.Keyhub.data.payload.respone.CustomResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
@@ -17,7 +18,7 @@ public interface IUserService {
     void resetPassword(Users user);
     void createResetToken(String email);
 
-    Optional<Users> findByUsername(String name); //Tim kiem User co ton tai trong DB khong?
+    Optional<Users> findByUsername(String name);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     void createVerificationToken(Users user, String token);
@@ -26,7 +27,7 @@ public interface IUserService {
     VerificationToken getVerificationToken(String VerificationToken);
     void registerAccount(Users user);
 
-    void changeInfo(BigInteger user_id, ProfileInfor body);
+    CustomResponse changeInfo(BigInteger user_id, ProfileInfor body);
     void changeAvatar(BigInteger user_id, MultipartFile imageFile);
     void removeAvatar(BigInteger user_id);
     AvatarUser saveAvatarToStorage( BigInteger userid);

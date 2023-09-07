@@ -51,8 +51,6 @@ public class BlogServiceImpl implements IBLogService {
         List<Category> categories = categoryRepository.findAllById(categoryIds);
         newBlog.setCategories(categories);
 
-
-
         Series series1 = seriesRepository.findById(blogPostDTO.getSeriesId()).get();
         BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
         series1.setSumBlog(sumSeries);

@@ -21,8 +21,6 @@ public class Address {
     private BigInteger id;
     @Column
     private String address;
-    @Column
-    private Boolean status;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name =  "user_id")

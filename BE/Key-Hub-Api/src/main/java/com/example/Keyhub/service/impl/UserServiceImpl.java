@@ -3,16 +3,15 @@ package com.example.Keyhub.service.impl;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.entity.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
-import com.example.Keyhub.data.entity.ProdfileUser.Role;
-import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
-import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
-import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.ProfileInfor;
+import com.example.Keyhub.data.payload.respone.CustomResponse;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.service.IEmailService;
+import com.example.Keyhub.service.IStoryService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
@@ -36,6 +35,16 @@ public class UserServiceImpl implements IUserService {
     ISeriesRepository iSeriesRepository;
     @Autowired
     RoleServiceImpl roleService;
+    @Autowired
+    IStoryService iStoryService;
+    @Autowired
+    IAddressRepository addressRepository;
+    @Autowired
+    ICompanyRepository companyRepository;
+    @Autowired
+    ICountryRepository countryRepository;
+    @Autowired
+    ISchoolRepository schoolRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -160,10 +169,9 @@ public class UserServiceImpl implements IUserService {
         tokenRepos.save(token);
         userRepository.save(user);
     }
-
     @Override
     @Transactional
-    public void changeInfo(BigInteger user_id, ProfileInfor body) {
+    public CustomResponse changeInfo(BigInteger user_id, ProfileInfor body) {
             Users us = userRepository.findById(user_id).get();
             if (us != null) {
               us.setName(body.getName());
@@ -173,11 +181,76 @@ public class UserServiceImpl implements IUserService {
                 us.setGender(body.getGender());
                 us.setDescriptions(body.getDescriptions());
                 us.setUpdateDate(new Timestamp(new Date().getTime()));
+                List<String> addressList = body.getAddress();
+                List<Address> checkAddress = addressRepository.findAllByUsers(us);
+                for (String address : addressList) {
+                    for (Address addr : checkAddress) {
+                        if (address.equals(addr.getAddress())) {
+                            return new CustomResponse(400,
+                                    "The user's address already exists ",System.currentTimeMillis());
+                        }
+                    }
+                }
+                List<String> companylList = body.getCompany();
+                List<Company> checkCompany = companyRepository.findAllByUsers(us);
+                for (String company : companylList) {
+                    for (Company addr : checkCompany) {
+                        if (company.equals(addr.getCompany())) {
+                            return new CustomResponse(400,
+                                    "The user's company already exists ",System.currentTimeMillis());
+                        }
+                    }
+                }
+                List<String> schoolList = body.getSchool();
+                List<School> checkSchool = schoolRepository.findAllByUsers(us);
+                for (String school : schoolList) {
+                    for (School addr : checkSchool) {
+                        if (school.equals(addr.getName())) {
+                            return new CustomResponse(400,
+                                    "The user's school already exists ",System.currentTimeMillis());
+                        }
+                    }
+                }
+                List<String> countrylList = body.getCountry();
+                List<Country> checkCountry = countryRepository.findAllByUsers(us);
+                for (String country : countrylList) {
+                    for (Country addr : checkCountry) {
+                        if (country.equals(addr.getName())) {
+                            return new CustomResponse(400,
+                                    "The user's country already exists ",System.currentTimeMillis());
+                        }
+                    }
+                }
+                for (String addressDTO : body.getAddress()) {
+                    Address address = new Address();
+                    address.setUsers(us);
+                    address.setAddress(addressDTO);
+                   addressRepository.save(address);
+                }
+                for (String addressDTO : body.getSchool()) {
+                    School school = new School();
+                    school.setUsers(us);
+                    school.setName(addressDTO);
+                    schoolRepository.save(school);
+                }
+
+                for (String addressDTO : body.getCountry()) {
+                    Country country = new Country();
+                    country.setUsers(us);
+                    country.setName(addressDTO);
+                    countryRepository.save(country);
+                }
+                for (String addressDTO : body.getCompany()) {
+                    Company company = new Company();
+                    company.setUsers(us);
+                    company.setCompany(addressDTO);
+                    companyRepository.save(company);
+                }
                 userRepository.save(us);
             }
             else
-                throw new CustomExceptionRuntime(405,"Not found User");
-
+                return new CustomResponse(405,"Not found User",System.currentTimeMillis());
+        return new CustomResponse(200,"Change infor success",System.currentTimeMillis());
     }
     @Transactional
     @Override
