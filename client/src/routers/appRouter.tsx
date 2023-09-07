@@ -12,14 +12,15 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* public router */}
-        <Route path="profile" element={<Profile />} />
 
         {/* protect router */}
         <Route element={<RequiredAuth />}>
+          {/* <Route path="home" element={<Home />} /> */}
+          <Route path="profile" element={<Profile />} />
+
           <Route path="home" element={<Home />} />
         </Route>
       </Route>
-      {/* 404 */}
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
 

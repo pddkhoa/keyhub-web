@@ -4,7 +4,6 @@ import logoLight from "../../asset/logo.png";
 import { TbSquareRoundedChevronRight } from "react-icons/tb";
 
 import { SiKeystone } from "react-icons/si";
-import Switcher from "../ToggleMode/switch";
 
 type SidebarProps = {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,17 +60,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
             >
               Dashboard
             </span>
-          </div>
-        </div>
-        <div>
-          <div className="absolute bottom-2">
-            <Switcher />
-          </div>
-          <div className="absolute bottom-2">
-            <Switcher />
-          </div>
-          <div className="absolute bottom-2">
-            <Switcher />
           </div>
         </div>
       </div>

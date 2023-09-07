@@ -1,40 +1,60 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface AuthState {
-  user: User | null;
-  token: string | null;
-}
-
-interface User {
-  // Define the properties of the User object
-}
-
-interface SetCredentialsPayload {
-  user: User;
-  accessToken: string;
-}
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import TokenType from "../types/token";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: null, token: null } as AuthState,
-  reducers: {
-    setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
-      const { user, accessToken } = action.payload;
-      state.user = user;
-      state.token = accessToken;
+  initialState: {
+    login: {
+      data: {
+        token: null,
+        refreshToken: null,
+        type: null,
+      },
+      isFetching: false,
+      error: false,
     },
-    logOut: (state) => {
-      state.user = null;
-      state.token = null;
+  },
+  reducers: {
+    loginStart: (state) => {
+      state.login.isFetching = true;
+    },
+    loginSuccess: (state, action) => {
+      state.login.isFetching = false;
+      state.login.data = action.payload;
+      state.login.error = false;
+    },
+    loginFailed: (state) => {
+      state.login.isFetching = false;
+      state.login.error = true;
+    },
+
+    updateAccessToken: (state, action) => {
+      state.login.data.token = action.payload;
+    },
+
+    logOutSuccess: (state) => {
+      state.login.isFetching = false;
+      state.login.data.token = null;
+      state.login.error = false;
+    },
+    logOutFailed: (state) => {
+      state.login.isFetching = false;
+      state.login.error = true;
+    },
+    logOutStart: (state) => {
+      state.login.isFetching = true;
     },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const {
+  loginStart,
+  loginFailed,
+  loginSuccess,
+  logOutStart,
+  logOutSuccess,
+  logOutFailed,
+  updateAccessToken,
+} = authSlice.actions;
 
 export default authSlice.reducer;
-
-export const selectCurrentUser = (state: { auth: AuthState }) =>
-  state.auth.user;
-export const selectCurrentToken = (state: { auth: AuthState }) =>
-  state.auth.token;

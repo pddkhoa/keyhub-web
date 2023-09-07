@@ -1,33 +1,26 @@
-import { FormEvent, useState } from "react";
-import api from "../../api/axios";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
+import { loginUser } from "../../redux/apiRequest";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [password, setPwd] = useState<string>("");
   const [username, setUsername] = useState<string>("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  // const { setAuth } = useAuth();
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
-      const response = await api.post(`/api/auth/login`, {
+      const dataForm = {
         username,
         password,
-      });
+      };
 
-      const token = response?.data.token;
-      const refreshToken = response?.data.refreshToken;
-      console.log(response?.data);
-      if (token) {
-        setAuth({ username, password, token, refreshToken });
-        navigate("/home");
-        console.log(from);
-        // navigate(from, { replace: true });
-      }
+      loginUser(dataForm, dispatch, navigate);
     } catch (error) {
       console.error(error);
     }

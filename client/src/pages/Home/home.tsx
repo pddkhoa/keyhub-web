@@ -9,6 +9,7 @@ const Home = () => {
   const refresh = useRefreshToken();
   const [user, setUser] = useState<User[]>();
   const { auth } = useAuth();
+
   useEffect(() => {
     // console.log(auth.refreshToken);
   }, [auth]);

@@ -12,8 +12,23 @@ import {
   FaPhotoVideo,
   FaRegHeart,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import TokenPayload from "../../types/user";
+import TokenType from "../../types/token";
+import jwt_decode from "jwt-decode";
+
+interface RootState {
+  auth: {
+    login: {
+      data: TokenType;
+    };
+  };
+}
 
 export const Profile = () => {
+  const { data } = useSelector((state: RootState) => state.auth.login);
+  const user = jwt_decode(data.token) as TokenPayload;
+
   return (
     <div className="container mx-auto min-h-0 px-4 py-6">
       <header className="mb-4 w-full">
@@ -41,7 +56,9 @@ export const Profile = () => {
           <div className="absolute -top-12">
             <Avatar />
             <div className="pl-2 mt-2">
-              <h1 className="text-3xl font-bold">John Doe</h1>
+              <h1 className="text-3xl font-bold">
+                {user?.userDetails.users.name}
+              </h1>
               <p className="text-gray-600">@johndoe</p>
             </div>
           </div>
