@@ -53,212 +53,211 @@ public class EmailServiceImpl implements IEmailService {
                 "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" lang=\"en\">\n" +
                 "\n" +
                 "<head>\n" +
-                "\t<title></title>\n" +
-                "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
-                "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->\n" +
-                "\t<style>\n" +
-                "\t\t* {\n" +
-                "\t\t\tbox-sizing: border-box;\n" +
-                "\t\t}\n" +
+                "    <title></title>\n" +
+                "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->\n" +
+                "    <style>\n" +
+                "        * {\n" +
+                "            box-sizing: border-box;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\tbody {\n" +
-                "\t\t\tmargin: 0;\n" +
-                "\t\t\tpadding: 0;\n" +
-                "\t\t}\n" +
+                "        body {\n" +
+                "            margin: 0;\n" +
+                "            padding: 0;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\ta[x-apple-data-detectors] {\n" +
-                "\t\t\tcolor: inherit !important;\n" +
-                "\t\t\ttext-decoration: inherit !important;\n" +
-                "\t\t}\n" +
+                "        a[x-apple-data-detectors] {\n" +
+                "            color: inherit !important;\n" +
+                "            text-decoration: inherit !important;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\t#MessageViewBody a {\n" +
-                "\t\t\tcolor: inherit;\n" +
-                "\t\t\ttext-decoration: none;\n" +
-                "\t\t}\n" +
+                "        #MessageViewBody a {\n" +
+                "            color: inherit;\n" +
+                "            text-decoration: none;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\tp {\n" +
-                "\t\t\tline-height: inherit\n" +
-                "\t\t}\n" +
+                "        p {\n" +
+                "            line-height: inherit\n" +
+                "        }\n" +
                 "\n" +
-                "\t\t.desktop_hide,\n" +
-                "\t\t.desktop_hide table {\n" +
-                "\t\t\tmso-hide: all;\n" +
-                "\t\t\tdisplay: none;\n" +
-                "\t\t\tmax-height: 0px;\n" +
-                "\t\t\toverflow: hidden;\n" +
-                "\t\t}\n" +
+                "        .desktop_hide,\n" +
+                "        .desktop_hide table {\n" +
+                "            mso-hide: all;\n" +
+                "            display: none;\n" +
+                "            max-height: 0px;\n" +
+                "            overflow: hidden;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\t.image_block img+div {\n" +
-                "\t\t\tdisplay: none;\n" +
-                "\t\t}\n" +
+                "        .image_block img+div {\n" +
+                "            display: none;\n" +
+                "        }\n" +
                 "\n" +
-                "\t\t@media (max-width:520px) {\n" +
-                "\t\t\t.desktop_hide table.icons-inner {\n" +
-                "\t\t\t\tdisplay: inline-block !important;\n" +
-                "\t\t\t}\n" +
+                "        @media (max-width:520px) {\n" +
+                "            .desktop_hide table.icons-inner {\n" +
+                "                display: inline-block !important;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.icons-inner {\n" +
-                "\t\t\t\ttext-align: center;\n" +
-                "\t\t\t}\n" +
+                "            .icons-inner {\n" +
+                "                text-align: center;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.icons-inner td {\n" +
-                "\t\t\t\tmargin: 0 auto;\n" +
-                "\t\t\t}\n" +
+                "            .icons-inner td {\n" +
+                "                margin: 0 auto;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.row-content {\n" +
-                "\t\t\t\twidth: 100% !important;\n" +
-                "\t\t\t}\n" +
+                "            .row-content {\n" +
+                "                width: 100% !important;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.mobile_hide {\n" +
-                "\t\t\t\tdisplay: none;\n" +
-                "\t\t\t}\n" +
+                "            .mobile_hide {\n" +
+                "                display: none;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.stack .column {\n" +
-                "\t\t\t\twidth: 100%;\n" +
-                "\t\t\t\tdisplay: block;\n" +
-                "\t\t\t}\n" +
+                "            .stack .column {\n" +
+                "                width: 100%;\n" +
+                "                display: block;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.mobile_hide {\n" +
-                "\t\t\t\tmin-height: 0;\n" +
-                "\t\t\t\tmax-height: 0;\n" +
-                "\t\t\t\tmax-width: 0;\n" +
-                "\t\t\t\toverflow: hidden;\n" +
-                "\t\t\t\tfont-size: 0px;\n" +
-                "\t\t\t}\n" +
+                "            .mobile_hide {\n" +
+                "                min-height: 0;\n" +
+                "                max-height: 0;\n" +
+                "                max-width: 0;\n" +
+                "                overflow: hidden;\n" +
+                "                font-size: 0px;\n" +
+                "            }\n" +
                 "\n" +
-                "\t\t\t.desktop_hide,\n" +
-                "\t\t\t.desktop_hide table {\n" +
-                "\t\t\t\tdisplay: table !important;\n" +
-                "\t\t\t\tmax-height: none !important;\n" +
-                "\t\t\t}\n" +
-                "\t\t}\n" +
-                "\t</style>\n" +
+                "            .desktop_hide,\n" +
+                "            .desktop_hide table {\n" +
+                "                display: table !important;\n" +
+                "                max-height: none !important;\n" +
+                "            }\n" +
+                "        }\n" +
+                "    </style>\n" +
                 "</head>\n" +
                 "\n" +
                 "<body style=\"background-color: #FFFFFF; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;\">\n" +
-                "\t<table class=\"nl-container\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #FFFFFF;\">\n" +
-                "\t\t<tbody>\n" +
-                "\t\t\t<tr>\n" +
-                "\t\t\t\t<td>\n" +
-                "\t\t\t\t\t<table class=\"row row-1\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t<tbody>\n" +
-                "\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t<td>\n" +
-                "\t\t\t\t\t\t\t\t\t<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 500px;\" width=\"500\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t<tbody>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"column column-1\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"image_block block-1\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\" style=\"width:100%;padding-right:0px;padding-left:0px;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"alignment\" align=\"center\" style=\"line-height:10px\"><img src=\"https://de2fd6980c.imgdist.com/public/users/BeeFree/beefree-5goeuskc7sa/tda_logo.png\" style=\"display: block; height: auto; border: 0; width: 100px; max-width: 100%;\" width=\"100\"></div>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t</tbody>\n" +
-                "\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t</tbody>\n" +
-                "\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t<table class=\"row row-2\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t<tbody>\n" +
-                "\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t<td>\n" +
-                "\t\t\t\t\t\t\t\t\t<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 500px;\" width=\"500\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t<tbody>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"column column-1\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"heading_block block-1\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\" style=\"text-align:center;width:100%;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h1 style=\"margin: 0; color: #1ba57b; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 23px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">Xác minh tài khoản của bạn</span></h1>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"divider_block block-2\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"alignment\" align=\"center\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"divider_inner\" style=\"font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB;\"><span>&#8202;</span></td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"paragraph_block block-3\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div style=\"color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p style=\"margin: 0;\">Cảm ơn bạn đã đăng ký tài khoản với hệ thống chúng tôi. Chúng tôi muốn đảm bảo rằng đó thực sự là bạn. Vui lòng dùng mã xác nhận để nhập khi được yêu cầu. Lưu ý đây là mã bảo mật vui lòng không chia sẻ với ai. Cảm ơn bạn</p>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"heading_block block-4\" width=\"100%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3 style=\"margin: 0; color: #555555; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">Mã xác thực</span></h3>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"heading_block block-5\" width=\"100%\" border=\"0\" cellpadding=\"15\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h2 style=\"margin: 0; color: #1ba57b; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">" + code + "</span></h2>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"heading_block block-6\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\" style=\"text-align:center;width:100%;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3 style=\"margin: 0; color: #555555; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">(Có hiệu lực 10 phút)</span></h3>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"divider_block block-7\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"alignment\" align=\"center\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"divider_inner\" style=\"font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB;\"><span>&#8202;</span></td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t<table class=\"paragraph_block block-8\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td class=\"pad\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div style=\"color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:center;mso-line-height-alt:15.6px;\">\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p style=\"margin: 0;\"><em>TDA Co.</em><br><em>Email được gửi từ Hệ thống của <u>TDA Web Service</u> vui lòng không reply<br>No. 1 Vo Van Ngan Street, Linh Chieu Ward,&nbsp;</em><a node=\"[object Object]\" prompt=\"Tell me more about Thu Duc City.\" style=\"text-decoration: underline; color: #0068a5;\">Thu Duc City</a>,&nbsp;<a node=\"[object Object]\" prompt=\"Tell me more about Ho Chi Minh City.\" style=\"text-decoration: underline; color: #0068a5;\">Ho Chi Minh City</a>,<em> Vietnam.<br></em></p>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t\t\t\t\t</tbody>\n" +
-                "\t\t\t\t\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\t\t\t</td>\n" +
-                "\t\t\t\t\t\t\t</tr>\n" +
-                "\t\t\t\t\t\t</tbody>\n" +
-                "\t\t\t\t\t</table>\n" +
-                "\t\t\t\t\t\n" +
-                "\t\t\t\t</td>\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t</tbody>\n" +
-                "\t</table><!-- End -->\n" +
+                "    <table class=\"nl-container\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #FFFFFF;\">\n" +
+                "        <tbody>\n" +
+                "            <tr>\n" +
+                "                <td>\n" +
+                "                    <table class=\"row row-1\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                        <tbody>\n" +
+                "                            <tr>\n" +
+                "                                <td>\n" +
+                "                                    <table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000000; width: 500px;\" width=\"500\">\n" +
+                "                                        <tbody>\n" +
+                "                                            <tr>\n" +
+                "                                                <td class=\"column column-1\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;\">\n" +
+                "                                                    <table class=\"image_block block-1\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\" style=\"width:100%;padding-right:0px;padding-left:0px;\">\n" +
+                "                                                                <div class=\"alignment\" align=\"center\" style=\"line-height:10px\"><img src=\"https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.15752-9/373353139_6596050263810605_7760603276168250208_n.png?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=mHy6OIZo0SsAX8gzX1I&_nc_ht=scontent.fsgn5-2.fna&oh=03_AdSIlW_WrCOy-XgLMdf_Rym2axL2ivvPFS5ze5d0HmtRCg&oe=6520D739\" style=\"display: block; height: auto; border: 0; width: 100px; max-width: 100%;\" width=\"100\"></div>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                </td>\n" +
+                "                                            </tr>\n" +
+                "                                        </tbody>\n" +
+                "                                    </table>\n" +
+                "                                </td>\n" +
+                "                            </tr>\n" +
+                "                        </tbody>\n" +
+                "                    </table>\n" +
+                "                    <table class=\"row row-2\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                        <tbody>\n" +
+                "                            <tr>\n" +
+                "                                <td>\n" +
+                "                                    <table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 500px;\" width=\"500\">\n" +
+                "                                        <tbody>\n" +
+                "                                            <tr>\n" +
+                "                                                <td class=\"column column-1\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;\">\n" +
+                "                                                    <table class=\"heading_block block-1\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\" style=\"text-align:center;width:100%;\">\n" +
+                "                                                                <h1 style=\"margin: 0; color: #ba3d4f; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 23px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">Xác minh tài khoản của bạn</span></h1>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"divider_block block-2\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <div class=\"alignment\" align=\"center\">\n" +
+                "                                                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                                        <tr>\n" +
+                "                                                                            <td class=\"divider_inner\" style=\"font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB;\"><span> </span></td>\n" +
+                "                                                                        </tr>\n" +
+                "                                                                    </table>\n" +
+                "                                                                </div>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"paragraph_block block-3\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <div style=\"color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;\">\n" +
+                "                                                                    <p style=\"margin: 0;\">Cảm ơn bạn đã đăng ký tài khoản với hệ thống chúng tôi. Chúng tôi muốn đảm bảo rằng đó thực sự là bạn. Vui lòng dùng mã xác nhận để nhập khi được yêu cầu. Lưu ý đây là mã bảo mật vui lòng không chia sẻ với ai. Cảm ơn bạn</p>\n" +
+                "                                                                </div>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"heading_block block-4\" width=\"100%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <h3 style=\"margin: 0; color: #555555; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">Mã xác thực</span></h3>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"heading_block block-5\" width=\"100%\" border=\"0\" cellpadding=\"15\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <h2 style=\"margin: 0; color:#ba3d4f; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">"+ code+"</span></h2>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"heading_block block-6\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\" style=\"text-align:center;width:100%;\">\n" +
+                "                                                                <h3 style=\"margin: 0; color: #555555; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;\"><span class=\"tinyMce-placeholder\">(Có hiệu lực 10 phút)</span></h3>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"divider_block block-7\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <div class=\"alignment\" align=\"center\">\n" +
+                "                                                                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" width=\"100%\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
+                "                                                                        <tr>\n" +
+                "                                                                            <td class=\"divider_inner\" style=\"font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB;\"><span> </span></td>\n" +
+                "                                                                        </tr>\n" +
+                "                                                                    </table>\n" +
+                "                                                                </div>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                    <table class=\"paragraph_block block-8\" width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;\">\n" +
+                "                                                        <tr>\n" +
+                "                                                            <td class=\"pad\">\n" +
+                "                                                                <div style=\"color:#000000;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:center;mso-line-height-alt:15.6px;\">\n" +
+                "                                                                    <p style=\"margin: 0;\"><em> </em><br><em>Email được gửi từ Hệ thống của <u>Key Hub Social Media</u> vui lòng không reply<br>No. 1 Vo Van Ngan Street, Linh Chieu Ward, </em><a node=\"[object Object]\" prompt=\"Tell me more about Thu Duc City.\" style=\"text-decoration: underline; color: #0068a5;\">Thu Duc City</a>, <a node=\"[object Object]\" prompt=\"Tell me more about Ho Chi Minh City.\" style=\"text-decoration: underline; color: #0068a5;\">Ho Chi Minh City</a>,<em> Vietnam.<br></em></p>\n" +
+                "                                                                </div>\n" +
+                "                                                            </td>\n" +
+                "                                                        </tr>\n" +
+                "                                                    </table>\n" +
+                "                                                </td>\n" +
+                "                                            </tr>\n" +
+                "                                        </tbody>\n" +
+                "                                    </table>\n" +
+                "                                </td>\n" +
+                "                            </tr>\n" +
+                "                        </tbody>\n" +
+                "                    </table><!-- End -->\n" +
+                "                </td>\n" +
+                "            </tr>\n" +
+                "        </tbody>\n" +
+                "    </table>\n" +
                 "</body>\n" +
                 "\n" +
-                "</html>";
+                "</html>\";";
     }
 
 }
