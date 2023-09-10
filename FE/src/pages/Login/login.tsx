@@ -1,30 +1,35 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { loginUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "@/components/ui/button";
+import { useFormik } from "formik";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 const Login = () => {
-  const [password, setPwd] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { setAuth } = useAuth();
   // const location = useLocation();
   // const from = location.state?.from?.pathname || "/";
-  const handleSubmit = async (e: any) => {
-    try {
-      e.preventDefault();
-      const dataForm = {
-        username,
-        password,
+  const [showPass, setShowPass] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+
+    onSubmit: async (value) => {
+      const report = {
+        username: value.username,
+        password: value.password,
       };
 
-      loginUser(dataForm, dispatch, navigate);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      loginUser(report, dispatch, navigate);
+    },
+  });
 
   return (
     <>
@@ -55,40 +60,65 @@ const Login = () => {
               </p>
             </div>
             <div className="space-y-6">
-              <div>
-                <input
-                  className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
-                  placeholder="Email"
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-              <div className="relative" x-data="{ show: true }">
-                <input
-                  className=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
-                  placeholder="Password"
-                  onChange={(e) => setPwd(e.target.value)}
-                />
-                <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-sm ml-auto">
-                  <Link
-                    to="#"
-                    className="text-purple-700 hover:text-purple-600"
-                  >
-                    Forgot your password?
-                  </Link>
+              <form onSubmit={formik.handleSubmit} className="space-y-4">
+                <div className="relative">
+                  <Label htmlFor="username" className="text-sm ">
+                    Username
+                  </Label>
+                  <Input
+                    type="text"
+                    id="username"
+                    name="username"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    placeholder="Username"
+                    className="w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg "
+                  />
                 </div>
-              </div>
-              <div>
-                <button
-                  onClick={handleSubmit}
-                  type="submit"
-                  className="w-full flex justify-center bg-gray-900  hover:bg-pink-950 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  cursor-pointer transition ease-in duration-500"
-                >
-                  Sign in
-                </button>
-              </div>
+                <div className="relative">
+                  <Label htmlFor="password" className="text-sm ">
+                    Password
+                  </Label>
+                  <Input
+                    type={!showPass ? "password" : "text"}
+                    id="password"
+                    name="password"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    placeholder="Password"
+                    className="w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg "
+                  />
+                  <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3">
+                    <div
+                      className="cursor-pointer z-50"
+                      onClick={() => setShowPass(!showPass)}
+                    >
+                      {!showPass ? <Eye /> : <EyeOff />}
+                    </div>
+                  </div>
+                  <div className="flex items-center absolute inset-y-0 right-0 mr-3  text-sm leading-5"></div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="text-sm ml-auto">
+                    <Link
+                      to="#"
+                      className="text-purple-700 hover:text-purple-600"
+                    >
+                      Forgot your password?
+                    </Link>
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    type="submit"
+                    className="w-full flex justify-center bg-gray-900"
+                  >
+                    Sign in
+                  </Button>
+                </div>
+              </form>
               <div className="flex items-center justify-center space-x-2 my-5">
                 <span className="h-px w-16 bg-gray-100" />
                 <span className="text-gray-300 font-normal">or</span>

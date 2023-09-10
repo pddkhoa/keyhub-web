@@ -5,7 +5,6 @@ import { MdLibraryAdd } from "react-icons/md";
 import { AboutMe } from "../../components/UserProfile/aboutMe";
 import { Dropdown } from "../../components/Dropdown/dropdown";
 import { CardProfile } from "../../components/Card/CardPorfile/cardProfile";
-import { IconButton } from "../../components/Button/button";
 import {
   FaPenNib,
   FaRegBookmark,
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import TokenPayload from "../../types/user";
 import jwt_decode from "jwt-decode";
 import { RootStateToken } from "../../types/token";
+import { Button } from "@/components/ui/button";
 
 export const Profile = () => {
   const { data } = useSelector((state: RootStateToken) => state.auth.login);
@@ -55,10 +55,10 @@ export const Profile = () => {
             </div>
           </div>
           <div className="absolute right-10 top-20">
-            <IconButton>
+            <Button>
               Add New
               <MdLibraryAdd className="w-4 h-4 ml-2" />
-            </IconButton>
+            </Button>
           </div>
         </div>
       </header>

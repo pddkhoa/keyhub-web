@@ -1,6 +1,6 @@
 import { FaGraduationCap, FaUserCog } from "react-icons/fa";
 import { FaLocationDot, FaEnvelope } from "react-icons/fa6";
-import { IconButton } from "../Button/button";
+import { Button } from "../ui/button";
 
 export const AboutMe = () => {
   return (
@@ -26,10 +26,10 @@ export const AboutMe = () => {
           <h1 className="px-2 text-sm">patterson@example.com</h1>
         </div>
         <div className="flex items-center justify-center mt-4 text-gray-700">
-          <IconButton>
+          <Button>
             <FaUserCog className="w-5 h-5" />
             <h1 className="px-2 text-sm">Edit Profile</h1>
-          </IconButton>
+          </Button>
         </div>
       </div>
     </div>

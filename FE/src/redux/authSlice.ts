@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
@@ -11,6 +11,16 @@ const authSlice = createSlice({
       },
       isFetching: false,
       error: false,
+    },
+    register: {
+      isFetching: false,
+      error: false,
+      success: false,
+    },
+    verify: {
+      isFetching: false,
+      error: false,
+      success: false,
     },
   },
   reducers: {
@@ -44,6 +54,32 @@ const authSlice = createSlice({
     logOutStart: (state) => {
       state.login.isFetching = true;
     },
+    registerStart: (state) => {
+      state.register.isFetching = true;
+    },
+    registerSuccess: (state) => {
+      state.register.isFetching = false;
+      state.register.error = false;
+      state.register.success = true;
+    },
+    registerFailed: (state) => {
+      state.register.isFetching = false;
+      state.register.error = true;
+      state.register.success = false;
+    },
+    verifyStart: (state) => {
+      state.verify.isFetching = true;
+    },
+    verifySuccess: (state) => {
+      state.verify.isFetching = false;
+      state.verify.error = false;
+      state.verify.success = true;
+    },
+    verifyFailed: (state) => {
+      state.verify.isFetching = false;
+      state.verify.error = true;
+      state.verify.success = false;
+    },
   },
 });
 
@@ -55,6 +91,12 @@ export const {
   logOutSuccess,
   logOutFailed,
   updateAccessToken,
+  registerStart,
+  registerFailed,
+  registerSuccess,
+  verifyStart,
+  verifySuccess,
+  verifyFailed,
 } = authSlice.actions;
 
 export default authSlice.reducer;
