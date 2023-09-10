@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -102,16 +103,28 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.createToken(authentication);
-        CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
-        String refresh = refreshToken.getToken();
-        return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try
+        {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtProvider.createToken(authentication);
+            CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
+            String refresh = refreshToken.getToken();
+
+            if (!userPrinciple.getUsers().getStatus())
+            {
+                return ResponseEntity.status(400).body("Account not verify");
+            }
+            return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
+        }
+      catch (AuthenticationException e){
+          return ResponseEntity.status(401).body("Tên người dùng hoặc mật khẩu không chính xác");
+      }
+
 
     }
     @PostMapping("/logout")
