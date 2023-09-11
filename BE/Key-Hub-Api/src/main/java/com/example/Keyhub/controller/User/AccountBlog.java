@@ -117,7 +117,6 @@ public class AccountBlog {
         response.addCookie(imageUrlsCookie);
         return new CustomResponse(200, "Upload file was successful", System.currentTimeMillis());
     }
-
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
     public CustomResponse createBlog(@Valid @RequestBody BlogPostDTO body,
                                      BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {

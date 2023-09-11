@@ -21,8 +21,11 @@ import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +36,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Objects;
@@ -40,6 +46,8 @@ import java.util.Objects;
 @RequestMapping("/api/auth")
 @RestController
 public class AuthController {
+    private static final int MAX_LOGIN_ATTEMPTS = 5;
+    private int loginAttempts = 0;
     final
     UserServiceImpl userService;
     @Autowired
@@ -102,8 +110,25 @@ public class AuthController {
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));
     }
+    private void setLoginAttemptsCookie(HttpServletResponse response, int loginAttempts) {
+        Cookie cookie = new Cookie("loginAttempts", Integer.toString(loginAttempts));
+        cookie.setMaxAge(24 * 60 * 60); // Thời gian tồn tại của cookie (tính theo giây)
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+    private int getLoginAttemptsFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("loginAttempts")) {
+                    return Integer.parseInt(cookie.getValue());
+                }
+            }
+        }
+        return 0;
+    }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest ,HttpServletRequest request, HttpServletResponse response) {
         try
         {
             Authentication authentication = authenticationManager.authenticate(
@@ -114,15 +139,38 @@ public class AuthController {
             CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
             String refresh = refreshToken.getToken();
-
+            loginAttempts = 0;
+            setLoginAttemptsCookie(response, loginAttempts);
             if (!userPrinciple.getUsers().getStatus())
             {
-                return ResponseEntity.status(400).body("Account not verify");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(GenericResponse.builder()
+                                .success(false)
+                                .message("Account not verify")
+                                .result("Please verify your account")
+                                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                                .build());
             }
             return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
         }
       catch (AuthenticationException e){
-          return ResponseEntity.status(401).body("Tên người dùng hoặc mật khẩu không chính xác");
+          int loginAttempts = getLoginAttemptsFromCookie(request) + 1;
+          setLoginAttemptsCookie(response, loginAttempts);
+          if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+              return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
+                      .body(GenericResponse.builder().success(false)
+                      .message("Account not found")
+                      .result("Please reset your password")
+                      .statusCode(HttpStatus.UNAUTHORIZED.value())
+                      .build());
+          }
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(GenericResponse.builder()
+                  .success(false)
+                  .message("Account not found")
+                  .result("Please check username or password!")
+                  .statusCode(HttpStatus.UNAUTHORIZED.value())
+                  .build());
       }
 
 

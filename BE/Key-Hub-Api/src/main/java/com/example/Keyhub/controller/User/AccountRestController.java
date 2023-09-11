@@ -1,6 +1,7 @@
 package com.example.Keyhub.controller.User;
 
 import com.example.Keyhub.config.ValidatorUtils;
+import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.ProfileInfor;
@@ -12,6 +13,7 @@ import com.example.Keyhub.service.IStoryService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,13 +51,6 @@ public class AccountRestController {
         Users users = getUserFromAuthentication();
         return userService.changeInfo(users.getId(), body);
     }
-    @GetMapping(value = "/info")
-    public ResponseEntity getInfo(BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            throw new CustomExceptionRuntime(400, "Request was failed. Validate data again");
-        Users users = getUserFromAuthentication();
-        return ResponseEntity.ok("Change info was successful");
-    }
     @RequestMapping(value = "/change-avatar", method = RequestMethod.PATCH)
     public ResponseEntity changeAvatarUser(@RequestParam MultipartFile image_file) {
         if (!ValidatorUtils.validateMineFile(image_file))
@@ -64,13 +59,23 @@ public class AccountRestController {
         Users users = getUserFromAuthentication();
         userService.changeAvatar(users.getId(),image_file);
         userService.saveAvatarToStorage(users.getId());
-        return ResponseEntity.ok("Change avatar was successful");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .message("Change avatar was successful")
+                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .build());
     }
     @RequestMapping(value = "/remove-avatar", method = RequestMethod.PATCH)
     public ResponseEntity removeAvatarUser() {
         Users users = getUserFromAuthentication();
         userService.removeAvatar(users.getId());
         userService.removeAvatarToStorage(users.getId());
-        return ResponseEntity.ok("Change avatar was successful");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .message("Delete avatar was successful")
+                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .build());
     }
 }
