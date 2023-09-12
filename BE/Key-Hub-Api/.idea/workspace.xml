@@ -14,6 +14,9 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
@@ -38,8 +41,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -180,7 +183,19 @@
       <workItem from="1694347115653" duration="11000" />
       <workItem from="1694388608053" duration="126000" />
       <workItem from="1694388837630" duration="58000" />
-      <workItem from="1694394378471" duration="3610000" />
+      <workItem from="1694394378471" duration="3847000" />
+      <workItem from="1694414746977" duration="231000" />
+      <workItem from="1694415340716" duration="749000" />
+      <workItem from="1694423514914" duration="11000" />
+      <workItem from="1694442786006" duration="84000" />
+      <workItem from="1694442962640" duration="133000" />
+      <workItem from="1694444429779" duration="7000" />
+      <workItem from="1694444499634" duration="443000" />
+      <workItem from="1694445228273" duration="379000" />
+      <workItem from="1694481515455" duration="14843000" />
+      <workItem from="1694496914796" duration="1337000" />
+      <workItem from="1694498268435" duration="11000" />
+      <workItem from="1694498334095" duration="1568000" />
     </task>
     <servers />
   </component>

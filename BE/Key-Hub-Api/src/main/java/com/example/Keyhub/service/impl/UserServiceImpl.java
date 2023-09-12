@@ -23,7 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -61,6 +67,10 @@ public class UserServiceImpl implements IUserService {
     IAvatarRepository avatarRepository;
     @Autowired
     UploadImageService uploadImageService;
+
+    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private Map<BigInteger, LocalDateTime> scheduledAccounts = new ConcurrentHashMap<>();
+
 
     @Override
     public Users findByEmail(String email) {
@@ -156,7 +166,6 @@ public class UserServiceImpl implements IUserService {
         user.setRoles(roles);
         return userService.save(user);
     }
-
     @Override
     public VerificationToken getVerificationToken(String VerificationToken) {
         return tokenRepos.findVerificationTokenByToken(VerificationToken);

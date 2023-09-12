@@ -14,6 +14,7 @@ import com.example.Keyhub.data.payload.ResetPass;
 import com.example.Keyhub.data.payload.TokenRefreshRequest;
 import com.example.Keyhub.data.payload.respone.CustomResponse;
 import com.example.Keyhub.data.payload.respone.TokenRefreshResponse;
+import com.example.Keyhub.data.repository.IUserRepository;
 import com.example.Keyhub.data.repository.RefreshTokenRepository;
 import com.example.Keyhub.data.repository.ResetPassTokenRepos;
 import com.example.Keyhub.event.OnRegistrationCompleteEvent;
@@ -62,6 +63,8 @@ public class AuthController {
     private ApplicationEventPublisher applicationEventPublisher;
     @Autowired
     JwtProvider jwtProvider;
+    @Autowired
+    IUserRepository iUserRepository;
 
     public AuthController(UserServiceImpl userService) {
         this.userService = userService;
@@ -89,9 +92,12 @@ public class AuthController {
         VerificationToken verificationToken = userService.getVerificationToken(token);
         Calendar cal = Calendar.getInstance();
         if (verificationToken == null && verificationToken.isUsed() == true || (verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return new CustomResponse(200, "Token not has expiry or not valid", System.currentTimeMillis());
+            return new CustomResponse(400, "Token has expiry or not valid", System.currentTimeMillis());
         }
         Users user = verificationToken.getUser();
+        if (user.getUsername()==null){
+            return new CustomResponse(400, "Token has expiry", System.currentTimeMillis());
+        }
         user.setStatus(true);
         userService.registerAccount(user);
         return new CustomResponse(200, "Verify account has success", System.currentTimeMillis());
