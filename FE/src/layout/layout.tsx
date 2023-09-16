@@ -5,26 +5,19 @@ import { useState } from "react";
 
 const Layout = () => {
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
-  console.log(openSidebar);
-  return (
-    <>
-      <div className="relative flex bg-gray-100 w-full">
-        <div className="flex-shrink h-screen ml-0">
-          <Sidebar setOpenSidebar={setOpenSidebar} />
-        </div>
 
-        <div
-          className={`flex-1 static animate-face-in min-h-dynamic-screen  ${
-            openSidebar ? "pl-[250px]" : "pl-[80px]"
-          }`}
-        >
-          <Header />
-          <div className="min-h-body">
-            <Outlet />
-          </div>
+  return (
+    <div className="flex bg-background min-h-screen">
+      <div className={`flex flex-row ${!openSidebar ? "w-16" : "w-60"}`}>
+        <Sidebar setOpenSidebar={setOpenSidebar} />
+      </div>
+      <Header />
+      <div className="w-screen">
+        <div className="min-h-body">
+          <Outlet />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Layout;

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { verifyAccount } from "@/redux/apiRequest";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,21 +10,36 @@ export const VerifySignUp = () => {
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleInputChange = (e: any, index: number) => {
+    // console.log(e.target.nextSibling);
+
     const newValue = e.target.value;
     setInputValues((prevValues) => {
       const newValues = [...prevValues];
       newValues[index] = newValue;
       return newValues;
     });
+
+    // const inputs = document.querySelectorAll("input");
+    // const input = inputs[Math.min(6, index + 1)];
+    // // console.log("next input", input);
+
+    // if (input) {
+    //   input.focus();
+    // }
   };
   const combinedValue = inputValues.join("");
 
   const handleSubmit = async (e: any) => {
+    setIsLoading(true);
     try {
       e.preventDefault();
       verifyAccount(combinedValue, dispatch, navigate);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -43,7 +59,7 @@ export const VerifySignUp = () => {
                 </div>
               </div>
               <div>
-                <form method="post">
+                <form onSubmit={handleSubmit}>
                   <div className="flex flex-col space-y-16 ">
                     <div className="flex flex-row items-center justify-between w-full space-x-5">
                       {inputValues.map((value, index) => (
@@ -60,13 +76,19 @@ export const VerifySignUp = () => {
                     </div>
                     <div className="flex flex-col space-y-5">
                       <div>
-                        <Button
-                          type="button"
-                          onClick={handleSubmit}
-                          className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5  border-none text-white text-sm shadow-sm"
-                        >
-                          Submit
-                        </Button>
+                        {isLoading ? (
+                          <Button disabled>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Please wait
+                          </Button>
+                        ) : (
+                          <Button
+                            type="submit"
+                            className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5  border-none text-white text-sm shadow-sm"
+                          >
+                            Submit
+                          </Button>
+                        )}
                       </div>
                       <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                         <p>Didn't recieve code?</p>{" "}

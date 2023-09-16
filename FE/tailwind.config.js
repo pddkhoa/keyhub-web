@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -17,15 +17,23 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
+        border: "var(--border)",
+        input: "var(--input)",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        background: "var(--background)",
+        foreground: "hsl(var(--,foreground))",
+        hover: "var(--hover)",
+        button: {
+          DEFAULT: "var(--button)",
+          foreground: "var(--button-foreground)",
         },
+        modal: "var(--modal)",
+
+        title: {
+          DEFAULT: "var(--title)",
+          foreground: "var(--title-foreground)",
+        },
+
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -47,7 +55,7 @@ module.exports = {
           foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
+          DEFAULT: "var(--card)",
           foreground: "hsl(var(--card-foreground))",
         },
       },
@@ -56,21 +64,64 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
+        "face-in": {
+          "0%": {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 1,
+          },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+        "face-out": {
+          "0%": {
+            opacity: 1,
+          },
+          "100%": {
+            opacity: 0,
+          },
+        },
+        "zoom-in": {
+          "0%": {
+            transform: "scale(0)",
+          },
+          "100%": {
+            transform: "scale(1)",
+          },
+        },
+        "zoom-out": {
+          "0%": {
+            opacity: 1,
+            transform: "scale(1)",
+          },
+          "100%": {
+            opacity: 0,
+            transform: "scale(0)",
+          },
+        },
+        ripple: {
+          "0%": {
+            opacity: 1,
+            transform: "scale(0)",
+          },
+          "100%": {
+            opacity: 0,
+            transform: "scale(3)",
+          },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "face-in": "face-in 0.5s ease-out",
+        "face-out": "face-out 0.5s ease-in",
+        "zoom-in": "zoom-in 0.5s ease-out",
+        "zoom-out": "zoom-out 0.5s ease-in",
+        ripple: "ripple 1.8s ease-out infinite",
+      },
+      willChange: {
+        opacity: "opacity",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

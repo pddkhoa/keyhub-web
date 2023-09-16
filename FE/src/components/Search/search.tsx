@@ -11,7 +11,7 @@ export const SearchBar = () => {
         type="text"
         placeholder=""
         name="text"
-        className="input input-alt border focus:w-[150%] duration-1000 transition"
+        className="input input-alt border focus:w-[100%] duration-1000 transition"
       />
       <span className="input-border input-border-alt"></span>
     </div>

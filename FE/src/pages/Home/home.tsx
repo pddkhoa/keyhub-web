@@ -1,5 +1,3 @@
-import useRefreshToken from "../../hooks/useRefreshToken";
-import { IconButton } from "../../components/Button/button";
 import { createAxios } from "../../api/createInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +23,7 @@ const Home = () => {
   console.log(seriesList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
 
   useEffect(() => {
     if (!user) {

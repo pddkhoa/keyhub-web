@@ -8,6 +8,7 @@ import { SingUp } from "../pages/SignUp/signUp";
 import LoginRouter from "./loginRouter";
 import PrivateRouter from "./privateRouter";
 import { VerifySignUp } from "@/pages/SignUp/verifySignUp";
+import { UpdateProfile } from "@/pages/Profile/updateProfile";
 
 const AppRouter = () => {
   return (
@@ -22,6 +23,7 @@ const AppRouter = () => {
       <Route path="/" element={<Layout />}>
         <Route element={<PrivateRouter />}>
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/update" element={<UpdateProfile />} />
           <Route path="home" element={<Home />} />
         </Route>
       </Route>

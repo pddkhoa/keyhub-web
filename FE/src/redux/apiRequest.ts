@@ -45,6 +45,7 @@ export const registerUser = async (user: any, dispatch: any, navigate: any) => {
       dispatch(verifyStart);
       showToast("Congratulations! Please Verify Account", "success");
       navigate("/verify");
+      return;
     } else {
       dispatch(registerFailed);
       showToast(res.data.message, "error");
