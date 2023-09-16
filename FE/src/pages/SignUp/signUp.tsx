@@ -143,7 +143,7 @@ export const SingUp = () => {
                         htmlFor="name"
                         className="text-sm text-title-foreground"
                       >
-                        Last Name
+                        Full Name
                       </Label>
                       <Input
                         type="text"
@@ -152,7 +152,7 @@ export const SingUp = () => {
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         value={formik.values.name}
-                        placeholder="Last Name"
+                        placeholder="Full Name"
                         className="w-full text-sm  px-4 py-3 bg-input  border  border-border rounded-lg "
                       />
 
@@ -167,7 +167,7 @@ export const SingUp = () => {
                         htmlFor="second_name"
                         className="text-sm text-title-foreground"
                       >
-                        First Name
+                        Nickname
                       </Label>
                       <Input
                         type="text"
@@ -176,7 +176,7 @@ export const SingUp = () => {
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         value={formik.values.second_name}
-                        placeholder="First Name"
+                        placeholder="Nickname"
                         className="w-full text-sm px-4 py-3 bg-input border  border-border rounded-lg"
                       />
                       <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
