@@ -1,0 +1,851 @@
+{
+	"info": {
+		"_postman_id": "f9a01bc4-9536-42f8-8b43-eb7caab10f1c",
+		"name": "KeyHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26607907",
+		"_collection_link": "https://blue-rocket-82578.postman.co/workspace/IT_Project~5308dc49-5f73-445c-8144-bda10be35d5f/collection/26607907-f9a01bc4-9536-42f8-8b43-eb7caab10f1c?action=share&source=collection_link&creator=26607907"
+	},
+	"item": [
+		{
+			"name": "User API",
+			"item": [
+				{
+					"name": "Story",
+					"item": [
+						{
+							"name": "BlockUser",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzExOTYzMSwiZXhwIjoxNjkzNzI0NDMxfQ.o0wlgz3MkG589jxz2yhuV3WTWthxcca_jl2_9r-kuP0NR-3IwIe2gf6QdYkh1gbNnC0K8IGCQMbuZua_9UOKyA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/user/story/:id/block",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"story",
+										":id",
+										"block"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllUserIsBlocked",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzMxOTY5NiwiZXhwIjoxNjkzOTI0NDk2fQ.B1JHRz_G992kjC0PBBWwcF0RL46Szw60wgEvHPPpqpOWTZuwNFkq2ykdTmNDir-9HwbC13Gvp5wqGar4YEhp1w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/user/story/block/list",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"story",
+										"block",
+										"list"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ChangeAvatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "aut",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image_file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/305856838_2342381015915707_7068943110264526048_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/users/change-avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"change-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeInfor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "aut",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"Hải\",\r\n\"phone\":\"0814069391\",\r\n\"second_name\":\"Baboga\",\r\n\"gender\":\"nam\",\r\n\"Descriptions\":\"Mô tả bản thân\",\r\n\"address\":\"ydfka\",\r\n\"company\":\"acadafad\",\r\n\"country\":\"aata\",\r\n\"school\":\"baac\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/users/change-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"change-info"
+							],
+							"query": [
+								{
+									"key": "imgag",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveAvatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/users/remove-avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"remove-avatar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth JWT",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\":\"AdminHai\",  \r\n\"password\":\"Ngochai0612@\"   \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/logout?refreshToken=abb2e2da-5a90-458f-a633-405dfc6f863d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "abb2e2da-5a90-458f-a633-405dfc6f863d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"refreshToken\":\"9a8cb56a-c0ae-40d5-8c07-f9ed3dc5fa29\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/refreshtoken",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"refreshtoken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\":\"nga0hcshai\",\r\n\"email\":\"ngochg0a6hs122002@gmail.com\",\r\n\"name\": \"Khoa\",\r\n\"password\":\"Ngo4chai0612@\",\r\n\"phone\":\"0814069391\",\r\n\"second_name\":\"baboga\",\r\n\"gender\":\"nam\",\r\n\"roles\":[\"user\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VerifySignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/auth/verify-account?token=278946",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"verify-account"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "278946"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot_pass",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/forgot-password?email=ngochai06122002@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"forgot-password"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "ngochai06122002@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckOTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"token\":\"793002\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/veriry-otp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"veriry-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset_pass",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"old_pass\":\"Ngochai0612@3\",\r\n    \"new_pass\":\"Ngochai0612@3\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/auth/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Blog",
+			"item": [
+				{
+					"name": "UploadVideo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "video_file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Documents/Zalo Received Files/mov_bbb.webm"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/upload-video",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"upload-video"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadFile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzM2MzAwMCwiZXhwIjoxNjkzOTY3ODAwfQ.oEtI9kWeNGfPQpi6MK4hybPnZz6TZ2GCh35wTq0I9gI7PR1r_4mud5jn-epEgwmUs18HeUfiDtOnJVcg4rwnvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/305856838_2342381015915707_7068943110264526048_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/upload-file",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"upload-file"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image Series",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzM2MzAwMCwiZXhwIjoxNjkzOTY3ODAwfQ.oEtI9kWeNGfPQpi6MK4hybPnZz6TZ2GCh35wTq0I9gI7PR1r_4mud5jn-epEgwmUs18HeUfiDtOnJVcg4rwnvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Downloads/Trao đổi.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/image-series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"image-series"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancle",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzM2MzAwMCwiZXhwIjoxNjkzOTY3ODAwfQ.oEtI9kWeNGfPQpi6MK4hybPnZz6TZ2GCh35wTq0I9gI7PR1r_4mud5jn-epEgwmUs18HeUfiDtOnJVcg4rwnvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/305856838_2342381015915707_7068943110264526048_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/cancel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"cancel"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddBlog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzI5NTE2OCwiZXhwIjoxNjkzODk5OTY4fQ.lInB-8ANvMx3EWuJRYiLL5-lZtV_OdxA3Sa0K7sJ4ykyISroE8o3SkTT_TaOqLLXpr6jAWUZX2Gp1MB3FhuU0w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Sample Title 3\",\r\n  \"content\": \"Sample Content\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": [1, 2, 3],\r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/create-blog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"create-blog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddSeries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzM2MzAwMCwiZXhwIjoxNjkzOTY3ODAwfQ.oEtI9kWeNGfPQpi6MK4hybPnZz6TZ2GCh35wTq0I9gI7PR1r_4mud5jn-epEgwmUs18HeUfiDtOnJVcg4rwnvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"gass\",\r\n    \"description\":\"Mo ta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/add-series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"add-series"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveSeries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzI5NTE2OCwiZXhwIjoxNjkzODk5OTY4fQ.lInB-8ANvMx3EWuJRYiLL5-lZtV_OdxA3Sa0K7sJ4ykyISroE8o3SkTT_TaOqLLXpr6jAWUZX2Gp1MB3FhuU0w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/remove-series/:series_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"remove-series",
+								":series_id"
+							],
+							"variable": [
+								{
+									"key": "series_id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllSeries",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzM4MDk3OSwiZXhwIjoxNjkzOTg1Nzc5fQ.HyedMuKUGKcvRlVUK_wXhRBWR9n6gvKRjLcBwbHiPx3L2EKbaD3-E77Xwq6aPmsoTOb-9QmuwL4TTZJGrMBsrA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/blog/series/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"blog",
+								"series",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

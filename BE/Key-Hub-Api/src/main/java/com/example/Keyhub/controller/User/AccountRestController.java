@@ -44,12 +44,19 @@ public class AccountRestController {
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
     @RequestMapping(value = "/change-info", method = RequestMethod.PATCH)
-    public CustomResponse changeProfileInfo(@Valid @RequestBody ProfileInfor body,
+    public ResponseEntity changeProfileInfo(@Valid @RequestBody ProfileInfor body,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new CustomExceptionRuntime(400, "Request was failed. Validate data again");
         Users users = getUserFromAuthentication();
-        return userService.changeInfo(users.getId(), body);
+        userService.changeInfo(users.getId(), body);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .statusCode(200)
+                        .message("Change information user success!")
+                        .build()
+                );
     }
     @RequestMapping(value = "/change-avatar", method = RequestMethod.PATCH)
     public ResponseEntity changeAvatarUser(@RequestParam MultipartFile image_file) {

@@ -57,7 +57,14 @@ public class Users {
     private String gender;
     @Column
     private String Descriptions;
-
+    @Column
+    private String address;
+    @Column
+    private String company;
+    @Column
+    private String country;
+    @Column
+    private String School;
 
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,

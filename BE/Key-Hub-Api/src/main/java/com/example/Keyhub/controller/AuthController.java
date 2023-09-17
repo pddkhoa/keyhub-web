@@ -10,6 +10,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
+import com.example.Keyhub.data.payload.ChechOtp;
 import com.example.Keyhub.data.payload.ResetPass;
 import com.example.Keyhub.data.payload.TokenRefreshRequest;
 import com.example.Keyhub.data.payload.respone.CustomResponse;
@@ -206,25 +207,74 @@ public class AuthController {
         } else throw new CustomExceptionRuntime(400, "Create reset pass token fail check email or try again");
         return response;
     }
-
-    @RequestMapping(value = "/reset-password", method = RequestMethod.PATCH)
-    public CustomResponse resetPassword(@RequestBody @Valid ResetPass resetPass,
+    @PostMapping("/veriry-otp")
+    public ResponseEntity chechOtpResetPass(@RequestBody @Valid ChechOtp resetPass,
                                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            throw new CustomExceptionRuntime(400, "The request has failed to execute. Please check the input data.");
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("The request has failed to execute. Please check the input data.")
+                            .statusCode(400)
+                            .build());
+        }
         Users user = userService.findByEmail(resetPass.getEmail());
         ResetPassToken token = resetPassTokenRepos.findResetPassTokenReposByToken(resetPass.getToken());
+        if (token !=null && Objects.equals(token.getUser().getId(), user.getId()))
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .message("Validate OTP success")
+                            .result("Please enter new password")
+                            .statusCode(200)
+                            .build());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .message("OTP does not match")
+                        .result("Please try again")
+                        .statusCode(400)
+                        .build());
+    }
+
+    @RequestMapping(value = "/reset-password", method = RequestMethod.PATCH)
+    public ResponseEntity resetPassword(@RequestBody @Valid ResetPass resetPass,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("The request has failed to execute. Please check the input data.")
+                            .statusCode(400)
+                            .build());
+        }
+        Users user = userService.findByEmail(resetPass.getEmail());
         if (!resetPass.getNew_pass().equals(resetPass.getOld_pass()))
         {
-            throw new CustomExceptionRuntime(400, "The old password does not match the new password. Please re-enter.");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("The old password does not match the new password. Please re-enter.")
+                            .statusCode(HttpStatus.UNAUTHORIZED.value())
+                            .build());
         }
-        if (user != null && token != null
-                && Objects.equals(token.getUser().getId(), user.getId())) {
-
+        if (user != null) {
             user.setPassword(resetPass.getNew_pass());
             userService.resetPassword(user);
-            return new CustomResponse(200, "Reset password for user has success", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .message("Reset password for user has success")
+                            .statusCode(400)
+                            .build());
         }
-        return new CustomResponse(400, "Token has not valid", System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .message("Token has not valid")
+                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .build());
     }
 }

@@ -29,8 +29,8 @@ public class ProfileInfor {
     private String gender;
     @Pattern(regexp = ValidatorUtils.VIETNAMESE_REGEX)
     private String Descriptions;
-    private List<String> address;
-    private List<String> company;
-    private List<String> country;
-    private List<String> School;
+    private String address;
+    private String company;
+    private String country;
+    private String School;
 }

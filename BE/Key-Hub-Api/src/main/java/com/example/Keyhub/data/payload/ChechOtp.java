@@ -11,12 +11,9 @@ import javax.validation.constraints.Pattern;
 @Data
 @Getter
 @Setter
-public class ResetPass {
+public class ChechOtp {
     @NotEmpty
     @Pattern(regexp = ValidatorUtils.EMAIL_REGEX)
     private String email;
-    @Pattern(regexp = ValidatorUtils.PASSWORD_LOGIN_REGEX)
-    private String old_pass;
-    @Pattern(regexp = ValidatorUtils.PASSWORD_REGEX)
-    private String new_pass;
+    private String token;
 }
