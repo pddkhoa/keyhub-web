@@ -263,18 +263,18 @@ public class AuthController {
         if (user != null) {
             user.setPassword(resetPass.getNew_pass());
             userService.resetPassword(user);
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(GenericResponse.builder()
                             .success(true)
                             .message("Reset password for user has success")
-                            .statusCode(400)
+                            .statusCode(HttpStatus.OK.value())
                             .build());
         }
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericResponse.builder()
                         .success(false)
                         .message("Token has not valid")
-                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 }

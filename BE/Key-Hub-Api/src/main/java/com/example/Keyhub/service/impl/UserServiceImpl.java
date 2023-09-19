@@ -1,7 +1,7 @@
 package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
-import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
@@ -24,12 +24,10 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -65,6 +63,8 @@ public class UserServiceImpl implements IUserService {
     IUserRepository userRepository;
     @Autowired
     IAvatarRepository avatarRepository;
+    @Autowired
+    IBannerRepository bannerRepository;
     @Autowired
     UploadImageService uploadImageService;
 
@@ -277,12 +277,30 @@ public class UserServiceImpl implements IUserService {
     }
     @Transactional
     @Override
+    public void changeBanner(BigInteger user_id, MultipartFile imageFile) {
+        Users us = userRepository.findById(user_id).orElseThrow(null);
+        String new_banner = uploadImageService.uploadFile(imageFile);
+        us.setBanner_url(new_banner);
+        userRepository.save(us);
+    }
+    @Transactional
+    @Override
     public void removeAvatar(BigInteger user_id) {
         Users us = userRepository.findById(user_id).orElseThrow(null);
         if (us.getAvatar() != null) {
             uploadImageService.removeFile(us.getAvatar());
         }
         us.setAvatar(null);
+        userRepository.save(us);
+    }
+    @Transactional
+    @Override
+    public void removeBanner(BigInteger user_id) {
+        Users us = userRepository.findById(user_id).orElseThrow(null);
+        if (us.getAvatar() != null) {
+            uploadImageService.removeFile(us.getAvatar());
+        }
+        us.setBanner_url(null);
         userRepository.save(us);
     }
     @Transactional
@@ -297,10 +315,24 @@ public class UserServiceImpl implements IUserService {
     }
     @Transactional
     @Override
+    public BannerUser saveBannerToStorage(BigInteger users_id) {
+        Users users = userRepository.findById(users_id).orElseThrow(null);
+        BannerUser avatarUser = new BannerUser();
+        avatarUser.setUrlBanner(users.getBanner_url());
+        avatarUser.setUploadDate(users.getCreateDate());
+        avatarUser.setUsers(users);
+        return bannerRepository.save(avatarUser);
+    }
+    @Transactional
+    @Override
     public void removeAvatarToStorage(BigInteger user_id) {
         iAvatarRepository.deleteByUserId(user_id);
     }
-
+    @Transactional
+    @Override
+    public void removeBannerToStorage(BigInteger user_id) {
+        bannerRepository.deleteByUserId(user_id);
+    }
     @Override
     public Series addSeries(SeriesDTO seriesDTO, Users users) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

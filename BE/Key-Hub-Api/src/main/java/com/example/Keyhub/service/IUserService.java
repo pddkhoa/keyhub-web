@@ -1,8 +1,9 @@
 package com.example.Keyhub.service;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
-import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
+import com.example.Keyhub.data.entity.ProdfileUser.BannerUser;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.VerificationToken;
@@ -30,7 +31,11 @@ public interface IUserService {
     CustomResponse changeInfo(BigInteger user_id, ProfileInfor body);
     void changeAvatar(BigInteger user_id, MultipartFile imageFile);
     void removeAvatar(BigInteger user_id);
+    void removeBanner(BigInteger user_id);
     AvatarUser saveAvatarToStorage( BigInteger userid);
+    BannerUser saveBannerToStorage(BigInteger userid);
     void removeAvatarToStorage(BigInteger user_id);
+    void removeBannerToStorage(BigInteger user_id);
     Series addSeries(SeriesDTO seriesDTO, Users users);
+    void changeBanner(BigInteger user_id, MultipartFile imageFile);
 }

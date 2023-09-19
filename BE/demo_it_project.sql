@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 17/09/2023 19:56:01
+ Date: 19/09/2023 11:32:41
 */
 
 SET NAMES utf8mb4;
@@ -108,6 +108,7 @@ INSERT INTO `blog` VALUES (22, 'Sample Title 3', '2023-08-30 16:10:28', 'Sample 
 INSERT INTO `blog` VALUES (23, 'Sample Title 3', '2023-08-30 16:11:32', 'Sample Content', 1, 22, 'Sample Description', 15);
 INSERT INTO `blog` VALUES (24, 'Sample Title 3', '2023-08-30 16:13:47', 'Sample Content', 1, 22, 'Sample Description', 15);
 INSERT INTO `blog` VALUES (25, 'Sample Title 3', '2023-08-30 16:26:06', 'Sample Content', 1, 22, 'Sample Description', 15);
+INSERT INTO `blog` VALUES (26, 'Sample Title 3', '2023-09-19 10:59:10', 'Sample Content', 1, 54, 'Sample Description', 15);
 
 -- ----------------------------
 -- Table structure for blog_category
@@ -161,6 +162,9 @@ INSERT INTO `blog_category` VALUES (24, 3);
 INSERT INTO `blog_category` VALUES (25, 1);
 INSERT INTO `blog_category` VALUES (25, 2);
 INSERT INTO `blog_category` VALUES (25, 3);
+INSERT INTO `blog_category` VALUES (26, 1);
+INSERT INTO `blog_category` VALUES (26, 2);
+INSERT INTO `blog_category` VALUES (26, 3);
 
 -- ----------------------------
 -- Table structure for blog_image
@@ -235,6 +239,9 @@ INSERT INTO `blog_tag` VALUES (24, 3);
 INSERT INTO `blog_tag` VALUES (25, 1);
 INSERT INTO `blog_tag` VALUES (25, 2);
 INSERT INTO `blog_tag` VALUES (25, 3);
+INSERT INTO `blog_tag` VALUES (26, 1);
+INSERT INTO `blog_tag` VALUES (26, 2);
+INSERT INTO `blog_tag` VALUES (26, 3);
 
 -- ----------------------------
 -- Table structure for category
@@ -624,7 +631,7 @@ CREATE TABLE `series`  (
 -- ----------------------------
 -- Records of series
 -- ----------------------------
-INSERT INTO `series` VALUES (15, 'afaf', 22, '2023-08-30 14:01:08.850000', 'Mo ta', 11);
+INSERT INTO `series` VALUES (15, 'afaf', 22, '2023-08-30 14:01:08.850000', 'Mo ta', 12);
 INSERT INTO `series` VALUES (17, 'afarurf', 22, '2023-08-30 14:44:38.881000', 'Mo ta', NULL);
 INSERT INTO `series` VALUES (18, 'hrhrh', 22, '2023-08-30 14:50:58.917000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (19, 'hrgsshrh', 22, '2023-08-30 15:22:48.495000', 'Mo ta', 0);
@@ -719,48 +726,67 @@ CREATE TABLE `user`  (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `country` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `banner_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UKsb8bbouer5wak8vyiiy4pf2bx`(`username` ASC) USING BTREE,
   UNIQUE INDEX `UKob8kqyqqgmefl0aco34akdtpe`(`email` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (19, 'Hải', NULL, '$2a$10$X8LDlDu4VbEwdfk2DVTkce1SSPFVsMQk1V4k4NGtpDi4vb6Kh0nIu', NULL, '0814069391', '2023-08-25 13:41:20.937000', NULL, NULL, NULL, NULL, b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (20, 'Hải', NULL, '$2a$10$2.ZjVySeOxlxkALmJEy9VOdSIIMzFFcI6ZpU4DtZ4JDOTWRBPLoMW', NULL, '0814069391', '2023-08-25 14:06:10.922000', '2023-08-25 16:28:54', NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (22, 'Hải', NULL, '$2a$10$IgLOWwjHm5imKEohAPjnvud66Muz8KRAOL1pJGH2cQ8WpATiwm9dW', NULL, '0814069391', '2023-08-26 16:38:29.011000', '2023-09-07 11:20:06', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg', 'nam', 'Baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (23, 'Hải', NULL, '$2a$10$2LbTQH7tevUm1.Ed04.Rve5NeUtacXm8WjYqmrQhEvEcKbGUW7dmi', NULL, '0814069391', '2023-08-26 16:44:43.976000', '2023-08-26 16:47:34', NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (24, 'Khoa', NULL, '$2a$10$yFKuBcHWiqUoO9exVsPNqukQVb0sfAKbOUbBD1yOximYUjcf6I1Sq', NULL, '0814069391', '2023-08-27 13:33:38.045000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (25, 'Khoa', NULL, '$2a$10$8.XSa9yLYYktXoSevO15BONit5aO0X2xpXSvA9JETV.oqtdH0Agfy', NULL, '0814069391', '2023-09-07 13:32:27.288000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (26, 'Khoa', NULL, '$2a$10$iceJIqv5MFkmHBtE3TtfYuEBunOj88kvbLJRovwRgXz1RY/LC0YNe', NULL, '0814069391', '2023-09-07 13:34:37.391000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (27, 'Khoa', NULL, '$2a$10$Yi0PZQsNgcTANleP/FEC8.CkC.8WGn5gAQb1gMQ0k728wx6lBUi4i', NULL, '0814069391', '2023-09-10 16:50:26.807000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (28, 'Khoa', NULL, '$2a$10$2tNr977OLZzI7Kpau1zwuOe1oBHuc6X5EqRgMmwGTwf1zHuhZo9S6', NULL, '0814069391', '2023-09-10 16:50:43.225000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (29, 'hieu', NULL, '$2a$10$4SYKvJFBATZXSGFbdsO8pu2e47YTBvNTv58L5q48KgUEUB3iRvV4q', NULL, '0814069395', '2023-09-11 13:48:19.029000', NULL, NULL, 'Femnale', 'aa', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (30, 'Khoa', NULL, '$2a$10$e53bgWXABfljtObuu.FmKehzbfFTUcGtHvaE5beeM3fgZ.Zzbcaoe', NULL, '0814069391', '2023-09-11 21:37:36.266000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (32, 'Khoa', NULL, '$2a$10$g5MYGRfENsvukhDRqjtf5eOheHMGVwYXekl40S.u5UIwAtUy6dAem', NULL, '0814069391', '2023-09-12 08:43:12.920000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (33, 'Khoa', NULL, '$2a$10$.7i7Q5C1aC/9ei4bM3nvqOxasJDCWjG6Pmnn52m03Cehhapm7tOjG', NULL, '0814069391', '2023-09-12 08:48:38.123000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (34, 'Khoa', NULL, '$2a$10$D0STwuplRYZfEUDU09PLi.bHIqITEuGzTvWoic3xHaioocHQK/ywm', NULL, '0814069391', '2023-09-12 08:50:28.823000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (35, 'Khoa', NULL, '$2a$10$EXKw8PZqC5rTG8t8Sw1w9u6IzJmUuolNQm/sy/5hfaX/RJ2TJfB2.', NULL, '0814069391', '2023-09-12 09:16:34.758000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (36, 'Khoa', NULL, '$2a$10$ZGAf1RoNdzLRPITuotVMLuyNFTmPiUrp8P9qsMympzu/zyEdxIXaG', NULL, '0814069391', '2023-09-12 09:19:45.230000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (37, 'Khoa', NULL, '$2a$10$a2NZj2WLYjqoXwx9DIlpWuDRJlCS4nbaeRhW.nw/5vSptr6RydQZK', NULL, '0814069391', '2023-09-12 09:29:44.499000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (38, 'Khoa', NULL, '$2a$10$oS//1H82CTRUsoDAbYyKoOSq.Des9EmSiA3R7ofnL4JHGI7l7N/JW', NULL, '0814069391', '2023-09-12 09:35:09.930000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (39, 'Khoa', NULL, '$2a$10$E/cZ7WTFtH6k.2.UTJEYF.vNM9jTxtTrrxguIEy84XKk4Cf4I3N16', NULL, '0814069391', '2023-09-12 10:11:24.022000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (40, 'Khoa', NULL, '$2a$10$ooWCsmVetzaXuume27xDCOqQH1XJx.qw/2K1L2WmRfM1bGcY5Y5Z2', NULL, '0814069391', '2023-09-12 10:19:31.542000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (41, 'Khoa', 'ngochai0612@gmail.com', '$2a$10$CX.isCWN0Hf7e8HALOj77uzH3gAdtkuJPP77f3l/FjMY9CoSH1bpK', 'baboga', '0814069391', '2023-09-12 10:53:54.418000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (42, 'Khoa', NULL, '$2a$10$TIxIHPEO3PtyTx1WDc9DneUYCKJrzVP4.tB0A1HbUR5Q8vUi2sksq', NULL, '0814069391', '2023-09-12 10:56:57.820000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (43, 'Khoa', NULL, '$2a$10$c2cCfc/.jnpkMkkpQyTVLe0ZrUYpU6jTitbxsiVAMiFFXuADesSde', NULL, '0814069391', '2023-09-12 11:51:29.933000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (44, 'Khoa', NULL, '$2a$10$0l/nOtQ..ptcPKYxazORMOkjldIO.JaKgynCQ5FggJ0h.D.Eo9rf2', NULL, '0814069391', '2023-09-12 11:51:55.022000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (45, 'Khoa', NULL, '$2a$10$cZu4tuxdUDFuz2KATnmzGet2/dbuTGUILrGckjIM9fgceKgJ6lcXK', NULL, '0814069391', '2023-09-12 11:53:59.323000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (46, 'Khoa', NULL, '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', NULL, '0814069391', '2023-09-12 12:28:00.632000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (47, 'Khoa', NULL, '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', NULL, '0814069391', '2023-09-12 12:40:53.308000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (48, 'Khoa', NULL, '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', NULL, '0814069391', '2023-09-12 12:44:31.675000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (49, 'Khoa', NULL, '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', NULL, '0814069391', '2023-09-12 12:46:39.212000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (50, 'Khoa', NULL, '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', NULL, '0814069391', '2023-09-12 12:47:33.803000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (51, 'Khoa', NULL, '$2a$10$xXl4YxkdltVeHJ19e.uDT.OHokgSdVbbhhlVUffeSLYjg9nphmcRC', NULL, '0814069391', '2023-09-12 13:04:46.097000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (52, 'baboga', 'ngochai06122002@gmail.com', '$2a$10$THv6rXigQAS39m13K348UO71FTzNONGz7IqDJ1Temg1HCss2Dvdqu', 'AdminHai', '0814069391', '2023-09-13 09:31:00.547000', '2023-09-17 19:54:23', NULL, 'Male', '1', b'1', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (53, 'afa', NULL, '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', NULL, '0814069391', '2023-09-13 09:37:15.845000', NULL, NULL, 'Male', 'afa', b'0', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (54, 'Hải', NULL, '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-09-17 19:25:53', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1694953561/sb3r32nkro9m6fbibxs0.jpg', 'nam', 'Baboga', b'1', NULL, 'baac', 'ydfka', 'acadafad', 'aata');
+INSERT INTO `user` VALUES (19, 'Hải', NULL, '$2a$10$X8LDlDu4VbEwdfk2DVTkce1SSPFVsMQk1V4k4NGtpDi4vb6Kh0nIu', NULL, '0814069391', '2023-08-25 13:41:20.937000', NULL, NULL, NULL, NULL, b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (20, 'Hải', NULL, '$2a$10$2.ZjVySeOxlxkALmJEy9VOdSIIMzFFcI6ZpU4DtZ4JDOTWRBPLoMW', NULL, '0814069391', '2023-08-25 14:06:10.922000', '2023-08-25 16:28:54', NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (22, 'Hải', NULL, '$2a$10$IgLOWwjHm5imKEohAPjnvud66Muz8KRAOL1pJGH2cQ8WpATiwm9dW', NULL, '0814069391', '2023-08-26 16:38:29.011000', '2023-09-07 11:20:06', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg', 'nam', 'Baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (23, 'Hải', NULL, '$2a$10$2LbTQH7tevUm1.Ed04.Rve5NeUtacXm8WjYqmrQhEvEcKbGUW7dmi', NULL, '0814069391', '2023-08-26 16:44:43.976000', '2023-08-26 16:47:34', NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (24, 'Khoa', NULL, '$2a$10$yFKuBcHWiqUoO9exVsPNqukQVb0sfAKbOUbBD1yOximYUjcf6I1Sq', NULL, '0814069391', '2023-08-27 13:33:38.045000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (25, 'Khoa', NULL, '$2a$10$8.XSa9yLYYktXoSevO15BONit5aO0X2xpXSvA9JETV.oqtdH0Agfy', NULL, '0814069391', '2023-09-07 13:32:27.288000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (26, 'Khoa', NULL, '$2a$10$iceJIqv5MFkmHBtE3TtfYuEBunOj88kvbLJRovwRgXz1RY/LC0YNe', NULL, '0814069391', '2023-09-07 13:34:37.391000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (27, 'Khoa', NULL, '$2a$10$Yi0PZQsNgcTANleP/FEC8.CkC.8WGn5gAQb1gMQ0k728wx6lBUi4i', NULL, '0814069391', '2023-09-10 16:50:26.807000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (28, 'Khoa', NULL, '$2a$10$2tNr977OLZzI7Kpau1zwuOe1oBHuc6X5EqRgMmwGTwf1zHuhZo9S6', NULL, '0814069391', '2023-09-10 16:50:43.225000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (29, 'hieu', NULL, '$2a$10$4SYKvJFBATZXSGFbdsO8pu2e47YTBvNTv58L5q48KgUEUB3iRvV4q', NULL, '0814069395', '2023-09-11 13:48:19.029000', NULL, NULL, 'Femnale', 'aa', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (30, 'Khoa', NULL, '$2a$10$e53bgWXABfljtObuu.FmKehzbfFTUcGtHvaE5beeM3fgZ.Zzbcaoe', NULL, '0814069391', '2023-09-11 21:37:36.266000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (32, 'Khoa', NULL, '$2a$10$g5MYGRfENsvukhDRqjtf5eOheHMGVwYXekl40S.u5UIwAtUy6dAem', NULL, '0814069391', '2023-09-12 08:43:12.920000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (33, 'Khoa', NULL, '$2a$10$.7i7Q5C1aC/9ei4bM3nvqOxasJDCWjG6Pmnn52m03Cehhapm7tOjG', NULL, '0814069391', '2023-09-12 08:48:38.123000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (34, 'Khoa', NULL, '$2a$10$D0STwuplRYZfEUDU09PLi.bHIqITEuGzTvWoic3xHaioocHQK/ywm', NULL, '0814069391', '2023-09-12 08:50:28.823000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (35, 'Khoa', NULL, '$2a$10$EXKw8PZqC5rTG8t8Sw1w9u6IzJmUuolNQm/sy/5hfaX/RJ2TJfB2.', NULL, '0814069391', '2023-09-12 09:16:34.758000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (36, 'Khoa', NULL, '$2a$10$ZGAf1RoNdzLRPITuotVMLuyNFTmPiUrp8P9qsMympzu/zyEdxIXaG', NULL, '0814069391', '2023-09-12 09:19:45.230000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (37, 'Khoa', NULL, '$2a$10$a2NZj2WLYjqoXwx9DIlpWuDRJlCS4nbaeRhW.nw/5vSptr6RydQZK', NULL, '0814069391', '2023-09-12 09:29:44.499000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (38, 'Khoa', NULL, '$2a$10$oS//1H82CTRUsoDAbYyKoOSq.Des9EmSiA3R7ofnL4JHGI7l7N/JW', NULL, '0814069391', '2023-09-12 09:35:09.930000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (39, 'Khoa', NULL, '$2a$10$E/cZ7WTFtH6k.2.UTJEYF.vNM9jTxtTrrxguIEy84XKk4Cf4I3N16', NULL, '0814069391', '2023-09-12 10:11:24.022000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (40, 'Khoa', NULL, '$2a$10$ooWCsmVetzaXuume27xDCOqQH1XJx.qw/2K1L2WmRfM1bGcY5Y5Z2', NULL, '0814069391', '2023-09-12 10:19:31.542000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (41, 'Khoa', 'ngochai0612@gmail.com', '$2a$10$CX.isCWN0Hf7e8HALOj77uzH3gAdtkuJPP77f3l/FjMY9CoSH1bpK', 'baboga', '0814069391', '2023-09-12 10:53:54.418000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (42, 'Khoa', NULL, '$2a$10$TIxIHPEO3PtyTx1WDc9DneUYCKJrzVP4.tB0A1HbUR5Q8vUi2sksq', NULL, '0814069391', '2023-09-12 10:56:57.820000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (43, 'Khoa', NULL, '$2a$10$c2cCfc/.jnpkMkkpQyTVLe0ZrUYpU6jTitbxsiVAMiFFXuADesSde', NULL, '0814069391', '2023-09-12 11:51:29.933000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (44, 'Khoa', NULL, '$2a$10$0l/nOtQ..ptcPKYxazORMOkjldIO.JaKgynCQ5FggJ0h.D.Eo9rf2', NULL, '0814069391', '2023-09-12 11:51:55.022000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (45, 'Khoa', NULL, '$2a$10$cZu4tuxdUDFuz2KATnmzGet2/dbuTGUILrGckjIM9fgceKgJ6lcXK', NULL, '0814069391', '2023-09-12 11:53:59.323000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (46, 'Khoa', NULL, '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', NULL, '0814069391', '2023-09-12 12:28:00.632000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (47, 'Khoa', NULL, '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', NULL, '0814069391', '2023-09-12 12:40:53.308000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (48, 'Khoa', NULL, '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', NULL, '0814069391', '2023-09-12 12:44:31.675000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (49, 'Khoa', NULL, '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', NULL, '0814069391', '2023-09-12 12:46:39.212000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (50, 'Khoa', NULL, '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', NULL, '0814069391', '2023-09-12 12:47:33.803000', NULL, NULL, 'nam', 'baboga', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (51, 'Khoa', NULL, '$2a$10$xXl4YxkdltVeHJ19e.uDT.OHokgSdVbbhhlVUffeSLYjg9nphmcRC', NULL, '0814069391', '2023-09-12 13:04:46.097000', NULL, NULL, 'nam', 'baboga', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (52, 'baboga', 'ngochai06122002@gmail.com', '$2a$10$THv6rXigQAS39m13K348UO71FTzNONGz7IqDJ1Temg1HCss2Dvdqu', 'AdminHai', '0814069391', '2023-09-13 09:31:00.547000', '2023-09-17 19:54:23', NULL, 'Male', '1', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (53, 'afa', NULL, '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', NULL, '0814069391', '2023-09-13 09:37:15.845000', NULL, NULL, 'Male', 'afa', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (54, 'Hải', NULL, '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-09-19 10:55:52', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695097528/umubsgzunwbcbjpvrcw4.jpg', 'nam', 'Baboga', b'1', NULL, 'baac', 'ydfka', 'acadafad', 'aata', NULL);
+
+-- ----------------------------
+-- Table structure for user_banner
+-- ----------------------------
+DROP TABLE IF EXISTS `user_banner`;
+CREATE TABLE `user_banner`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `upload_date` datetime(6) NULL DEFAULT NULL,
+  `url_banner` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `user_id` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `user_banner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_banner
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_images
@@ -774,13 +800,12 @@ CREATE TABLE `user_images`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK2jg7uf46pq5ihgoj39y7phhy6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK2jg7uf46pq5ihgoj39y7phhy6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_images
 -- ----------------------------
 INSERT INTO `user_images` VALUES (1, 22, '2023-08-26 16:38:29', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg');
-INSERT INTO `user_images` VALUES (4, 54, '2023-09-17 15:01:26', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1694953561/sb3r32nkro9m6fbibxs0.jpg');
 
 -- ----------------------------
 -- Table structure for user_role

@@ -138,6 +138,54 @@
 					"response": []
 				},
 				{
+					"name": "ChangeBanner",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "aut",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image_file",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/305856838_2342381015915707_7068943110264526048_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/users/change-avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"change-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "ChangeInfor",
 					"request": {
 						"auth": {
@@ -227,6 +275,47 @@
 								"v1",
 								"users",
 								"remove-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveBanner",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/users/remove-banner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"remove-banner"
 							]
 						}
 					},

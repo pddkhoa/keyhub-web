@@ -70,7 +70,34 @@ public class AccountRestController {
                 .body(GenericResponse.builder()
                         .success(true)
                         .message("Change avatar was successful")
-                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .statusCode(HttpStatus.OK.value())
+                        .build());
+    }
+    @RequestMapping(value = "/change-banner", method = RequestMethod.PATCH)
+    public ResponseEntity changeBanner(@RequestParam MultipartFile image_file) {
+        if (!ValidatorUtils.validateMineFile(image_file))
+            throw new CustomExceptionRuntime(400, "Request failed. This file must be png, jpg, jpeg,bmp,gif,bmp,tiff,webp,svg+xml." +
+                    " Please validate file again");
+        Users users = getUserFromAuthentication();
+        userService.changeBanner(users.getId(),image_file);
+        userService.saveBannerToStorage(users.getId());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .message("Change avatar was successful")
+                        .statusCode(HttpStatus.OK.value())
+                        .build());
+    }
+    @RequestMapping(value = "/remove-banner", method = RequestMethod.PATCH)
+    public ResponseEntity removeBannerUser() {
+        Users users = getUserFromAuthentication();
+        userService.removeBanner(users.getId());
+        userService.removeBannerToStorage(users.getId());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .message("Delete avatar was successful")
+                        .statusCode(HttpStatus.OK.value())
                         .build());
     }
     @RequestMapping(value = "/remove-avatar", method = RequestMethod.PATCH)
@@ -82,7 +109,7 @@ public class AccountRestController {
                 .body(GenericResponse.builder()
                         .success(true)
                         .message("Delete avatar was successful")
-                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .statusCode(HttpStatus.OK.value())
                         .build());
     }
 }

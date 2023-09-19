@@ -65,7 +65,8 @@ public class Users {
     private String country;
     @Column
     private String School;
-
+    @Column
+    private String banner_url;
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,
                     @NotBlank

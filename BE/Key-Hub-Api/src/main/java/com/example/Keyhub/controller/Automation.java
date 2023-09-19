@@ -1,6 +1,6 @@
 package com.example.Keyhub.controller;
 
-import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IAvatarRepository;
 import com.example.Keyhub.data.repository.IUserRepository;
