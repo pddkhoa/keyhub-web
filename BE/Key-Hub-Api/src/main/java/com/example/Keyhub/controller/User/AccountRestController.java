@@ -47,22 +47,36 @@ public class AccountRestController {
     public ResponseEntity changeProfileInfo(@Valid @RequestBody ProfileInfor body,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new CustomExceptionRuntime(400, "Request was failed. Validate data again");
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Change information user success!")
+                            .build()
+                    );
+        }
         Users users = getUserFromAuthentication();
-        userService.changeInfo(users.getId(), body);
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
+        users = userService.changeInfo(users.getId(), body);
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
                         .statusCode(200)
+                        .result(users)
                         .message("Change information user success!")
                         .build()
                 );
     }
     @RequestMapping(value = "/change-avatar", method = RequestMethod.PATCH)
-    public ResponseEntity changeAvatarUser(@RequestParam MultipartFile image_file) {
+    public ResponseEntity changeAvatarUser (@RequestParam MultipartFile image_file) {
         if (!ValidatorUtils.validateMineFile(image_file))
-            throw new CustomExceptionRuntime(400, "Request failed. This file must be png, jpg, jpeg,bmp,gif,bmp,tiff,webp,svg+xml." +
-                    " Please validate file again");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .message("Request failed. This file must be png, jpg, jpeg,bmp,gif,bmp,tiff,webp,svg+xml. Please validate file again")
+                        .build()
+                );
         Users users = getUserFromAuthentication();
         userService.changeAvatar(users.getId(),image_file);
         userService.saveAvatarToStorage(users.getId());
@@ -76,8 +90,13 @@ public class AccountRestController {
     @RequestMapping(value = "/change-banner", method = RequestMethod.PATCH)
     public ResponseEntity changeBanner(@RequestParam MultipartFile image_file) {
         if (!ValidatorUtils.validateMineFile(image_file))
-            throw new CustomExceptionRuntime(400, "Request failed. This file must be png, jpg, jpeg,bmp,gif,bmp,tiff,webp,svg+xml." +
-                    " Please validate file again");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Request failed. This file must be png, jpg, jpeg,bmp,gif,bmp,tiff,webp,svg+xml. Please validate file again")
+                            .build()
+                    );
         Users users = getUserFromAuthentication();
         userService.changeBanner(users.getId(),image_file);
         userService.saveBannerToStorage(users.getId());

@@ -28,7 +28,7 @@ public interface IUserService {
     VerificationToken getVerificationToken(String VerificationToken);
     void registerAccount(Users user);
 
-    CustomResponse changeInfo(BigInteger user_id, ProfileInfor body);
+    Users changeInfo(BigInteger user_id, ProfileInfor body);
     void changeAvatar(BigInteger user_id, MultipartFile imageFile);
     void removeAvatar(BigInteger user_id);
     void removeBanner(BigInteger user_id);

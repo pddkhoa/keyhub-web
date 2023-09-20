@@ -169,7 +169,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/users/change-avatar",
+							"raw": "http://localhost:8081/api/v1/users/change-banner",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -179,7 +179,7 @@
 								"api",
 								"v1",
 								"users",
-								"change-avatar"
+								"change-banner"
 							]
 						}
 					},
@@ -193,7 +193,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbkhhaSIsInVzZXJEZXRhaWxzIjp7InVzZXJzIjp7ImlkIjo1MiwibmFtZSI6ImJhYm9nYSIsInVzZXJuYW1lIjoiQWRtaW5IYWkiLCJlbWFpbCI6Im5nb2NoYWkwNjEyMjAwMkBnbWFpbC5jb20iLCJyb2xlcyI6W3siaWQiOjIsIm5hbWUiOiJVU0VSIn1dLCJwaG9uZSI6IjA4MTQwNjkzOTEiLCJjcmVhdGVEYXRlIjoxNjk0NTcyMjYwNTQ3LCJ1cGRhdGVEYXRlIjoxNjk0OTU1MjYzMDAwLCJhdmF0YXIiOm51bGwsInNlY29uZF9uYW1lIjoiMSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoiTWFsZSIsImFkZHJlc3MiOm51bGwsImNvbXBhbnkiOm51bGwsImNvdW50cnkiOm51bGwsImJhbm5lcl91cmwiOm51bGwsImRlc2NyaXB0aW9ucyI6bnVsbCwic2Nob29sIjpudWxsfSwiZW5hYmxlZCI6dHJ1ZSwicGFzc3dvcmQiOiIkMmEkMTAkVEh2NnJYaWdRQVMzOW0xM0szNDhVTzcxRlR6Tk9OR3o3SXFESjFUZW1nMUhDc3MyRHZkcXUiLCJ1c2VybmFtZSI6IkFkbWluSGFpIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiYWNjb3VudE5vbkV4cGlyZWQiOnRydWUsImNyZWRlbnRpYWxzTm9uRXhwaXJlZCI6dHJ1ZSwiYWNjb3VudE5vbkxvY2tlZCI6dHJ1ZX0sImlhdCI6MTY5NTE3NTgyOSwiZXhwIjoxNjk1NzgwNjI5fQ.v3rUdMDMMicEDmk7drDov-8uKyDufYji4xkkuK2dUqGRgfnCjCp8pbvJMjaZVfKqunB3gESClC10E8BlO05ksw",
 									"type": "string"
 								}
 							]
@@ -333,7 +333,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"username\":\"AdminHai\",  \r\n\"password\":\"Ngochai0612@\"   \r\n}\r\n",
+							"raw": "{\r\n\"username\":\"AdminHai\",  \r\n\"password\":\"Ngochai0612@3\"   \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -371,7 +371,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/auth/logout?refreshToken=abb2e2da-5a90-458f-a633-405dfc6f863d",
+							"raw": "http://localhost:8081/api/auth/logout?refreshToken=d3eb1715-481e-44de-a0b9-d0c00e4435fa",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -385,7 +385,7 @@
 							"query": [
 								{
 									"key": "refreshToken",
-									"value": "abb2e2da-5a90-458f-a633-405dfc6f863d"
+									"value": "d3eb1715-481e-44de-a0b9-d0c00e4435fa"
 								}
 							]
 						}
@@ -458,7 +458,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/api/auth/verify-account?token=278946",
+							"raw": "http://localhost:8081/api/auth/verify-account?token=731344",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -472,7 +472,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "278946"
+									"value": "731344"
 								}
 							]
 						}
@@ -522,7 +522,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"token\":\"793002\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"token\":\"968725\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -767,7 +767,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCYWJvZ2ExMiIsImlhdCI6MTY5MzI5NTE2OCwiZXhwIjoxNjkzODk5OTY4fQ.lInB-8ANvMx3EWuJRYiLL5-lZtV_OdxA3Sa0K7sJ4ykyISroE8o3SkTT_TaOqLLXpr6jAWUZX2Gp1MB3FhuU0w",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2EwaGNzaGFpIiwidXNlckRldGFpbHMiOnsidXNlcnMiOnsiaWQiOjU0LCJuYW1lIjoiS2hvYSIsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImVtYWlsIjoibmdvY2hnMGE2aHMxMjIwMDJAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NDkzNzY4NTkzMiwidXBkYXRlRGF0ZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJzZWNvbmRfbmFtZSI6ImJhYm9nYSIsInN0YXR1cyI6dHJ1ZSwiZ2VuZGVyIjoibmFtIiwiYWRkcmVzcyI6bnVsbCwiY29tcGFueSI6bnVsbCwiY291bnRyeSI6bnVsbCwic2Nob29sIjpudWxsLCJkZXNjcmlwdGlvbnMiOm51bGx9LCJwYXNzd29yZCI6IiQyYSQxMCRkOVJ1LkVRSUhiazFCdlRNYVpFemouRlZtOFJFQkFEMVd0ejNBQXBLeXF4bTh5UmlNalBUcSIsImVuYWJsZWQiOnRydWUsInVzZXJuYW1lIjoibmdhMGhjc2hhaSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWV9LCJpYXQiOjE2OTQ5NTI4MzYsImV4cCI6MTY5NTU1NzYzNn0.OLwoc_eqeNbUtDLsns2LNONMdqgv1W2W2F71WYZ6nE88Sr84-8TIzBhrHKQujJqwkfKAdupXA4vLWU3wv2Yp3Q",
 									"type": "string"
 								}
 							]

@@ -34,5 +34,6 @@ public class UserDTO {
     private Boolean status;
     private String second_name;
     private String gender;
+    @Pattern(regexp = ValidatorUtils.VIETNAMESE_REGEX)
     private String Descriptions;
 }

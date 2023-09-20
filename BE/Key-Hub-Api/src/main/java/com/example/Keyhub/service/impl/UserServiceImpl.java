@@ -180,11 +180,10 @@ public class UserServiceImpl implements IUserService {
     }
     @Override
     @Transactional
-    public CustomResponse changeInfo(BigInteger user_id, ProfileInfor body) {
+    public Users changeInfo(BigInteger user_id, ProfileInfor body) {
             Users us = userRepository.findById(user_id).get();
             if (us != null) {
               us.setName(body.getName());
-                us.setEmail(body.getEmail());
                 us.setPhone(body.getPhone());
                 us.setSecond_name(body.getSecond_name());
                 us.setGender(body.getGender());
@@ -260,12 +259,8 @@ public class UserServiceImpl implements IUserService {
 //                    company.setCompany(addressDTO);
 //                    companyRepository.save(company);
 //                }
-
-                userRepository.save(us);
             }
-            else
-                return new CustomResponse(405,"Not found User",System.currentTimeMillis());
-        return new CustomResponse(200,"Change infor success",System.currentTimeMillis());
+        return userRepository.save(us);
     }
     @Transactional
     @Override

@@ -76,32 +76,88 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public CustomResponse register(@Valid @RequestBody UserDTO userDTO){
+    public ResponseEntity register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("The request has failed to execute. Please check the input data.")
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build());
+        }
         if(userService.existsByUsername(userDTO.getUsername())){
-            return new CustomResponse(400, "The username is existed", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("The username is existed")
+                            .build()
+                    );
         }
         if(userService.existsByEmail(userDTO.getEmail())){
-            return new CustomResponse(400, "The email is existed", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("The email is existed")
+                            .build()
+                    );
         } else {
             Users users = userService.registerNewUserAccount(userDTO);
             applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent(users));
-            return new CustomResponse(200, "Create success!", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(users)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Create success!")
+                            .build()
+                    );
         }
     }
     @PostMapping("/verify-account")
-    public CustomResponse verifyAccount(@RequestParam String token) {
+    public ResponseEntity verifyAccount(@RequestParam String token) {
         VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Token not found")
+                            .build()
+                    );
+        }
         Calendar cal = Calendar.getInstance();
         if (verificationToken == null && verificationToken.isUsed() == true || (verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return new CustomResponse(400, "Token has expiry or not valid", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Token has expiry or not valid")
+                            .build()
+                    );
         }
         Users user = verificationToken.getUser();
         if (user.getUsername()==null){
-            return new CustomResponse(400, "Token has expiry", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Token has expiry")
+                            .build()
+                    );
         }
         user.setStatus(true);
         userService.registerAccount(user);
-        return new CustomResponse(200, "Verify account has success", System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Verify account has success")
+                        .result(user.getStatus())
+                        .build()
+                );
     }
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
@@ -158,7 +214,13 @@ public class AuthController {
                                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                                 .build());
             }
-            return ResponseEntity.ok(new JwtResponse(token,userPrinciple, refresh ));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .message("Login Success")
+                            .result(new JwtResponse(token,userPrinciple, refresh ))
+                            .statusCode(HttpStatus.OK.value())
+                            .build());
         }
       catch (AuthenticationException e){
           int loginAttempts = getLoginAttemptsFromCookie(request) + 1;
@@ -166,16 +228,14 @@ public class AuthController {
           if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
               return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
                       .body(GenericResponse.builder().success(false)
-                      .message("Account not found")
-                      .result("Please reset your password")
-                      .statusCode(HttpStatus.UNAUTHORIZED.value())
+                      .message("Account not found.Please reset your password")
+                      .statusCode(HttpStatus.TEMPORARY_REDIRECT.value()) //307
                       .build());
           }
           return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(GenericResponse.builder()
                   .success(false)
-                  .message("Account not found")
-                  .result("Please check username or password!")
+                  .message("Account not found.Please check username or password!")
                   .statusCode(HttpStatus.UNAUTHORIZED.value())
                   .build());
       }
@@ -197,21 +257,30 @@ public class AuthController {
                         .build());
     }
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-    public CustomResponse forgotPassword(@RequestParam String email) {
+    public ResponseEntity forgotPassword(@RequestParam  String email) {
         Users us = userService.findByEmail(email);
-        CustomResponse response;
         if (us != null) {
             userService.createResetToken(email);
-            response = new CustomResponse(200, "Create reset pass token succes, check email",
-                    System.currentTimeMillis());
-        } else throw new CustomExceptionRuntime(400, "Create reset pass token fail check email or try again");
-        return response;
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("Create reset pass token succes, check email")
+                            .result("Token in your email")
+                            .statusCode(HttpStatus.OK.value())
+                            .build());
+        } else
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .message("Create reset pass token fail check email or try again")
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .build());
     }
     @PostMapping("/veriry-otp")
     public ResponseEntity chechOtpResetPass(@RequestBody @Valid ChechOtp resetPass,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(GenericResponse.builder()
                             .success(false)
                             .message("The request has failed to execute. Please check the input data.")
@@ -222,7 +291,7 @@ public class AuthController {
         ResetPassToken token = resetPassTokenRepos.findResetPassTokenReposByToken(resetPass.getToken());
         if (token !=null && Objects.equals(token.getUser().getId(), user.getId()))
         {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
                             .message("Validate OTP success")
@@ -230,12 +299,12 @@ public class AuthController {
                             .statusCode(200)
                             .build());
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericResponse.builder()
                         .success(false)
                         .message("OTP does not match")
                         .result("Please try again")
-                        .statusCode(400)
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
                         .build());
     }
 
@@ -243,7 +312,7 @@ public class AuthController {
     public ResponseEntity resetPassword(@RequestBody @Valid ResetPass resetPass,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
                             .message("The request has failed to execute. Please check the input data.")
@@ -253,28 +322,22 @@ public class AuthController {
         Users user = userService.findByEmail(resetPass.getEmail());
         if (!resetPass.getNew_pass().equals(resetPass.getOld_pass()))
         {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
                             .message("The old password does not match the new password. Please re-enter.")
-                            .statusCode(HttpStatus.UNAUTHORIZED.value())
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
                             .build());
         }
         if (user != null) {
             user.setPassword(resetPass.getNew_pass());
             userService.resetPassword(user);
-            return ResponseEntity.status(HttpStatus.ACCEPTED)
-                    .body(GenericResponse.builder()
-                            .success(true)
-                            .message("Reset password for user has success")
-                            .statusCode(HttpStatus.OK.value())
-                            .build());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
-                        .success(false)
-                        .message("Token has not valid")
-                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .success(true)
+                        .message("Reset password for user has success")
+                        .statusCode(HttpStatus.OK.value())
                         .build());
     }
 }

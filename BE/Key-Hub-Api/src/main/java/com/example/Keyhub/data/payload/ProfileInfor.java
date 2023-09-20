@@ -21,8 +21,6 @@ public class ProfileInfor {
     private String name;
     @Pattern(regexp = ValidatorUtils.PHONE_REGEX)
     private String phone;
-    @Pattern(regexp = ValidatorUtils.EMAIL_REGEX)
-    private String email;
     @Column
     private String second_name;
     @Column
