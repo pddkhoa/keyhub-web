@@ -1,3 +1,4 @@
+import { requestApiHelper } from "@/helpers/request";
 import api from "../api/axios";
 import {
   logOutFailed,
@@ -6,12 +7,6 @@ import {
   loginFailed,
   loginStart,
   loginSuccess,
-  registerFailed,
-  registerStart,
-  registerSuccess,
-  verifyFailed,
-  verifyStart,
-  verifySuccess,
 } from "./authSlice";
 import {
   getSeriesFailed,
@@ -19,54 +14,58 @@ import {
   getSeriesSuccess,
 } from "./seriesSlice";
 import { showToast } from "@/hooks/useToast";
+import { TokenType } from "@/types/token";
+import User from "@/types/user";
 
 export const loginUser = async (user: any, dispatch: any, navigate: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: TokenType;
+    statusCode: number;
+  };
+
   dispatch(loginStart());
   try {
-    const res = await api.post("api/auth/login", user);
-    if (res.data.token) {
-      dispatch(loginSuccess(res.data));
+    const { body } = await requestApiHelper<body>(
+      api.post("api/auth/login", user)
+    );
+
+    if (body?.success) {
+      dispatch(loginSuccess(body.result));
       showToast("Congratulations! Sign In Success");
       navigate("/profile");
     } else {
       dispatch(loginFailed());
-      showToast("Fail! Sign In Fail", "error");
+      showToast(body?.message || "Error", "error");
     }
   } catch (err) {
     dispatch(loginFailed());
-    showToast("Fail! Sign In Fail", "error");
+    showToast("Error", "error");
   }
 };
-export const registerUser = async (user: any, dispatch: any, navigate: any) => {
-  dispatch(registerStart);
-  try {
-    const res = await api.post("api/auth/signup", user);
-    if (res.data.code === 200) {
-      dispatch(verifyStart);
-      showToast("Congratulations! Please Verify Account", "success");
-      navigate("/verify");
-      return;
-    } else {
-      dispatch(registerFailed);
-      showToast(res.data.message, "error");
-    }
-  } catch {
-    dispatch(registerFailed);
-  }
+export const registerUser = async (user: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: User;
+    statusCode: number;
+  };
+
+  return await requestApiHelper<body>(api.post("api/auth/signup", user));
 };
 
-export const verifyAccount = async (otp: any, dispatch: any, navigate: any) => {
-  dispatch(verifyStart);
-  try {
-    await api.post(`api/auth/verify-account?token=${otp}`);
-    dispatch(verifySuccess);
-    dispatch(registerSuccess);
-    showToast("Congratulations! Sign Up Success", "success");
-    navigate("/login");
-  } catch {
-    dispatch(verifyFailed);
-    showToast("Invalid OTP code", "error");
-  }
+export const verifyAccount = async (otp: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: boolean | null;
+    statusCode: number;
+  };
+
+  return await requestApiHelper<body>(
+    api.post(`api/auth/verify-account?token=${otp}`)
+  );
 };
 
 export const logOut = async (
@@ -102,4 +101,36 @@ export const getAllSeries = async (
   } catch (err) {
     dispatch(getSeriesFailed());
   }
+};
+export const forgortPassword = async (email: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string;
+    statusCode: number;
+  };
+  return await requestApiHelper<body>(
+    api.post(`api/auth/forgot-password?email=${email}`)
+  );
+};
+export const checkOtp = async (data: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string;
+    statusCode: number;
+  };
+  return await requestApiHelper<body>(api.post(`api/auth/veriry-otp`, data));
+};
+
+export const resetPassword = async (data: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string | null;
+    statusCode: number;
+  };
+  return await requestApiHelper<body>(
+    api.patch(`api/auth/reset-password`, data)
+  );
 };

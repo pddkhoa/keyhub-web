@@ -41,11 +41,17 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: #f3f3f3;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: #fff;
+    --title: #222831;
+    --title-foreground: #3c4048;
+
+    --modal: #f3f3f3;
+    --card-foreground: #242526;
+    --border: #a8b3cf33;
+    --button: #9a9483;
+    --button-foreground: #0000;
 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
@@ -65,8 +71,9 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --input: #aaaaaa;
+    --hover: #a8b3cf1f;
+
     --ring: 212.7 26.8% 83.9%;
   }
 }

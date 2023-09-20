@@ -21,7 +21,7 @@ const Header = () => {
         <div className="flex flex-row  md:flex-row md:block">
           {data.token ? (
             <div className="ml-10 flex gap-5">
-              <div className="rounded-full p-2 bg-hover hover:brightness-75 cursor-pointer">
+              <div className="rounded-full p-2 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -30,13 +30,13 @@ const Header = () => {
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  className="lucide lucide-bell h-5 w-5 text-white"
+                  className="lucide lucide-bell h-5 w-5 "
                 >
                   <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
                   <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
                 </svg>
               </div>
-              <div className="rounded-full p-2 bg-hover hover:brightness-75 cursor-pointer">
+              <div className="rounded-full p-2 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -45,12 +45,12 @@ const Header = () => {
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  className="lucide lucide-message-circle h-5 w-5 text-white"
+                  className="lucide lucide-message-circle h-5 w-5 "
                 >
                   <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
                 </svg>
               </div>
-              <div className="rounded-full p-2 bg-hover hover:brightness-75 cursor-pointer">
+              <div className="rounded-full p-2 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -59,7 +59,7 @@ const Header = () => {
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  className="lucide lucide-user w-5 h-5 text-white"
+                  className="lucide lucide-user w-5 h-5 "
                 >
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />

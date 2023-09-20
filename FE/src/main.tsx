@@ -8,19 +8,22 @@ import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider } from "./hooks/theme-provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <React.StrictMode>
-      <BrowserRouter>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-          <ToastContainer />
-        </PersistGate>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+            <ToastContainer />
+          </PersistGate>
+        </BrowserRouter>
+      </Provider>
     </React.StrictMode>
-  </Provider>
+  </ThemeProvider>
 );

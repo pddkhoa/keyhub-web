@@ -9,21 +9,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { registerUser } from "@/redux/apiRequest";
 import * as Yup from "yup";
-import { RULES } from "@/utils/rules";
+import { RULES } from "@/lib/rules";
 import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
 import { Check, Loader2, X } from "lucide-react";
+import { showToast } from "@/hooks/useToast";
 
-export const SingUp = () => {
-  const dispatch = useDispatch();
+export const SignUp = () => {
   const navigate = useNavigate();
   const [genders, setGender] = useState("Male");
   const [isLoading, setIsLoading] = useState(false);
@@ -108,15 +107,21 @@ export const SingUp = () => {
       // console.log(reportNew);
       // alert(JSON.stringify(report, null, 2));
       try {
-        await registerUser(report, dispatch, navigate);
-        // formik.resetForm();
-        setIsLoading(false);
+        const { body } = await registerUser(report);
+
+        if (body?.success) {
+          setIsLoading(false);
+          showToast("Verify Account nhen!", "success");
+          navigate("/verify", { state: { report } });
+        } else {
+          setIsLoading(false);
+          showToast(body?.message || "Erorr", "error");
+        }
       } catch (error) {
         setIsLoading(false);
       }
     },
   });
-  console.log(isLoading);
   return (
     <>
       <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">

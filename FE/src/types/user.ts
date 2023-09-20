@@ -1,3 +1,8 @@
+interface Role {
+  id: number;
+  name: string;
+}
+
 interface User {
   id: number;
   name: string;
@@ -5,40 +10,18 @@ interface User {
   email: string;
   roles: Role[];
   phone: string;
-  createDate: number;
-  updateDate: number;
+  createDate: string;
+  updateDate: string | null;
   avatar: string | null;
   second_name: string;
   status: boolean;
   gender: string;
+  address: string | null;
+  company: string | null;
+  country: string | null;
+  banner_url: string | null;
   descriptions: string | null;
+  school: string | null;
 }
 
-interface Role {
-  id: number;
-  name: string;
-}
-
-interface UserDetails {
-  users: User;
-  enabled: boolean;
-  password: string;
-  username: string;
-  authorities: Authority[];
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
-  accountNonExpired: boolean;
-}
-
-interface Authority {
-  authority: string;
-}
-
-interface TokenPayload {
-  sub: string;
-  userDetails: UserDetails;
-  iat: number;
-  exp: number;
-}
-
-export default TokenPayload;
+export default User;

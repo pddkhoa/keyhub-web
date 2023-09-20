@@ -1,25 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { loginUser } from "../../redux/apiRequest";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { useFormik } from "formik";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
+import * as Yup from "yup";
+import { RULES } from "@/lib/rules";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   // const location = useLocation();
   // const from = location.state?.from?.pathname || "/";
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isFetching = useSelector((state: any) => state.auth.login.isFetching);
+  // const { handleRequest } = useFetch();
   const [showPass, setShowPass] = useState(false);
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
+    validationSchema: Yup.object().shape({
+      username: Yup.string().matches(RULES.noBlank).required("Required"),
+      password: Yup.string().matches(RULES.noBlank).required("Required"),
+    }),
 
     onSubmit: async (value) => {
       const report = {
@@ -28,6 +37,7 @@ const Login = () => {
       };
 
       loginUser(report, dispatch, navigate);
+      // handleRequest("login", report);
     },
   });
 
@@ -36,7 +46,7 @@ const Login = () => {
       <div className="w-full  absolute top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-hidden"></div>
       <div className=" relative min-h-screen  sm:flex sm:flex-row  justify-center bg-transparent rounded-3xl shadow-xl">
         <div className="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10 mr-20">
-          <div className="self-start  lg:flex flex-col  text-title">
+          <div className="self-start  lg:flex flex-col  text-white">
             <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
             <p className="text-xl opacity-75">
               Lorem ipsum is placeholder text commonly used in the graphic,
@@ -109,7 +119,7 @@ const Login = () => {
                 <div className="flex items-center justify-between">
                   <div className="text-sm ml-auto">
                     <Link
-                      to="#"
+                      to="/forgotpassword"
                       className="text-purple-700 hover:text-purple-600"
                     >
                       Forgot your password?
@@ -117,9 +127,22 @@ const Login = () => {
                   </div>
                 </div>
                 <div>
-                  <Button type="submit" className="w-full flex justify-center">
-                    Sign in
-                  </Button>
+                  {isFetching ? (
+                    <Button disabled className="w-full">
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Please wait
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className="w-full flex justify-center"
+                      disabled={formik.isSubmitting || !formik.isValid}
+                    >
+                      Sign Up
+                    </Button>
+                  )}
+
+                  {/* )} */}
                 </div>
               </form>
               <div className="flex items-center justify-center space-x-2 my-5">

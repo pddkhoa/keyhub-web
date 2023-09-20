@@ -1,33 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { TokenType } from "@/types/token";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     login: {
       data: {
-        token: null,
-        refreshToken: null,
-        type: null,
+        token: "",
+        refreshToken: "",
+        type: "",
       },
       isFetching: false,
       error: false,
-    },
-    register: {
-      isFetching: false,
-      error: false,
-      success: false,
-    },
-    verify: {
-      isFetching: false,
-      error: false,
-      success: false,
     },
   },
   reducers: {
     loginStart: (state) => {
       state.login.isFetching = true;
     },
-    loginSuccess: (state, action) => {
+    loginSuccess: (state, action: PayloadAction<TokenType>) => {
       state.login.isFetching = false;
       state.login.data = action.payload;
       state.login.error = false;
@@ -43,8 +34,8 @@ const authSlice = createSlice({
 
     logOutSuccess: (state) => {
       state.login.isFetching = false;
-      state.login.data.token = null;
-      state.login.data.refreshToken = null;
+      state.login.data.token = "";
+      state.login.data.refreshToken = "";
       state.login.error = false;
     },
     logOutFailed: (state) => {
@@ -53,32 +44,6 @@ const authSlice = createSlice({
     },
     logOutStart: (state) => {
       state.login.isFetching = true;
-    },
-    registerStart: (state) => {
-      state.register.isFetching = true;
-    },
-    registerSuccess: (state) => {
-      state.register.isFetching = false;
-      state.register.error = false;
-      state.register.success = true;
-    },
-    registerFailed: (state) => {
-      state.register.isFetching = false;
-      state.register.error = true;
-      state.register.success = false;
-    },
-    verifyStart: (state) => {
-      state.verify.isFetching = true;
-    },
-    verifySuccess: (state) => {
-      state.verify.isFetching = false;
-      state.verify.error = false;
-      state.verify.success = true;
-    },
-    verifyFailed: (state) => {
-      state.verify.isFetching = false;
-      state.verify.error = true;
-      state.verify.success = false;
     },
   },
 });
@@ -91,12 +56,6 @@ export const {
   logOutSuccess,
   logOutFailed,
   updateAccessToken,
-  registerStart,
-  registerFailed,
-  registerSuccess,
-  verifyStart,
-  verifySuccess,
-  verifyFailed,
 } = authSlice.actions;
 
 export default authSlice.reducer;

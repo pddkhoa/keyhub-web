@@ -48,7 +48,7 @@ export const ModalFilters: React.FC<ModalFiltersProps> = ({
                   </Label>
                   <Select name="gender">
                     <SelectTrigger className="w-full text-sm">
-                      <SelectValue placeholder="Gender" />
+                      <SelectValue placeholder="Gender" className="bg-input" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Male">Option1</SelectItem>

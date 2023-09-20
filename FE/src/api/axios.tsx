@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:8081",
@@ -7,24 +7,23 @@ const api = axios.create({
   },
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response) {
-      // Handle specific error status codes
-      if (error.response.status === 401) {
-        // Redirect to login or perform other actions
-        console.log("Unauthorized");
-      }
-    } else if (error.request) {
-      // Handle request-level errors (no response received)
-      console.log("Request error");
-    } else {
-      // Handle other errors
-      console.log("Other error");
-    }
-    return Promise.reject(error);
-  }
-);
+// const onRequest = (
+//   config: InternalAxiosRequestConfig
+// ): InternalAxiosRequestConfig => {
+//   const token = localStorage.getItem("accessToken");
+
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+
+//   return config;
+// };
+
+// const onErrorResponse = (error: AxiosError | Error) => {
+//   throw error;
+// };
+
+// api.interceptors.request.use(onRequest);
+// api.interceptors.response.use(null, onErrorResponse);
 
 export default api;

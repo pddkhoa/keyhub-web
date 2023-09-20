@@ -8,7 +8,11 @@ const Layout = () => {
 
   return (
     <div className="flex bg-background min-h-screen">
-      <div className={`flex flex-row ${!openSidebar ? "w-16" : "w-60"}`}>
+      <div
+        className={`transition-all duration-300 ${
+          !openSidebar ? "w-16" : "w-60"
+        }`}
+      >
         <Sidebar setOpenSidebar={setOpenSidebar} />
       </div>
       <Header />
