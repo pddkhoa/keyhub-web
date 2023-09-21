@@ -31,6 +31,7 @@ public class Automation {
             }
         }
     }
+
     @Scheduled(fixedDelay = 10000)
     public void cleanupUser() {
        List<Users> users = iUserRepository.findAll();
@@ -39,7 +40,7 @@ public class Automation {
             Date userTime =  users1.getCreateDate();
             long currentTime = System.currentTimeMillis();
             long timeDifference = currentTime - userTime.getTime();
-            if (timeDifference >= TIME_DIFFERENCE_THRESHOLD && (users1.getStatus()== false)) {
+            if (timeDifference >= TIME_DIFFERENCE_THRESHOLD && (users1.getStatus()== 0)) {
                 users1.setUsername(null);
                 users1.setEmail(null);
                 iUserRepository.save(users1);

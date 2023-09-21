@@ -52,7 +52,7 @@ public class Users {
     @Column
     private String second_name;
     @Column
-    private Boolean status;
+    private int status;
     @Column
     private String gender;
     @Column

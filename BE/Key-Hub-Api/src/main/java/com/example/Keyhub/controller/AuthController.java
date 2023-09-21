@@ -21,6 +21,7 @@ import com.example.Keyhub.data.repository.ResetPassTokenRepos;
 import com.example.Keyhub.event.OnRegistrationCompleteEvent;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
+import com.example.Keyhub.security.userpincal.UserDetailService;
 import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
 import org.apache.http.HttpResponse;
@@ -35,6 +36,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -148,11 +151,11 @@ public class AuthController {
                             .build()
                     );
         }
-        user.setStatus(true);
+        user.setStatus(1);
         userService.registerAccount(user);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
-                        .success(true)
+                        .success(false)
                         .statusCode(HttpStatus.OK.value())
                         .message("Verify account has success")
                         .result(user.getStatus())
@@ -204,13 +207,23 @@ public class AuthController {
             String refresh = refreshToken.getToken();
             loginAttempts = 0;
             setLoginAttemptsCookie(response, loginAttempts);
-            if (!userPrinciple.getUsers().getStatus())
+            if (userPrinciple.getUsers().getStatus()==0)
             {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(GenericResponse.builder()
                                 .success(false)
                                 .message("Account not verify")
                                 .result("Please verify your account")
+                                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                                .build());
+            }
+            if (userPrinciple.getUsers().getStatus()==2)
+            {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(GenericResponse.builder()
+                                .success(false)
+                                .message("Please reset your password")
+                                .result("Account is block")
                                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                                 .build());
             }
@@ -222,23 +235,28 @@ public class AuthController {
                             .statusCode(HttpStatus.OK.value())
                             .build());
         }
-      catch (AuthenticationException e){
-          int loginAttempts = getLoginAttemptsFromCookie(request) + 1;
-          setLoginAttemptsCookie(response, loginAttempts);
-          if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-              return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
-                      .body(GenericResponse.builder().success(false)
-                      .message("Account not found.Please reset your password")
-                      .statusCode(HttpStatus.TEMPORARY_REDIRECT.value()) //307
-                      .build());
-          }
-          return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                  .body(GenericResponse.builder()
-                  .success(false)
-                  .message("Account not found.Please check username or password!")
-                  .statusCode(HttpStatus.UNAUTHORIZED.value())
-                  .build());
-      }
+        catch (AuthenticationException e){
+            int loginAttempts = getLoginAttemptsFromCookie(request) + 1;
+            setLoginAttemptsCookie(response, loginAttempts);
+            if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                Users users = iUserRepository.findByUsername(loginRequest.getUsername()).orElse(null);
+              if (users!=null){
+                  users.setStatus(2);
+                  userService.save(users);
+              }
+                return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
+                        .body(GenericResponse.builder().success(false)
+                                .message("Account not found.Please reset your password")
+                                .statusCode(HttpStatus.TEMPORARY_REDIRECT.value()) //307
+                                .build());
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .message("Account not found.Please check username or password!")
+                            .statusCode(HttpStatus.UNAUTHORIZED.value())
+                            .build());
+        }
 
 
     }
@@ -263,8 +281,8 @@ public class AuthController {
             userService.createResetToken(email);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
-                            .success(false)
-                            .message("Create reset pass token succes, check email")
+                            .success(true)
+                            .message("Create reset pass token success, check email")
                             .result("Token in your email")
                             .statusCode(HttpStatus.OK.value())
                             .build());
@@ -291,6 +309,8 @@ public class AuthController {
         ResetPassToken token = resetPassTokenRepos.findResetPassTokenReposByToken(resetPass.getToken());
         if (token !=null && Objects.equals(token.getUser().getId(), user.getId()))
         {
+            user.setStatus(1);
+            userService.save(user);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
