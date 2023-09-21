@@ -208,7 +208,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"name\": \"Hải\",\r\n\"phone\":\"0814069391\",\r\n\"second_name\":\"Baboga\",\r\n\"gender\":\"nam\",\r\n\"Descriptions\":\"Mô tả bản thân\",\r\n\"address\":\"ydfka\",\r\n\"company\":\"acadafad\",\r\n\"country\":\"aata\",\r\n\"school\":\"baac\"\r\n}\r\n",
+							"raw": "{\r\n\"name\": \"Hải\",\r\n\"phone\":\"90809809aslkdj\",\r\n\"second_name\":\"Baboga\",\r\n\"gender\":\"nam\",\r\n\"Descriptions\":\"Mô tả bản thân\",\r\n\"address\":\"ydfka\",\r\n\"company\":\"acadafad\",\r\n\"country\":\"aata\",\r\n\"school\":\"baac\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -333,7 +333,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"username\":\"AdminHai\",  \r\n\"password\":\"Ngochai0612@3\"   \r\n}\r\n",
+							"raw": "{\r\n\"username\":\"admin2\",  \r\n\"password\":\"Ngochai0612@\"   \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -522,7 +522,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"token\":\"968725\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"token\":\"408113\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -552,7 +552,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"old_pass\":\"Ngochai0612@3\",\r\n    \"new_pass\":\"Ngochai0612@3\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\":\"ngochai06122002@gmail.com\",\r\n    \"old_pass\":\"Ngochai0612@\",\r\n    \"new_pass\":\"Ngochai0612@\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
