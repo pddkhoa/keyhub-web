@@ -52,7 +52,7 @@ public class AccountRestController {
                     .body(GenericResponse.builder()
                             .success(true)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Change information user success!")
+                            .message("Change information fail. Please chcck input data")
                             .build()
                     );
         }

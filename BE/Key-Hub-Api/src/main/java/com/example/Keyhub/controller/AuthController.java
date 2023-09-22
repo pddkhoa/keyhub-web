@@ -155,7 +155,7 @@ public class AuthController {
         userService.registerAccount(user);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
-                        .success(false)
+                        .success(true)
                         .statusCode(HttpStatus.OK.value())
                         .message("Verify account has success")
                         .result(user.getStatus())
