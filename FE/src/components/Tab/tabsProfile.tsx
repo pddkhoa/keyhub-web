@@ -3,13 +3,28 @@ import { ListCard } from "../Card/CardPorfile/listCard";
 import { Button } from "../ui/button";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
-import { ModalFilters } from "../Modal/Tool/modalFilters";
-import { SlidersHorizontal } from "lucide-react";
+import { ModalFilters } from "../Modal/Tool/filterOptions";
+import {
+  ChevronRight,
+  PenSquare,
+  PictureInPicture2,
+  SlidersHorizontal,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { DetailCard } from "../Card/CardPorfile/detailCard";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
   const [displayModal, setDisplayModal] = useState("");
+  const [option, setOption] = useState("LIST");
+
+  console.log(option);
 
   return (
     <>
@@ -35,11 +50,48 @@ export const TabsProfile = () => {
                 <SlidersHorizontal className="w-5 h-5 mr-2" />
                 Filter
               </Button>
-              <Button>Option View</Button>
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="">
+                      <PictureInPicture2 className="text-title w-5 h-5 mr-2" />
+                      Option View
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setOption("LIST");
+                      }}
+                      className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+                    >
+                      <span className="text-title-foreground whitespace-nowrap">
+                        List View
+                      </span>
+                      <div className="">
+                        <ChevronRight className="text-title-foreground" />
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setOption("CARD");
+                      }}
+                      className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+                    >
+                      <span className="text-title-foreground whitespace-nowrap">
+                        Card View
+                      </span>
+                      <div className="">
+                        <ChevronRight className="text-title-foreground" />
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </div>
         </div>
-        <TabContent tabName={tabs} />
+        <TabContent tabName={tabs} optionview={option} />
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "FILTER" ? (
@@ -52,23 +104,35 @@ export const TabsProfile = () => {
 
 interface TabsContentProps {
   tabName: string;
+  optionview: string;
 }
 
-export const TabContent: React.FC<TabsContentProps> = ({ tabName }) => {
+export const TabContent: React.FC<TabsContentProps> = ({
+  tabName,
+  optionview,
+}) => {
   switch (tabName) {
     case "TAB_BLOG":
       return (
         <div>
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 h-full ">
-              <ListCard /> Blog
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
+            {optionview === "LIST" ? (
+              <>
+                <div className="col-span-1 h-full ">
+                  <ListCard /> Blog
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+              </>
+            ) : (
+              <div className="col-span-3 w-full">
+                <DetailCard />
+              </div>
+            )}
           </div>
         </div>
       );
@@ -76,32 +140,48 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName }) => {
       return (
         <div>
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 h-full ">
-              <ListCard /> VIdeo
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
+            {optionview === "LIST" ? (
+              <>
+                <div className="col-span-1 h-full ">
+                  <ListCard /> VIDEO
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+              </>
+            ) : (
+              <div className="col-span-3 w-full">
+                <DetailCard />
+              </div>
+            )}
           </div>
         </div>
       );
     case "TAB_BOOKMARK":
       return (
         <div>
-          {" "}
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 h-full ">
-              <ListCard /> bookmark
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
-            <div className="col-span-1 h-full">
-              <ListCard />
-            </div>
+            {optionview === "LIST" ? (
+              <>
+                <div className="col-span-1 h-full ">
+                  <ListCard /> BOOKMARK
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+                <div className="col-span-1 h-full">
+                  <ListCard />
+                </div>
+              </>
+            ) : (
+              <div className="col-span-3 w-full space-y-10">
+                <DetailCard />
+                <DetailCard />
+              </div>
+            )}
           </div>
         </div>
       );
@@ -175,9 +255,9 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-film w-6 h-6 mr-2"
             >
               <rect width="18" height="18" x="3" y="3" rx="2" />
@@ -208,9 +288,9 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-bookmark w-6 h-6 mr-2"
             >
               <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />

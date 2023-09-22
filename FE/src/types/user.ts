@@ -4,11 +4,11 @@ interface Role {
 }
 
 interface User {
-  id: number;
+  id?: number;
   name: string;
   username: string;
   email: string;
-  roles: Role[];
+  roles?: Role[];
   phone: string;
   createDate: string;
   updateDate: string | null;

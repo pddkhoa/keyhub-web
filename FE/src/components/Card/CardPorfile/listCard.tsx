@@ -13,7 +13,7 @@ import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 
 export const ListCard = () => {
   return (
-    <div className="max-w-md h-380 bg-card rounded-xl p-4  border  shadow-sm">
+    <div className="max-w-md h-380 bg-card rounded-xl p-4  border  shadow-sm hover:border-title-foreground hover:cursor-pointer hover:shadow-xl">
       <div className="flex items-center justify-between ">
         <div className="flex items-center">
           <AlphabetAvatar size={45} />

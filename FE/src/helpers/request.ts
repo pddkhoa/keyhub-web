@@ -26,7 +26,6 @@ const requestApiHelper = async <T>(
     }
 
     const { message, code, response } = error;
-    console.log(response);
     return {
       body: response?.data,
       error: true,

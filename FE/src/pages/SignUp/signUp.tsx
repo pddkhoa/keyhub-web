@@ -268,7 +268,7 @@ export const SignUp = () => {
                     </div>
                     <div>
                       <Label
-                        htmlFor="email"
+                        htmlFor="gender"
                         className="text-sm text-title-foreground"
                       >
                         Gender

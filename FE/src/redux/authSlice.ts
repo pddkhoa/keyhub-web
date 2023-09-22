@@ -29,7 +29,7 @@ const authSlice = createSlice({
     },
 
     updateAccessToken: (state, action) => {
-      state.login.data.token = action.payload;
+      state.login.data = action.payload;
     },
 
     logOutSuccess: (state) => {

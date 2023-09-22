@@ -16,6 +16,9 @@ import {
 import { showToast } from "@/hooks/useToast";
 import { TokenType } from "@/types/token";
 import User from "@/types/user";
+import jwt_decode from "jwt-decode";
+import { getUserSuccess } from "./userSlice";
+import { AxiosInstance } from "axios";
 
 export const loginUser = async (user: any, dispatch: any, navigate: any) => {
   type body = {
@@ -30,9 +33,10 @@ export const loginUser = async (user: any, dispatch: any, navigate: any) => {
     const { body } = await requestApiHelper<body>(
       api.post("api/auth/login", user)
     );
-
     if (body?.success) {
+      const { userDetails }: any = jwt_decode(body.result.token);
       dispatch(loginSuccess(body.result));
+      dispatch(getUserSuccess(userDetails.users));
       showToast("Congratulations! Sign In Success");
       navigate("/profile");
     } else {
@@ -133,4 +137,24 @@ export const resetPassword = async (data: any) => {
   return await requestApiHelper<body>(
     api.patch(`api/auth/reset-password`, data)
   );
+};
+
+export const updateProfile = async (
+  report: any,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: any;
+    statusCode: number;
+  };
+
+  const res = await requestApiHelper<body>(
+    axiosJWT.patch("api/v1/users/change-info", report, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+  );
+  return res;
 };

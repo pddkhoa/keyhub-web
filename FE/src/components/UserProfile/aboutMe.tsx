@@ -1,7 +1,12 @@
+import User from "@/types/user";
 import { FaGraduationCap } from "react-icons/fa";
 import { FaLocationDot, FaEnvelope } from "react-icons/fa6";
 
-export const AboutMe = () => {
+type AboutMeProps = {
+  user: User;
+};
+
+export const AboutMe: React.FC<AboutMeProps> = ({ user }) => {
   return (
     <div className="max-w-sm bg-card shadow-lg  rounded-xl overflow-hidden">
       <div className="flex items-center px-6 py-4 bg-primary border-b-[3px] ">
@@ -12,19 +17,31 @@ export const AboutMe = () => {
           Full Stack maker &amp; UI / UX Designer , love hip hop music Author of
           Building UI.
         </p>
-        <div className="flex items-center mt-4 text-title-foreground">
-          <FaGraduationCap className="w-5 h-5" />
-          <h1 className="px-2 text-sm">MerakiTeam</h1>
-        </div>
-        <div className="flex items-center mt-4 text-title-foreground">
-          <FaLocationDot className="w-5 h-5" />
-          <h1 className="px-2 text-sm">California</h1>
-        </div>
-        <div className="flex items-center mt-4 text-title-foreground">
-          <FaEnvelope className="w-5 h-5" />
-          <h1 className="px-2 text-sm">patterson@example.com</h1>
-        </div>
+        {user?.school && (
+          <UserInfoItem
+            icon={<FaGraduationCap className="w-5 h-5" />}
+            text={user.school}
+          />
+        )}
+        {user?.address && (
+          <UserInfoItem
+            icon={<FaLocationDot className="w-5 h-5" />}
+            text={user.address}
+          />
+        )}
+        {user?.email && (
+          <UserInfoItem
+            icon={<FaEnvelope className="w-5 h-5" />}
+            text={user.email}
+          />
+        )}
       </div>
     </div>
   );
 };
+const UserInfoItem = ({ icon, text }: any) => (
+  <div className="flex items-center mt-4 text-title-foreground">
+    {icon}
+    <h1 className="px-2 text-sm">{text}</h1>
+  </div>
+);
