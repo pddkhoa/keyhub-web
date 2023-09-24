@@ -3,7 +3,19 @@ import jwt_decode from "jwt-decode";
 import api from "./axios";
 import { updateAccessToken } from "@/redux/authSlice";
 
-export const createAxios = (user: any, dispatch: any) => {
+const refreshToken = async (user: any) => {
+  console.log(user.data.refreshToken);
+  try {
+    const res = await api.post(`/api/auth/refreshtoken`, {
+      refreshToken: user?.data.refreshToken,
+    });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createAxios = (user: any, dispatch: any, stateSuccess: any) => {
   const newInstance = axios.create({
     baseURL: "http://localhost:8081",
     headers: {
@@ -15,16 +27,20 @@ export const createAxios = (user: any, dispatch: any) => {
       const date = new Date();
       const decodedToken = jwt_decode(user?.data.token) as any;
       if (decodedToken.exp < date.getTime() / 1000) {
-        const res = await api.post(`/api/auth/refreshtoken`, {
-          refreshToken: user?.data.refreshToken,
-        });
+        const data = await refreshToken(user);
+
+        console.log(data);
+
         const refreshUser = {
-          token: res.data.accessToken,
-          refreshToken: res.data.refreshToken,
-          type: "Bearer",
+          ...user.data,
+          token: data?.data.accessToken,
+          refreshToken: data?.data.refreshToken,
+          type: data?.data.tokenType,
         };
         dispatch(updateAccessToken(refreshUser));
-        config.headers["Authorization"] = "Bearer " + res.data.accessToken;
+        console.log(refreshUser);
+        dispatch(stateSuccess(refreshUser));
+        config.headers["Authorization"] = "Bearer " + data?.data.accessToken;
       }
       return config;
     },

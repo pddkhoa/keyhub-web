@@ -18,7 +18,6 @@ import { TokenType } from "@/types/token";
 import User from "@/types/user";
 import jwt_decode from "jwt-decode";
 import { getUserSuccess } from "./userSlice";
-import { AxiosInstance } from "axios";
 
 export const loginUser = async (user: any, dispatch: any, navigate: any) => {
   type body = {

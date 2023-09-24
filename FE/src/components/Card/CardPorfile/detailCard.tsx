@@ -57,7 +57,7 @@ export const DetailCard = () => {
           <img
             src={image}
             alt="Paella dish"
-            className="w-full h-96 rounded-xl"
+            className="w-full h-72 rounded-xl"
           />
         </div>
 

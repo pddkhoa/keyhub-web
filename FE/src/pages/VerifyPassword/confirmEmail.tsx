@@ -4,7 +4,7 @@ import { showToast } from "@/hooks/useToast";
 import { checkOtp } from "@/redux/apiRequest";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const ConfirmEmail = () => {
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
@@ -90,7 +90,7 @@ export const ConfirmEmail = () => {
                     <div className="flex flex-col space-y-5">
                       <div>
                         {isLoading ? (
-                          <Button disabled>
+                          <Button className="w-full" disabled>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Please wait
                           </Button>
@@ -102,17 +102,6 @@ export const ConfirmEmail = () => {
                             Submit
                           </Button>
                         )}
-                      </div>
-                      <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                        <p>Didn't recieve code?</p>{" "}
-                        <a
-                          className="flex flex-row items-center text-blue-600"
-                          href="http://"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Resend
-                        </a>
                       </div>
                     </div>
                   </div>

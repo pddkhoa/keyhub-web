@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { createAxios } from "../../api/createInstance";
 import { logOutSuccess } from "../../redux/authSlice";
 import { logOut } from "../../redux/apiRequest";
-import { Home, Settings } from "lucide-react";
+import { Home, Newspaper, Settings } from "lucide-react";
 import { Items } from "./items";
 import {
   DropdownMenu,
@@ -73,7 +73,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                   <Link to={"profile"}>
                     <Items
                       icon={<Home className="text-title-foreground" />}
-                      title={"Dashboard"}
+                      title={"News Feed"}
+                    ></Items>
+                  </Link>
+                </li>
+                <li className="mt-0  flex items-center rounded-xl p-1.5 hover:bg-hover">
+                  <Link to="#">
+                    <Items
+                      icon={<Newspaper className="text-title-foreground" />}
+                      title={"Explore News"}
                     ></Items>
                   </Link>
                 </li>

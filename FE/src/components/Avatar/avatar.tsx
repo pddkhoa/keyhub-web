@@ -15,7 +15,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
   return (
     <div
       style={style}
-      className="relative inline-flex items-center justify-center p-1 overflow-hidden  rounded-full shadow-lg bg-gradient-to-l from-pink-400 via-red-400 to-violet-400"
+      className="relative inline-flex items-center justify-center  overflow-hidden  rounded-full shadow-lg "
     >
       <img
         className="w-[100%] h-[100%] rounded-full object-cover"

@@ -14,8 +14,7 @@ export const AboutMe: React.FC<AboutMeProps> = ({ user }) => {
       </div>
       <div className="py-4 px-6 pb-6">
         <p className="py-2 text-lg text-title-foreground">
-          Full Stack maker &amp; UI / UX Designer , love hip hop music Author of
-          Building UI.
+          {user.descriptions}
         </p>
         {user?.school && (
           <UserInfoItem

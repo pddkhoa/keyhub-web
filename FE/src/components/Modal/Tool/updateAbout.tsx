@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "@/hooks/useToast";
 import { RootStateToken } from "@/types/token";
 import { updateUserSuccess } from "@/redux/userSlice";
+import { loginSuccess } from "@/redux/authSlice";
 
 type UpdateAboutProps = {
   setFlag: {
@@ -40,7 +41,7 @@ export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch);
+  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
   const accessToken = auth?.data.token;
 
   const formik = useFormik({
@@ -201,7 +202,7 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch);
+  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
   const accessToken = auth?.data.token;
 
   const formik = useFormik({
@@ -338,7 +339,7 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch);
+  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
   const accessToken = auth?.data.token;
 
   const formik = useFormik({

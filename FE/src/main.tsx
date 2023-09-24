@@ -17,12 +17,12 @@ root.render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <React.StrictMode>
       <Provider store={store}>
-        <BrowserRouter>
-          <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
             <App />
             <ToastContainer />
-          </PersistGate>
-        </BrowserRouter>
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </React.StrictMode>
   </ThemeProvider>

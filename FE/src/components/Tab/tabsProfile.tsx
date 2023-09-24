@@ -24,10 +24,8 @@ export const TabsProfile = () => {
   const [displayModal, setDisplayModal] = useState("");
   const [option, setOption] = useState("LIST");
 
-  console.log(option);
-
   return (
-    <>
+    <div>
       <div className="w-full h-fit">
         <div className="flex flex-auto justify-between p-2">
           <div className="w-full border-b-2 border-gray">
@@ -98,7 +96,7 @@ export const TabsProfile = () => {
           <ModalFilters setFlag={setDisplayCreate} tabs={tabs} />
         ) : null}
       </Modal>
-    </>
+    </div>
   );
 };
 
@@ -213,7 +211,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
   };
 
   return (
-    <>
+    <div>
       <ul className="grid grid-flow-col text-center text-title space-x-0.5">
         <li>
           <div
@@ -299,6 +297,6 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
           </div>
         </li>
       </ul>
-    </>
+    </div>
   );
 };
