@@ -155,7 +155,7 @@ public class AuthController {
         userService.registerAccount(user);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
-                        .success(true)
+                        .success(false)
                         .statusCode(HttpStatus.OK.value())
                         .message("Verify account has success")
                         .result(user.getStatus())
@@ -171,7 +171,13 @@ public class AuthController {
                 .map(user -> {
                     String token = jwtProvider.generateTokenFromUserID(request.getRefreshToken());
                     RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
-                    return ResponseEntity.ok(new TokenRefreshResponse(token, refreshToken.getToken()));
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(GenericResponse.builder()
+                                    .success(true)
+                                    .message("Refresh token success")
+                                    .result(new TokenRefreshResponse(token, refreshToken.getToken()))
+                                    .statusCode(HttpStatus.OK.value())
+                                    .build());
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));

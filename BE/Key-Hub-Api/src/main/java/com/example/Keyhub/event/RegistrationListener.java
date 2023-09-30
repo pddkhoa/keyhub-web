@@ -31,7 +31,7 @@ public class RegistrationListener implements
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         Users user = event.getUser();
-        String token = String.valueOf(new Random().nextInt(999999) + 100000);
+        String token = String.valueOf(new Random().nextInt(900000) + 100000);
         service.createVerificationToken(user, token);
         emailService.sendVerifyEmail(user.getEmail(), token);
     }

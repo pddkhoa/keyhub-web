@@ -50,9 +50,9 @@ public class AccountRestController {
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
-                            .success(true)
+                            .success(false)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Change information fail. Please chcck input data")
+                            .message("Change information fail. Please check data input")
                             .build()
                     );
         }

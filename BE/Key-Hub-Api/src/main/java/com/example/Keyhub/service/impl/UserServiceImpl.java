@@ -89,7 +89,7 @@ public class UserServiceImpl implements IUserService {
     public void createResetToken(String email) {
         Users user = userRepository.findByEmail(email);
         if (user != null) {
-            int value = new Random().nextInt(999999) + 100000;
+            int value = new Random().nextInt(900000) + 100000;
             ResetPassToken resetToken = new ResetPassToken();
             resetToken.setUser(user);
             resetToken.setToken(value + "");

@@ -1,27 +1,21 @@
-package com.example.Keyhub.data.dto.request;
+package com.example.Keyhub.data.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-
 @Getter
 @Setter
-@AllArgsConstructor
-public class BlogPostDTO {
-    @NotBlank(message = "Title cannot be blank")
-    @Size(min = 10, message = "Title must be at least 10 characters long")
-    private String title;
+public class BlogEditDTO {
 
-    @NotBlank(message = "Content cannot be blank")
+    private BigInteger id;
+    private String title;
     private String content;
     private String description;
-    private Date create_date;
     private String avatar;
     private int status_id;
     private BigInteger likes;

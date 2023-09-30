@@ -26,6 +26,7 @@ public class Blog {
     @Column(name = "blog_id")
     private BigInteger id;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String description;
@@ -47,7 +48,11 @@ public class Blog {
     private Date create_date;
     @Column
     private int status_id;
+    @Column
+    private String avatar;
     @ManyToOne
     @JoinColumn(name = "series_id")
     private Series series;
+    @Column
+    private BigInteger likes;
 }
