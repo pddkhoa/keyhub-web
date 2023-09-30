@@ -25,4 +25,12 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Blog> blogs = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "category_tag",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
 }

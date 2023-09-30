@@ -324,6 +324,48 @@ public class BlogServiceImpl implements IBLogService {
     }
 
     @Override
+    public List<BlogDTO> getAllBlog() {
+        List<Blog> list = blogRepository.findAll();
+        if (list==null)
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setLikes(blog.getLikes());
+
+            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
+                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setCategories(categoryDTOs);
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
     @Transactional
     public BlogDTO updateBlog(BlogEditDTO blogDTO, BigInteger blog_id) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

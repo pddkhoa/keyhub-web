@@ -1205,6 +1205,83 @@
 					"response": []
 				},
 				{
+					"name": "GetAllBlog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/list/blog/allBlog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"list",
+								"blog",
+								"allBlog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTagsByBlog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/list/blog/6/tags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"list",
+								"blog",
+								"6",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetAllBySave",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1348,7 +1425,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/list/blog/series/15",
+							"raw": "http://localhost:8081/api/v1/list/blog/series/17",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1360,7 +1437,7 @@
 								"list",
 								"blog",
 								"series",
-								"15"
+								"17"
 							]
 						}
 					},

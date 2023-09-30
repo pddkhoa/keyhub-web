@@ -21,6 +21,7 @@ public interface IBLogService {
     BlogImage addBlogImage(BlogImage blogImage, Users users);
     List<BlogDTO> getAllBlogByUser(Users users);
     List<BlogDTO> getAllBlogBySave(Users users);
+    List<BlogDTO> getAllBlog();
     BlogDTO updateBlog(BlogEditDTO blogDTO, BigInteger blog_id);
 
 
