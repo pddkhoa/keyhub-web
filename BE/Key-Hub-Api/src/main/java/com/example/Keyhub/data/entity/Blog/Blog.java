@@ -31,16 +31,13 @@ public class Blog {
 
     private String description;
     @ManyToMany
-    @JoinTable(name = "blog_category",
-            joinColumns = @JoinColumn(name = "blog_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories ;
-    @ManyToMany
     @JoinTable(name = "blog_tag",
             joinColumns = @JoinColumn(name = "blog_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
-
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;

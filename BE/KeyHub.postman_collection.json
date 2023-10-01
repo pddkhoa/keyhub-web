@@ -839,7 +839,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Sample Taitle 3\",\r\n  \"content\": \"t \",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": [1, 2, 3], \r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 15\r\n}",
+							"raw": "{\r\n  \"title\": \"Sample Taitle 3\",\r\n  \"content\": \"ok\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 1, \r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 15\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -880,7 +880,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"hfaa\",\r\n    \"Description\":\"Mo ta\"\r\n}",
+							"raw": "{\r\n    \"name\":\"hafafaafaag\",\r\n    \"description\":\"Mo ta\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -995,7 +995,7 @@
 							"variable": [
 								{
 									"key": "blog_id",
-									"value": "42"
+									"value": "43"
 								}
 							]
 						}
@@ -1150,7 +1150,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/blog/15",
+							"raw": "http://localhost:8081/api/v1/blog/16",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1160,7 +1160,7 @@
 								"api",
 								"v1",
 								"blog",
-								"15"
+								"16"
 							]
 						}
 					},
@@ -1386,7 +1386,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/list/blog/tags/16",
+							"raw": "http://localhost:8081/api/v1/list/blog/tags/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1398,7 +1398,7 @@
 								"list",
 								"blog",
 								"tags",
-								"16"
+								"1"
 							]
 						}
 					},
@@ -1425,7 +1425,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/list/blog/series/17",
+							"raw": "http://localhost:8081/api/v1/list/blog/series/15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1437,7 +1437,7 @@
 								"list",
 								"blog",
 								"series",
-								"17"
+								"15"
 							]
 						}
 					},
@@ -1486,7 +1486,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Sample Tfafafafaitle 3\",\r\n  \"content\": \"t \",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": [1,2,3],\r\n  \"tagIds\": [1, 2, 3]\r\n}",
+							"raw": "{\r\n  \"title\": \"Sample Tfafafafaitle 3\",\r\n  \"content\": \"t \",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 2,\r\n  \"tagIds\": [1, 2, 3]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

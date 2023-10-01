@@ -9,6 +9,5 @@ import java.math.BigInteger;
 
 
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
-    void deleteByBlogs(Blog blog);
 
 }

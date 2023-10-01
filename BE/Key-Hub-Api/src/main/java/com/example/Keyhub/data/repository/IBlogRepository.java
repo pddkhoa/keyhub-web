@@ -21,7 +21,7 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE)", nativeQuery = true)
     List<Blog> searchByFullText(@Param("searchText") String searchText);
 
-    List<Blog> findByCategories(Category category);
+    List<Blog> findByCategory(Category category);
     List<Blog> findByTags(Tag category);
     List<Blog> findBySeries(Series series);
     List<Blog> findAllByUser(Users users);

@@ -18,7 +18,7 @@ public class BlogDTO {
     private String avatar;
     private int status_id;
     private BigInteger likes;
-    private List<CategoryDTO> categories;
+    private CategoryDTO categories;
     private List<TagDTO> tags;
     private SeriesResponse series;
 }

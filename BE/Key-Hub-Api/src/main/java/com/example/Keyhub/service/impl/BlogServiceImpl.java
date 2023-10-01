@@ -57,11 +57,12 @@ public class BlogServiceImpl implements IBLogService {
             List<Tag> tagList = tagRepository.findAllById(tags);
             newBlog.setTags(tagList);
         }
-        List<Long> categoryIds = blogPostDTO.getCategoryIds();
-        if (categoryIds!=null) {
-            List<Category> categories = categoryRepository.findAllById(categoryIds);
-            newBlog.setCategories(categories);
+        Category category= categoryRepository.findById(blogPostDTO.getCategoryIds()).orElse(null);
+        if (category==null)
+        {
+            return null;
         }
+        newBlog.setCategory(category);
         if (blogPostDTO.getSeriesId()!=null){
             Series series1 = seriesRepository.findById(blogPostDTO.getSeriesId()).get();
             BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
@@ -79,7 +80,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findByCategories(categorys);
+        List<Blog> list = blogRepository.findByCategory(categorys);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -92,10 +93,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -136,10 +137,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -180,10 +181,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -211,10 +212,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -256,10 +257,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -300,10 +301,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -342,10 +343,10 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setStatus_id(blog.getStatus_id());
             blogDTO.setLikes(blog.getLikes());
 
-            List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
 
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -371,7 +372,6 @@ public class BlogServiceImpl implements IBLogService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Blog blog = blogRepository.findById(blog_id).orElse(null);
         blog.setTags(new ArrayList<>());
-        blog.setCategories(new ArrayList<>());
         blog.setSeries(null);
         blogRepository.save(blog);
         if (blog==null)
@@ -392,11 +392,12 @@ public class BlogServiceImpl implements IBLogService {
             List<Tag> tagList = tagRepository.findAllById(tags);
             blog.setTags(tagList);
         }
-        List<Long> categoryIds = blogDTO.getCategoryIds();
-        if (categoryIds!=null) {
-            List<Category> categories = categoryRepository.findAllById(categoryIds);
-            blog.setCategories(categories);
+        Category category = categoryRepository.findById(blogDTO.getCategoryIds()).orElse(null);
+        if (category==null)
+        {
+            return null;
         }
+        blog.setCategory(category);
         if (blogDTO.getSeriesId()!=null){
             Series series1 = seriesRepository.findById(blogDTO.getSeriesId()).get();
             BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
@@ -414,11 +415,10 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setAvatar(blog.getAvatar());
         blogDTOss.setStatus_id(blog.getStatus_id());
         blogDTOss.setLikes(blog.getLikes());
-        List<CategoryDTO> categoryDTOs = blog.getCategories().stream()
-                .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                .collect(Collectors.toList());
-        blogDTOss.setCategories(categoryDTOs);
-
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(blog.getCategory().getId());
+        categoryDTO.setName(blog.getCategory().getName());
+        blogDTOss.setCategories(categoryDTO);
         List<TagDTO> tagDTOs = blog.getTags().stream()
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());

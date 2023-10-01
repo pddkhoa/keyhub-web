@@ -23,9 +23,6 @@ public class Category {
 
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Blog> blogs = new HashSet<>();
-
     @ManyToMany
     @JoinTable(
             name = "category_tag",

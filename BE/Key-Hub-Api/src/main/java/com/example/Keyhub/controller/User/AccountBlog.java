@@ -313,14 +313,10 @@ public class AccountBlog {
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
-
-        if (newBlog.getCategories()!=null) {
-
-            List<CategoryDTO> categoryDTOs = newBlog.getCategories().stream()
-                    .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setCategories(categoryDTOs);
-        }
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(newBlog.getCategory().getId());
+        categoryDTO.setName(newBlog.getCategory().getName());
+        blogDTO.setCategories(categoryDTO);
         if (newBlog.getTags()!=null) {
         List<TagDTO> tagDTOs = newBlog.getTags().stream()
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))
@@ -411,6 +407,7 @@ public class AccountBlog {
         if(seriesFind==null){
         Series series1= iUserService.addSeries(series, getUserFromAuthentication());
             SeriesResponse seriesResponse = new SeriesResponse();
+            seriesResponse.setId(series1.getId());
             seriesResponse.setCreateday(series1.getCreateday());
             seriesResponse.setSumBlog(series1.getSumBlog());
             seriesResponse.setDescription(series1.getDescription());
@@ -564,10 +561,10 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus_id());
 
-        List<CategoryDTO> categoryDTOs = newBlog.getCategories().stream()
-                .map(category -> new CategoryDTO(category.getId(), category.getName()))
-                .collect(Collectors.toList());
-        blogDTO.setCategories(categoryDTOs);
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(newBlog.getCategory().getId());
+        categoryDTO.setName(newBlog.getCategory().getName());
+        blogDTO.setCategories(categoryDTO);
 
         List<TagDTO> tagDTOs = newBlog.getTags().stream()
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))

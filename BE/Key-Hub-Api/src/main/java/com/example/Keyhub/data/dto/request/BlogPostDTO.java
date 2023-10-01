@@ -24,7 +24,7 @@ public class BlogPostDTO {
     private String avatar;
     private int status_id;
     private BigInteger likes;
-    private List<Long> categoryIds;
+    private Long categoryIds;
     private List<Long> tagIds;
     private BigInteger seriesId;
 }
