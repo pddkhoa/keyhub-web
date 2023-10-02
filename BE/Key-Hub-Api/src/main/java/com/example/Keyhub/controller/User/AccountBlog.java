@@ -225,7 +225,7 @@ public class AccountBlog {
                         .build()
                 );
     }
-        @RequestMapping(value = "/upload-avatar", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload-avatar", method = RequestMethod.POST)
     public ResponseEntity uploadAvatar(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         if (!ValidatorUtils.validateMineFile(file))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

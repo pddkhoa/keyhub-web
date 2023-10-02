@@ -193,10 +193,10 @@ public class BlogController {
         Category category= categoryRepository.findById(category_id).orElse(null);
         if (category==null)
         {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .statusCode(HttpStatus.OK.value())
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("No found category")
                             .build()
                     );
