@@ -44,7 +44,7 @@ public class Blog {
     @Column
     private Date create_date;
     @Column
-    private int status_id;
+    private int status;
     @Column
     private String avatar;
     @ManyToOne
@@ -52,4 +52,11 @@ public class Blog {
     private Series series;
     @Column
     private BigInteger likes;
+    @ManyToMany
+    @JoinTable(
+            name = "blog_comment",
+            joinColumns = @JoinColumn(name = "blog_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    private List<Comment> comments;
 }

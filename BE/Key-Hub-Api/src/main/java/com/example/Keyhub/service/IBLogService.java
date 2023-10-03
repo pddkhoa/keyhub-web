@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface IBLogService {
     Blog createBlog(BlogPostDTO blogPostDTO, Users user);
+    Blog draftBlog(BlogPostDTO blogPostDTO, Users user);
     List<BlogDTO> getBlogByCategory(Long category_id);
     List<BlogDTO> getBlogByTag(Long tag_id);
 
@@ -23,6 +24,6 @@ public interface IBLogService {
     List<BlogDTO> getAllBlogBySave(Users users);
     List<BlogDTO> getAllBlog();
     BlogDTO updateBlog(BlogEditDTO blogDTO, BigInteger blog_id);
-
+    BlogDTO changeStatusBlog( BigInteger blog_id);
 
 }

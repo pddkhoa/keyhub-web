@@ -2,7 +2,6 @@ package com.example.Keyhub.controller.Blog;
 
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.TagDTO;
-import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.entity.GenericResponse;

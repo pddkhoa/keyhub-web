@@ -43,12 +43,47 @@ public class BlogServiceImpl implements IBLogService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Blog newBlog = new Blog();
         Series series = new Series();
+        newBlog.setAvatar(blogPostDTO.getAvatar());
         newBlog.setTitle(blogPostDTO.getTitle());
         newBlog.setContent(blogPostDTO.getContent());
         newBlog.setDescription(blogPostDTO.getDescription());
         newBlog.setUser(user);
         newBlog.setCreate_date(timestamp);
-        newBlog.setStatus_id(1);
+        newBlog.setStatus(1);
+        newBlog.setLikes(BigInteger.ZERO);
+
+        List<Long> tags = blogPostDTO.getTagIds();
+        if (tags!=null)
+        {
+            List<Tag> tagList = tagRepository.findAllById(tags);
+            newBlog.setTags(tagList);
+        }
+        Category category= categoryRepository.findById(blogPostDTO.getCategoryIds()).orElse(null);
+        if (category==null)
+        {
+            return null;
+        }
+        newBlog.setCategory(category);
+        if (blogPostDTO.getSeriesId()!=null){
+            Series series1 = seriesRepository.findById(blogPostDTO.getSeriesId()).get();
+            BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
+            series1.setSumBlog(sumSeries);
+            seriesRepository.save(series1);
+            newBlog.setSeries(series1);
+        }
+        return blogRepository.save(newBlog);
+    }
+
+    @Override
+    public Blog draftBlog(BlogPostDTO blogPostDTO, Users user) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Blog newBlog = new Blog();
+        newBlog.setTitle(blogPostDTO.getTitle());
+        newBlog.setContent(blogPostDTO.getContent());
+        newBlog.setDescription(blogPostDTO.getDescription());
+        newBlog.setUser(user);
+        newBlog.setCreate_date(timestamp);
+        newBlog.setStatus(0);
         newBlog.setLikes(BigInteger.ZERO);
 
         List<Long> tags = blogPostDTO.getTagIds();
@@ -80,7 +115,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findByCategory(categorys);
+        List<Blog> list = blogRepository.findByCategoryAndStatus(categorys,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -91,7 +126,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -123,7 +158,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findByTags(tags);
+        List<Blog> list = blogRepository.findByTagsAndStatus(tags,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -134,7 +169,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -167,7 +202,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findBySeries(series);
+        List<Blog> list = blogRepository.findBySeriesAndStatus(series,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -178,7 +213,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -209,7 +244,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -254,7 +289,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -298,7 +333,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -340,7 +375,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreate_date());
             blogDTO.setAvatar(blog.getAvatar());
-            blogDTO.setStatus_id(blog.getStatus_id());
+            blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
 
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -383,7 +418,7 @@ public class BlogServiceImpl implements IBLogService {
         blog.setDescription(blogDTO.getDescription());
         blog.setCreate_date(timestamp);
         blog.setAvatar(blogDTO.getAvatar());
-        blog.setStatus_id(blogDTO.getStatus_id());
+        blog.setStatus(blogDTO.getStatus_id());
         blog.setLikes(blog.getLikes());
 
         List<Long> tags = blogDTO.getTagIds();
@@ -413,7 +448,49 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setDescription(blog.getDescription());
         blogDTOss.setCreate_date(blog.getCreate_date());
         blogDTOss.setAvatar(blog.getAvatar());
-        blogDTOss.setStatus_id(blog.getStatus_id());
+        blogDTOss.setStatus_id(blog.getStatus());
+        blogDTOss.setLikes(blog.getLikes());
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(blog.getCategory().getId());
+        categoryDTO.setName(blog.getCategory().getName());
+        blogDTOss.setCategories(categoryDTO);
+        List<TagDTO> tagDTOs = blog.getTags().stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                .collect(Collectors.toList());
+        blogDTOss.setTags(tagDTOs);
+        if (blog.getSeries() != null) {
+            SeriesResponse seriesDTO = new SeriesResponse();
+            seriesDTO.setId(blog.getSeries().getId());
+            seriesDTO.setName(blog.getSeries().getName());
+            seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+            seriesDTO.setDescription(blog.getSeries().getDescription());
+            seriesDTO.setCreateday(blog.getSeries().getCreateday());
+            blogDTOss.setSeries(seriesDTO);
+        }
+        blogRepository.save(blog);
+        return blogDTOss;
+    }
+
+    @Override
+    public BlogDTO changeStatusBlog(BigInteger blog_id) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
+        blog.setTags(new ArrayList<>());
+        blog.setSeries(null);
+        blog.setStatus(1);
+        blogRepository.save(blog);
+        if (blog==null)
+        {
+            return null;
+        }
+        BlogDTO blogDTOss = new BlogDTO();
+        blogDTOss.setId(blog.getId());
+        blogDTOss.setTitle(blog.getTitle());
+        blogDTOss.setContent(blog.getContent());
+        blogDTOss.setDescription(blog.getDescription());
+        blogDTOss.setCreate_date(blog.getCreate_date());
+        blogDTOss.setAvatar(blog.getAvatar());
+        blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(blog.getCategory().getId());
