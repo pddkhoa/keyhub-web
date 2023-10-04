@@ -29,7 +29,7 @@ public interface IUserService {
     void registerAccount(Users user);
 
     Users changeInfo(BigInteger user_id, ProfileInfor body);
-    void changeAvatar(BigInteger user_id, MultipartFile imageFile);
+    Users changeAvatar(BigInteger user_id, MultipartFile imageFile);
     void removeAvatar(BigInteger user_id);
     void removeBanner(BigInteger user_id);
     AvatarUser saveAvatarToStorage( BigInteger userid);
@@ -37,5 +37,5 @@ public interface IUserService {
     void removeAvatarToStorage(BigInteger user_id);
     void removeBannerToStorage(BigInteger user_id);
     Series addSeries(SeriesDTO seriesDTO, Users users);
-    void changeBanner(BigInteger user_id, MultipartFile imageFile);
+    Users changeBanner(BigInteger user_id, MultipartFile imageFile);
 }

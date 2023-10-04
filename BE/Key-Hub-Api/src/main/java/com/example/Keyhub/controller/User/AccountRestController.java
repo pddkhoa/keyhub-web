@@ -78,12 +78,13 @@ public class AccountRestController {
                         .build()
                 );
         Users users = getUserFromAuthentication();
-        userService.changeAvatar(users.getId(),image_file);
+        users =  userService.changeAvatar(users.getId(),image_file);
         userService.saveAvatarToStorage(users.getId());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
                         .message("Change avatar was successful")
+                        .result(users.getAvatar())
                         .statusCode(HttpStatus.OK.value())
                         .build());
     }
@@ -98,11 +99,12 @@ public class AccountRestController {
                             .build()
                     );
         Users users = getUserFromAuthentication();
-        userService.changeBanner(users.getId(),image_file);
+        users= userService.changeBanner(users.getId(),image_file);
         userService.saveBannerToStorage(users.getId());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
+                        .result(users.getBanner_url())
                         .message("Change avatar was successful")
                         .statusCode(HttpStatus.OK.value())
                         .build());

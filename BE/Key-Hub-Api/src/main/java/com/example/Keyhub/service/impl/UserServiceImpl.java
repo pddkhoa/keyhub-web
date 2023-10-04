@@ -262,21 +262,20 @@ public class UserServiceImpl implements IUserService {
             }
         return userRepository.save(us);
     }
-    @Transactional
+
     @Override
-    public void changeAvatar(BigInteger user_id, MultipartFile imageFile) {
+    public Users changeAvatar(BigInteger user_id, MultipartFile imageFile) {
         Users us = userRepository.findById(user_id).orElseThrow(null);
         String new_avatar = uploadImageService.uploadFile(imageFile);
         us.setAvatar(new_avatar);
-        userRepository.save(us);
+        return userRepository.save(us);
     }
-    @Transactional
     @Override
-    public void changeBanner(BigInteger user_id, MultipartFile imageFile) {
+    public Users changeBanner(BigInteger user_id, MultipartFile imageFile) {
         Users us = userRepository.findById(user_id).orElseThrow(null);
         String new_banner = uploadImageService.uploadFile(imageFile);
         us.setBanner_url(new_banner);
-        userRepository.save(us);
+        return userRepository.save(us);
     }
     @Transactional
     @Override
