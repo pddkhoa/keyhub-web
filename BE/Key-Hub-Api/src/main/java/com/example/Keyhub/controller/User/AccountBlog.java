@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +31,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -248,14 +251,16 @@ public class AccountBlog {
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
     public ResponseEntity createBlog(@Valid @RequestBody BlogPostDTO body,
                                      BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors())
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(GenericResponse.builder()
-                        .success(false)
-                        .statusCode(HttpStatus.BAD_REQUEST.value())
-                        .message("Request was failed. Validate data again")
-                        .build()
-                );
+        List<String> errors = body.validateAndGetErrors();
+        if (!errors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message(errors.get(0))
+                            .build()
+                    );
+        }
         Blog newBlog = ibLogService.createBlog(body, getUserFromAuthentication());
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;

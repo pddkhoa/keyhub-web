@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +26,31 @@ public class BlogPostDTO {
     private String avatar;
     private int status_id;
     private BigInteger likes;
+    @NotNull(message = "categoryIds cannot be null")
     private Long categoryIds;
+    @NotNull(message = "tagIds cannot be null")
+    @Size(min = 1, message = "tagIds must not be empty")
     private List<Long> tagIds;
     private BigInteger seriesId;
+    public List<String> validateAndGetErrors() {
+        List<String> errors = new ArrayList<>();
+
+        if (title == null || title.isEmpty() || title.length() < 10) {
+            errors.add("Title must be at least 10 characters long");
+        }
+
+        if (content == null || content.isEmpty()) {
+            errors.add("Content cannot be blank");
+        }
+
+        if (categoryIds == null) {
+            errors.add("Category cannot be null");
+        }
+
+        if (tagIds == null || tagIds.isEmpty()) {
+            errors.add("Tags cannot be null");
+        }
+
+        return errors;
+    }
 }
