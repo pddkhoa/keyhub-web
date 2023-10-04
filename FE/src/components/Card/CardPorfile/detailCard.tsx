@@ -10,8 +10,14 @@ import image from "../../../asset/banner.jpeg";
 import AlphabetAvatar from "../../Avatar/avatar";
 import { Bookmark, Heart, MessageCircle, MoreVertical } from "lucide-react";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import BlogPost from "@/types/blog";
+import { da } from "date-fns/locale";
 
-export const DetailCard = () => {
+interface DetailCardProps {
+  data: BlogPost;
+}
+
+export const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
   return (
     <div>
       {" "}
@@ -43,19 +49,13 @@ export const DetailCard = () => {
         </div>
         <div className="flex flex-col mx-2 my-3">
           <p className="font-bold text-xl text-title  break-words">
-            Let us know what you think of the daily.dev extension on the chrome
-            store!
+            {data.title}
           </p>
-          <p className="text-title-foreground">
-            Có nhiều công cụ dịch trực tuyến và ứng dụng dịch mà bạn có thể sử
-            dụng. Một số công cụ phổ biến bao gồm Google Translate, DeepL, và
-            nhiều ứng dụng dịch khác. Chọn công cụ dịch phù hợp với bạn và nhập
-            nội dung bài viết cần dịch....
-          </p>
+          <p className="text-title-foreground">{data.description}</p>
         </div>
         <div className="w-full overflow-hidden">
           <img
-            src={image}
+            src={data.avatar}
             alt="Paella dish"
             className="w-full h-72 rounded-xl"
           />

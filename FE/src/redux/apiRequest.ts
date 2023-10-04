@@ -8,16 +8,17 @@ import {
   loginStart,
   loginSuccess,
 } from "./authSlice";
-import {
-  getSeriesFailed,
-  getSeriesStart,
-  getSeriesSuccess,
-} from "./seriesSlice";
+import { getSeriesSuccess } from "./seriesSlice";
 import { showToast } from "@/hooks/useToast";
 import { TokenType } from "@/types/token";
 import User from "@/types/user";
 import jwt_decode from "jwt-decode";
 import { getUserSuccess } from "./userSlice";
+import BlogPost from "@/types/blog";
+import CategoryType from "@/types/categories";
+import TagType from "@/types/tags";
+import seriesType from "@/types/series";
+import { getBlogSuccess } from "./blogSlice";
 
 export const loginUser = async (user: any, dispatch: any, navigate: any) => {
   type body = {
@@ -90,21 +91,7 @@ export const logOut = async (
     dispatch(logOutFailed());
   }
 };
-export const getAllSeries = async (
-  accessToken: any,
-  dispatch: any,
-  axiosJWT: any
-) => {
-  dispatch(getSeriesStart());
-  try {
-    const res = await axiosJWT.get("api/v1/blog/series/list", {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    dispatch(getSeriesSuccess(res.data));
-  } catch (err) {
-    dispatch(getSeriesFailed());
-  }
-};
+
 export const forgortPassword = async (email: any) => {
   type body = {
     success: boolean;
@@ -156,4 +143,205 @@ export const updateProfile = async (
     })
   );
   return res;
+};
+
+export const createBlog = async (
+  report: any,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: BlogPost[];
+    statusCode: number;
+  };
+
+  const res = await requestApiHelper<body>(
+    axiosJWT.post("api/v1/blog/create-blog", report, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+  );
+  return res;
+};
+
+export const getAllCategories = async () => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: CategoryType[];
+    statusCode: number;
+  };
+
+  return await requestApiHelper<body>(api.get("api/v1/blog/category/list"));
+};
+
+export const getTagByCategories = async (id: number) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: TagType[];
+    statusCode: number;
+  };
+
+  return await requestApiHelper<body>(api.get(`api/v1/list/blog/${id}/tags`));
+};
+export const getAllSeries = async (
+  accessToken: any,
+  dispatch: any,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: seriesType[];
+    statusCode: number;
+  };
+  try {
+    const res = await requestApiHelper<body>(
+      axiosJWT.get("api/v1/blog/series/list", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    dispatch(getSeriesSuccess(res.body?.result));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createSeries = async (
+  report: any,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: seriesType;
+    statusCode: number;
+  };
+
+  const res = await requestApiHelper<body>(
+    axiosJWT.post("api/v1/blog/add-series", report, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+  );
+  return res;
+};
+
+export const uploadFiles = async (
+  file: File,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string;
+    statusCode: number;
+  };
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await requestApiHelper<body>(
+    axiosJWT.post("api/v1/blog/upload-file", formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
+
+  return res;
+};
+
+export const uploadAvatarBlog = async (
+  file: File,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string;
+    statusCode: number;
+  };
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await requestApiHelper<body>(
+    axiosJWT.post("api/v1/blog/upload-avatar", formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
+
+  return res;
+};
+
+export const uploadAvatarUser = async (
+  image_file: File,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: null;
+    statusCode: number;
+  };
+  const formData = new FormData();
+  formData.append("image_file", image_file);
+  const res = await requestApiHelper<body>(
+    axiosJWT.patch("api/v1/users/change-avatar", formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  );
+
+  return res;
+};
+
+export const deleteAvatarUser = async (accessToken: string, axiosJWT: any) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: null;
+    statusCode: number;
+  };
+  const res = await requestApiHelper<body>(
+    axiosJWT.patch("api/v1/users/remove-avatar", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  );
+  console.log(res);
+
+  return res;
+};
+
+export const getAllBlogByAuth = async (
+  accessToken: any,
+  dispatch: any,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: BlogPost[];
+    statusCode: number;
+  };
+  try {
+    const res = await requestApiHelper<body>(
+      axiosJWT.get("api/v1/blog/user", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    dispatch(getBlogSuccess(res.body?.result));
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -78,7 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                   </Link>
                 </li>
                 <li className="mt-0  flex items-center rounded-xl p-1.5 hover:bg-hover">
-                  <Link to="#">
+                  <Link to="explore">
                     <Items
                       icon={<Newspaper className="text-title-foreground" />}
                       title={"Explore News"}

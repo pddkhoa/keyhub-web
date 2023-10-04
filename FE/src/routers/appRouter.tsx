@@ -12,6 +12,11 @@ import { UpdateProfile } from "@/pages/Profile/updateProfile";
 import { ForgotPassword } from "@/pages/VerifyPassword/forgotPassword";
 import { ConfirmEmail } from "@/pages/VerifyPassword/confirmEmail";
 import { ResetPassword } from "@/pages/VerifyPassword/resetPassword";
+import { Explore } from "@/pages/Explore/explore";
+import { DetailBlog } from "@/pages/Blog/detailBlog";
+
+import Editor from "@/components/Editor/editor";
+import App from "@/components/Editor/app";
 
 const AppRouter = () => {
   return (
@@ -40,7 +45,14 @@ const AppRouter = () => {
           <Route path="profile/update" element={<UpdateProfile />} />
           <Route path="profile" element={<Profile />} />
           <Route path="home" element={<Home />} />
+          <Route path="explore" element={<Explore />} />
+          <Route path="editor" element={<App />} />
         </Route>
+        {/* <Route path="hometest" element={<Home />} />
+        <Route path="exploretest" element={<Explore />} />
+        <Route path="profiletest" element={<Profile />} />
+        <Route path="blog" element={<DetailBlog />} />
+        <Route path="editor" element={<App />} /> */}
       </Route>
 
       <Route path="*" element={<NotFound />} />

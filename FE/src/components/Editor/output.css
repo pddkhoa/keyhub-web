@@ -1,0 +1,43 @@
+.para a {
+  color: #1d4ed8;
+  text-decoration: dashed;
+}
+.para a:hover {
+  color: var(--title);
+  box-shadow: 0 1px;
+}
+
+.output figure {
+  border-radius: 10px;
+  padding: 20px;
+}
+.output figure img {
+  width: 100%; /* Đặt chiều rộng của hình ảnh để lấp đầy khung */
+  height: 100%; /* Đặt chiều cao của hình ảnh để lấp đầy khung */
+  object-fit: cover;
+  border-radius: 10px; /* Chỉ định cách hình ảnh sẽ bị cắt hoặc thu nhỏ để lấp đầy khung */
+}
+.output figure figcaption {
+  margin-top: 10px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+}
+.output ul li {
+  list-style: none;
+  position: relative;
+  padding-left: 20px;
+}
+.output ul li::before {
+  content: "\2022"; /* Sử dụng kí tự dấu chấm */
+  position: absolute;
+  left: 0;
+  padding-left: 10px;
+}
+.output blockquote {
+  position: relative;
+  font-style: italic; /* Có thể sử dụng font-style để làm cho nó nghiêng (italic) */
+  padding: 10px;
+}

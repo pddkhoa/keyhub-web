@@ -16,7 +16,7 @@ const Layout = () => {
         <Sidebar setOpenSidebar={setOpenSidebar} />
       </div>
       <Header />
-      <div className="w-screen">
+      <div className="w-full">
         <div className="min-h-body">
           <Outlet />
         </div>

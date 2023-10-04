@@ -5,14 +5,12 @@ import seriesType from "../../types/series";
 import { useEffect } from "react";
 import { getAllSeries } from "../../redux/apiRequest";
 import { RootStateToken } from "../../types/token";
-import { Textarea } from "@/components/ui/textarea";
 import { DetailCard } from "@/components/Card/CardPorfile/detailCard";
 import { CreateCard } from "@/components/Card/CreateCard/createCard";
-import AlphabetAvatar from "@/components/Avatar/avatar";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { StoryUser } from "@/components/Story/storyUser";
+
+// import { StoryUser } from "@/components/Story/storyUser";
 import { SidebarHome } from "@/components/Sidebar/Home/sidebarHome";
+import { loginSuccess } from "@/redux/authSlice";
 
 interface RootStateSeries {
   series: {
@@ -30,7 +28,7 @@ const Home = () => {
   console.log(seriesList);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const axiosJWT = createAxios(user, dispatch);
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
 
   useEffect(() => {
     if (!user) {
@@ -45,8 +43,8 @@ const Home = () => {
     <div className=" container  min-h-0 px-9 py-16">
       <div className="w-full h-full grid grid-cols-6">
         <div className="h-full w-full col-span-4 flex flex-col p-6 space-y-5 mx-auto overflow-x-hidden overflow-y-hidden ">
-          {/* This is Story */}
-          <StoryUser />
+          {/* This is Story
+          <StoryUser /> */}
           {/* This is content */}
           <div className="h-full  boder rounded-xl ">
             <div className="w-full space-y-5">

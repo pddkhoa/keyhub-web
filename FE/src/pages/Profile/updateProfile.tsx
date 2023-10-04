@@ -11,10 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Items } from "@/components/Sidebar/items";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import User from "@/types/user";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TokenPayload from "../../types/user";
 import jwt_decode from "jwt-decode";
 import { FaBuilding, FaGlobe, FaGraduationCap } from "react-icons/fa";
@@ -34,10 +34,25 @@ import {
 } from "@/components/Modal/Tool/updateAbout";
 import { UpdateAccount } from "@/components/Modal/Tool/updateAccount";
 import { RootState } from "@/redux/store";
+import { deleteAvatarUser, uploadAvatarUser } from "@/redux/apiRequest";
+import { showToast } from "@/hooks/useToast";
+import { createAxios } from "@/api/createInstance";
+import { loginSuccess } from "@/redux/authSlice";
+import { getUserSuccess, updateUserSuccess } from "@/redux/userSlice";
 
 export const UpdateProfile = () => {
   const location = useLocation();
   const userData = useSelector((state: RootState) => state.user.detail.data);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const inputFile = useRef(null);
+
+  const user = useSelector((state: RootState) => state.auth.login);
+  const auth = useSelector((state: RootState) => state.auth.login);
+
+  const accessToken = auth?.data.token;
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
 
   useEffect(() => {
     const { state } = location;
@@ -45,6 +60,57 @@ export const UpdateProfile = () => {
       return;
     }
   }, [location]);
+  useEffect(() => {
+    dispatch(getUserSuccess);
+  }, [dispatch]);
+
+  const handleUploadAvatarUser = async (image_file: File) => {
+    try {
+      setIsUploading(true);
+      if (image_file) {
+        const { body } = await uploadAvatarUser(
+          image_file,
+          accessToken,
+          axiosJWT
+        );
+        if (body?.success) {
+          setIsUploading(false);
+          showToast("Upload Anh Thanh Cong", "success");
+          dispatch(getUserSuccess);
+        } else {
+          showToast(body?.message, "error");
+          setIsUploading(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setIsUploading(false);
+    }
+  };
+
+  const handleDeleteAvatar = async () => {
+    try {
+      setIsDeleting(true);
+
+      const { body } = await deleteAvatarUser(accessToken, axiosJWT);
+      if (body?.success) {
+        setIsDeleting(false);
+        showToast("Delete Thanh Cong", "success");
+      } else {
+        showToast(body?.message, "error");
+        setIsDeleting(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsDeleting(false);
+    }
+  };
+  const onButtonClick = () => {
+    // `current` points to the mounted file input element
+    if (inputFile.current) {
+      inputFile.current.click();
+    }
+  };
 
   return (
     <div className=" container  min-h-0 px-4 py-16">
@@ -77,20 +143,98 @@ export const UpdateProfile = () => {
         </div>
         <div className="h-full w-3/4 flex flex-col p-6 space-y-5  overflow-x-hidden">
           <div className="space-y-2">
-            <div className="text-title">Profile Picture</div>
+            <div className="flex justify-between">
+              <div className="text-title">Profile Picture</div>
+              <input
+                type="file"
+                id="file"
+                ref={inputFile}
+                onChange={(e) => {
+                  handleUploadAvatarUser(e.target.files![0]);
+                }}
+                style={{ display: "none" }}
+              />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="text-title-foreground hover:brightness-125 cursor-pointer">
+                    <PenSquare />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
+                  <DropdownMenuItem
+                    onClick={onButtonClick}
+                    className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+                  >
+                    <span className="text-title-foreground whitespace-nowrap">
+                      Upload Avatar
+                    </span>
+                    <div className="">
+                      <ChevronRight className="text-title-foreground" />
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleDeleteAvatar}
+                    className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+                  >
+                    <span className="text-title-foreground whitespace-nowrap">
+                      Delete Avatar
+                    </span>
+                    <div className="">
+                      <ChevronRight className="text-title-foreground" />
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <div className="mt-1 text-title-foreground">
               Upload a picture to make your profile stand out and let people
               recognize your comments and contributions easily!
             </div>
             <div className="flex relative">
               <div className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-36 h-36 rounded-full mt-6">
-                <img
-                  src={avatar}
-                  className="w-full h-full object-cover  group-hover:opacity-60"
-                />
-                <span className="hidden group-hover:block absolute">
-                  <Camera className="w-8 h-8 pointer-events-none text-title" />
-                </span>
+                {userData.avatar ? (
+                  <>
+                    {isUploading ? (
+                      <div
+                        className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                      >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                          Loading...
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <img
+                          src={userData.avatar}
+                          className="w-full h-full object-cover  group-hover:opacity-60"
+                        />
+                        <span className="hidden group-hover:block absolute">
+                          <Camera className="w-8 h-8 pointer-events-none text-title" />
+                        </span>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <div>
+                    <svg
+                      className=" w-full h-full rounded-full bg-gray-100 text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fillRule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="hidden group-hover:block absolute">
+                      <Camera className="w-8 h-8 pointer-events-none text-black" />
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

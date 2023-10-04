@@ -1,31 +1,32 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import seriesType from "../types/series";
+import { boolean, string } from "yup";
+
+type body = {
+  success: boolean;
+  message: string;
+  result: seriesType;
+  statusCode: number;
+};
 
 const seriesSlice = createSlice({
   name: "series",
   initialState: {
     series: {
-      data: {},
-      isFetching: false,
-      error: false,
+      result: [] as seriesType[],
     },
   },
   reducers: {
-    getSeriesStart: (state) => {
-      state.series.isFetching = true;
+    getSeriesSuccess: (state, action) => {
+      state.series.result = action.payload;
     },
-    getSeriesSuccess: (state, action: PayloadAction<seriesType>) => {
-      state.series.isFetching = false;
-      state.series.data = action.payload;
-    },
-    getSeriesFailed: (state) => {
-      state.series.isFetching = false;
-      state.series.error = true;
+
+    addSeries(state, action) {
+      state.series.result.push(action.payload);
     },
   },
 });
 
-export const { getSeriesStart, getSeriesSuccess, getSeriesFailed } =
-  seriesSlice.actions;
+export const { getSeriesSuccess, addSeries } = seriesSlice.actions;
 
 export default seriesSlice.reducer;

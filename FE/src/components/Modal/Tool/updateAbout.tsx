@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import User, { RootStateUser } from "@/types/user";
+import User from "@/types/user";
 import { Loader2, PenSquare } from "lucide-react";
 import React, { useState } from "react";
 import * as Yup from "yup";

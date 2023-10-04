@@ -2,7 +2,7 @@ import AlphabetAvatar from "../../components/Avatar/avatar";
 import banner from "../../asset/banner.jpeg";
 import { AboutMe } from "../../components/UserProfile/aboutMe";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { TabsProfile } from "@/components/Tab/tabsProfile";
@@ -10,14 +10,24 @@ import { PenSquare, PlusCircle } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store";
+import { createAxios } from "@/api/createInstance";
+import { loginSuccess } from "@/redux/authSlice";
+import { useEffect } from "react";
+import { getAllBlogByAuth } from "@/redux/apiRequest";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
-  const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.login);
 
-  // useEffect(() => {
-  //   setUser(userDetails.users);
-  // }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+
+  useEffect(() => {
+    if (user?.data.token) {
+      getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+    }
+  }, []);
 
   return (
     <div className="container mx-auto min-h-0 px-4 py-6">
@@ -45,7 +55,11 @@ export const Profile = () => {
               </div>
             </div>
             <div className="flex gap-5 mt-16">
-              <Button variant={"gradient"} size={"lg"}>
+              <Button
+                onClick={() => navigate("/editor")}
+                variant={"gradient"}
+                size={"lg"}
+              >
                 <PlusCircle className="w-5 h-5 mr-2" />
                 Add New Post
               </Button>

@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { ListCard } from "../Card/CardPorfile/listCard";
+import { GridCard } from "../Card/CardPorfile/listCard";
 import { Button } from "../ui/button";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ModalFilters } from "../Modal/Tool/filterOptions";
 import {
   ChevronRight,
-  PenSquare,
   PictureInPicture2,
   SlidersHorizontal,
 } from "lucide-react";
@@ -17,12 +16,18 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { DetailCard } from "../Card/CardPorfile/detailCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import BlogPost from "@/types/blog";
+import { da } from "date-fns/locale";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
   const [displayModal, setDisplayModal] = useState("");
   const [option, setOption] = useState("LIST");
+
+  const blog = useSelector((state: RootState) => state.blog.blog.result);
 
   return (
     <div>
@@ -89,7 +94,7 @@ export const TabsProfile = () => {
             </div>
           </div>
         </div>
-        <TabContent tabName={tabs} optionview={option} />
+        <TabContent tabName={tabs} optionview={option} data={blog} />
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "FILTER" ? (
@@ -103,11 +108,13 @@ export const TabsProfile = () => {
 interface TabsContentProps {
   tabName: string;
   optionview: string;
+  data: BlogPost[];
 }
 
 export const TabContent: React.FC<TabsContentProps> = ({
   tabName,
   optionview,
+  data,
 }) => {
   switch (tabName) {
     case "TAB_BLOG":
@@ -116,20 +123,24 @@ export const TabContent: React.FC<TabsContentProps> = ({
           <div className="grid grid-cols-3 gap-4">
             {optionview === "LIST" ? (
               <>
-                <div className="col-span-1 h-full ">
-                  <ListCard /> Blog
-                </div>
-                <div className="col-span-1 h-full">
-                  <ListCard />
-                </div>
-                <div className="col-span-1 h-full">
-                  <ListCard />
-                </div>
+                {data && data.length > 0 ? (
+                  data.map((item) => (
+                    <div key={item.id} className="col-span-1 h-full ">
+                      <GridCard data={item} />
+                    </div>
+                  ))
+                ) : (
+                  <div>No data</div>
+                )}
               </>
+            ) : data && data.length > 0 ? (
+              data.map((item) => (
+                <div className="col-span-3 w-full">
+                  <DetailCard data={item} />
+                </div>
+              ))
             ) : (
-              <div className="col-span-3 w-full">
-                <DetailCard />
-              </div>
+              <div>No data</div>
             )}
           </div>
         </div>
@@ -140,20 +151,18 @@ export const TabContent: React.FC<TabsContentProps> = ({
           <div className="grid grid-cols-3 gap-4">
             {optionview === "LIST" ? (
               <>
-                <div className="col-span-1 h-full ">
-                  <ListCard /> VIDEO
+                {/* <div className="col-span-1 h-full ">
+                  <GridCard /> VIDEO
                 </div>
                 <div className="col-span-1 h-full">
-                  <ListCard />
+                  <GridCard />
                 </div>
                 <div className="col-span-1 h-full">
-                  <ListCard />
-                </div>
+                  <GridCard />
+                </div> */}
               </>
             ) : (
-              <div className="col-span-3 w-full">
-                <DetailCard />
-              </div>
+              <div className="col-span-3 w-full">No data</div>
             )}
           </div>
         </div>
@@ -164,21 +173,18 @@ export const TabContent: React.FC<TabsContentProps> = ({
           <div className="grid grid-cols-3 gap-4">
             {optionview === "LIST" ? (
               <>
-                <div className="col-span-1 h-full ">
-                  <ListCard /> BOOKMARK
+                {/* <div className="col-span-1 h-full ">
+                  <GridCard /> BOOKMARK
                 </div>
                 <div className="col-span-1 h-full">
-                  <ListCard />
+                  <GridCard />
                 </div>
                 <div className="col-span-1 h-full">
-                  <ListCard />
-                </div>
+                  <GridCard />
+                </div> */}
               </>
             ) : (
-              <div className="col-span-3 w-full space-y-10">
-                <DetailCard />
-                <DetailCard />
-              </div>
+              <div className="col-span-3 w-full space-y-10">No data</div>
             )}
           </div>
         </div>
@@ -294,6 +300,32 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
               <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
             </svg>
             Bookmark
+          </div>
+        </li>
+        <li>
+          <div
+            onClick={handleBookmarkTabClick}
+            className={`flex justify-center cursor-pointer items-center border-b-2 hover:text-title-foreground hover:border-title hover:bg-card hover:rounded-tl-xl hover:rounded-tr-xl  ${
+              activeTab === "TAB_BOOKMARK"
+                ? " border-white text-title-foreground bg-card rounded-tl-xl rounded-tr-xl"
+                : ""
+            } py-4 font-semibold`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-bookmark w-6 h-6 mr-2"
+            >
+              <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+            </svg>
+            Series
           </div>
         </li>
       </ul>
