@@ -15,9 +15,20 @@ const userSlice = createSlice({
     updateUserSuccess: (state, action) => {
       state.detail.data = action.payload;
     },
+    uploadAvatarSuccess: (state, action) => {
+      state.detail.data.avatar = action.payload;
+    },
+    uploadBanerSuccess: (state, action) => {
+      state.detail.data.banner_url = action.payload;
+    },
   },
 });
 
-export const { getUserSuccess, updateUserSuccess } = userSlice.actions;
+export const {
+  getUserSuccess,
+  updateUserSuccess,
+  uploadAvatarSuccess,
+  uploadBanerSuccess,
+} = userSlice.actions;
 
 export default userSlice.reducer;

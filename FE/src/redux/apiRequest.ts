@@ -287,7 +287,7 @@ export const uploadAvatarUser = async (
   type body = {
     success: boolean;
     message: string;
-    result: null;
+    result: string;
     statusCode: number;
   };
   const formData = new FormData();
@@ -304,21 +304,27 @@ export const uploadAvatarUser = async (
   return res;
 };
 
-export const deleteAvatarUser = async (accessToken: string, axiosJWT: any) => {
+export const uploadBannerUser = async (
+  image_file: File,
+  accessToken: string,
+  axiosJWT: any
+) => {
   type body = {
     success: boolean;
     message: string;
-    result: null;
+    result: string;
     statusCode: number;
   };
+  const formData = new FormData();
+  formData.append("image_file", image_file);
   const res = await requestApiHelper<body>(
-    axiosJWT.patch("api/v1/users/remove-avatar", {
+    axiosJWT.patch("api/v1/users/change-banner", formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "multipart/form-data",
       },
     })
   );
-  console.log(res);
 
   return res;
 };

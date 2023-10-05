@@ -34,18 +34,26 @@ import {
 } from "@/components/Modal/Tool/updateAbout";
 import { UpdateAccount } from "@/components/Modal/Tool/updateAccount";
 import { RootState } from "@/redux/store";
-import { deleteAvatarUser, uploadAvatarUser } from "@/redux/apiRequest";
+import {
+  deleteAvatarUser,
+  uploadAvatarUser,
+  uploadBannerUser,
+} from "@/redux/apiRequest";
 import { showToast } from "@/hooks/useToast";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
-import { getUserSuccess, updateUserSuccess } from "@/redux/userSlice";
+import {
+  getUserSuccess,
+  updateUserSuccess,
+  uploadAvatarSuccess,
+  uploadBanerSuccess,
+} from "@/redux/userSlice";
 
 export const UpdateProfile = () => {
   const location = useLocation();
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const [isUploading, setIsUploading] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const inputFile = useRef(null);
+  const [isUploadingBanner, setIsUploadingBanner] = useState(false);
 
   const user = useSelector((state: RootState) => state.auth.login);
   const auth = useSelector((state: RootState) => state.auth.login);
@@ -75,10 +83,10 @@ export const UpdateProfile = () => {
         );
         if (body?.success) {
           setIsUploading(false);
+          dispatch(uploadAvatarSuccess(body.result));
           showToast("Upload Anh Thanh Cong", "success");
-          dispatch(getUserSuccess);
         } else {
-          showToast(body?.message, "error");
+          showToast(body?.message || "Error", "error");
           setIsUploading(false);
         }
       }
@@ -87,28 +95,27 @@ export const UpdateProfile = () => {
       setIsUploading(false);
     }
   };
-
-  const handleDeleteAvatar = async () => {
+  const handleUploadBannerUser = async (image_file: File) => {
     try {
-      setIsDeleting(true);
-
-      const { body } = await deleteAvatarUser(accessToken, axiosJWT);
-      if (body?.success) {
-        setIsDeleting(false);
-        showToast("Delete Thanh Cong", "success");
-      } else {
-        showToast(body?.message, "error");
-        setIsDeleting(false);
+      setIsUploadingBanner(true);
+      if (image_file) {
+        const { body } = await uploadBannerUser(
+          image_file,
+          accessToken,
+          axiosJWT
+        );
+        if (body?.success) {
+          setIsUploadingBanner(false);
+          dispatch(uploadBanerSuccess(body?.result));
+          showToast("Upload Anh Thanh Cong", "success");
+        } else {
+          showToast(body?.message || "Error", "error");
+          setIsUploadingBanner(false);
+        }
       }
     } catch (error) {
       console.log(error);
-      setIsDeleting(false);
-    }
-  };
-  const onButtonClick = () => {
-    // `current` points to the mounted file input element
-    if (inputFile.current) {
-      inputFile.current.click();
+      setIsUploadingBanner(false);
     }
   };
 
@@ -148,50 +155,22 @@ export const UpdateProfile = () => {
               <input
                 type="file"
                 id="file"
-                ref={inputFile}
                 onChange={(e) => {
                   handleUploadAvatarUser(e.target.files![0]);
                 }}
                 style={{ display: "none" }}
+                hidden
               />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="text-title-foreground hover:brightness-125 cursor-pointer">
-                    <PenSquare />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
-                  <DropdownMenuItem
-                    onClick={onButtonClick}
-                    className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
-                  >
-                    <span className="text-title-foreground whitespace-nowrap">
-                      Upload Avatar
-                    </span>
-                    <div className="">
-                      <ChevronRight className="text-title-foreground" />
-                    </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={handleDeleteAvatar}
-                    className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
-                  >
-                    <span className="text-title-foreground whitespace-nowrap">
-                      Delete Avatar
-                    </span>
-                    <div className="">
-                      <ChevronRight className="text-title-foreground" />
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
             <div className="mt-1 text-title-foreground">
               Upload a picture to make your profile stand out and let people
               recognize your comments and contributions easily!
             </div>
             <div className="flex relative">
-              <div className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-36 h-36 rounded-full mt-6">
+              <label
+                htmlFor="file"
+                className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-36 h-36 rounded-full mt-6"
+              >
                 {userData.avatar ? (
                   <>
                     {isUploading ? (
@@ -235,25 +214,50 @@ export const UpdateProfile = () => {
                     </span>
                   </div>
                 )}
-              </div>
+              </label>
             </div>
           </div>
           <div className="space-y-2">
             <div className="text-title">Banner Picture</div>
+            <input
+              type="file"
+              id="fileBanner"
+              onChange={(e) => {
+                handleUploadBannerUser(e.target.files![0]);
+              }}
+              style={{ display: "none" }}
+              hidden
+            />
             <div className="mt-1 text-title-foreground">
               Upload a picture to make your profile stand out and let people
               recognize your comments and contributions easily!
             </div>
             <div className="flex relative">
-              <div className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-2/3 h-56 rounded-md my-4">
-                <img
-                  src={avatar}
-                  className="w-full h-full object-cover  group-hover:opacity-60"
-                />
-                <span className="hidden group-hover:block absolute">
-                  <Camera className="w-8 h-8 pointer-events-none text-title" />
-                </span>
-              </div>
+              <label
+                htmlFor="fileBanner"
+                className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-2/3 h-56 rounded-md my-4"
+              >
+                {isUploadingBanner ? (
+                  <div
+                    className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status"
+                  >
+                    <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                      Loading...
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={userData.banner_url ? userData.banner_url : avatar}
+                      className="w-full h-full object-cover  group-hover:opacity-60"
+                    />
+                    <span className="hidden group-hover:block absolute">
+                      <Camera className="w-8 h-8 pointer-events-none text-title" />
+                    </span>
+                  </>
+                )}
+              </label>
             </div>
           </div>
           {userData && <AccountInfo info={userData} />}

@@ -51,11 +51,7 @@ const Home = () => {
               <div className="mx-auto h-fit  flex flex-col border  p-4 shadow-lg max-w-2xl rounded-xl bg-card">
                 <CreateCard />
               </div>
-              <div className="mx-auto  flex flex-col   max-w-2xl p-4 space-y-5">
-                <DetailCard />
-                <DetailCard />
-                <DetailCard />
-              </div>
+              <div className="mx-auto  flex flex-col   max-w-2xl p-4 space-y-5"></div>
             </div>
           </div>
         </div>

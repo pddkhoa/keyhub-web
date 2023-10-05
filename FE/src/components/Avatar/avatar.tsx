@@ -1,11 +1,15 @@
 import { FC } from "react";
 import avatar from "./../../asset/1112.jpg";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type AlphabetAvatarProps = {
   size: number;
 };
 
 const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
+  const userData = useSelector((state: RootState) => state.user.detail.data);
+
   const style = {
     width: size,
     height: size,
@@ -17,10 +21,26 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
       style={style}
       className="relative inline-flex items-center justify-center  overflow-hidden  rounded-full shadow-lg "
     >
-      <img
-        className="w-[100%] h-[100%] rounded-full object-cover"
-        src={avatar}
-      />
+      {userData.avatar ? (
+        <img
+          className="w-[100%] h-[100%] rounded-full object-cover"
+          src={userData.avatar}
+        />
+      ) : (
+        <svg
+          className=" w-full h-full rounded-full bg-gray-100 text-gray-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+            clipRule="evenodd"
+          />
+        </svg>
+      )}
     </div>
   );
 };

@@ -13,7 +13,7 @@ import { RootState } from "@/redux/store";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
 import { useEffect } from "react";
-import { getAllBlogByAuth } from "@/redux/apiRequest";
+import { getAllBlogByAuth, getAllSeries } from "@/redux/apiRequest";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
@@ -26,18 +26,19 @@ export const Profile = () => {
   useEffect(() => {
     if (user?.data.token) {
       getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+      getAllSeries(user?.data.token, dispatch, axiosJWT);
     }
   }, []);
 
   return (
     <div className="container mx-auto min-h-0 px-4 py-6">
       <header className="w-full">
-        <div className="relative  h-[300px] w-full rounded-xl">
+        <div className="relative  h-[350px] w-full rounded-xl">
           <div className="w-full h-full">
             <img
-              src={banner}
+              src={userData.banner_url ? userData.banner_url : banner}
               alt="banner"
-              className="w-full h-full rounded-xl object-fill"
+              className="w-full h-full rounded-xl object-cover"
             />
           </div>
         </div>

@@ -17,8 +17,8 @@ import { useSelector } from "react-redux";
 import Output from "editorjs-blocks-react-renderer";
 
 import "./output.css";
-import FormatDate from "../FormatDate/formatDate";
 import { format } from "date-fns";
+import AlphabetAvatar from "../Avatar/avatar";
 
 export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
@@ -109,36 +109,14 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
   };
   return (
     <>
-      {/* <Button type="button" onClick={save}>
-          Save
-        </Button> */}
       <div className="pt-8 pb-8  bg-background dark:bg-gray-900 antialiased">
         <div className="flex justify-between mx-auto ">
           <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <div className="mb-4 lg:mb-6 not-format">
               <address className="flex items-center mb-6 not-italic">
                 <div className="inline-flex items-center mr-3 text-sm text-title ">
-                  {userData.avatar ? (
-                    <img
-                      className="mr-4  w-[70px] h-[70px] rounded-full"
-                      src={userData.avatar}
-                      alt="Jese Leos"
-                    />
-                  ) : (
-                    <svg
-                      className="mr-4 w-[70px] h-[70px] rounded-full bg-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  )}
-                  <div>
+                  <AlphabetAvatar size={85} />
+                  <div className="ml-4 mt-2">
                     <a
                       href="#"
                       rel="author"
@@ -176,7 +154,7 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
                     },
                     image: {
                       className:
-                        " flex flex-col h-[500px] w-[600px] justify-center items-center  mt-10 mx-auto bg-transparent",
+                        " flex flex-col h-[400px] w-[500px] justify-center items-center  mt-10 mx-auto bg-transparent",
                     },
                     list: {
                       className: "text-title-foreground",
