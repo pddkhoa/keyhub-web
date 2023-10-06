@@ -24,9 +24,16 @@ const seriesSlice = createSlice({
     addSeries(state, action) {
       state.series.result.push(action.payload);
     },
+    deleteSeriesSuccess(state, action: PayloadAction<number>) {
+      // Lọc bỏ series có id trùng với action.payload
+      state.series.result = state.series.result.filter(
+        (series) => series.id !== action.payload
+      );
+    },
   },
 });
 
-export const { getSeriesSuccess, addSeries } = seriesSlice.actions;
+export const { getSeriesSuccess, addSeries, deleteSeriesSuccess } =
+  seriesSlice.actions;
 
 export default seriesSlice.reducer;

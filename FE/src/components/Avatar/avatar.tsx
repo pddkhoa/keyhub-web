@@ -13,7 +13,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
   const style = {
     width: size,
     height: size,
-    padding: size > 90 ? "4px" : "2px",
+    padding: size > 90 ? "4px" : "1px",
   };
 
   return (

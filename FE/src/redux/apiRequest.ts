@@ -8,7 +8,7 @@ import {
   loginStart,
   loginSuccess,
 } from "./authSlice";
-import { getSeriesSuccess } from "./seriesSlice";
+import { deleteSeriesSuccess, getSeriesSuccess } from "./seriesSlice";
 import { showToast } from "@/hooks/useToast";
 import { TokenType } from "@/types/token";
 import User from "@/types/user";
@@ -350,4 +350,26 @@ export const getAllBlogByAuth = async (
   } catch (err) {
     console.log(err);
   }
+};
+
+export const deleteSeries = async (
+  id: number,
+  accessToken: string,
+  axiosJWT: any
+) => {
+  type body = {
+    success: boolean;
+    message: string;
+    result: string;
+    statusCode: number;
+  };
+  const res = await requestApiHelper<body>(
+    axiosJWT.delete(`api/v1/blog/remove-series/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  );
+  console.log(res);
+  return res;
 };

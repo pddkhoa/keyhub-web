@@ -154,7 +154,7 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
                     },
                     image: {
                       className:
-                        " flex flex-col h-[400px] w-[500px] justify-center items-center  mt-10 mx-auto bg-transparent",
+                        " flex flex-col h-[400px] w-full justify-center items-center  mt-10 mx-auto bg-transparent",
                     },
                     list: {
                       className: "text-title-foreground",

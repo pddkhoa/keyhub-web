@@ -13,6 +13,7 @@ import {
   ArrowBigRightDash,
   Loader2,
   PenTool,
+  Save,
   Settings2,
   ShieldCheck,
 } from "lucide-react";
@@ -304,13 +305,21 @@ export const Editor = () => {
       <div className="fixed bottom-10 z-50 left-1/2 transform -translate-x-1/2 -translate-y-1/2 space-x-5">
         <div className="flex gap-5 space-x-5">
           <form onSubmit={formik.handleSubmit} className="flex gap-5">
-            {/* <input value={formik.values.title} hidden />
-            <input value={formik.values.description} hidden />
-            <input value={formik.values.seriesId} hidden />
-            <input value={formik.values.tagIds} hidden />
-            <input value={formik.values.categoryIds} hidden />
-            <input value={formik.values.avatar} hidden />
-            <input value={formik.values.content} hidden /> */}
+            <Button
+              type="button"
+              className="px-5 py-1.5 float-right"
+              disabled={formik.isSubmitting || !formik.isValid}
+            >
+              Cancle
+            </Button>
+            <Button
+              type="submit"
+              className="px-3 py-1.5 float-right"
+              disabled={formik.isSubmitting || !formik.isValid}
+            >
+              <Save className="mr-2 w-6 h-6 p-1" />
+              Save to daft
+            </Button>
             {Step === "STEP_THREE" ? (
               isLoading ? (
                 <Button className="px-5 py-1.5 float-right" disabled>

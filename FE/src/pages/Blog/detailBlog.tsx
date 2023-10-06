@@ -119,10 +119,10 @@ export const DetailBlog = () => {
                   <div className="flex justify-between mx-auto ">
                     <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
                       <div className="mb-4 lg:mb-6 not-format">
-                        <address className="flex items-center mb-6 not-italic">
+                        <address className="flex items-center justify-between mb-6 not-italic">
                           <div className="inline-flex items-center mr-3 text-sm text-title ">
-                            <AlphabetAvatar size={85} />
-                            <div className="ml-4 mt-2">
+                            <AlphabetAvatar size={80} />
+                            <div className="ml-4 mt-1">
                               <a
                                 href="#"
                                 rel="author"
@@ -133,12 +133,18 @@ export const DetailBlog = () => {
                               <p className="text-base text-title-foreground ">
                                 {userData.second_name}
                               </p>
-                              <p className="text-base text-title-foreground ">
-                                <div>
-                                  {format(editorData.time, "MMM. d, yyyy")}
-                                </div>
-                              </p>
                             </div>
+                          </div>
+                          <div className="flex flex-col mt-1 items-center space-x-3 ">
+                            <div className="flex gap-3 text-title">
+                              <div>{data?.categories.name}</div>
+                            </div>
+                            <p className="text-base text-title-foreground ">
+                              <div>
+                                {format(editorData.time, "MMM. d, yyyy")}
+                              </div>
+                            </p>
+                            <div></div>
                           </div>
                         </address>
                         <h1 className="mb-4 text-3xl font-extrabold leading-tight text-title">
@@ -184,11 +190,6 @@ export const DetailBlog = () => {
 
                       <div className="border-t-2 w-full mt-10 p-4">
                         <div className="flex flex-col space-y-3">
-                          <div className="flex items-center space-x-3 text-title-foreground">
-                            <span>Category:</span>
-
-                            <div>{data?.categories.name}</div>
-                          </div>
                           <div className="flex items-center space-x-3 text-title-foreground">
                             <span>Tags:</span>
                             <div className="flex gap-3">

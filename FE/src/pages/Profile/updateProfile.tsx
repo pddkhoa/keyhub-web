@@ -34,17 +34,12 @@ import {
 } from "@/components/Modal/Tool/updateAbout";
 import { UpdateAccount } from "@/components/Modal/Tool/updateAccount";
 import { RootState } from "@/redux/store";
-import {
-  deleteAvatarUser,
-  uploadAvatarUser,
-  uploadBannerUser,
-} from "@/redux/apiRequest";
+import { uploadAvatarUser, uploadBannerUser } from "@/redux/apiRequest";
 import { showToast } from "@/hooks/useToast";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
 import {
   getUserSuccess,
-  updateUserSuccess,
   uploadAvatarSuccess,
   uploadBanerSuccess,
 } from "@/redux/userSlice";

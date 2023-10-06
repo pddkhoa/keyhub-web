@@ -1,18 +1,54 @@
+import { createAxios } from "@/api/createInstance";
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import convertDate from "@/components/FormatDate/formatDate";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { showToast } from "@/hooks/useToast";
+import { deleteSeries } from "@/redux/apiRequest";
+import { loginSuccess } from "@/redux/authSlice";
+import { deleteSeriesSuccess } from "@/redux/seriesSlice";
+import { RootState } from "@/redux/store";
 import seriesType from "@/types/series";
-import { Calendar, Sticker } from "lucide-react";
+import { Calendar, Sticker, Trash2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface CardSeriesProps {
   data: seriesType;
 }
 
 export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
+  const auth = useSelector((state: RootState) => state.auth.login);
+
+  const accessToken = auth?.data.token;
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
+
   const formatDate = () => {
     const inputDate = data.createday;
     const formattedDate = convertDate(inputDate);
 
     return formattedDate;
+  };
+
+  const handleDeleteSeries = async (id: number) => {
+    try {
+      const { body } = await deleteSeries(id, accessToken, axiosJWT);
+      if (body?.success) {
+        dispatch(deleteSeriesSuccess(id));
+        showToast("Upload Anh Thanh Cong", "success");
+      } else {
+        showToast(body?.message || "Error", "error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -31,24 +67,46 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
             <AlphabetAvatar size={50} />
           </div>
 
-          <div className="text-gray-500 p-1 rounded-lg bg-hover hover:brightness-150 hover:text-gray-300 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-more-vertical"
-            >
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="12" cy="5" r="1" />
-              <circle cx="12" cy="19" r="1" />
-            </svg>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                className="text-gray-500 p-1 rounded-lg hover:bg-hover hover:brightness-150 hover:text-gray-300 cursor-pointer"
+                variant="outline"
+              >
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="lucide lucide-more-vertical"
+                  >
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="12" cy="5" r="1" />
+                    <circle cx="12" cy="19" r="1" />
+                  </svg>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Option</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  handleDeleteSeries(data.id);
+                }}
+                className="cursor-pointer"
+              >
+                <Trash2 className="w-5 h-5 mr-2" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <p className="mt-4 h-52 text-gray-500 font-bold text-sm whitespace-normal ">
@@ -57,7 +115,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-2 justify-center items-center">
           <Calendar className="w-5 h-5 text-title-foreground" />
-          <span className="text-gray-600 text-md">{formatDate()}</span>
+          <span className="text-gray-600 text-md">{formatDate()}.</span>
         </div>
         <div className="p-2 rounded-full bg-red-700">
           <Sticker />

@@ -70,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
             <div className="flex flex-col justify-between h-full">
               <ul className="py-3 h-full sticky top-14  space-y-2">
                 <li className="mt-0  flex items-center rounded-xl p-1.5 hover:bg-hover">
-                  <Link to={"profile"}>
+                  <Link to={"home"}>
                     <Items
                       icon={<Home className="text-title-foreground" />}
                       title={"News Feed"}
