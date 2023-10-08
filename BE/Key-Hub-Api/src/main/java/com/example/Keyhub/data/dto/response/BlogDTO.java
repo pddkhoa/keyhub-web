@@ -14,6 +14,7 @@ public class BlogDTO {
     private String title;
     private String content;
     private String description;
+    private Long views;
     private Date create_date;
     private String avatar;
     private int status_id;
@@ -21,4 +22,6 @@ public class BlogDTO {
     private CategoryDTO categories;
     private List<TagDTO> tags;
     private SeriesResponse series;
+    private Boolean isLike;
+    private Boolean isSave;
 }

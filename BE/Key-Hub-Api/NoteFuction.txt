@@ -1,0 +1,4 @@
+Blog status:
+0: Bản thảo
+1: Publish
+2: Bị khóa

@@ -1,6 +1,8 @@
 package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.response.SeriesResponse;
+import com.example.Keyhub.data.entity.Blog.SeriesImage;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
@@ -34,6 +36,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private ModelMapper mapper;
     @Autowired
+    private ISeriesRepository seriesRepository;
+    @Autowired
     UserServiceImpl userService;
     @Autowired
     ISeriesRepository iSeriesRepository;
@@ -41,6 +45,8 @@ public class UserServiceImpl implements IUserService {
     RoleServiceImpl roleService;
     @Autowired
     IStoryService iStoryService;
+    @Autowired
+    ISeriesImageRepository iSeriesImageRepository;
     @Autowired
     IAddressRepository addressRepository;
     @Autowired
@@ -178,6 +184,36 @@ public class UserServiceImpl implements IUserService {
         tokenRepos.save(token);
         userRepository.save(user);
     }
+
+    @Override
+    public List<SeriesResponse> getAllSerieByUser(Users users) {
+        List<Series> series1 = seriesRepository.findAllByUser(users);
+        List<SeriesResponse> seriesDTOList = new ArrayList<>();
+        for (Series series : series1) {
+            SeriesResponse seriesDTO = new SeriesResponse();
+            SeriesImage seriesImage = iSeriesImageRepository.findById(series.getId()).orElse(null);
+            if (seriesImage!=null)
+            {
+                seriesDTO.setId(series.getId());
+                seriesDTO.setImage(seriesImage.getUrlImage());
+                seriesDTO.setCreateday(series.getCreateday());
+                seriesDTO.setName(series.getName());
+                seriesDTO.setDescription(series.getDescription());
+                seriesDTO.setSumBlog(series.getSumBlog());
+                seriesDTOList.add(seriesDTO);
+            }
+            else {
+            seriesDTO.setId(series.getId());
+            seriesDTO.setCreateday(series.getCreateday());
+            seriesDTO.setName(series.getName());
+            seriesDTO.setDescription(series.getDescription());
+            seriesDTO.setSumBlog(series.getSumBlog());
+            seriesDTOList.add(seriesDTO);
+            }
+        }
+        return seriesDTOList;
+    }
+
     @Override
     @Transactional
     public Users changeInfo(BigInteger user_id, ProfileInfor body) {
@@ -336,6 +372,17 @@ public class UserServiceImpl implements IUserService {
         series.setSumBlog(BigInteger.valueOf(0));
         series.setName(seriesDTO.getName());
         series.setCreateday(timestamp);
+        return iSeriesRepository.save(series);
+    }
+
+    @Override
+    public Series editSeries(BigInteger series_id,SeriesDTO seriesDTO, Users users) {
+      Series series = seriesRepository.findById(series_id).orElse(null);
+      if (series!=null) {
+          series.setDescription(seriesDTO.getDescription());
+          series.setUser(users);
+          series.setName(seriesDTO.getName());
+      }
         return iSeriesRepository.save(series);
     }
 

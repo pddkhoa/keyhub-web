@@ -97,6 +97,11 @@ public class UploadImageService {
         return iBlogImange.save(tempUrl);
     }
     public SeriesImage saveURLSeries(Series series, String url) {
+        SeriesImage seriesImage = iSeriesImageRepository.findById(series.getId()).orElse(null);
+        if (seriesImage!=null)
+        {
+            iSeriesImageRepository.delete(seriesImage);
+        }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SeriesImage tempUrl = new SeriesImage();
         tempUrl.setUrlImage(url);

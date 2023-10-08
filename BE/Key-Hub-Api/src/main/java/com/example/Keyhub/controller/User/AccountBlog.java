@@ -3,6 +3,8 @@ package com.example.Keyhub.controller.User;
 import com.cloudinary.Cloudinary;
 import com.example.Keyhub.config.ValidatorUtils;
 import com.example.Keyhub.data.dto.request.BlogPostDTO;
+import com.example.Keyhub.data.dto.request.CommentDTO;
+import com.example.Keyhub.data.dto.request.ReplyCommentDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
@@ -11,6 +13,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
+import com.example.Keyhub.service.ICommentService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
@@ -19,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +43,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/api/v1/blog")
 public class AccountBlog {
+    @Autowired
+    ICommentService commentService;
+    @Autowired
+    IBlogLikeRepository blogLikeRepository;
+    @Autowired
+    IBlogSaveRepository blogSaveRepository;
+    @Autowired
+    ICommentRepository commentRepository;
     @Autowired
     Cloudinary cloudinary;
     @Autowired
@@ -287,6 +299,8 @@ public class AccountBlog {
         blogDTO.setCreate_date(newBlog.getCreate_date());
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
+        blogDTO.setIsSave(false);
+        blogDTO.setIsLike(false);
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setDescription(newBlog.getDescription());
@@ -368,6 +382,8 @@ public class AccountBlog {
         blogDTO.setCreate_date(newBlog.getCreate_date());
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
+        blogDTO.setIsLike(false);
+        blogDTO.setIsSave(false);
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -399,7 +415,8 @@ public class AccountBlog {
     }
     @PatchMapping("{blog_id}/change-blog")
     public ResponseEntity changeStatusBlog(@PathVariable BigInteger blog_id) {
-        BlogDTO blogDTO = ibLogService.changeStatusBlog(blog_id);
+        Users users = getUserFromAuthentication();
+        BlogDTO blogDTO = ibLogService.changeStatusBlog(blog_id,users);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -414,9 +431,9 @@ public class AccountBlog {
         Cookie emptyCookie = new Cookie("temporaryImageUrls", "");
         emptyCookie.setMaxAge(0);
         response.addCookie(emptyCookie);
-        Cookie emptyCookieAvastar = new Cookie("temporaryAvatarUrls", "");
-        emptyCookieAvastar.setMaxAge(0);
-        response.addCookie(emptyCookieAvastar);
+        Cookie emptyCookieAvatar = new Cookie("temporaryAvatarUrls", "");
+        emptyCookieAvatar.setMaxAge(0);
+        response.addCookie(emptyCookieAvatar);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -456,8 +473,60 @@ public class AccountBlog {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
+                        .result(url)
                         .statusCode(HttpStatus.OK.value())
                         .message("Upload file was successful")
+                        .build()
+                );
+    }
+    @PatchMapping("/{series_id}/edit-series")
+    public ResponseEntity editSeries( @PathVariable BigInteger series_id,@Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
+        Series seriesFind = seriesRepository.findByNameAndUser(series.getName(),getUserFromAuthentication());
+        if(seriesFind==null) {
+            Series series1 = iUserService.editSeries(series_id, series, getUserFromAuthentication());
+            Cookie[] cookies = request.getCookies();
+            String currentImageUrls = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("seriesImage".equals(cookie.getName())) {
+                        currentImageUrls = cookie.getValue();
+                        break;
+                    }
+                }
+            }
+            String lastImageUrl = null;
+            if (currentImageUrls != null) {
+                String[] imageUrlArray = currentImageUrls.split("-");
+                int lastIndex = imageUrlArray.length - 1;
+                if (lastIndex >= 0) {
+                    lastImageUrl = imageUrlArray[lastIndex];
+                    uploadImageService.saveURLSeries(series1, lastImageUrl);
+                }
+            }
+            SeriesResponse seriesResponse = new SeriesResponse();
+            seriesResponse.setSumBlog(series1.getSumBlog());
+            seriesResponse.setImage(lastImageUrl);
+            seriesResponse.setId(series_id);
+            seriesResponse.setName(series1.getName());
+            seriesResponse.setDescription(series1.getDescription());
+            seriesResponse.setCreateday(series1.getCreateday());
+            Cookie emptyCookie = new Cookie("seriesImage", "");
+            emptyCookie.setMaxAge(0);
+            response.addCookie(emptyCookie);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(seriesResponse)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Change series  success")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GenericResponse.builder()
+                        .success(false)
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .message("Edit series fail. Series exits")
                         .build()
                 );
     }
@@ -492,8 +561,10 @@ public class AccountBlog {
             }
             if (currentImageUrls != null) {
                 String[] imageUrlArray = currentImageUrls.split("-");
-                for (String imageUrl : imageUrlArray) {
-                    uploadImageService.saveURLSeries(series1, imageUrl);
+                int lastIndex = imageUrlArray.length - 1;
+                if (lastIndex >= 0) {
+                    String lastImageUrl = imageUrlArray[lastIndex];
+                    uploadImageService.saveURLSeries(series1, lastImageUrl);
                 }
             }
             Cookie emptyCookie = new Cookie("seriesImage", "");
@@ -542,8 +613,9 @@ public class AccountBlog {
     }
     @GetMapping("/series/list")
     public ResponseEntity getBlockList() {
-        List<Series> series1 = seriesRepository.findAllByUser(getUserFromAuthentication());
-        if (series1.isEmpty()) {
+        Users users = getUserFromAuthentication();
+        List<SeriesResponse> list = iUserService.getAllSerieByUser(users);
+        if (list.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -552,15 +624,10 @@ public class AccountBlog {
                             .build()
                     );
         }
-        List<SeriesResponse> seriesDTOList = new ArrayList<>();
-        for (Series series : series1) {
-            SeriesResponse seriesDTO = modelMapper.map(series, SeriesResponse.class);
-            seriesDTOList.add(seriesDTO);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
-                        .result(seriesDTOList)
+                        .result(list)
                         .statusCode(HttpStatus.OK.value())
                         .message("List series")
                         .build()
@@ -620,6 +687,7 @@ public class AccountBlog {
     }
     @GetMapping("/{blog_id}")
     public ResponseEntity getBlogById( @PathVariable BigInteger blog_id) {
+
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setId(newBlog.getId());
@@ -630,6 +698,40 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
 
+        //IsSave - IsLike
+        Users users = getUserFromAuthentication();
+        BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
+        BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,newBlog);
+        if (blogSave==null)
+        {
+            blogDTO.setIsSave(false);
+        }
+        else {
+            blogDTO.setIsSave(true);
+        }
+        if (blogLike==null)
+        {
+            blogDTO.setIsLike(false);
+        }
+        else {
+            blogDTO.setIsLike(true);
+        }
+
+        //Views
+        if (users.getId()!=newBlog.getUser().getId())
+        {
+            Long count = newBlog.getViews();
+            if(count==null)
+            {
+                count = Long.valueOf(1);
+            }
+            else {
+                count= count+1;
+            }
+            newBlog.setViews(count);
+            blogRepository.save(newBlog);
+            blogDTO.setViews(count);
+        }
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(newBlog.getCategory().getId());
         categoryDTO.setName(newBlog.getCategory().getName());
@@ -672,35 +774,33 @@ public class AccountBlog {
                             .build()
                     );
         }
-        BigInteger count = blog.getLikes();
-        count = count.add(BigInteger.ONE);
-        blog.setLikes(count);
-        blogRepository.save(blog);
+        LikeReponse likeReponse = ibLogService.likeBlog(blog,user);
+        if (likeReponse.getStatus()==false)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(likeReponse)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Dislike blog success")
+                            .build()
+                    );
+        }
+        else {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
-                        .result(count)
+                        .result(likeReponse)
                         .statusCode(HttpStatus.OK.value())
                         .message("Like blog success")
                         .build()
                 );
-    }
+    }}
     @PostMapping("/{blogId}/save")
     public ResponseEntity<?> saveBlog(@PathVariable BigInteger blogId) {
         Users user = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blogId).orElse(null);
         BlogSave blogCheck= iBlogSaveRepository.findByUsersAndBlog(user,blog);
-        if (blogCheck!=null)
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(GenericResponse.builder()
-                            .success(false)
-                            .result(null)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("User have been saved this blog")
-                            .build()
-                    );
-        }
         if (blog==null)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -709,6 +809,17 @@ public class AccountBlog {
                             .result(null)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Not found Blog")
+                            .build()
+                    );
+        }
+        if (blogCheck!=null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("User have been saved this blog")
                             .build()
                     );
         }
@@ -722,6 +833,44 @@ public class AccountBlog {
                         .result(blogSave)
                         .statusCode(HttpStatus.OK.value())
                         .message("Save blog success")
+                        .build()
+                );
+    }
+    @Transactional
+    @DeleteMapping("/{blogId}/cancle-save")
+    public ResponseEntity<?> disableSaveBlog(@PathVariable BigInteger blogId) {
+        Users user = getUserFromAuthentication();
+        Blog blog = blogRepository.findById(blogId).orElse(null);
+        BlogSave blogCheck= iBlogSaveRepository.findByUsersAndBlog(user,blog);
+        if (blog==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found Blog")
+                            .build()
+                    );
+        }
+        if (blogCheck==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("User haven't been saved this blog")
+                            .build()
+                    );
+        }
+        iBlogSaveRepository.delete(blogCheck);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(null)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Cancel save successful")
                         .build()
                 );
     }
@@ -751,7 +900,8 @@ public class AccountBlog {
     }
     @PatchMapping("/{blog_id}/edit")
     public ResponseEntity editBlogByUser(@Valid  @RequestBody  BlogEditDTO blogDTO, BindingResult bindingResult,@PathVariable  BigInteger blog_id) {
-        BlogDTO blog = ibLogService.updateBlog(blogDTO,blog_id);
+        Users users = getUserFromAuthentication();
+        BlogDTO blog = ibLogService.updateBlog(blogDTO,blog_id,users);
         if (bindingResult.hasErrors())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -802,6 +952,79 @@ public class AccountBlog {
                         .result(blog.getStatus())
                         .statusCode(HttpStatus.OK.value())
                         .message("Hide blog success")
+                        .build()
+                );
+    }
+    @Transactional
+    @DeleteMapping("/{blog_id}/delete")
+    public ResponseEntity<?> deleteBlogById(@PathVariable BigInteger blog_id) {
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
+        if (blog==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found blog")
+                            .build()
+                    );
+        }
+        ibLogService.deleteBlogById(blog);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(null)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Delete blog successful")
+                        .build()
+                );
+    }
+    @PostMapping("/{blog_id}/comment")
+    public ResponseEntity<?> commentBlog(@PathVariable BigInteger blog_id, @RequestBody CommentDTO DTO) {
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
+        if (blog==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Not found blog")
+                            .build()
+                    );
+        }
+        Comment comment = commentService.addComment(blog,DTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(comment)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Comment blog success")
+                        .build()
+                );
+    }
+    @PostMapping("/{blog_id}/reply-comment")
+    public ResponseEntity<?> replyBlog(@PathVariable BigInteger blog_id, @RequestBody ReplyCommentDTO DTO) {
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
+        if (blog==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Not found blog")
+                            .build()
+                    );
+        }
+        Comment comment = commentService.replyComment(blog,DTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(comment)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Comment blog success")
                         .build()
                 );
     }

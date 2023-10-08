@@ -52,11 +52,6 @@ public class Blog {
     private Series series;
     @Column
     private BigInteger likes;
-    @ManyToMany
-    @JoinTable(
-            name = "blog_comment",
-            joinColumns = @JoinColumn(name = "blog_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id")
-    )
-    private List<Comment> comments;
+    @Column
+    private Long Views;
 }

@@ -2,13 +2,15 @@ package com.example.Keyhub.controller.Blog;
 
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.TagDTO;
-import com.example.Keyhub.data.entity.Blog.Category;
-import com.example.Keyhub.data.entity.Blog.Tag;
+import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.repository.IBlogComment;
+import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICategoryRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
+import com.example.Keyhub.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,10 @@ public class BlogController {
     @Autowired
     IBLogService ibLogService;
     @Autowired
+    IBlogRepository  blogRepository;
+    @Autowired
+    ICommentService commentService;
+    @Autowired
     ICategoryRepository categoryRepository;
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -38,7 +44,8 @@ public class BlogController {
     }
     @GetMapping("/category/{category_id}")
     public ResponseEntity getBlogByCategory(@PathVariable Long category_id) {
-        List<BlogDTO> list= ibLogService.getBlogByCategory(category_id);
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getBlogByCategory(category_id,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -61,7 +68,8 @@ public class BlogController {
     }
     @GetMapping("/tags/{tag_id}")
     public ResponseEntity getBlogByTag(@PathVariable Long tag_id) {
-        List<BlogDTO> list= ibLogService.getBlogByTag(tag_id);
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getBlogByTag(tag_id,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -102,13 +110,15 @@ public class BlogController {
                         .success(true)
                         .result(list)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Blog by tags")
+                        .message("Blog by save")
                         .build()
                 );
     }
     @GetMapping("/series/{series_id}")
     public ResponseEntity getBlogBySeries(@PathVariable BigInteger series_id) {
-        List<BlogDTO> list= ibLogService.getBlogBySeries(series_id);
+
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getBlogBySeries(series_id,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -131,6 +141,7 @@ public class BlogController {
     }
     @PostMapping("/search/{key}")
     public ResponseEntity getBlogBySearch(@PathVariable String key) {
+        Users users = getUserFromAuthentication();
         if (key.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -142,7 +153,7 @@ public class BlogController {
                             .build()
                     );
         }
-        List<BlogDTO> list= ibLogService.getBlogBySearch(key);
+        List<BlogDTO> list= ibLogService.getBlogBySearch(key,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -165,8 +176,8 @@ public class BlogController {
     }
     @GetMapping("/allBlog")
     public ResponseEntity getAllBlog() {
-
-        List<BlogDTO> list= ibLogService.getAllBlog();
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getAllBlog(users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -225,5 +236,52 @@ public class BlogController {
                         .build()
                 );
     }
-
+    @GetMapping("/draft")
+    public ResponseEntity getBlogByCategory() {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getBlogDraftByUser(users,2);
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog draft by user")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Blog draft by user")
+                        .build()
+                );
+    }
+        @GetMapping("{blog_id}/commentBlog")
+    public ResponseEntity getCommentByBlog(@PathVariable BigInteger blog_id) {
+       Blog blog = blogRepository.findById(blog_id).orElse(null);
+        if (blog==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Not found blog")
+                            .build()
+                    );
+        }
+        List<Comment> comment = commentService.findAllByBlog(blog);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(comment)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Blog comment")
+                        .build()
+                );
+    }
 }

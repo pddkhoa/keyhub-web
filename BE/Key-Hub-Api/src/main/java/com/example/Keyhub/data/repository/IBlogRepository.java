@@ -25,4 +25,5 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findByTagsAndStatus(Tag category,int status);
     List<Blog> findBySeriesAndStatus(Series series, int status);
     List<Blog> findAllByUser(Users users);
+    List<Blog> findAllByUserAndStatus(Users users,int status);
 }

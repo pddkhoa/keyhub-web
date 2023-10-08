@@ -1,5 +1,7 @@
 package com.example.Keyhub.data.entity.Blog;
 
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,21 +9,25 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name = "blog_like")
+public class BlogLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
-    @Column
-    private String content;
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Comment parentComment;
+    @JoinColumn(name =  "blog_id")
+    private Blog blog;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name =  "user_id")
+    private Users users;
+
 }
