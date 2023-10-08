@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
-import { forgortPassword } from "@/redux/apiRequest";
+import { forgortPassword } from "@/services/access/apiRequest";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";

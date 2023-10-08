@@ -62,7 +62,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <h2 className="text-2xl text-title font-extrabold  whitespace-normal line-clamp-2 truncate">
+      <h2 className="text-2xl h-16 text-title font-extrabold  whitespace-normal line-clamp-2 truncate">
         {data.title}
       </h2>
       <div className="py-4 ">

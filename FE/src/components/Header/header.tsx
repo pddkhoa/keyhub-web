@@ -69,25 +69,25 @@ const Header = () => {
                     <AlphabetAvatar size={40} />
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 mr-4 ">
+                <DropdownMenuContent className="w-64 mr-4 ">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => {
                       navigate("/profile");
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer h-12"
                   >
-                    <AlphabetAvatar size={27} />
+                    <AlphabetAvatar size={40} />
                     <span className="ml-2">{userData.name}</span>
                   </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => {
                       navigate("/profile/update");
                     }}
                     className="cursor-pointer"
                   >
-                    <UserCog2 className="w-5 h-5 mr-4 ml-1" />
+                    <UserCog2 className="w-5 h-5 mr-4 ml-3" />
                     <span>Setting Account</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

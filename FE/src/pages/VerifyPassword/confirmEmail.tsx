@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { showToast } from "@/hooks/useToast";
-import { checkOtp } from "@/redux/apiRequest";
+import { checkOtp } from "@/services/access/apiRequest";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";

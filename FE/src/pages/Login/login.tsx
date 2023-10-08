@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { loginUser } from "../../redux/apiRequest";
+import { loginUser } from "../../services/access/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";

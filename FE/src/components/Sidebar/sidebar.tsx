@@ -6,7 +6,7 @@ import { RootStateToken } from "../../types/token";
 import { Link, useNavigate } from "react-router-dom";
 import { createAxios } from "../../api/createInstance";
 import { logOutSuccess } from "../../redux/authSlice";
-import { logOut } from "../../redux/apiRequest";
+import { logOut } from "../../services/access/apiRequest";
 import { Home, Newspaper, Settings } from "lucide-react";
 import { Items } from "./items";
 import {

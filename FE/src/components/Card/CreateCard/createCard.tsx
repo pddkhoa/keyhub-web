@@ -28,7 +28,9 @@ export const CreateCard = () => {
         <CreateItems setTabs={setTabs} />
       </div>
       <div className={`create-card duration-300 ease-in-out `}>
-        {hide ? <CreateContent tabName={tabs} /> : null}
+        <div className="py-2 rounded w-9/12 mx-auto">
+          {hide ? <CreateContent tabName={tabs} /> : null}
+        </div>
       </div>
     </div>
   );
@@ -124,36 +126,32 @@ const CreateContent: React.FC<CreateContentProps> = ({ tabName }) => {
   switch (tabName) {
     case "TAB_BLOG":
       return (
-        <div className="py-2 rounded w-9/12 mx-auto">
-          <div className="relative flex flex-col p-4 text-title-foreground border border-title-foreground rounded">
-            <div
-              x-ref="dnd"
-              className="relative flex flex-col text-title-foreground border border-border  border-dashed rounded cursor-pointer"
-            >
-              <div className="flex flex-col items-center justify-center py-10 text-center">
-                <div className="rounded-full p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
-                  <PencilLine />
-                </div>
-                <p className="m-0">Click in this area to add new post</p>
+        <div className="relative flex flex-col p-4 text-title-foreground border border-title-foreground rounded">
+          <div
+            x-ref="dnd"
+            className="relative flex flex-col text-title-foreground border border-border hover:brightness-150  border-dashed rounded cursor-pointer"
+          >
+            <div className="flex flex-col items-center justify-center py-10 text-center ">
+              <div className="rounded-full p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
+                <PencilLine />
               </div>
+              <p className="m-0">Click in this area to add new post</p>
             </div>
           </div>
         </div>
       );
     case "TAB_VIDEO":
       return (
-        <div className="py-2 rounded w-9/12 mx-auto">
-          <div className="relative flex flex-col p-4 text-title-foreground border border-title-foreground rounded">
-            <div
-              x-ref="dnd"
-              className="relative flex flex-col text-title-foreground border border-border  border-dashed rounded cursor-pointer"
-            >
-              <div className="flex flex-col items-center justify-center py-10 text-center">
-                <div className="rounded-full p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
-                  <ImagePlus />
-                </div>
-                <p className="m-0">Click in this area to add new post</p>
+        <div className="relative flex flex-col p-4 text-title-foreground border border-title-foreground rounded">
+          <div
+            x-ref="dnd"
+            className="relative flex flex-col text-title-foreground border border-border hover:brightness-150  border-dashed rounded cursor-pointer"
+          >
+            <div className="flex flex-col items-center justify-center py-10 text-center">
+              <div className="rounded-full p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground">
+                <ImagePlus />
               </div>
+              <p className="m-0">Click in this area to add new post</p>
             </div>
           </div>
         </div>

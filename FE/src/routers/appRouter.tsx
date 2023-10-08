@@ -17,6 +17,7 @@ import { DetailBlog } from "@/pages/Blog/detailBlog";
 
 import Editor from "@/components/Editor/editor";
 import App from "@/components/Editor/app";
+import { Categories } from "@/pages/Categories/categories";
 
 const AppRouter = () => {
   return (
@@ -44,6 +45,11 @@ const AppRouter = () => {
         <Route element={<PrivateRouter />}>
           <Route path="profile/update" element={<UpdateProfile />} />
           <Route path="profile" element={<Profile />} />
+          {/* <Route path="profile/series" element={<Profile />} /> */}
+          {/* <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<Profile />} /> */}
+          <Route path="categories" element={<Categories />} />
+
           <Route path="home" element={<Home />} />
           <Route path="explore" element={<Explore />} />
           <Route path="editor" element={<App />} />

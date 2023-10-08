@@ -11,21 +11,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { showToast } from "@/hooks/useToast";
-import { deleteSeries } from "@/redux/apiRequest";
 import { loginSuccess } from "@/redux/authSlice";
 import { deleteSeriesSuccess } from "@/redux/seriesSlice";
 import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
 import { Calendar, Sticker, Trash2 } from "lucide-react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface CardSeriesProps {
   data: seriesType;
+  setExpanded: Dispatch<SetStateAction<number | undefined>>;
+  setSeriesSelected: React.Dispatch<
+    React.SetStateAction<seriesType | undefined>
+  >;
 }
 
-export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
+export const CardSeries: React.FC<CardSeriesProps> = ({
+  data,
+  setExpanded,
+  setSeriesSelected,
+}) => {
   const auth = useSelector((state: RootState) => state.auth.login);
-
   const accessToken = auth?.data.token;
   const dispatch = useDispatch();
   const axiosJWT = createAxios(auth, dispatch, loginSuccess);
@@ -39,7 +47,11 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
 
   const handleDeleteSeries = async (id: number) => {
     try {
-      const { body } = await deleteSeries(id, accessToken, axiosJWT);
+      const { body } = await ClientServices.deleteSeries(
+        id,
+        accessToken,
+        axiosJWT
+      );
       if (body?.success) {
         dispatch(deleteSeriesSuccess(id));
         showToast("Upload Anh Thanh Cong", "success");
@@ -52,12 +64,14 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
   };
 
   return (
-    <div className="bg-card text-white w-full h-56 flex flex-col rounded-xl shadow-lg p-4">
-      <div className="flex items-center justify-between">
+    <div
+      className={`bg-card text-white w-full h-56 flex flex-col rounded-xl shadow-lg p-4  `}
+    >
+      <div className="flex items-center justify-between ">
         <div className="flex items-center space-x-4">
           <div className="rounded-full w-12 h-12 border border-purple-500 border-dashed p-1.5 flex justify-between items-center">
             <span className="text-xl w-full h-full flex justify-center items-center">
-              5+
+              {data.sumBlog}
             </span>
           </div>
           <div className="text-2xl truncate font-bold w-56">{data.name}</div>
@@ -93,7 +107,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
                 </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-56 mr-2">
               <DropdownMenuLabel>Option</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -109,6 +123,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
           </DropdownMenu>
         </div>
       </div>
+
       <p className="mt-4 h-52 text-gray-500 font-bold text-sm whitespace-normal ">
         {data.description}
       </p>
@@ -117,9 +132,16 @@ export const CardSeries: React.FC<CardSeriesProps> = ({ data }) => {
           <Calendar className="w-5 h-5 text-title-foreground" />
           <span className="text-gray-600 text-md">{formatDate()}.</span>
         </div>
-        <div className="p-2 rounded-full bg-red-700">
-          <Sticker />
-        </div>
+        <Button
+          title="Click to detail"
+          onClick={() => {
+            setExpanded(data.id), setSeriesSelected(data);
+          }}
+          className=" flex p-2 rounded-full bg-red-700 hover:brightness-75"
+        >
+          Read More
+          <Sticker className="ml-2 w-6 h-6" />
+        </Button>
       </div>
     </div>
   );

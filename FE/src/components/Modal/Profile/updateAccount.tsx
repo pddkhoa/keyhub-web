@@ -15,13 +15,12 @@ type UpdateAccountProps = {
 
 export const UpdateAccount: React.FC<UpdateAccountProps> = ({
   setFlag,
-  password,
   data,
 }) => {
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0 border rounded shadow bg-modal brightness-110">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-110">
       <div className="h-full flex flex-col space-y-5">
-        <div className="px-5 py-2 flex space-x-5 shadow border-b">
+        <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Reset Password</span>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GridCard } from "../Card/CardPorfile/listCard";
 import { Button } from "../ui/button";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
-import { ModalFilters } from "../Modal/Tool/filterOptions";
+import { ModalFilters } from "../Modal/Profile/filterOptions";
 import {
   ChevronRight,
   PictureInPicture2,
@@ -24,6 +24,9 @@ import BlogPost from "@/types/blog";
 import { CardSeries } from "../Card/CardSeries/cardSeries";
 import { CardVideo } from "../Card/CardVideo/cardVideo";
 import { CreateSeries } from "../Modal/Series/createSeries";
+import ClientServices from "@/services/client/client";
+import seriesType from "@/types/series";
+import AlphabetAvatar from "../Avatar/avatar";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
@@ -143,9 +146,27 @@ export const TabContent: React.FC<TabsContentProps> = ({
   optionview,
   data,
 }) => {
+  const [expanded, setExpanded] = useState<number>();
+  const [seriesSelected, setSeriesSelected] = useState<seriesType>();
+
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+
   const listSeries = useSelector(
     (state: RootState) => state.series.series.result
   );
+
+  useEffect(() => {
+    if (expanded) {
+      const fetchData = async () => {
+        const { body } = await ClientServices.getBlogBySeries(expanded);
+        setBlogs(body?.result);
+      };
+
+      if (expanded) {
+        fetchData();
+      }
+    } else return;
+  }, [expanded]);
 
   switch (tabName) {
     case "TAB_BLOG":
@@ -215,13 +236,56 @@ export const TabContent: React.FC<TabsContentProps> = ({
       return (
         <div>
           <div className="grid grid-cols-4 gap-4">
-            {listSeries && listSeries.length > 0
-              ? listSeries.map((item) => (
-                  <div className="col-span-2 h-full ">
-                    <CardSeries data={item} />
+            {expanded ? (
+              <>
+                <div className="col-span-4">
+                  <div className="w-full bg-card shadow-lg  rounded-lg overflow-hidden">
+                    <div className="py-2 px-6 flex justify-between items-center">
+                      <span className="font-semibold text-title text-xl">
+                        <div className="flex items-center justify-between ">
+                          <div className="flex items-center space-x-4">
+                            <div className="rounded-full w-12 h-12 border border-purple-500 border-dashed p-1.5 flex justify-between items-center">
+                              <span className="text-xl w-full h-full flex justify-center items-center">
+                                {seriesSelected?.sumBlog}
+                              </span>
+                            </div>
+                            <div className="text-2xl truncate font-bold w-80">
+                              {seriesSelected?.name}
+                            </div>
+                          </div>
+                        </div>
+                      </span>
+                      <div className="flex gap-5">
+                        <Button
+                          onClick={() => {
+                            setExpanded(null), setBlogs([]);
+                          }}
+                        >
+                          Back
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                ))
-              : null}
+                </div>
+                {blogs && blogs.length > 0
+                  ? blogs.map((item) => (
+                      <div className="col-span-2 h-full ">
+                        <GridCard data={item} />
+                      </div>
+                    ))
+                  : null}
+              </>
+            ) : listSeries && listSeries.length > 0 ? (
+              listSeries.map((item) => (
+                <div className="col-span-2 h-full ">
+                  <CardSeries
+                    data={item}
+                    setExpanded={setExpanded}
+                    setSeriesSelected={setSeriesSelected}
+                  />
+                </div>
+              ))
+            ) : null}
           </div>
         </div>
       );

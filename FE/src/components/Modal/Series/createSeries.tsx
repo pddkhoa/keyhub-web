@@ -5,10 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
-import { createSeries } from "@/redux/apiRequest";
 import { loginSuccess } from "@/redux/authSlice";
 import { addSeries } from "@/redux/seriesSlice";
 import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -59,7 +59,11 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
 
       setIsLoading(true);
       try {
-        const { body } = await createSeries(report, accessToken, axiosJWT);
+        const { body } = await ClientServices.createSeries(
+          report,
+          accessToken,
+          axiosJWT
+        );
         console.log(body);
         if (body?.success) {
           setIsLoading(false);
@@ -76,9 +80,9 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
     },
   });
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0 border rounded shadow bg-modal brightness-110 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125 overflow-y-scroll">
       <div className="h-full flex flex-col space-y-3">
-        <div className="px-5 py-2 flex space-x-5 shadow border-b ">
+        <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <span className="text-lg grow text-title">Add New Series</span>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"

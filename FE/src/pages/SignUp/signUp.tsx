@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { registerUser } from "@/redux/apiRequest";
+import { registerUser } from "@/services/access/apiRequest";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
 import {

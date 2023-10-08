@@ -31,10 +31,10 @@ import {
   ChangeName,
   EditMore,
   UpdateBio,
-} from "@/components/Modal/Tool/updateAbout";
-import { UpdateAccount } from "@/components/Modal/Tool/updateAccount";
+} from "@/components/Modal/Profile/updateAbout";
+import { UpdateAccount } from "@/components/Modal/Profile/updateAccount";
 import { RootState } from "@/redux/store";
-import { uploadAvatarUser, uploadBannerUser } from "@/redux/apiRequest";
+
 import { showToast } from "@/hooks/useToast";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
@@ -43,6 +43,7 @@ import {
   uploadAvatarSuccess,
   uploadBanerSuccess,
 } from "@/redux/userSlice";
+import ClientServices from "@/services/client/client";
 
 export const UpdateProfile = () => {
   const location = useLocation();
@@ -71,7 +72,7 @@ export const UpdateProfile = () => {
     try {
       setIsUploading(true);
       if (image_file) {
-        const { body } = await uploadAvatarUser(
+        const { body } = await ClientServices.uploadAvatarUser(
           image_file,
           accessToken,
           axiosJWT
@@ -94,7 +95,7 @@ export const UpdateProfile = () => {
     try {
       setIsUploadingBanner(true);
       if (image_file) {
-        const { body } = await uploadBannerUser(
+        const { body } = await ClientServices.uploadBannerUser(
           image_file,
           accessToken,
           axiosJWT

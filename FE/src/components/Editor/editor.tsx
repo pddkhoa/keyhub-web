@@ -23,12 +23,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/redux/authSlice";
 import { createAxios } from "@/api/createInstance";
 import { RootState } from "@/redux/store";
-import { createBlog, uploadFiles } from "@/redux/apiRequest";
 import { useFormik } from "formik";
 import { showToast } from "@/hooks/useToast";
 import { createBlogSuccess } from "@/redux/blogSlice";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
+import ClientServices from "@/services/client/client";
 
 interface ReportType {
   title: string;
@@ -167,7 +167,11 @@ export const Editor = () => {
       console.log(reportss);
       setIsLoading(true);
       try {
-        const { body } = await createBlog(reportss, accessToken, axiosJWT);
+        const { body } = await ClientServices.createBlog(
+          reportss,
+          accessToken,
+          axiosJWT
+        );
         console.log(body);
         if (body?.success) {
           setIsLoading(false);

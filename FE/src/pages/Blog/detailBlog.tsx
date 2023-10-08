@@ -25,6 +25,7 @@ export const DetailBlog = () => {
     setData(state);
   }, [location, navigate]);
 
+  console.log(data);
   const blocks = [];
 
   // Phân tích mã HTML để tạo các khối

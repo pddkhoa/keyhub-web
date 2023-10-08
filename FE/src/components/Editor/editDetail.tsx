@@ -9,12 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  getAllCategories,
-  getAllSeries,
-  getTagByCategories,
-  uploadAvatarBlog,
-} from "@/redux/apiRequest";
+
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
 import CategoryType from "@/types/categories";
@@ -28,6 +23,7 @@ import { CreateSeries } from "../Modal/Series/createSeries";
 import useBoolean from "@/hooks/useBoolean";
 import { showToast } from "@/hooks/useToast";
 import seriesType from "@/types/series";
+import ClientServices from "@/services/client/client";
 
 interface ReportType {
   title: string;
@@ -77,7 +73,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
 
   useEffect(() => {
     if (user?.data.token) {
-      getAllSeries(user?.data.token, dispatch, axiosJWT);
+      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
     }
   }, []);
 
@@ -85,7 +81,11 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
     try {
       setIsUploading(true);
       if (file) {
-        const { body } = await uploadAvatarBlog(file, accessToken, axiosJWT);
+        const { body } = await ClientServices.uploadAvatarBlog(
+          file,
+          accessToken,
+          axiosJWT
+        );
         if (body?.success) {
           setUrlImage(body.result);
           setIsUploading(false);
@@ -104,7 +104,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const { body } = await getAllCategories();
+        const { body } = await ClientServices.getAllCategories();
         if (body?.success) {
           setIsLoading(false);
           setCate(body.result);
@@ -122,7 +122,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
   const handleSelectCate = async (cate: CategoryType) => {
     try {
       setSelectTags([]);
-      const { body } = await getTagByCategories(cate.id);
+      const { body } = await ClientServices.getTagByCategories(cate.id);
       if (body?.success) {
         setIsLoading(false);
         setTags(body.result);
@@ -137,7 +137,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
   };
 
   function handleSelectSeries(selectedValue: seriesType) {
-    setReport({ ...report, tagIds: selectedValue });
+    setReport({ ...report, seriesId: selectedValue });
   }
 
   const handleTagClick = (tag: TagType) => {

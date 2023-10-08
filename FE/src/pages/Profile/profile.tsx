@@ -13,7 +13,7 @@ import { RootState } from "@/redux/store";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
 import { useEffect } from "react";
-import { getAllBlogByAuth, getAllSeries } from "@/redux/apiRequest";
+import ClientServices from "@/services/client/client";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
@@ -25,8 +25,8 @@ export const Profile = () => {
 
   useEffect(() => {
     if (user?.data.token) {
-      getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
-      getAllSeries(user?.data.token, dispatch, axiosJWT);
+      ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
     }
   }, []);
 

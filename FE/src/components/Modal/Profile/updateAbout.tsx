@@ -16,13 +16,13 @@ import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
 import { useFormik } from "formik";
 import { Button } from "@/components/ui/button";
-import { updateProfile } from "@/redux/apiRequest";
 import { createAxios } from "@/api/createInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "@/hooks/useToast";
 import { RootStateToken } from "@/types/token";
 import { updateUserSuccess } from "@/redux/userSlice";
 import { loginSuccess } from "@/redux/authSlice";
+import ClientServices from "@/services/client/client";
 
 type UpdateAboutProps = {
   setFlag: {
@@ -81,7 +81,11 @@ export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
 
       setIsLoading(true);
       try {
-        const { body } = await updateProfile(report, accessToken, axiosJWT);
+        const { body } = await ClientServices.updateProfile(
+          report,
+          accessToken,
+          axiosJWT
+        );
         console.log(body);
         if (body?.success) {
           setIsLoading(false);
@@ -100,9 +104,9 @@ export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   });
 
   return (
-    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0 border rounded shadow bg-modal brightness-110">
+    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-110">
       <div className="h-full flex flex-col space-y-5">
-        <div className="px-5 py-2 flex space-x-5 shadow border-b">
+        <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Change Name</span>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
@@ -241,7 +245,11 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
 
       setIsLoading(true);
       try {
-        const { body } = await updateProfile(report, accessToken, axiosJWT);
+        const { body } = await ClientServices.updateProfile(
+          report,
+          accessToken,
+          axiosJWT
+        );
         console.log(body);
         if (body?.success) {
           setIsLoading(false);
@@ -259,9 +267,9 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   });
 
   return (
-    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0 border rounded shadow bg-modal brightness-110">
+    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125">
       <div className="h-full flex flex-col space-y-5">
-        <div className="px-5 py-2 flex space-x-5 shadow border-b">
+        <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Update Bio</span>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
@@ -379,7 +387,11 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
 
       setIsLoading(true);
       try {
-        const { body } = await updateProfile(report, accessToken, axiosJWT);
+        const { body } = await ClientServices.updateProfile(
+          report,
+          accessToken,
+          axiosJWT
+        );
         console.log(body);
         if (body?.success) {
           setIsLoading(false);
@@ -397,9 +409,9 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   });
 
   return (
-    <div className="w-2/5 h-fit 2xl:w-xl sm:x-0 border rounded shadow bg-modal brightness-110">
+    <div className="w-2/5 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125">
       <div className="h-full flex flex-col space-y-5">
-        <div className="px-5 py-2 flex space-x-5 shadow border-b">
+        <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Edit More</span>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
