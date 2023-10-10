@@ -761,6 +761,14 @@ public class BlogServiceImpl implements IBLogService {
 
     @Override
     public void deleteBlogById(Blog blog) {
+        Series series = seriesRepository.findById(blog.getSeries().getId()).orElse(null);
+        if (series!=null)
+        {
+            BigInteger count = series.getSumBlog();
+            count=  count.subtract(BigInteger.ONE);
+            series.setSumBlog(count);
+            seriesRepository.save(series);
+        }
         blogRepository.delete(blog);
     }
 

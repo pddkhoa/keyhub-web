@@ -595,7 +595,7 @@ public class AccountBlog {
                 );
     }
     @Transactional
-    @DeleteMapping("/remove-series/{series_id}")
+    @DeleteMapping("/ remove-series/{series_id}")
     public ResponseEntity removeSeries( @PathVariable BigInteger series_id) {
         Series series = seriesRepository.findById(series_id).orElse(null);
         if (series==null)
