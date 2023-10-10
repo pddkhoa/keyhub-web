@@ -26,10 +26,17 @@ public interface IBLogService {
     List<BlogDTO> getAllBlogByUser(Users users);
     List<BlogDTO> getAllBlogBySave(Users users);
     List<BlogDTO> getAllBlog(Users users);
+    List<BlogDTO> getAllBlogPublis(Users users);
     List<BlogDTO> getBlogDraftByUser(Users users, int status);
     BlogDTO updateBlog(BlogEditDTO blogDTO, BigInteger blog_id, Users users);
     BlogDTO changeStatusBlog( BigInteger blog_id, Users users);
     void deleteBlogById(Blog blog);
     LikeReponse likeBlog(Blog Blog, Users users);
+    List<BlogDTO> getFiveBlogPopular(Users users);
 
+    List<BlogDTO> getListPopularWithPagging(int index, Users users);
+    List<BlogDTO> getAllInFeed(int index, Users users);
+    List<BlogDTO> getAllBlogNews(int index, Users users);
+    List<BlogDTO> getAllBlogLike(int index, Users users);
+    List<BlogDTO> getAllBlogViews(int index, Users users);
 }

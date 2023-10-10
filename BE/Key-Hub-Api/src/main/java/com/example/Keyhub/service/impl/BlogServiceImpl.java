@@ -5,9 +5,14 @@ import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
+import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.IBLogService;
 import jdk.nashorn.internal.ir.IfNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +20,7 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -51,7 +54,7 @@ public class BlogServiceImpl implements IBLogService {
         newBlog.setDescription(blogPostDTO.getDescription());
         newBlog.setUser(user);
         newBlog.setViews(Long.valueOf(0));
-        newBlog.setCreate_date(timestamp);
+        newBlog.setCreateDate(timestamp);
         newBlog.setStatus(1);
         newBlog.setLikes(BigInteger.ZERO);
 
@@ -86,7 +89,7 @@ public class BlogServiceImpl implements IBLogService {
         newBlog.setContent(blogPostDTO.getContent());
         newBlog.setDescription(blogPostDTO.getDescription());
         newBlog.setUser(user);
-        newBlog.setCreate_date(timestamp);
+        newBlog.setCreateDate(timestamp);
         newBlog.setStatus(0);
         newBlog.setLikes(BigInteger.ZERO);
 
@@ -119,7 +122,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findByCategoryAndStatus(categorys,1);
+        List<Blog> list = blogRepository.findByCategoryAndStatusOrderByCreateDateDesc(categorys,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -128,7 +131,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
 
             blogDTO.setStatus_id(blog.getStatus());
@@ -184,7 +187,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findByTagsAndStatus(tags,1);
+        List<Blog> list = blogRepository.findByTagsAndStatusOrderByCreateDateDesc(tags,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -193,7 +196,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -201,13 +204,7 @@ public class BlogServiceImpl implements IBLogService {
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
-            if (blogSave==null)
-            {
-                blogDTO.setIsSave(false);
-            }
-            else {
-                blogDTO.setIsSave(true);
-            }
+            blogDTO.setIsSave(blogSave != null);
             if (blogLike==null)
             {
                 blogDTO.setIsLike(false);
@@ -246,7 +243,7 @@ public class BlogServiceImpl implements IBLogService {
         {
             return null;
         }
-        List<Blog> list = blogRepository.findBySeriesAndStatus(series,1);
+        List<Blog> list = blogRepository.findBySeriesAndStatusOrderByCreateDateDesc(series,1);
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (Blog blog : list) {
@@ -255,7 +252,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -263,13 +260,7 @@ public class BlogServiceImpl implements IBLogService {
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
-            if (blogSave==null)
-            {
-                blogDTO.setIsSave(false);
-            }
-            else {
-                blogDTO.setIsSave(true);
-            }
+            blogDTO.setIsSave(blogSave != null);
             if (blogLike==null)
             {
                 blogDTO.setIsLike(false);
@@ -304,7 +295,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -356,7 +347,7 @@ public class BlogServiceImpl implements IBLogService {
 
     @Override
     public List<BlogDTO> getAllBlogByUser(Users User) {
-        List<Blog> list = blogRepository.findAllByUserAndStatus(User,1);
+        List<Blog> list = blogRepository.findAllByUserAndStatusOrderByCreateDateDesc(User,1);
         if (list.isEmpty())
             return null;
         List<BlogDTO> blogDTOs = new ArrayList<>();
@@ -366,7 +357,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -428,7 +419,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -474,8 +465,8 @@ public class BlogServiceImpl implements IBLogService {
 
     @Override
     public List<BlogDTO> getAllBlog(Users users) {
-        List<Blog> list = blogRepository.findAll();
-        if (list==null)
+        List<Blog> list = blogRepository.findAllByOrderByCreateDateDesc();
+        if (list.isEmpty())
         {
             return null;
         }
@@ -486,7 +477,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -534,9 +525,9 @@ public class BlogServiceImpl implements IBLogService {
     }
 
     @Override
-    public List<BlogDTO> getBlogDraftByUser(Users users, int status) {
-        List<Blog> list = blogRepository.findAllByUserAndStatus(users,status);
-        if (list==null)
+    public List<BlogDTO> getAllBlogPublis(Users users) {
+        List<Blog> list = blogRepository.findAllByStatus(1);
+        if (list.isEmpty())
         {
             return null;
         }
@@ -547,7 +538,68 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setTitle(blog.getTitle());
             blogDTO.setContent(blog.getContent());
             blogDTO.setDescription(blog.getDescription());
-            blogDTO.setCreate_date(blog.getCreate_date());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
+    public List<BlogDTO> getBlogDraftByUser(Users users, int status) {
+        List<Blog> list = blogRepository.findAllByUserAndStatusOrderByCreateDateDesc(users,status);
+        if (list.isEmpty())
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -590,7 +642,7 @@ public class BlogServiceImpl implements IBLogService {
         blog.setTitle(blogDTO.getTitle());
         blog.setContent(blogDTO.getContent());
         blog.setDescription(blogDTO.getDescription());
-        blog.setCreate_date(timestamp);
+        blog.setCreateDate(timestamp);
         blog.setAvatar(blogDTO.getAvatar());
         blog.setStatus(blogDTO.getStatus_id());
         blog.setLikes(blog.getLikes());
@@ -620,7 +672,7 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setTitle(blog.getTitle());
         blogDTOss.setContent(blog.getContent());
         blogDTOss.setDescription(blog.getDescription());
-        blogDTOss.setCreate_date(blog.getCreate_date());
+        blogDTOss.setCreate_date(blog.getCreateDate());
         blogDTOss.setAvatar(blog.getAvatar());
         blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
@@ -682,7 +734,7 @@ public class BlogServiceImpl implements IBLogService {
         }
         blogDTOss.setContent(blog.getContent());
         blogDTOss.setDescription(blog.getDescription());
-        blogDTOss.setCreate_date(blog.getCreate_date());
+        blogDTOss.setCreate_date(blog.getCreateDate());
         blogDTOss.setAvatar(blog.getAvatar());
         blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
@@ -739,6 +791,380 @@ public class BlogServiceImpl implements IBLogService {
         }
         likeReponse.setLike(Blog.getLikes());
         return likeReponse;
+    }
+
+    @Override
+    public List<BlogDTO> getFiveBlogPopular(Users users) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.DATE, 6);
+
+        Date endDate = calendar.getTime();
+
+
+        Pageable pageable = PageRequest.of(0, 5);
+        List<Blog> popularBlogs = blogRepository.findPopularBlogs(startDate,endDate, pageable);
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : popularBlogs) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
+    @Override
+    public List<BlogDTO> getListPopularWithPagging(int index, Users users) {
+        int limit = 5;
+        index = index -1;
+        int offset =  index * 5;
+        Pageable pageable = PageRequest.of(index, 5);
+        List<Blog> popularBlogs = blogRepository.findPopularBlogsWithPagging(pageable);
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : popularBlogs) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
+    public List<BlogDTO> getAllInFeed(int index, Users users) {
+        int limit = 5;
+        limit = limit * index;
+
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Blog> list = blogRepository.findAllByOrderByCreateDateDesc(pageable);
+        if (list.isEmpty())
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
+    public List<BlogDTO> getAllBlogNews(int index, Users users) {
+        int limit = 5;
+        index =index-1;
+        Pageable pageable = PageRequest.of(index, limit);
+        List<Blog> list = blogRepository.findAllByStatusOrderByCreateDateDesc(1,pageable);
+        if (list.isEmpty())
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
+    public List<BlogDTO> getAllBlogLike(int index, Users users) {
+        int limit = 5;
+        index =index-1;
+        Pageable pageable = PageRequest.of(index, limit);
+        List<Blog> list = blogRepository.findAllByStatusOrderByLikesDesc(pageable);
+        if (list.isEmpty())
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
+    }
+
+    @Override
+    public List<BlogDTO> getAllBlogViews(int index, Users users) {
+        int limit = 5;
+        index =index-1;
+        Pageable pageable = PageRequest.of(index, limit);
+        List<Blog> list = blogRepository.findAllByStatusOrderByViewsDesc(1,pageable);
+        if (list.isEmpty())
+        {
+            return null;
+        }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+        for (Blog blog : list) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setTitle(blog.getTitle());
+            blogDTO.setContent(blog.getContent());
+            blogDTO.setDescription(blog.getDescription());
+            blogDTO.setCreate_date(blog.getCreateDate());
+            blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setStatus_id(blog.getStatus());
+            blogDTO.setLikes(blog.getLikes());
+
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+
+            BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+            BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+            if (blogSave==null)
+            {
+                blogDTO.setIsSave(false);
+            }
+            else {
+                blogDTO.setIsSave(true);
+            }
+            if (blogLike==null)
+            {
+                blogDTO.setIsLike(false);
+            }
+            else {
+                blogDTO.setIsLike(true);
+            }
+
+            List<TagDTO> tagDTOs = blog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+            if (blog.getSeries() != null) {
+                SeriesResponse seriesDTO = new SeriesResponse();
+                seriesDTO.setId(blog.getSeries().getId());
+                seriesDTO.setName(blog.getSeries().getName());
+                seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+                seriesDTO.setDescription(blog.getSeries().getDescription());
+                seriesDTO.setCreateday(blog.getSeries().getCreateday());
+                blogDTO.setSeries(seriesDTO);
+            }
+            blogDTOs.add(blogDTO);
+        }
+        return blogDTOs;
     }
 
 }

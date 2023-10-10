@@ -46,14 +46,14 @@ public class BlogController {
     public ResponseEntity getBlogByCategory(@PathVariable Long category_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogByCategory(category_id,users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
                             .result(list)
                             .statusCode(HttpStatus.OK.value())
-                            .message("No blog by categoies")
+                            .message("No blog by categories")
                             .build()
                     );
         }
@@ -62,7 +62,7 @@ public class BlogController {
                         .success(true)
                         .result(list)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Blog by categoies")
+                        .message("Blog by categories")
                         .build()
                 );
     }
@@ -70,7 +70,7 @@ public class BlogController {
     public ResponseEntity getBlogByTag(@PathVariable Long tag_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogByTag(tag_id,users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -94,7 +94,7 @@ public class BlogController {
     public ResponseEntity getBlogByTag() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogBySave(users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -119,7 +119,7 @@ public class BlogController {
 
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogBySeries(series_id,users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -154,7 +154,7 @@ public class BlogController {
                     );
         }
         List<BlogDTO> list= ibLogService.getBlogBySearch(key,users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -178,7 +178,7 @@ public class BlogController {
     public ResponseEntity getAllBlog() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlog(users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -216,7 +216,7 @@ public class BlogController {
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());
 
-        if (tagDTOList==null)
+        if (tagDTOList.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -237,9 +237,9 @@ public class BlogController {
                 );
     }
     @GetMapping("/draft")
-    public ResponseEntity getBlogByCategory() {
+    public ResponseEntity getBlogDraftByUser() {
         Users users = getUserFromAuthentication();
-        List<BlogDTO> list= ibLogService.getBlogDraftByUser(users,2);
+        List<BlogDTO> list= ibLogService.getBlogDraftByUser(users,0);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -260,7 +260,7 @@ public class BlogController {
                         .build()
                 );
     }
-        @GetMapping("{blog_id}/commentBlog")
+    @GetMapping("{blog_id}/commentBlog")
     public ResponseEntity getCommentByBlog(@PathVariable BigInteger blog_id) {
        Blog blog = blogRepository.findById(blog_id).orElse(null);
         if (blog==null)
@@ -281,6 +281,216 @@ public class BlogController {
                         .result(comment)
                         .statusCode(HttpStatus.OK.value())
                         .message("Blog comment")
+                        .build()
+                );
+    }
+    @GetMapping("/five-popular")
+    public ResponseEntity getBlogPoppular() {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getFiveBlogPopular(users);
+        if (list.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The Most Popular Blogs of the Week.")
+                        .build()
+                );
+    }
+    @GetMapping("{index}/popular")
+    public ResponseEntity getBlogPoppularWithPagging(@PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getListPopularWithPagging(index,users);
+        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+        if (list.size()>= listAllBlog.size())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all blog")
+                            .build()
+                    );
+        }
+        if (list.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The Popular Blogs ")
+                        .build()
+                );
+    }
+    @GetMapping("{index}/feed")
+    public ResponseEntity getBlogFeedWithPagging(@PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getAllInFeed(index,users);
+        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+        if (list.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        if (list.size() >= listAllBlog.size())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all blog")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The Popular Blogs ")
+                        .build()
+                );
+    }
+    @GetMapping("/{index}/new")
+    public ResponseEntity getBlogNew(@PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getAllBlogNews(index,users);
+        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog New")
+                            .build()
+                    );
+        }
+        if (list.size()>= listAllBlog.size())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all blog")
+                            .build()
+                    );
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The News Blogs ")
+                        .build()
+                );
+    }
+    @GetMapping("/{index}/like")
+    public ResponseEntity getBlogLikes(@PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getAllBlogLike(index,users);
+        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Like")
+                            .build()
+                    );
+        }
+        if (list.size()>= listAllBlog.size())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all blog")
+                            .build()
+                    );
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The Like Blogs ")
+                        .build()
+                );
+    }
+    @GetMapping("/{index}/views")
+    public ResponseEntity getBlogViews(@PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> list= ibLogService.getAllBlogViews(index,users);
+        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Like")
+                            .build()
+                    );
+        }
+        if (list.size()>= listAllBlog.size())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all blog")
+                            .build()
+                    );
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The Like Blogs ")
                         .build()
                 );
     }

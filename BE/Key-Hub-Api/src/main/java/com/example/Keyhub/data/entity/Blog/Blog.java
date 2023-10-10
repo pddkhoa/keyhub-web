@@ -42,7 +42,7 @@ public class Blog {
     @JoinColumn(name = "user_id")
     private Users user;
     @Column
-    private Date create_date;
+    private Date createDate;
     @Column
     private int status;
     @Column

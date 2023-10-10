@@ -18,6 +18,7 @@ import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,6 +44,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/api/v1/blog")
 public class AccountBlog {
+    @Autowired
+    ISeriesImageRepository seriesImageRepository;
     @Autowired
     ICommentService commentService;
     @Autowired
@@ -260,6 +263,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+    @Transactional
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
     public ResponseEntity createBlog(@Valid @RequestBody BlogPostDTO body,
                                      BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
@@ -296,11 +300,12 @@ public class AccountBlog {
 
 
         BlogDTO blogDTO = new BlogDTO();
-        blogDTO.setCreate_date(newBlog.getCreate_date());
+        blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsSave(false);
         blogDTO.setIsLike(false);
+        blogDTO.setStatus_id(1);
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setDescription(newBlog.getDescription());
@@ -335,14 +340,16 @@ public class AccountBlog {
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
     public ResponseEntity hideBlog(@Valid @RequestBody BlogPostDTO body,
                                      BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors())
+        List<String> errors = body.validateAndGetErrors();
+        if (!errors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Request was failed. Validate data again")
+                            .message(errors.get(0))
                             .build()
                     );
+        }
         Blog newBlog = ibLogService.draftBlog(body, getUserFromAuthentication());
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
@@ -379,7 +386,7 @@ public class AccountBlog {
 
 
         BlogDTO blogDTO = new BlogDTO();
-        blogDTO.setCreate_date(newBlog.getCreate_date());
+        blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsLike(false);
@@ -602,6 +609,16 @@ public class AccountBlog {
                             .build()
                     );
         }
+        SeriesImage seriesImage = seriesImageRepository.findBySeries(series).orElse(null);
+        if (seriesImage!=null)
+        {
+            seriesImageRepository.delete(seriesImage);
+        }
+        List<Blog> blogList= blogRepository.findBySeriesAndStatusOrderByCreateDateDesc(series,1);
+        for (Blog blog :blogList)
+        {
+            ibLogService.deleteBlogById(blog);
+        }
         seriesRepository.deleteByIdAndUser(series_id,getUserFromAuthentication());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
@@ -694,7 +711,7 @@ public class AccountBlog {
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
-        blogDTO.setCreate_date(newBlog.getCreate_date());
+        blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
 
@@ -878,7 +895,7 @@ public class AccountBlog {
     public ResponseEntity getAllBlogByUser() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list = ibLogService.getAllBlogByUser(users);
-        if (list==null)
+        if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
