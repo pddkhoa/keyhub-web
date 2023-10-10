@@ -339,17 +339,7 @@ public class AccountBlog {
 
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
     public ResponseEntity hideBlog(@Valid @RequestBody BlogPostDTO body,
-                                     BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        List<String> errors = body.validateAndGetErrors();
-        if (!errors.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(GenericResponse.builder()
-                            .success(false)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message(errors.get(0))
-                            .build()
-                    );
-        }
+                                      HttpServletRequest request, HttpServletResponse response) {
         Blog newBlog = ibLogService.draftBlog(body, getUserFromAuthentication());
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
@@ -417,19 +407,6 @@ public class AccountBlog {
                         .result(blogDTO)
                         .statusCode(HttpStatus.OK.value())
                         .message("Create blog was successful")
-                        .build()
-                );
-    }
-    @PatchMapping("{blog_id}/change-blog")
-    public ResponseEntity changeStatusBlog(@PathVariable BigInteger blog_id) {
-        Users users = getUserFromAuthentication();
-        BlogDTO blogDTO = ibLogService.changeStatusBlog(blog_id,users);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(GenericResponse.builder()
-                        .success(true)
-                        .result(blogDTO)
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Change blog was successful. This Blog is publishes")
                         .build()
                 );
     }
@@ -917,6 +894,16 @@ public class AccountBlog {
     }
     @PatchMapping("/{blog_id}/edit")
     public ResponseEntity editBlogByUser(@Valid  @RequestBody  BlogEditDTO blogDTO, BindingResult bindingResult,@PathVariable  BigInteger blog_id) {
+        List<String> errors = blogDTO.validateAndGetErrors();
+        if (!errors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message(errors.get(0))
+                            .build()
+                    );
+        }
         Users users = getUserFromAuthentication();
         BlogDTO blog = ibLogService.updateBlog(blogDTO,blog_id,users);
         if (bindingResult.hasErrors())
