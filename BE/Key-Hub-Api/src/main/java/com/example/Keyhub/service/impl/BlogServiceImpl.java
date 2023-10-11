@@ -29,6 +29,8 @@ public class BlogServiceImpl implements IBLogService {
     @Autowired
     private IBlogRepository blogRepository;
     @Autowired
+    ISeriesImageRepository imageRepository;
+    @Autowired
     private IBlogSaveRepository blogSaveRepository;
     @Autowired
     private IBlogLikeRepository blogLikeRepository;
@@ -92,7 +94,7 @@ public class BlogServiceImpl implements IBLogService {
         newBlog.setCreateDate(timestamp);
         newBlog.setStatus(0);
         newBlog.setLikes(BigInteger.ZERO);
-
+        newBlog.setAvatar(blogPostDTO.getAvatar());
         List<Long> tags = blogPostDTO.getTagIds();
         if (tags!=null)
         {

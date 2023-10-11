@@ -381,6 +381,7 @@ public class AccountBlog {
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsLike(false);
         blogDTO.setIsSave(false);
+        blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -465,6 +466,19 @@ public class AccountBlog {
     }
     @PatchMapping("/{series_id}/edit-series")
     public ResponseEntity editSeries( @PathVariable BigInteger series_id,@Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
+
+        Series seriesCheck= seriesRepository.findById(series_id).orElse(null);
+        if (seriesCheck==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Series not found")
+                            .build()
+                    );
+        }
+
         Series seriesFind = seriesRepository.findByNameAndUser(series.getName(),getUserFromAuthentication());
         if(seriesFind==null) {
             Series series1 = iUserService.editSeries(series_id, series, getUserFromAuthentication());
@@ -487,6 +501,7 @@ public class AccountBlog {
                     uploadImageService.saveURLSeries(series1, lastImageUrl);
                 }
             }
+
             SeriesResponse seriesResponse = new SeriesResponse();
             seriesResponse.setSumBlog(series1.getSumBlog());
             seriesResponse.setImage(lastImageUrl);
@@ -494,6 +509,12 @@ public class AccountBlog {
             seriesResponse.setName(series1.getName());
             seriesResponse.setDescription(series1.getDescription());
             seriesResponse.setCreateday(series1.getCreateday());
+            SeriesImage seriesImage = seriesImageRepository.findBySeries(series1).orElse(null);
+            if (seriesCheck!=null)
+            {
+                seriesResponse.setImage(seriesImage.getUrlImage());
+            }
+
             Cookie emptyCookie = new Cookie("seriesImage", "");
             emptyCookie.setMaxAge(0);
             response.addCookie(emptyCookie);

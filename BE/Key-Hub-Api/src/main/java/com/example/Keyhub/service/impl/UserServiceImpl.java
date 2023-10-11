@@ -38,6 +38,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private ISeriesRepository seriesRepository;
     @Autowired
+    ISeriesImageRepository imageRepository;
+    @Autowired
     UserServiceImpl userService;
     @Autowired
     ISeriesRepository iSeriesRepository;
@@ -374,16 +376,30 @@ public class UserServiceImpl implements IUserService {
         series.setCreateday(timestamp);
         return iSeriesRepository.save(series);
     }
-
     @Override
     public Series editSeries(BigInteger series_id,SeriesDTO seriesDTO, Users users) {
-      Series series = seriesRepository.findById(series_id).orElse(null);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Series series = seriesRepository.findById(series_id).orElse(null);
       if (series!=null) {
           series.setDescription(seriesDTO.getDescription());
           series.setUser(users);
           series.setName(seriesDTO.getName());
+          SeriesImage seriesImage = iSeriesImageRepository.findBySeries(series).orElse(null);
+          if (seriesImage==null)
+          {
+              SeriesImage seriesImage1 = new SeriesImage();
+              seriesImage1.setSeries(series);
+              seriesImage1.setUrlImage(seriesDTO.getAvatar());
+              seriesImage1.setUploadDate(timestamp);
+              imageRepository.save(seriesImage1);
+          }
+          seriesImage.setUrlImage(seriesDTO.getAvatar());
+          imageRepository.save(seriesImage);
+          return iSeriesRepository.save(series);
       }
-        return iSeriesRepository.save(series);
+      else {
+          return null;
+      }
     }
 
 

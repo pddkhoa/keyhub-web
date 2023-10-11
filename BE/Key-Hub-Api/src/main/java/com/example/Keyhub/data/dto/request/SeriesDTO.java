@@ -15,7 +15,7 @@ import java.util.Date;
 public class SeriesDTO {
     @NotBlank
     private String name;
-
     private String Description;
+    private String avatar;
 
 }

@@ -15,13 +15,12 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
-
     @Query("SELECT COUNT(b) FROM Blog b WHERE b.series.id = :series_id and b.status = 1 order by b.createDate DESC ")
     BigInteger countBySeriesId(BigInteger series_id);
-    @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE) AND b.status =1 ORDER BY b.createDate DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE) AND b.status =1 ORDER BY  b.create_date DESC", nativeQuery = true)
     List<Blog> searchByFullText(@Param("searchText") String searchText);
     List<Blog>  findAllByOrderByCreateDateDesc();
     List<Blog> findAllByStatus(int status);
