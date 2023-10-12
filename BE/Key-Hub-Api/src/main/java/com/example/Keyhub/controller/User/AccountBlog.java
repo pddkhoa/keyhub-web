@@ -337,17 +337,17 @@ public class AccountBlog {
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
     public ResponseEntity hideBlog( @RequestBody BlogPostDraftDTO body,
                                       HttpServletRequest request, HttpServletResponse response) {
-        Blog newBlog = ibLogService.draftBlog(body, getUserFromAuthentication());
-        if (newBlog==null)
-        {
+        List<String> errors = body.validateAndGetErrors();
+        if (!errors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Create blog faild.Title not null")
+                            .message(errors.get(0))
                             .build()
                     );
         }
+        Blog newBlog = ibLogService.draftBlog(body, getUserFromAuthentication());
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
         if (cookies != null) {

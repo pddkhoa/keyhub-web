@@ -656,6 +656,14 @@ public class BlogServiceImpl implements IBLogService {
         blog.setStatus(blogDTO.getStatus_id());
         blog.setLikes(blog.getLikes());
 
+        if (blogDTO.getSeriesId()!=null)
+        {
+            Series series = seriesRepository.findById(blogDTO.getSeriesId()).orElse(null);
+            if (series!=null)
+            {
+                blog.setSeries(series);
+            }
+        }
         List<Long> tags = blogDTO.getTagIds();
         if (tags!=null)
         {
@@ -669,12 +677,14 @@ public class BlogServiceImpl implements IBLogService {
             }
             blog.setCategory(category);
         }
-        if (blogDTO.getSeriesId()!=null){
-            Series series1 = seriesRepository.findById(blogDTO.getSeriesId()).get();
-            BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
-            series1.setSumBlog(sumSeries);
-            seriesRepository.save(series1);
-            blog.setSeries(series1);
+        if (blogDTO.getStatus_id()==1) {
+            if (blog.getSeries()!=null) {
+                Series series1 = seriesRepository.findById(blog.getSeries().getId()).get();
+                BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
+                series1.setSumBlog(sumSeries);
+                seriesRepository.save(series1);
+                blog.setSeries(series1);
+            }
         }
         blogRepository.save(blog);
         BlogDTO blogDTOss = new BlogDTO();
@@ -768,9 +778,15 @@ public class BlogServiceImpl implements IBLogService {
         blogRepository.save(blog);
         return blogDTOss;
     }
-
+    @Autowired
+    IBlogImange blogImange;
+    @Autowired
+    IBlogComment blogComment;
+    @Transactional
     @Override
     public void deleteBlogById(Blog blog) {
+        if (blog.getSeries()!=null)
+        {
         Series series = seriesRepository.findById(blog.getSeries().getId()).orElse(null);
         if (series!=null)
         {
@@ -778,6 +794,18 @@ public class BlogServiceImpl implements IBLogService {
             count=  count.subtract(BigInteger.ONE);
             series.setSumBlog(count);
             seriesRepository.save(series);
+        }}
+        List<BlogImage> blogImage = blogImange.findByBlog(blog);
+        if (blogImage!=null)
+        {
+            for (BlogImage blogImage1:blogImage)
+                blogImange.delete(blogImage1);
+        }
+        List<BlogComment> comments = blogComment.findAllByBlog(blog);
+        if (comments!=null)
+        {
+            for (BlogComment comment:comments)
+                blogComment.delete(comment);
         }
         blogRepository.delete(blog);
     }
