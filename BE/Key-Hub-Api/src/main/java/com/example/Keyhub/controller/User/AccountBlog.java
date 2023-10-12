@@ -923,27 +923,22 @@ public class AccountBlog {
                 );
     }
     @PatchMapping("/{blog_id}/edit")
-    public ResponseEntity editBlogByUser(@Valid  @RequestBody  BlogEditDTO blogDTO, BindingResult bindingResult,@PathVariable  BigInteger blog_id) {
-        List<String> errors = blogDTO.validateAndGetErrors();
-        if (!errors.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(GenericResponse.builder()
-                            .success(false)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message(errors.get(0))
-                            .build()
-                    );
-        }
+    public ResponseEntity editBlogByUser(  @RequestBody  BlogEditDTO blogDTO,@PathVariable  BigInteger blog_id) {
+       if (blogDTO.getStatus_id()==1)
+       {
+           List<String> errors = blogDTO.validateAndGetErrors();
+           if (!errors.isEmpty()) {
+               return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                       .body(GenericResponse.builder()
+                               .success(false)
+                               .statusCode(HttpStatus.BAD_REQUEST.value())
+                               .message(errors.get(0))
+                               .build()
+                       );
+           }
+       }
         Users users = getUserFromAuthentication();
         BlogDTO blog = ibLogService.updateBlog(blogDTO,blog_id,users);
-        if (bindingResult.hasErrors())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(GenericResponse.builder()
-                            .success(false)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Request was failed. Validate data again")
-                            .build()
-                    );
         if (blog==null)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

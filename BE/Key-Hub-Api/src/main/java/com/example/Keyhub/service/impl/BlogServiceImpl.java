@@ -607,16 +607,21 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            if(blog.getCategory()!=null)
+            {
+                CategoryDTO categoryDTO = new CategoryDTO();
+                categoryDTO.setId(blog.getCategory().getId());
+                categoryDTO.setName(blog.getCategory().getName());
+                blogDTO.setCategories(categoryDTO);
 
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setId(blog.getCategory().getId());
-            categoryDTO.setName(blog.getCategory().getName());
-            blogDTO.setCategories(categoryDTO);
-
+            }
+            if (blog.getTags()==null)
+            {
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                     .collect(Collectors.toList());
             blogDTO.setTags(tagDTOs);
+            }
             if (blog.getSeries() != null) {
                 SeriesResponse seriesDTO = new SeriesResponse();
                 seriesDTO.setId(blog.getSeries().getId());
@@ -657,12 +662,13 @@ public class BlogServiceImpl implements IBLogService {
             List<Tag> tagList = tagRepository.findAllById(tags);
             blog.setTags(tagList);
         }
-        Category category = categoryRepository.findById(blogDTO.getCategoryIds()).orElse(null);
-        if (category==null)
-        {
-            return null;
+        if (blogDTO.getCategoryIds()!=null) {
+            Category category = categoryRepository.findById(blogDTO.getCategoryIds()).orElse(null);
+            if (category == null) {
+                return null;
+            }
+            blog.setCategory(category);
         }
-        blog.setCategory(category);
         if (blogDTO.getSeriesId()!=null){
             Series series1 = seriesRepository.findById(blogDTO.getSeriesId()).get();
             BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());
@@ -680,12 +686,12 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setAvatar(blog.getAvatar());
         blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(blog.getCategory().getId());
-        categoryDTO.setName(blog.getCategory().getName());
-
-
-        blogDTOss.setCategories(categoryDTO);
+        if (blogDTO.getCategoryIds()!=null) {
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(blog.getCategory().getId());
+            categoryDTO.setName(blog.getCategory().getName());
+            blogDTOss.setCategories(categoryDTO);
+        }
         List<TagDTO> tagDTOs = blog.getTags().stream()
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());
