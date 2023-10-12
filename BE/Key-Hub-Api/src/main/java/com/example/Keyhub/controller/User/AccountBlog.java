@@ -2,10 +2,7 @@ package com.example.Keyhub.controller.User;
 
 import com.cloudinary.Cloudinary;
 import com.example.Keyhub.config.ValidatorUtils;
-import com.example.Keyhub.data.dto.request.BlogPostDTO;
-import com.example.Keyhub.data.dto.request.CommentDTO;
-import com.example.Keyhub.data.dto.request.ReplyCommentDTO;
-import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.request.*;
 import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
@@ -338,9 +335,19 @@ public class AccountBlog {
     }
 
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
-    public ResponseEntity hideBlog(@Valid @RequestBody BlogPostDTO body,
+    public ResponseEntity hideBlog( @RequestBody BlogPostDraftDTO body,
                                       HttpServletRequest request, HttpServletResponse response) {
         Blog newBlog = ibLogService.draftBlog(body, getUserFromAuthentication());
+        if (newBlog==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Create blog faild.Title not null")
+                            .build()
+                    );
+        }
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
         if (cookies != null) {
@@ -384,10 +391,12 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(newBlog.getCategory().getId());
-        categoryDTO.setName(newBlog.getCategory().getName());
-        blogDTO.setCategories(categoryDTO);
+        if (body.getTagIds()!=null){   CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(newBlog.getCategory().getId());
+            categoryDTO.setName(newBlog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);}
+
+
         if (newBlog.getTags()!=null) {
             List<TagDTO> tagDTOs = newBlog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))

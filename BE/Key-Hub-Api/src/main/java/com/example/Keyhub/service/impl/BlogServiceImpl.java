@@ -1,6 +1,7 @@
 package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.BlogPostDTO;
+import com.example.Keyhub.data.dto.request.BlogPostDraftDTO;
 import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
@@ -84,8 +85,10 @@ public class BlogServiceImpl implements IBLogService {
     }
 
     @Override
-    public Blog draftBlog(BlogPostDTO blogPostDTO, Users user) {
+    public Blog draftBlog(BlogPostDraftDTO blogPostDTO, Users user) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        if (blogPostDTO.getTitle()==null)
+        {return null;}
         Blog newBlog = new Blog();
         newBlog.setTitle(blogPostDTO.getTitle());
         newBlog.setContent(blogPostDTO.getContent());
@@ -95,18 +98,17 @@ public class BlogServiceImpl implements IBLogService {
         newBlog.setStatus(0);
         newBlog.setLikes(BigInteger.ZERO);
         newBlog.setAvatar(blogPostDTO.getAvatar());
-        List<Long> tags = blogPostDTO.getTagIds();
-        if (tags!=null)
+        if (blogPostDTO.getTagIds()!=null)
         {
+            List<Long> tags = blogPostDTO.getTagIds();
             List<Tag> tagList = tagRepository.findAllById(tags);
             newBlog.setTags(tagList);
         }
-        Category category= categoryRepository.findById(blogPostDTO.getCategoryIds()).orElse(null);
-        if (category==null)
+        if (blogPostDTO.getCategoryIds()!=null)
         {
-            return null;
+            Category category= categoryRepository.findById(blogPostDTO.getCategoryIds()).orElse(null);
+            newBlog.setCategory(category);
         }
-        newBlog.setCategory(category);
         if (blogPostDTO.getSeriesId()!=null){
             Series series1 = seriesRepository.findById(blogPostDTO.getSeriesId()).get();
             BigInteger sumSeries = blogRepository.countBySeriesId(series1.getId());

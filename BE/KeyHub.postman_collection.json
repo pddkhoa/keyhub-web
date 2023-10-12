@@ -867,7 +867,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Sssgsgsdgsdg\",\r\n  \"content\": \"ok\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 1, \r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 15\r\n}",
+							"raw": "{\r\n  \"title\": \"Sssgsgsdgsdg\",\r\n  \"content\": \"ok\", \r\n  \"avatar\":\"htt[\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 1, \r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 15\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1653,7 +1653,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n  \"title\": \"Sample Taitle 3\",\r\n  \"content\": \"ok\",\r\n  \"avatar\":\"https//\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 1, \r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 61\r\n}",
+							"raw": " {\r\n  \"title\": \"Sample Taitle 3\",\r\n  \"content\": \"ok\",\r\n  \"avatar\":\"https//\",\r\n  \"description\": \"Sample Description\",\r\n  \"categoryIds\": 3, \r\n  \"status_id\": 1,\r\n  \"tagIds\": [1, 2, 3],\r\n  \"seriesId\": 61\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

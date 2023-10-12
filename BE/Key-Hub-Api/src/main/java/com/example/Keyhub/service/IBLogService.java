@@ -1,6 +1,7 @@
 package com.example.Keyhub.service;
 
 import com.example.Keyhub.data.dto.request.BlogPostDTO;
+import com.example.Keyhub.data.dto.request.BlogPostDraftDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.BlogEditDTO;
 import com.example.Keyhub.data.dto.response.LikeReponse;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public interface IBLogService {
     Blog createBlog(BlogPostDTO blogPostDTO, Users user);
-    Blog draftBlog(BlogPostDTO blogPostDTO, Users user);
+    Blog draftBlog(BlogPostDraftDTO blogPostDTO, Users user);
     List<BlogDTO> getBlogByCategory(Long category_id, Users users);
     List<BlogDTO> getBlogByTag(Long tag_id, Users users);
 
