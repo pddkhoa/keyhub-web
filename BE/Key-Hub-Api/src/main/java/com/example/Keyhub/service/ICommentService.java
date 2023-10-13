@@ -16,4 +16,5 @@ public interface ICommentService {
     Comment addComment(Users users, Blog blog, CommentDTO commentDTO);
     Comment replyComment(Users users,Blog blog, ReplyCommentDTO commentDTO);
     List<Comment> findAllByBlog(Users users,Blog blog);
+    Integer deleteComment(Users users, BigInteger comment);
 }

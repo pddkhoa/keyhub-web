@@ -1060,5 +1060,41 @@ public class AccountBlog {
                         .build()
                 );
     }
+    @Transactional
+    @DeleteMapping("/{comment_id}/delete-comment")
+    public ResponseEntity<?> deleteComment(@PathVariable BigInteger comment_id) {
+        Users users = getUserFromAuthentication();
+        Integer comment = commentService.deleteComment(users,comment_id);
+        if (comment==2)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Not found comment")
+                            .build()
+                    );
+        } else
+        if (comment==0)
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.UNAUTHORIZED.value())
+                            .message("User does not have permission")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(null)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Delete comment blog success")
+                        .build()
+                );
+    }
 }
 

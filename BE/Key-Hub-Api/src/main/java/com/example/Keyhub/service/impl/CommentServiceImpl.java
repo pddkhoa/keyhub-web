@@ -5,12 +5,15 @@ import com.example.Keyhub.data.dto.request.ReplyCommentDTO;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogComment;
 import com.example.Keyhub.data.entity.Blog.Comment;
+import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IBlogComment;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICommentRepository;
 import com.example.Keyhub.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -26,6 +29,7 @@ public class CommentServiceImpl implements ICommentService {
     IBlogRepository blogRepository;
     @Autowired
     IBlogComment iblogComment;
+
     @Override
     public Comment addComment(Users users, Blog blog, CommentDTO commentDTO) {
         BlogComment blogComment = new BlogComment();
@@ -74,6 +78,34 @@ public class CommentServiceImpl implements ICommentService {
             commentList.add(comment);
         }
         return commentList;
+    }
+
+    @Override
+    public Integer deleteComment(Users users, BigInteger comment) {
+        Comment comment1 = commentRepository.findById(comment).orElse(null);
+        if (comment1==null)
+        {return 2;}
+        BlogComment blogComment = iblogComment.findAllByComment(comment1);
+        if ((blogComment.getBlog().getUser().getId().equals(users.getId())) || blogComment.getComment().getUsers().getId().equals(users.getId()))
+        {
+            deleteAllChildComments(comment1);
+            iblogComment.delete(blogComment);
+            commentRepository.delete(comment1);
+            return 1;
+        }
+        return 0;
+    }
+    private void deleteAllChildComments(Comment parentComment) {
+        List<Comment> childComments = commentRepository.findByParentComment(parentComment);
+
+        for (Comment childComment : childComments) {
+            // Đệ quy để xóa tất cả các bình luận con
+            deleteAllChildComments(childComment);
+            // Xóa bình luận con
+            BlogComment childBlogComment = iblogComment.findAllByComment(childComment);
+            iblogComment.delete(childBlogComment);
+            commentRepository.delete(childComment);
+        }
     }
 
 }

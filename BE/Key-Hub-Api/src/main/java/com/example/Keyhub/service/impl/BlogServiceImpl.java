@@ -615,7 +615,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setCategories(categoryDTO);
 
             }
-            if (blog.getTags()==null)
+            if (blog.getTags()!=null)
             {
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))

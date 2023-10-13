@@ -8,4 +8,5 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface ICommentRepository extends JpaRepository<Comment, BigInteger> {
+    List<Comment> findByParentComment(Comment comment);
 }
