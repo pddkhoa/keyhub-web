@@ -262,7 +262,8 @@ public class BlogController {
     }
     @GetMapping("{blog_id}/commentBlog")
     public ResponseEntity getCommentByBlog(@PathVariable BigInteger blog_id) {
-       Blog blog = blogRepository.findById(blog_id).orElse(null);
+        Users users = getUserFromAuthentication();
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
         if (blog==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -274,7 +275,7 @@ public class BlogController {
                             .build()
                     );
         }
-        List<Comment> comment = commentService.findAllByBlog(blog);
+        List<Comment> comment = commentService.findAllByBlog(users,blog);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)

@@ -26,6 +26,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1012,6 +1013,7 @@ public class AccountBlog {
     @PostMapping("/{blog_id}/comment")
     public ResponseEntity<?> commentBlog(@PathVariable BigInteger blog_id, @RequestBody CommentDTO DTO) {
         Blog blog = blogRepository.findById(blog_id).orElse(null);
+        Users users= getUserFromAuthentication();
         if (blog==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -1023,7 +1025,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        Comment comment = commentService.addComment(blog,DTO);
+        Comment comment = commentService.addComment(users,blog,DTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -1036,6 +1038,7 @@ public class AccountBlog {
     @PostMapping("/{blog_id}/reply-comment")
     public ResponseEntity<?> replyBlog(@PathVariable BigInteger blog_id, @RequestBody ReplyCommentDTO DTO) {
         Blog blog = blogRepository.findById(blog_id).orElse(null);
+        Users users = getUserFromAuthentication();
         if (blog==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -1047,7 +1050,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        Comment comment = commentService.replyComment(blog,DTO);
+        Comment comment = commentService.replyComment(users,blog,DTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)

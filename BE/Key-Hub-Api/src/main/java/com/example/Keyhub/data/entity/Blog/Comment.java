@@ -1,9 +1,11 @@
 package com.example.Keyhub.data.entity.Blog;
 
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -24,4 +26,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users users;
 }

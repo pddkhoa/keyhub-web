@@ -5,6 +5,7 @@ import com.example.Keyhub.data.dto.request.ReplyCommentDTO;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogComment;
 import com.example.Keyhub.data.entity.Blog.Comment;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IBlogComment;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICommentRepository;
@@ -26,10 +27,11 @@ public class CommentServiceImpl implements ICommentService {
     @Autowired
     IBlogComment iblogComment;
     @Override
-    public Comment addComment(Blog blog, CommentDTO commentDTO) {
+    public Comment addComment(Users users, Blog blog, CommentDTO commentDTO) {
         BlogComment blogComment = new BlogComment();
         Comment comment = new Comment();
         comment.setContent(commentDTO.getContent());
+        comment.setUsers(users);
         comment.setParentComment(null);
         commentRepository.save(comment);
         blogComment.setComment(comment);
@@ -39,7 +41,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public Comment replyComment(Blog blog, ReplyCommentDTO commentDTO) {
+    public Comment replyComment(Users users,Blog blog, ReplyCommentDTO commentDTO) {
         BlogComment blogComment = new BlogComment();
         Comment parent= commentRepository.findById(commentDTO.getParent_id()).orElse(null);
         if (parent==null)
@@ -47,6 +49,7 @@ public class CommentServiceImpl implements ICommentService {
             return null;
         }
         Comment comment = new Comment();
+        comment.setUsers(users);
         comment.setContent(commentDTO.getContent());
         comment.setParentComment(parent);
         commentRepository.save(comment);
@@ -57,7 +60,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public List<Comment> findAllByBlog(Blog blog) {
+    public List<Comment> findAllByBlog(Users users,Blog blog) {
         List<BlogComment> comments = iblogComment.findAllByBlog(blog);
         if (comments==null)
         {

@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 09/10/2023 20:19:52
+ Date: 13/10/2023 09:00:25
 */
 
 SET NAMES utf8mb4;
@@ -98,75 +98,107 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
 -- ----------------------------
-INSERT INTO `blog` VALUES (16, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (17, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (18, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (19, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (20, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (21, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (22, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (24, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (25, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (26, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (27, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (28, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (29, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (30, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (31, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (32, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (33, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (34, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (35, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (36, 'a', 'a', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (37, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (38, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (39, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (40, 'a', 'a', 22, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (41, 'a', 'a', 22, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg-http://res.cloudinary.com/dmpru0wgq/image/upload/v1695779458/uoqu7wuvchhr9uu1c6hr.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (42, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (43, 'a', 'a', 22, 'a', 15, NULL, 50.00, 2, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (44, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (45, 'a', 'a', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (46, 'a', 'a', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (47, 'a', 'a', 22, 'a', NULL, NULL, 50.00, 2, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (48, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (49, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (50, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (51, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (52, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (53, 'a', 'a', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (55, 'a', 'a', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (58, 'a', 'a', 22, 'a', 15, 'htttp', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (59, 'a', 'a', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (60, 'a', 'a', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (61, 'a', 'a', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696434072/igddhmspl5x1xch4zifz.png', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (62, 'a', 'a', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696516557/vyhcmfnilzdhu8ecszcr.jpg', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (63, 'a', 'a', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (64, 'a', 'a', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (65, 'a', 'a', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (66, 'a', 'a', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (67, 'a', 'a', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (68, 'a', 'a', 22, 'a', 18, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (69, 'a', 'a', 22, 'a', 18, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (70, 'a', 'a', 22, 'a', 19, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (71, 'a', 'a', 22, 'a', 20, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (72, 'a', 'a', 22, 'a', 21, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (73, 'a', 'a', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (74, 'a', 'a', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (75, 'a', 'a', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (76, 'a', 'a', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696758035/pwot24q6w5x7x6ztleoe.jpg', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (77, 'a', 'a', 22, 'a', NULL, '', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (78, 'a', 'a', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696761711/tfbgaucqj1g35bcrni9g.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (79, 'a', 'a', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696761920/y1bbelltdqaegovphug1.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (80, 'a', 'a', 22, 'a', 22, 'htttp', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (81, 'a', 'a', 22, 'a', 22, 'htttp', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (90, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 22, 'htttp', 0.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (91, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 22, 'htttp', 0.00, 1, 1, 0, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (18, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (19, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (20, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-10-09 20:20:08.677000');
+INSERT INTO `blog` VALUES (21, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-10-11 21:34:56.371000');
+INSERT INTO `blog` VALUES (22, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (24, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (25, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (26, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (27, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (28, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (29, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (30, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (31, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (32, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (33, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (34, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (35, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (36, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (37, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (38, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (39, 'Sample Taitle 3', 'ok', 22, 'Sample Description', 61, 'https//', 50.00, 3, 1, 50, '2023-10-12 13:55:21.465000');
+INSERT INTO `blog` VALUES (40, 'a', 'lê trương ngọc hải', 22, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (41, 'a', 'lê trương ngọc hải', 22, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg-http://res.cloudinary.com/dmpru0wgq/image/upload/v1695779458/uoqu7wuvchhr9uu1c6hr.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (42, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 49.00, 1, 0, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (43, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 2, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (44, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (45, 'a', 'lê trương ngọc hải', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (46, 'a', 'lê trương ngọc hải', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (47, 'Sample Taitle 3', 'lê trương ngọc hải', 22, 'Sample Description', 61, 'htttp', 50.00, 1, 0, 50, '2023-10-11 20:45:09.553000');
+INSERT INTO `blog` VALUES (49, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (50, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (51, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (52, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (53, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (55, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (58, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 15, 'htttp', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (59, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (60, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (61, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696434072/igddhmspl5x1xch4zifz.png', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (62, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696516557/vyhcmfnilzdhu8ecszcr.jpg', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (63, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (64, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 15, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (65, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (66, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (67, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 17, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (68, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 18, 'htttp', 50.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (69, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 18, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (70, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 19, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (71, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 20, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (72, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 21, 'htttp', 80.00, 1, 1, 60, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (73, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (74, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (75, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 22, 'htttp', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (76, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696758035/pwot24q6w5x7x6ztleoe.jpg', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (77, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, '', 80.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (78, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696761711/tfbgaucqj1g35bcrni9g.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (79, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696761920/y1bbelltdqaegovphug1.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (81, 'lê trương ngọc hải', 'lê trương ngọc hải', 22, 'a', 22, 'htttp', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (90, 'lê trương ngọc hải', 'lê trương ngọc hải', 58, 'Sample Description', 22, 'htttp', 0.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (91, 'lê trương ngọc hải', 'lê trương ngọc hải', 58, 'Sample Description', 22, 'htttp', 0.00, 1, 1, 0, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (92, 'lê trương ngọc hải', 'lê trương ngọc hải', 58, 'Sample Description', 22, 'htttp', 0.00, 1, 1, 0, '2023-10-09 20:20:08.677000');
+INSERT INTO `blog` VALUES (97, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'htttp', 0.00, 1, 1, 0, '2023-10-11 21:34:56.371000');
+INSERT INTO `blog` VALUES (98, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', 15, NULL, 0.00, 1, 0, NULL, '2023-10-12 13:25:04.557000');
+INSERT INTO `blog` VALUES (100, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 13:41:26.684000');
+INSERT INTO `blog` VALUES (101, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, 'https', 0.00, NULL, 0, NULL, '2023-10-12 13:46:36.161000');
+INSERT INTO `blog` VALUES (102, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 13:47:28.806000');
+INSERT INTO `blog` VALUES (103, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 13:48:05.527000');
+INSERT INTO `blog` VALUES (104, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'https//', 0.00, 3, 1, NULL, '2023-10-12 14:42:45.124000');
+INSERT INTO `blog` VALUES (105, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'https//', 0.00, 3, 0, NULL, '2023-10-12 14:58:51.337000');
+INSERT INTO `blog` VALUES (106, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 13:55:59.058000');
+INSERT INTO `blog` VALUES (107, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', 15, 'htt[', 0.00, 1, 0, NULL, '2023-10-12 13:56:57.179000');
+INSERT INTO `blog` VALUES (108, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 14:13:41.067000');
+INSERT INTO `blog` VALUES (109, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, NULL, 0.00, NULL, 0, NULL, '2023-10-12 14:58:28.319000');
+INSERT INTO `blog` VALUES (111, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'htttp', 0.00, 1, 1, 0, '2023-10-12 22:02:46.965000');
+INSERT INTO `blog` VALUES (112, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:03:05.246000');
+INSERT INTO `blog` VALUES (113, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:03:10.391000');
+INSERT INTO `blog` VALUES (114, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:03:17.668000');
+INSERT INTO `blog` VALUES (115, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'htttp', 0.00, 1, 1, 0, '2023-10-12 22:03:28.991000');
+INSERT INTO `blog` VALUES (116, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'htttp', 0.00, 1, 1, 0, '2023-10-12 22:03:34.852000');
+INSERT INTO `blog` VALUES (117, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:25:36.799000');
+INSERT INTO `blog` VALUES (118, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:25:46.416000');
+INSERT INTO `blog` VALUES (119, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https//', 0.00, 1, 0, NULL, '2023-10-12 22:44:03.370000');
+INSERT INTO `blog` VALUES (120, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:37:06.487000');
+INSERT INTO `blog` VALUES (121, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:45:49.701000');
+INSERT INTO `blog` VALUES (122, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:45:57.985000');
+INSERT INTO `blog` VALUES (123, 'Sssgsgsdgsdg', NULL, 58, NULL, 63, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:44:58.395000');
+INSERT INTO `blog` VALUES (124, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 64, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:48:04.769000');
+INSERT INTO `blog` VALUES (125, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 64, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:48:26.048000');
+INSERT INTO `blog` VALUES (126, 'Sssgsgsdgsdg', NULL, 58, NULL, 64, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:47:35.684000');
+INSERT INTO `blog` VALUES (127, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 65, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:49:39.679000');
+INSERT INTO `blog` VALUES (128, 'Sssgsgsdgsdg', NULL, 58, NULL, 65, NULL, 0.00, NULL, 0, NULL, '2023-10-12 22:48:56.701000');
+INSERT INTO `blog` VALUES (129, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 66, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:53:15.909000');
+INSERT INTO `blog` VALUES (130, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:56:21.925000');
+INSERT INTO `blog` VALUES (132, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:03:58.657000');
+INSERT INTO `blog` VALUES (133, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 68, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:07:49.391000');
+INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', 'a', 58, NULL, 68, NULL, 0.00, NULL, 0, NULL, '2023-10-12 23:07:18.323000');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -181,7 +213,7 @@ CREATE TABLE `blog_comment`  (
   INDEX `FKc4ysudanwhfrrhytio0272sx9`(`comment_id` ASC) USING BTREE,
   CONSTRAINT `FKb9cpog8ie2cyapsyyt7gikpbl` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKc4ysudanwhfrrhytio0272sx9` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -194,6 +226,15 @@ INSERT INTO `blog_comment` VALUES (5, 49, 11);
 INSERT INTO `blog_comment` VALUES (6, 59, 12);
 INSERT INTO `blog_comment` VALUES (7, 59, 13);
 INSERT INTO `blog_comment` VALUES (8, 59, 14);
+INSERT INTO `blog_comment` VALUES (9, 49, 15);
+INSERT INTO `blog_comment` VALUES (10, 59, 16);
+INSERT INTO `blog_comment` VALUES (11, 59, 17);
+INSERT INTO `blog_comment` VALUES (12, 49, 18);
+INSERT INTO `blog_comment` VALUES (13, 49, 19);
+INSERT INTO `blog_comment` VALUES (14, 59, 20);
+INSERT INTO `blog_comment` VALUES (15, 49, 21);
+INSERT INTO `blog_comment` VALUES (16, 49, 22);
+INSERT INTO `blog_comment` VALUES (17, 59, 23);
 
 -- ----------------------------
 -- Table structure for blog_image
@@ -207,7 +248,7 @@ CREATE TABLE `blog_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`blog_id` ASC) USING BTREE,
   CONSTRAINT `blog_image_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 198 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_image
@@ -226,11 +267,6 @@ INSERT INTO `blog_image` VALUES (188, '2023-09-27 08:51:05.927000', 'http://res.
 INSERT INTO `blog_image` VALUES (189, '2023-09-27 08:51:05.932000', 'null', 41);
 INSERT INTO `blog_image` VALUES (190, '2023-09-29 11:46:19.922000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695912581/mhhsuaie8gyuouu1lkme.jpg', 42);
 INSERT INTO `blog_image` VALUES (191, '2023-09-29 11:46:19.936000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695912597/zeusqckn5hbxbwu6xajn.jpg', 42);
-INSERT INTO `blog_image` VALUES (192, '2023-09-29 21:56:11.018000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695999347/gaegwtmvxs2ac7taavdo.jpg', 48);
-INSERT INTO `blog_image` VALUES (193, '2023-09-29 21:56:11.031000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695999356/glnwuepffyredtb28g18.jpg', 48);
-INSERT INTO `blog_image` VALUES (195, '2023-10-08 18:05:40.853000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696757915/rwp8yzhzgaixl9zytbbh.png', 80);
-INSERT INTO `blog_image` VALUES (196, '2023-10-08 18:05:40.864000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696757920/sudgnfjhd6lff3mgxhmb.png', 80);
-INSERT INTO `blog_image` VALUES (197, '2023-10-08 18:05:40.871000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696758325/el0hgf1akifgmx3s1ufo.png', 80);
 
 -- ----------------------------
 -- Table structure for blog_like
@@ -245,13 +281,12 @@ CREATE TABLE `blog_like`  (
   INDEX `FKppog2vdhbhoff9omlv805wjau`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKppog2vdhbhoff9omlv805wjau` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKstm0v9i88mcn2763ubwgd2qjj` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_like
 -- ----------------------------
 INSERT INTO `blog_like` VALUES (2, 43, 58);
-INSERT INTO `blog_like` VALUES (12, 42, 58);
 
 -- ----------------------------
 -- Table structure for blog_save
@@ -266,7 +301,7 @@ CREATE TABLE `blog_save`  (
   INDEX `FK1enjt512o4e8alk33j9jnf6gj`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK1enjt512o4e8alk33j9jnf6gj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKskcq75s8y1lv8l4cyt20ihhug` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_save
@@ -302,9 +337,6 @@ INSERT INTO `blog_tag` VALUES (60, 3);
 INSERT INTO `blog_tag` VALUES (61, 2);
 INSERT INTO `blog_tag` VALUES (61, 3);
 INSERT INTO `blog_tag` VALUES (62, 2);
-INSERT INTO `blog_tag` VALUES (47, 1);
-INSERT INTO `blog_tag` VALUES (47, 2);
-INSERT INTO `blog_tag` VALUES (47, 3);
 INSERT INTO `blog_tag` VALUES (63, 1);
 INSERT INTO `blog_tag` VALUES (63, 2);
 INSERT INTO `blog_tag` VALUES (63, 3);
@@ -353,9 +385,6 @@ INSERT INTO `blog_tag` VALUES (78, 2);
 INSERT INTO `blog_tag` VALUES (78, 3);
 INSERT INTO `blog_tag` VALUES (79, 2);
 INSERT INTO `blog_tag` VALUES (79, 3);
-INSERT INTO `blog_tag` VALUES (80, 1);
-INSERT INTO `blog_tag` VALUES (80, 2);
-INSERT INTO `blog_tag` VALUES (80, 3);
 INSERT INTO `blog_tag` VALUES (81, 1);
 INSERT INTO `blog_tag` VALUES (81, 2);
 INSERT INTO `blog_tag` VALUES (81, 3);
@@ -365,6 +394,72 @@ INSERT INTO `blog_tag` VALUES (90, 3);
 INSERT INTO `blog_tag` VALUES (91, 1);
 INSERT INTO `blog_tag` VALUES (91, 2);
 INSERT INTO `blog_tag` VALUES (91, 3);
+INSERT INTO `blog_tag` VALUES (92, 1);
+INSERT INTO `blog_tag` VALUES (92, 2);
+INSERT INTO `blog_tag` VALUES (92, 3);
+INSERT INTO `blog_tag` VALUES (47, 1);
+INSERT INTO `blog_tag` VALUES (47, 2);
+INSERT INTO `blog_tag` VALUES (47, 3);
+INSERT INTO `blog_tag` VALUES (97, 1);
+INSERT INTO `blog_tag` VALUES (97, 2);
+INSERT INTO `blog_tag` VALUES (97, 3);
+INSERT INTO `blog_tag` VALUES (98, 1);
+INSERT INTO `blog_tag` VALUES (98, 2);
+INSERT INTO `blog_tag` VALUES (98, 3);
+INSERT INTO `blog_tag` VALUES (39, 1);
+INSERT INTO `blog_tag` VALUES (39, 2);
+INSERT INTO `blog_tag` VALUES (39, 3);
+INSERT INTO `blog_tag` VALUES (107, 1);
+INSERT INTO `blog_tag` VALUES (107, 2);
+INSERT INTO `blog_tag` VALUES (107, 3);
+INSERT INTO `blog_tag` VALUES (104, 1);
+INSERT INTO `blog_tag` VALUES (104, 2);
+INSERT INTO `blog_tag` VALUES (104, 3);
+INSERT INTO `blog_tag` VALUES (105, 1);
+INSERT INTO `blog_tag` VALUES (105, 2);
+INSERT INTO `blog_tag` VALUES (105, 3);
+INSERT INTO `blog_tag` VALUES (111, 1);
+INSERT INTO `blog_tag` VALUES (111, 2);
+INSERT INTO `blog_tag` VALUES (111, 3);
+INSERT INTO `blog_tag` VALUES (115, 1);
+INSERT INTO `blog_tag` VALUES (115, 2);
+INSERT INTO `blog_tag` VALUES (115, 3);
+INSERT INTO `blog_tag` VALUES (116, 1);
+INSERT INTO `blog_tag` VALUES (116, 2);
+INSERT INTO `blog_tag` VALUES (116, 3);
+INSERT INTO `blog_tag` VALUES (120, 1);
+INSERT INTO `blog_tag` VALUES (120, 2);
+INSERT INTO `blog_tag` VALUES (120, 3);
+INSERT INTO `blog_tag` VALUES (119, 1);
+INSERT INTO `blog_tag` VALUES (119, 2);
+INSERT INTO `blog_tag` VALUES (119, 3);
+INSERT INTO `blog_tag` VALUES (121, 1);
+INSERT INTO `blog_tag` VALUES (121, 2);
+INSERT INTO `blog_tag` VALUES (121, 3);
+INSERT INTO `blog_tag` VALUES (122, 1);
+INSERT INTO `blog_tag` VALUES (122, 2);
+INSERT INTO `blog_tag` VALUES (122, 3);
+INSERT INTO `blog_tag` VALUES (124, 1);
+INSERT INTO `blog_tag` VALUES (124, 2);
+INSERT INTO `blog_tag` VALUES (124, 3);
+INSERT INTO `blog_tag` VALUES (125, 1);
+INSERT INTO `blog_tag` VALUES (125, 2);
+INSERT INTO `blog_tag` VALUES (125, 3);
+INSERT INTO `blog_tag` VALUES (127, 1);
+INSERT INTO `blog_tag` VALUES (127, 2);
+INSERT INTO `blog_tag` VALUES (127, 3);
+INSERT INTO `blog_tag` VALUES (129, 1);
+INSERT INTO `blog_tag` VALUES (129, 2);
+INSERT INTO `blog_tag` VALUES (129, 3);
+INSERT INTO `blog_tag` VALUES (130, 1);
+INSERT INTO `blog_tag` VALUES (130, 2);
+INSERT INTO `blog_tag` VALUES (130, 3);
+INSERT INTO `blog_tag` VALUES (132, 1);
+INSERT INTO `blog_tag` VALUES (132, 2);
+INSERT INTO `blog_tag` VALUES (132, 3);
+INSERT INTO `blog_tag` VALUES (133, 1);
+INSERT INTO `blog_tag` VALUES (133, 2);
+INSERT INTO `blog_tag` VALUES (133, 3);
 
 -- ----------------------------
 -- Table structure for category
@@ -412,28 +507,38 @@ CREATE TABLE `comment`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `parent_id` bigint NULL DEFAULT NULL,
+  `user_id` decimal(19, 2) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKde3rfu96lep00br5ov0mdieyt`(`parent_id` ASC) USING BTREE,
   CONSTRAINT `FKde3rfu96lep00br5ov0mdieyt` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES (1, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (2, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (3, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (4, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (5, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (6, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (7, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (8, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (9, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (10, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (11, 'aafaf', NULL);
-INSERT INTO `comment` VALUES (12, 'aafaf', 10);
-INSERT INTO `comment` VALUES (13, 'aafaf', 10);
-INSERT INTO `comment` VALUES (14, 'aafaf', 10);
+INSERT INTO `comment` VALUES (1, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (2, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (3, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (4, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (5, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (6, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (7, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (8, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (9, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (10, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (11, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (12, 'aafaf', 10, NULL);
+INSERT INTO `comment` VALUES (13, 'aafaf', 10, NULL);
+INSERT INTO `comment` VALUES (14, 'aafaf', 10, NULL);
+INSERT INTO `comment` VALUES (15, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (16, 'aafaf', 10, NULL);
+INSERT INTO `comment` VALUES (17, 'aafaf', 10, NULL);
+INSERT INTO `comment` VALUES (18, 'aafaf', NULL, NULL);
+INSERT INTO `comment` VALUES (19, 'aafaf', NULL, 58.00);
+INSERT INTO `comment` VALUES (20, 'aafaf', 10, 58.00);
+INSERT INTO `comment` VALUES (21, 'aafaf', NULL, 58.00);
+INSERT INTO `comment` VALUES (22, 'aafaf', NULL, 58.00);
+INSERT INTO `comment` VALUES (23, 'aafaf', 22, 58.00);
 
 -- ----------------------------
 -- Table structure for company
@@ -488,7 +593,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (3);
+INSERT INTO `hibernate_sequence` VALUES (4);
 
 -- ----------------------------
 -- Table structure for refreshtoken
@@ -510,6 +615,7 @@ CREATE TABLE `refreshtoken`  (
 -- ----------------------------
 INSERT INTO `refreshtoken` VALUES (1, '2023-10-10 14:56:34.407000', '14c6de94-8f3f-4d66-acb0-ddf4f39abdbc', 58);
 INSERT INTO `refreshtoken` VALUES (2, '2023-10-10 15:08:18.184000', '4a4f1c66-88e4-41d6-9a14-8bb16fd50990', 58);
+INSERT INTO `refreshtoken` VALUES (3, '2023-10-12 20:49:23.964000', '2db29b47-5e09-4447-8c3b-18d83f10ddb6', 58);
 INSERT INTO `refreshtoken` VALUES (17, '2023-08-28 00:27:08.816000', 'a7fa694f-f715-40fa-bb21-969999605a37', 20);
 INSERT INTO `refreshtoken` VALUES (18, '2023-08-28 00:28:53.866000', '1164de7b-4c4c-4ad5-9926-31fc10f40127', 20);
 INSERT INTO `refreshtoken` VALUES (19, '2023-08-28 00:46:22.208000', 'dc1cbeaa-8b97-4707-a707-38c29e2e7be7', 20);
@@ -777,12 +883,12 @@ CREATE TABLE `series`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKhw97yr01d1ma13c0gdes3r5ok`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKhw97yr01d1ma13c0gdes3r5ok` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series
 -- ----------------------------
-INSERT INTO `series` VALUES (15, 'afaf', 19, '2023-08-30 14:01:08.850000', 'Mo ta', 18);
+INSERT INTO `series` VALUES (15, 'afaf', 19, '2023-08-30 14:01:08.850000', 'Mo ta', 16);
 INSERT INTO `series` VALUES (17, 'afarurf', 19, '2023-08-30 14:44:38.881000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (18, 'hrhrh', 19, '2023-08-30 14:50:58.917000', 'Mo ta', 1);
 INSERT INTO `series` VALUES (19, 'hrgsshrh', 19, '2023-08-30 15:22:48.495000', 'Mo ta', 1);
@@ -797,7 +903,6 @@ INSERT INTO `series` VALUES (27, 'djfgjgdhdfj', 19, '2023-08-30 16:44:57.339000'
 INSERT INTO `series` VALUES (28, 'djfgjgdiyi77hdfj', 19, '2023-08-30 16:48:55.805000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (29, 'djfgjgdiyi7hdfj', 19, '2023-08-30 16:50:36.570000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (30, 'djfgdiyi7hdfj', 19, '2023-08-30 16:51:24.503000', 'Mo ta', 0);
-INSERT INTO `series` VALUES (31, 'djfgyi7hdfj', 19, '2023-08-30 16:57:32.418000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (32, 'gyi7hdfj', 19, '2023-08-30 17:00:08.692000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (33, 'gywthdfj', 19, '2023-08-30 17:05:01.672000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (34, 'gywfj', 19, '2023-08-30 17:06:09.353000', 'Mo ta', 0);
@@ -818,6 +923,14 @@ INSERT INTO `series` VALUES (55, 'category', 58, '2023-10-05 16:38:37.238000', '
 INSERT INTO `series` VALUES (56, 'hafafag', 58, '2023-10-08 15:20:51.522000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (57, 'hfag', 58, '2023-10-08 16:44:34.481000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (58, 'h55ag', 58, '2023-10-08 16:45:49.747000', 'Mo ta', 0);
+INSERT INTO `series` VALUES (61, 'test1', 58, '2023-10-10 21:47:43.503000', 'Mo ta', 3);
+INSERT INTO `series` VALUES (62, 'h5hafaftag', 58, '2023-10-12 22:02:36.613000', 'Mo ta', 4);
+INSERT INTO `series` VALUES (63, 'hai', 58, '2023-10-12 22:44:37.427000', 'Mo ta', 4);
+INSERT INTO `series` VALUES (64, 'hai221', 58, '2023-10-12 22:47:10.245000', 'Mo ta', 3);
+INSERT INTO `series` VALUES (65, 'hai221q', 58, '2023-10-12 22:48:41.927000', 'Mo ta', 2);
+INSERT INTO `series` VALUES (66, 'haih221q', 58, '2023-10-12 22:52:51.024000', 'Mo ta', 2);
+INSERT INTO `series` VALUES (67, 'haih221qh', 58, '2023-10-12 22:55:50.657000', 'Mo ta', 3);
+INSERT INTO `series` VALUES (68, 'hhaih221qh', 58, '2023-10-12 23:07:07.172000', 'Mo ta', 1);
 
 -- ----------------------------
 -- Table structure for series_image
@@ -831,11 +944,13 @@ CREATE TABLE `series_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`series_id` ASC) USING BTREE,
   CONSTRAINT `FKltfgcmbg61cpwl4nk1lcwe0uk` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of series_image
 -- ----------------------------
+INSERT INTO `series_image` VALUES (15, '2023-10-11 20:53:02.677000', 'Http', NULL);
+INSERT INTO `series_image` VALUES (16, '2023-10-11 20:59:47.375000', 'Http', 61);
 
 -- ----------------------------
 -- Table structure for tag
@@ -944,7 +1059,7 @@ CREATE TABLE `user_banner`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_banner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_banner
@@ -969,7 +1084,7 @@ CREATE TABLE `user_images`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK2jg7uf46pq5ihgoj39y7phhy6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK2jg7uf46pq5ihgoj39y7phhy6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_images
