@@ -296,12 +296,12 @@ public class AccountBlog {
         emptyCookie.setMaxAge(0);
         response.addCookie(emptyCookie);
 
-
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsSave(false);
+        blogDTO.setUsers(getUserFromAuthentication());
         blogDTO.setIsLike(false);
         blogDTO.setStatus_id(1);
         blogDTO.setContent(newBlog.getContent());
@@ -386,6 +386,7 @@ public class AccountBlog {
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setId(newBlog.getId());
+        blogDTO.setUsers(newBlog.getUser());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsLike(false);
         blogDTO.setIsSave(false);
@@ -722,7 +723,7 @@ public class AccountBlog {
         blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
-
+        blogDTO.setUsers(newBlog.getUser());
         //IsSave - IsLike
         Users users = getUserFromAuthentication();
         BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);

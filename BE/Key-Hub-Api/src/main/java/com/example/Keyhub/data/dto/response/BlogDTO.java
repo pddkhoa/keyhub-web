@@ -1,7 +1,9 @@
 package com.example.Keyhub.data.dto.response;
 
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.User;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -21,6 +23,7 @@ public class BlogDTO {
     private BigInteger likes;
     private CategoryDTO categories;
     private List<TagDTO> tags;
+    private Users users;
     private SeriesResponse series;
     private Boolean isLike;
     private Boolean isSave;

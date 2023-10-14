@@ -91,7 +91,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/save")
-    public ResponseEntity getBlogByTag() {
+    public ResponseEntity getBlogSaveByTag() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogBySave(users);
         if (list.isEmpty())

@@ -137,6 +137,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setDescription(blog.getDescription());
             blogDTO.setCreate_date(blog.getCreateDate());
             blogDTO.setAvatar(blog.getAvatar());
+            blogDTO.setUsers(blog.getUser());
 
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
@@ -204,7 +205,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
@@ -260,7 +261,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
@@ -303,7 +304,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
             if (blogSave==null)
@@ -365,7 +366,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(User,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(User,blog);
             if (blogSave==null)
@@ -427,6 +428,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            blogDTO.setUsers(blog.getUser());
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
@@ -485,7 +487,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
             categoryDTO.setName(blog.getCategory().getName());
@@ -607,6 +609,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            blogDTO.setUsers(blog.getUser());
             if(blog.getCategory()!=null)
             {
                 CategoryDTO categoryDTO = new CategoryDTO();
@@ -696,6 +699,7 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setAvatar(blog.getAvatar());
         blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
+        blogDTOss.setUsers(blog.getUser());
         if (blogDTO.getCategoryIds()!=null) {
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -864,7 +868,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
             categoryDTO.setName(blog.getCategory().getName());
@@ -923,6 +927,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            blogDTO.setUsers(blog.getUser());
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
@@ -1048,6 +1053,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            blogDTO.setUsers(blog.getUser());
 
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -1110,7 +1116,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
             categoryDTO.setName(blog.getCategory().getName());
@@ -1172,7 +1178,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-
+            blogDTO.setUsers(blog.getUser());
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
             categoryDTO.setName(blog.getCategory().getName());
