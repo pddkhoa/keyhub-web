@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 13/10/2023 09:00:25
+ Date: 14/10/2023 20:37:06
 */
 
 SET NAMES utf8mb4;
@@ -98,7 +98,7 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
@@ -132,7 +132,7 @@ INSERT INTO `blog` VALUES (44, 'a', 'lê trương ngọc hải', 22, 'a', 15, NU
 INSERT INTO `blog` VALUES (45, 'a', 'lê trương ngọc hải', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (46, 'a', 'lê trương ngọc hải', 22, 'a', NULL, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (47, 'Sample Taitle 3', 'lê trương ngọc hải', 22, 'Sample Description', 61, 'htttp', 50.00, 1, 0, 50, '2023-10-11 20:45:09.553000');
-INSERT INTO `blog` VALUES (49, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
+INSERT INTO `blog` VALUES (49, 'a', 'lê trương ngọc hải', 58, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (50, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (51, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (52, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
@@ -199,6 +199,9 @@ INSERT INTO `blog` VALUES (130, 'Sample Taitle 3', 'ok', 58, 'Sample Description
 INSERT INTO `blog` VALUES (132, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:03:58.657000');
 INSERT INTO `blog` VALUES (133, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 68, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:07:49.391000');
 INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', 'a', 58, NULL, 68, NULL, 0.00, NULL, 0, NULL, '2023-10-12 23:07:18.323000');
+INSERT INTO `blog` VALUES (135, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'htttp', 0.00, 1, 1, 0, '2023-10-13 09:27:33.767000');
+INSERT INTO `blog` VALUES (136, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 68, 'https//', 0.00, 1, 0, 1, '2023-10-13 14:03:34.172000');
+INSERT INTO `blog` VALUES (137, 'Sssgsgsdgsdg', 'a', 58, NULL, 68, NULL, 0.00, NULL, 0, NULL, '2023-10-13 14:03:22.547000');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -213,7 +216,7 @@ CREATE TABLE `blog_comment`  (
   INDEX `FKc4ysudanwhfrrhytio0272sx9`(`comment_id` ASC) USING BTREE,
   CONSTRAINT `FKb9cpog8ie2cyapsyyt7gikpbl` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKc4ysudanwhfrrhytio0272sx9` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -221,20 +224,17 @@ CREATE TABLE `blog_comment`  (
 INSERT INTO `blog_comment` VALUES (1, 49, 2);
 INSERT INTO `blog_comment` VALUES (2, 49, 8);
 INSERT INTO `blog_comment` VALUES (3, 49, 9);
-INSERT INTO `blog_comment` VALUES (4, 49, 10);
 INSERT INTO `blog_comment` VALUES (5, 49, 11);
-INSERT INTO `blog_comment` VALUES (6, 59, 12);
-INSERT INTO `blog_comment` VALUES (7, 59, 13);
-INSERT INTO `blog_comment` VALUES (8, 59, 14);
 INSERT INTO `blog_comment` VALUES (9, 49, 15);
-INSERT INTO `blog_comment` VALUES (10, 59, 16);
-INSERT INTO `blog_comment` VALUES (11, 59, 17);
 INSERT INTO `blog_comment` VALUES (12, 49, 18);
 INSERT INTO `blog_comment` VALUES (13, 49, 19);
-INSERT INTO `blog_comment` VALUES (14, 59, 20);
 INSERT INTO `blog_comment` VALUES (15, 49, 21);
 INSERT INTO `blog_comment` VALUES (16, 49, 22);
 INSERT INTO `blog_comment` VALUES (17, 59, 23);
+INSERT INTO `blog_comment` VALUES (22, 135, 28);
+INSERT INTO `blog_comment` VALUES (25, 135, 31);
+INSERT INTO `blog_comment` VALUES (26, 135, 32);
+INSERT INTO `blog_comment` VALUES (27, 135, 33);
 
 -- ----------------------------
 -- Table structure for blog_image
@@ -248,7 +248,7 @@ CREATE TABLE `blog_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`blog_id` ASC) USING BTREE,
   CONSTRAINT `blog_image_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 198 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_image
@@ -281,7 +281,7 @@ CREATE TABLE `blog_like`  (
   INDEX `FKppog2vdhbhoff9omlv805wjau`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKppog2vdhbhoff9omlv805wjau` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKstm0v9i88mcn2763ubwgd2qjj` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_like
@@ -301,7 +301,7 @@ CREATE TABLE `blog_save`  (
   INDEX `FK1enjt512o4e8alk33j9jnf6gj`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK1enjt512o4e8alk33j9jnf6gj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKskcq75s8y1lv8l4cyt20ihhug` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_save
@@ -460,6 +460,12 @@ INSERT INTO `blog_tag` VALUES (132, 3);
 INSERT INTO `blog_tag` VALUES (133, 1);
 INSERT INTO `blog_tag` VALUES (133, 2);
 INSERT INTO `blog_tag` VALUES (133, 3);
+INSERT INTO `blog_tag` VALUES (135, 1);
+INSERT INTO `blog_tag` VALUES (135, 2);
+INSERT INTO `blog_tag` VALUES (135, 3);
+INSERT INTO `blog_tag` VALUES (136, 1);
+INSERT INTO `blog_tag` VALUES (136, 2);
+INSERT INTO `blog_tag` VALUES (136, 3);
 
 -- ----------------------------
 -- Table structure for category
@@ -508,37 +514,35 @@ CREATE TABLE `comment`  (
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `parent_id` bigint NULL DEFAULT NULL,
   `user_id` decimal(19, 2) NULL DEFAULT NULL,
+  `created_at` datetime(6) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKde3rfu96lep00br5ov0mdieyt`(`parent_id` ASC) USING BTREE,
   CONSTRAINT `FKde3rfu96lep00br5ov0mdieyt` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES (1, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (2, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (3, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (4, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (5, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (6, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (7, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (8, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (9, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (10, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (11, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (12, 'aafaf', 10, NULL);
-INSERT INTO `comment` VALUES (13, 'aafaf', 10, NULL);
-INSERT INTO `comment` VALUES (14, 'aafaf', 10, NULL);
-INSERT INTO `comment` VALUES (15, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (16, 'aafaf', 10, NULL);
-INSERT INTO `comment` VALUES (17, 'aafaf', 10, NULL);
-INSERT INTO `comment` VALUES (18, 'aafaf', NULL, NULL);
-INSERT INTO `comment` VALUES (19, 'aafaf', NULL, 58.00);
-INSERT INTO `comment` VALUES (20, 'aafaf', 10, 58.00);
-INSERT INTO `comment` VALUES (21, 'aafaf', NULL, 58.00);
-INSERT INTO `comment` VALUES (22, 'aafaf', NULL, 58.00);
-INSERT INTO `comment` VALUES (23, 'aafaf', 22, 58.00);
+INSERT INTO `comment` VALUES (1, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (2, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (3, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (4, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (5, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (6, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (7, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (8, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (9, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (11, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (15, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (18, 'aafaf', NULL, NULL, NULL);
+INSERT INTO `comment` VALUES (19, 'aafaf', NULL, 58.00, NULL);
+INSERT INTO `comment` VALUES (21, 'aafaf', NULL, 58.00, NULL);
+INSERT INTO `comment` VALUES (22, 'aafaf', NULL, 58.00, NULL);
+INSERT INTO `comment` VALUES (23, 'aafaf', 22, 58.00, NULL);
+INSERT INTO `comment` VALUES (28, 'aafaf', NULL, 58.00, NULL);
+INSERT INTO `comment` VALUES (31, 'aafaf', NULL, 58.00, NULL);
+INSERT INTO `comment` VALUES (32, 'aafaf', NULL, 58.00, '2023-10-14 10:52:12.677000');
+INSERT INTO `comment` VALUES (33, 'aafaf', 15, 58.00, '2023-10-14 10:53:36.780000');
 
 -- ----------------------------
 -- Table structure for company
@@ -593,7 +597,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (4);
+INSERT INTO `hibernate_sequence` VALUES (9);
 
 -- ----------------------------
 -- Table structure for refreshtoken
@@ -616,6 +620,11 @@ CREATE TABLE `refreshtoken`  (
 INSERT INTO `refreshtoken` VALUES (1, '2023-10-10 14:56:34.407000', '14c6de94-8f3f-4d66-acb0-ddf4f39abdbc', 58);
 INSERT INTO `refreshtoken` VALUES (2, '2023-10-10 15:08:18.184000', '4a4f1c66-88e4-41d6-9a14-8bb16fd50990', 58);
 INSERT INTO `refreshtoken` VALUES (3, '2023-10-12 20:49:23.964000', '2db29b47-5e09-4447-8c3b-18d83f10ddb6', 58);
+INSERT INTO `refreshtoken` VALUES (4, '2023-10-14 21:52:35.228000', '993f3e2a-df18-435e-b0b4-35555326c0b5', 64);
+INSERT INTO `refreshtoken` VALUES (5, '2023-10-14 21:54:51.550000', 'c36ee42a-7edd-494a-9278-360d5d529deb', 58);
+INSERT INTO `refreshtoken` VALUES (6, '2023-10-14 21:55:36.838000', '29a0abb3-0f4d-40f7-84d6-2fa488898939', 64);
+INSERT INTO `refreshtoken` VALUES (7, '2023-10-14 21:58:49.573000', 'e377583a-88a4-4e69-8420-8665090038b8', 58);
+INSERT INTO `refreshtoken` VALUES (8, '2023-10-14 21:59:52.660000', 'cf681cd5-58d8-41bb-bdd7-f63aa78be66d', 64);
 INSERT INTO `refreshtoken` VALUES (17, '2023-08-28 00:27:08.816000', 'a7fa694f-f715-40fa-bb21-969999605a37', 20);
 INSERT INTO `refreshtoken` VALUES (18, '2023-08-28 00:28:53.866000', '1164de7b-4c4c-4ad5-9926-31fc10f40127', 20);
 INSERT INTO `refreshtoken` VALUES (19, '2023-08-28 00:46:22.208000', 'dc1cbeaa-8b97-4707-a707-38c29e2e7be7', 20);
@@ -883,7 +892,7 @@ CREATE TABLE `series`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKhw97yr01d1ma13c0gdes3r5ok`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKhw97yr01d1ma13c0gdes3r5ok` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series
@@ -925,7 +934,7 @@ INSERT INTO `series` VALUES (57, 'hfag', 58, '2023-10-08 16:44:34.481000', 'Mo t
 INSERT INTO `series` VALUES (58, 'h55ag', 58, '2023-10-08 16:45:49.747000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (61, 'test1', 58, '2023-10-10 21:47:43.503000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (62, 'h5hafaftag', 58, '2023-10-12 22:02:36.613000', 'Mo ta', 4);
-INSERT INTO `series` VALUES (63, 'hai', 58, '2023-10-12 22:44:37.427000', 'Mo ta', 4);
+INSERT INTO `series` VALUES (63, 'hai', 58, '2023-10-12 22:44:37.427000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (64, 'hai221', 58, '2023-10-12 22:47:10.245000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (65, 'hai221q', 58, '2023-10-12 22:48:41.927000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (66, 'haih221q', 58, '2023-10-12 22:52:51.024000', 'Mo ta', 2);
@@ -944,7 +953,7 @@ CREATE TABLE `series_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`series_id` ASC) USING BTREE,
   CONSTRAINT `FKltfgcmbg61cpwl4nk1lcwe0uk` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of series_image
@@ -1059,7 +1068,7 @@ CREATE TABLE `user_banner`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_banner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_banner
@@ -1084,7 +1093,7 @@ CREATE TABLE `user_images`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK2jg7uf46pq5ihgoj39y7phhy6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK2jg7uf46pq5ihgoj39y7phhy6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_images
