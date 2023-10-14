@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class CommentServiceImpl implements ICommentService {
         comment.setContent(commentDTO.getContent());
         comment.setUsers(users);
         comment.setParentComment(null);
+        comment.setCreatedAt(new Date());
         commentRepository.save(comment);
         blogComment.setComment(comment);
         blogComment.setBlog(blog);
@@ -54,6 +56,7 @@ public class CommentServiceImpl implements ICommentService {
         }
         Comment comment = new Comment();
         comment.setUsers(users);
+        comment.setCreatedAt(new Date());
         comment.setContent(commentDTO.getContent());
         comment.setParentComment(parent);
         commentRepository.save(comment);

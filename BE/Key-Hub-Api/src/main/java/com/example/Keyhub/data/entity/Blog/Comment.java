@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -29,4 +30,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 }
