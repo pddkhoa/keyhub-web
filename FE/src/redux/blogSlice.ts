@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import BlogPost from "@/types/blog";
 
-const authSlice = createSlice({
+const blogSlice = createSlice({
   name: "blog",
   initialState: {
     blog: {
@@ -40,6 +40,13 @@ const authSlice = createSlice({
       state.createBlog.isCreating = false;
       state.createBlog.error = true;
     },
+    deleteBlogSuccess: (state, action: PayloadAction<number>) => {
+      // You can implement the logic to delete the blog post here
+      // For example, filter the result array to remove the deleted post
+      state.blog.result = state.blog.result.filter(
+        (post) => post.id !== action.payload
+      );
+    },
   },
 });
 
@@ -50,6 +57,7 @@ export const {
   createBlogStart,
   createBlogFailed,
   createBlogSuccess,
-} = authSlice.actions;
+  deleteBlogSuccess,
+} = blogSlice.actions;
 
-export default authSlice.reducer;
+export default blogSlice.reducer;

@@ -6,6 +6,8 @@ import { requestApiHelper } from "@/helpers/request";
 import api from "@/api/axios";
 import { getSeriesSuccess } from "@/redux/seriesSlice";
 import { getBlogSuccess } from "@/redux/blogSlice";
+import DraftPost from "@/types/draft";
+import CommentType from "@/types/comment";
 
 class ClientServices {
   static updateProfile = async (
@@ -86,7 +88,11 @@ class ClientServices {
           headers: { Authorization: `Bearer ${accessToken}` },
         })
       );
-      dispatch(getSeriesSuccess(res.body?.result));
+      if (res.body?.success) {
+        dispatch(getSeriesSuccess(res.body?.result));
+      } else {
+        console.log(res.body?.message);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -229,7 +235,11 @@ class ClientServices {
           headers: { Authorization: `Bearer ${accessToken}` },
         })
       );
-      dispatch(getBlogSuccess(res.body?.result));
+      if (res.body?.success) {
+        dispatch(getBlogSuccess(res.body?.result));
+      } else {
+        console.log(res.body?.message);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -256,8 +266,222 @@ class ClientServices {
     console.log(res);
     return res;
   };
+  static getBlogBySeries = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
 
-  static getBlogBySeries = async (id: number) => {
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/series/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static getAllBlogByID = async (
+    blog_id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost;
+      statusCode: number;
+    };
+
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/blog/${blog_id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static createBlogDaft = async (
+    report: any,
+    accessToken: string,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+
+    const res = await requestApiHelper<body>(
+      axiosJWT.post("api/v1/blog/draft-blog", report, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static deleteBlog = async (blog_id: number) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: string;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      api.delete(`api/v1/blog/${blog_id}/delete`)
+    );
+    return res;
+  };
+
+  static cancleBlog = async () => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: string;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(api.post(`api/v1/blog/cancel`));
+    return res;
+  };
+  static getDraftByAuth = async (accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: DraftPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get("api/v1/list/blog/draft", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static updateBlog = async (
+    id: number,
+    report: any,
+    accessToken: string,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost;
+      statusCode: number;
+    };
+
+    const res = await requestApiHelper<body>(
+      axiosJWT.patch(`api/v1/blog/${id}/edit`, report, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getCommentByBlog = async (
+    blog_id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: CommentType[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/${blog_id}/commentBlog`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static addComment = async (
+    content: any,
+    blog_id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: CommentType;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/blog/${blog_id}/comment`, content, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static replyComment = async (
+    content: any,
+    blog_id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: CommentType;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/blog/${blog_id}/reply-comment`, content, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static deleteComment = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: CommentType;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.delete(`api/v1/blog/${id}/delete-comment`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static saveBlog = async (
+    blog_id: number,
+    accessToken: string, // token truyen vao
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: {
+        id: number;
+      } | null;
+      statusCode: number;
+    };
+    console.log(accessToken);
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/blog/${blog_id}/save`, null, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogSaveByAuth = async (accessToken: any, axiosJWT: any) => {
     type body = {
       success: boolean;
       message: string;
@@ -265,9 +489,24 @@ class ClientServices {
       statusCode: number;
     };
     const res = await requestApiHelper<body>(
-      api.get(`api/v1/list/blog/series/${id}`)
+      axiosJWT.get("api/v1/list/blog/save", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
     );
-
+    return res;
+  };
+  static deleteSave = async (id: number, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: any;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.delete(`api/v1/blog/${id}/cancle-save`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
     return res;
   };
 }

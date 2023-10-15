@@ -75,7 +75,7 @@ export const logOut = async (
 ) => {
   dispatch(logOutStart());
   try {
-    await axiosJWT.post(`api/auth/logout?refreshToken=${refreshToken}`, {
+    await axiosJWT.post(`api/auth/logout?refreshToken=${refreshToken}`, null, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     dispatch(logOutSuccess());

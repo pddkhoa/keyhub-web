@@ -9,10 +9,6 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Setting</title>
   </head>
@@ -27,10 +23,22 @@
       src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
       crossorigin
     ></script>
-    <script src="https://unpkg.com/react-quill@1.3.3/dist/react-quill.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
     <script src="editor.js"></script>
+    <script src="./dist/image-tool-tune.js"></script>
+    [...BODY...]
+    <script>
+      //On DOM LOADED
+      document.addEventListener("DOMContentLoaded", function () {
+        //Get tune class
+        const ImageToolTune = window.ImageToolTune;
+        //Get tool class
+        const ImageTool = window.ImageTool;
+
+        //Init editor JS
+      });
+    </script>
   </body>
 </html>

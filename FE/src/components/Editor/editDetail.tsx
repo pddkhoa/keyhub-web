@@ -34,6 +34,7 @@ interface ReportType {
   content: string;
   avatar: string;
 }
+
 type CreateBlogProps = {
   setReport: Dispatch<SetStateAction<any>>;
   report: ReportType;
@@ -71,11 +72,13 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
   const dispatch = useDispatch();
   const axiosJWT = createAxios(user, dispatch, loginSuccess);
 
+  const [adding, setAdd] = useState(false);
+
   useEffect(() => {
     if (user?.data.token) {
       ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
     }
-  }, []);
+  }, [adding]);
 
   const handleUploadAvatar = async (file: File) => {
     try {
@@ -173,11 +176,19 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
               name="title"
               placeholder={report.title}
               onChange={(e) => setReport({ ...report, title: e.target.value })}
-              value={"" || report.title}
+              className={`${
+                !report.title ? "border-red-500" : " border-border"
+              }`}
+              value={report.title ? report.title : ""}
             />
-            {/* <div className="float-right text-sm text-title-foreground">
-              Characters remaining: 0/300
-            </div> */}
+            <div className="flex justify-between">
+              <div className="text-sm text-red-500">
+                {!report.title ? "Required" : null}
+              </div>
+              <div className=" text-sm text-title-foreground">
+                Characters remaining: 0/300
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex flex-col">
@@ -212,7 +223,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                 <Select
                   name="series"
                   onValueChange={handleSelectSeries}
-                  // defaultValue={series || report.seriesId}
+                  defaultValue={report.seriesId ? report.seriesId : ""}
                 >
                   <SelectTrigger className="w-full text-sm">
                     <SelectValue placeholder="Series" />
@@ -384,7 +395,9 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
         </div>
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
-        {displayModal ? <CreateSeries setFlag={setDisplayCreate} /> : null}
+        {displayModal ? (
+          <CreateSeries setFlag={setDisplayCreate} setAdd={setAdd} />
+        ) : null}
       </Modal>
     </div>
   );

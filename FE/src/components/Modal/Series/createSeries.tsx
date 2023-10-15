@@ -21,9 +21,13 @@ type CreateSeriesProps = {
     off: () => void;
     toggle: () => void;
   };
+  setAdd: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
+export const CreateSeries: React.FC<CreateSeriesProps> = ({
+  setFlag,
+  setAdd,
+}) => {
   const [bio, setBio] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(bio.length);
   const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -50,6 +54,7 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
     validateOnChange: true,
     onSubmit: async (value) => {
       setIsLoading(true);
+      setAdd(true);
       const report = {
         name: value.name,
         description: value.description,
@@ -57,25 +62,29 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
 
       console.log(report);
 
-      setIsLoading(true);
       try {
         const { body } = await ClientServices.createSeries(
           report,
           accessToken,
           axiosJWT
         );
-        console.log(body);
         if (body?.success) {
           setIsLoading(false);
+          setAdd(false);
+
           showToast("Add new series Thanh cong nha!", "success");
           setFlag.off();
           dispatch(addSeries(body.result));
         } else {
           setIsLoading(false);
+          setAdd(false);
+
           showToast(body?.message || "Erorr", "error");
         }
       } catch (error) {
+        setAdd(false);
         setIsLoading(false);
+        console.log(error);
       }
     },
   });

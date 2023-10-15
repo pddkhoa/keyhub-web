@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GridCard } from "../Card/CardPorfile/listCard";
+import { GridCard } from "../Card/CardBlog/listCard";
 import { Button } from "../ui/button";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
@@ -17,8 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { DetailCard } from "../Card/CardPorfile/detailCard";
-import { useSelector } from "react-redux";
+import { DetailCard } from "../Card/CardBlog/detailCard";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import BlogPost from "@/types/blog";
 import { CardSeries } from "../Card/CardSeries/cardSeries";
@@ -27,6 +27,8 @@ import { CreateSeries } from "../Modal/Series/createSeries";
 import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
 import AlphabetAvatar from "../Avatar/avatar";
+import { createAxios } from "@/api/createInstance";
+import { loginSuccess } from "@/redux/authSlice";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
@@ -147,9 +149,14 @@ export const TabContent: React.FC<TabsContentProps> = ({
   data,
 }) => {
   const [expanded, setExpanded] = useState<number>();
-  const [seriesSelected, setSeriesSelected] = useState<seriesType>();
+  const dispatch = useDispatch();
 
-  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const auth = useSelector((state: RootState) => state.auth.login);
+  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
+  const accessToken = auth?.data.token;
+  const [blogData, setBlogData] = useState<BlogPost[]>([]);
+
+  const [seriesSelected, setSeriesSelected] = useState<seriesType>();
 
   const listSeries = useSelector(
     (state: RootState) => state.series.series.result
@@ -158,8 +165,12 @@ export const TabContent: React.FC<TabsContentProps> = ({
   useEffect(() => {
     if (expanded) {
       const fetchData = async () => {
-        const { body } = await ClientServices.getBlogBySeries(expanded);
-        setBlogs(body?.result);
+        const { body } = await ClientServices.getBlogBySeries(
+          expanded,
+          accessToken,
+          axiosJWT
+        );
+        setBlogData(body?.result);
       };
 
       if (expanded) {
@@ -210,28 +221,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
           </div>
         </div>
       );
-    case "TAB_BOOKMARK":
-      return (
-        <div>
-          <div className="grid grid-cols-3 gap-4">
-            {optionview === "LIST" ? (
-              <>
-                {/* <div className="col-span-1 h-full ">
-                  <GridCard /> BOOKMARK
-                </div>
-                <div className="col-span-1 h-full">
-                  <GridCard />
-                </div>
-                <div className="col-span-1 h-full">
-                  <GridCard />
-                </div> */}
-              </>
-            ) : (
-              <div className="col-span-3 w-full space-y-10">No data</div>
-            )}
-          </div>
-        </div>
-      );
+
     case "TAB_SERIES":
       return (
         <div>
@@ -258,7 +248,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
                       <div className="flex gap-5">
                         <Button
                           onClick={() => {
-                            setExpanded(null), setBlogs([]);
+                            setExpanded(null), setBlogData([]);
                           }}
                         >
                           Back
@@ -267,8 +257,8 @@ export const TabContent: React.FC<TabsContentProps> = ({
                     </div>
                   </div>
                 </div>
-                {blogs && blogs.length > 0
-                  ? blogs.map((item) => (
+                {blogData && blogData.length > 0
+                  ? blogData.map((item) => (
                       <div className="col-span-2 h-full ">
                         <GridCard data={item} />
                       </div>
@@ -311,10 +301,6 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
     setTabs("TAB_VIDEO");
   };
 
-  const handleBookmarkTabClick = () => {
-    setActiveTab("TAB_BOOKMARK");
-    setTabs("TAB_BOOKMARK");
-  };
   const handleSeriesTabClick = () => {
     setActiveTab("TAB_SERIES");
     setTabs("TAB_SERIES");
@@ -391,32 +377,6 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
           >
             <ScrollText className="mr-2" />
             Series
-          </div>
-        </li>
-        <li>
-          <div
-            onClick={handleBookmarkTabClick}
-            className={`flex justify-center cursor-pointer items-center border-b-2 hover:text-title-foreground hover:border-title hover:bg-card hover:rounded-tl-xl hover:rounded-tr-xl  ${
-              activeTab === "TAB_BOOKMARK"
-                ? " border-white text-title-foreground bg-card rounded-tl-xl rounded-tr-xl"
-                : ""
-            } py-4 font-semibold`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-bookmark w-6 h-6 mr-2"
-            >
-              <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-            </svg>
-            Bookmark
           </div>
         </li>
       </ul>

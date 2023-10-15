@@ -6,7 +6,7 @@ import {
   FileLock2,
   PenSquare,
 } from "lucide-react";
-import avatar from "../../asset/1112.jpg";
+import banner from "../../asset/__banner-default.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -44,6 +44,7 @@ import {
   uploadBanerSuccess,
 } from "@/redux/userSlice";
 import ClientServices from "@/services/client/client";
+import AlphabetAvatar from "@/components/Avatar/avatar";
 
 export const UpdateProfile = () => {
   const location = useLocation();
@@ -167,49 +168,25 @@ export const UpdateProfile = () => {
                 htmlFor="file"
                 className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-36 h-36 rounded-full mt-6"
               >
-                {userData.avatar ? (
-                  <>
-                    {isUploading ? (
-                      <div
-                        className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                        role="status"
-                      >
-                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                          Loading...
-                        </span>
-                      </div>
-                    ) : (
-                      <>
-                        <img
-                          src={userData.avatar}
-                          className="w-full h-full object-cover  group-hover:opacity-60"
-                        />
-                        <span className="hidden group-hover:block absolute">
-                          <Camera className="w-8 h-8 pointer-events-none text-title" />
-                        </span>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <div>
-                    <svg
-                      className=" w-full h-full rounded-full bg-gray-100 text-gray-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                <>
+                  {isUploading ? (
+                    <div
+                      className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                      role="status"
                     >
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="hidden group-hover:block absolute">
-                      <Camera className="w-8 h-8 pointer-events-none text-black" />
-                    </span>
-                  </div>
-                )}
+                      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      <AlphabetAvatar size={140} />
+                      <span className="hidden group-hover:block absolute">
+                        <Camera className="w-8 h-8 pointer-events-none text-title" />
+                      </span>
+                    </>
+                  )}
+                </>
               </label>
             </div>
           </div>
@@ -245,7 +222,7 @@ export const UpdateProfile = () => {
                 ) : (
                   <>
                     <img
-                      src={userData.banner_url ? userData.banner_url : avatar}
+                      src={userData.banner_url ? userData.banner_url : banner}
                       className="w-full h-full object-cover  group-hover:opacity-60"
                     />
                     <span className="hidden group-hover:block absolute">

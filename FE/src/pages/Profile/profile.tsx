@@ -1,5 +1,5 @@
 import AlphabetAvatar from "../../components/Avatar/avatar";
-import banner from "../../asset/banner.jpeg";
+import banner from "../../asset/__banner-default.jpg";
 import { AboutMe } from "../../components/UserProfile/aboutMe";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -12,12 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ClientServices from "@/services/client/client";
+import { Loading } from "@/components/Loading/loading";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
   const user = useSelector((state: RootState) => state.auth.login);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,10 +27,20 @@ export const Profile = () => {
 
   useEffect(() => {
     if (user?.data.token) {
-      ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
-      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+      setIsLoading(true);
+      try {
+        ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+        ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
     }
-  }, []);
+  }, [isLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container mx-auto min-h-0 px-4 py-6">
@@ -38,7 +50,7 @@ export const Profile = () => {
             <img
               src={userData.banner_url ? userData.banner_url : banner}
               alt="banner"
-              className="w-full h-full rounded-xl object-cover"
+              className="w-full h-full rounded-xl object-cover opacity-75"
             />
           </div>
         </div>

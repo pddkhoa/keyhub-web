@@ -5,11 +5,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "px-4 py-3 bg-blue-600 rounded-md text-white outline-none focus:ring-4 shadow-lg transform active:scale-75 transition-transform flex justify-center items-center",
+  "cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2",
   {
     variants: {
       variant: {
-        default: "bg-button text-title hover:brightness-105",
+        default: " text-title hover:brightness-105",
         gradient:
           "bg-gradient-to-r from-violet-400 to-pink-400 text-white hover:brightness-110",
         destructive:

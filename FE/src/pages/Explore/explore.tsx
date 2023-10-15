@@ -1,5 +1,5 @@
 import AlphabetAvatar from "@/components/Avatar/avatar";
-import { ListCard } from "@/components/Card/CardPorfile/listCard";
+import { ListCard } from "@/components/Card/CardBlog/listCard";
 import { Slider } from "@/components/Swipers/slideHighlight";
 import image from "../../asset/1111.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,10 +41,10 @@ export const Explore = () => {
                   <div className="h-fit rounded-lg p-4 bg-card">
                     <div className="grid-flow-row w-full space-y-5">
                       <span className="text-title">Cate1</span>
+                      {/* <ListCard />
                       <ListCard />
                       <ListCard />
-                      <ListCard />
-                      <ListCard />
+                      <ListCard /> */}
                     </div>
                   </div>
                 </TabsContent>
@@ -52,10 +52,10 @@ export const Explore = () => {
                   <div className="h-fit rounded-lg p-4 bg-card">
                     <div className="grid-flow-row w-full space-y-5">
                       <span className="text-title">Cate2</span>
+                      {/* <ListCard />
                       <ListCard />
                       <ListCard />
-                      <ListCard />
-                      <ListCard />
+                      <ListCard /> */}
                     </div>
                   </div>
                 </TabsContent>

@@ -15,7 +15,7 @@ const refreshToken = async (user: any) => {
   }
 };
 
-export const createAxios = (user: any, dispatch: any, stateSuccess: any) => {
+export const createAxios = (user: any, dispatch: any, stateSuccess?: any) => {
   const newInstance = axios.create({
     baseURL: "http://localhost:8081",
     headers: {
@@ -28,20 +28,20 @@ export const createAxios = (user: any, dispatch: any, stateSuccess: any) => {
       const decodedToken = jwt_decode(user?.data.token) as any;
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken(user);
-
         console.log(data);
-
         const refreshUser = {
-          ...user.data,
-          token: data?.data.accessToken,
-          refreshToken: data?.data.refreshToken,
-          type: data?.data.tokenType,
+          ...user.data.result,
+          token: data?.data.result.accessToken,
+          refreshToken: data?.data.result.refreshToken,
+          type: data?.data.result.tokenType,
         };
-        dispatch(updateAccessToken(refreshUser));
         console.log(refreshUser);
+        dispatch(updateAccessToken(refreshUser));
         dispatch(stateSuccess(refreshUser));
-        config.headers["Authorization"] = "Bearer " + data?.data.accessToken;
+        config.headers["Authorization"] =
+          "Bearer " + data?.data.result.accessToken;
       }
+      console.log("123", config);
       return config;
     },
     (err) => {

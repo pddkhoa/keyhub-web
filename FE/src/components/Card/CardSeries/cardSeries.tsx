@@ -1,6 +1,8 @@
 import { createAxios } from "@/api/createInstance";
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import convertDate from "@/components/FormatDate/formatDate";
+import { DeleteSeries } from "@/components/Modal/Series/deleteSeries";
+import Modal from "@/components/Modal/modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,15 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { deleteSeriesSuccess } from "@/redux/seriesSlice";
-import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
+import useBoolean from "@/hooks/useBoolean";
+
 import seriesType from "@/types/series";
 import { Calendar, Sticker, Trash2 } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 interface CardSeriesProps {
   data: seriesType;
@@ -33,34 +31,14 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
   setExpanded,
   setSeriesSelected,
 }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const accessToken = auth?.data.token;
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
+  const [displayModal, setDisplayModal] = useState(false);
+  const [displayCreate, setDisplayCreate] = useBoolean(false);
 
   const formatDate = () => {
     const inputDate = data.createday;
     const formattedDate = convertDate(inputDate);
 
     return formattedDate;
-  };
-
-  const handleDeleteSeries = async (id: number) => {
-    try {
-      const { body } = await ClientServices.deleteSeries(
-        id,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        dispatch(deleteSeriesSuccess(id));
-        showToast("Upload Anh Thanh Cong", "success");
-      } else {
-        showToast(body?.message || "Error", "error");
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -112,7 +90,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  handleDeleteSeries(data.id);
+                  setDisplayCreate.on(), setDisplayModal(true);
                 }}
                 className="cursor-pointer"
               >
@@ -143,6 +121,11 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
           <Sticker className="ml-2 w-6 h-6" />
         </Button>
       </div>
+      <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+        {displayModal ? (
+          <DeleteSeries setFlag={setDisplayCreate} id={data.id} />
+        ) : null}
+      </Modal>
     </div>
   );
 };
