@@ -11,4 +11,6 @@ import java.util.List;
 public interface IBlogSaveRepository extends JpaRepository<BlogSave, BigInteger> {
     BlogSave findByUsersAndBlog(Users users, Blog blog);
     List<BlogSave> findByUsers(Users user);
+
+    List<BlogSave> findByBlog(Blog blog);
 }

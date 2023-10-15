@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -378,7 +379,7 @@ public class BlogServiceImpl implements IBLogService {
             }
             if (blogLike==null)
             {
-                blogDTO.setIsSave(false);
+                blogDTO.setIsLike(false);
             }
             else {
                 blogDTO.setIsLike(true);
@@ -446,15 +447,18 @@ public class BlogServiceImpl implements IBLogService {
             else {
                 blogDTO.setIsLike(true);
             }
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.setId(blog.getCategory().getId());
-            categoryDTO.setName(blog.getCategory().getName());
-            blogDTO.setCategories(categoryDTO);
-
-            List<TagDTO> tagDTOs = blog.getTags().stream()
-                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
-                    .collect(Collectors.toList());
-            blogDTO.setTags(tagDTOs);
+            if(blog.getCategory()!=null) {
+                CategoryDTO categoryDTO = new CategoryDTO();
+                categoryDTO.setId(blog.getCategory().getId());
+                categoryDTO.setName(blog.getCategory().getName());
+                blogDTO.setCategories(categoryDTO);
+            }
+            if (blog.getTags()!=null) {
+                List<TagDTO> tagDTOs = blog.getTags().stream()
+                        .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                        .collect(Collectors.toList());
+                blogDTO.setTags(tagDTOs);
+            }
             if (blog.getSeries() != null) {
                 SeriesResponse seriesDTO = new SeriesResponse();
                 seriesDTO.setId(blog.getSeries().getId());
@@ -804,6 +808,18 @@ public class BlogServiceImpl implements IBLogService {
         {
             for (BlogImage blogImage1:blogImage)
                 blogImange.delete(blogImage1);
+        }
+        List<BlogLike> blogLikes = blogLikeRepository.findByBlog(blog);
+        if (blogLikes!=null)
+        {
+            for (BlogLike blogLike:blogLikes)
+                blogLikeRepository.delete(blogLike);
+        }
+        List<BlogSave> blogSave = blogSaveRepository.findByBlog(blog);
+        if (blogSave!=null)
+        {
+            for (BlogSave blogSaves:blogSave)
+                blogSaveRepository.delete(blogSaves);
         }
         List<BlogComment> comments = blogComment.findAllByBlog(blog);
         if (comments!=null)

@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface IBlogLikeRepository extends JpaRepository<BlogLike, BigInteger> {
     BlogLike findByUsersAndBlog(Users users, Blog blog);
-    List<BlogSave> findByUsers(Users user);
+    List<BlogLike> findByBlog(Blog blog);
 }

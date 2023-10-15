@@ -904,7 +904,7 @@ public class AccountBlog {
     public ResponseEntity getAllBlogByUser() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list = ibLogService.getAllBlogByUser(users);
-        if (list.isEmpty())
+        if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
