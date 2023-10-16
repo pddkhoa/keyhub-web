@@ -1,8 +1,8 @@
 import { createAxios } from "@/api/createInstance";
-import { ListCard } from "@/components/Card/CardBlog/listCard";
-import { CardBookmark } from "@/components/Card/CardBookmark/cardBookmark";
+import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
+import { Nodata } from "@/components/ui/nodata";
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
@@ -74,10 +74,14 @@ export const Bookmark = () => {
           <div className="mt-8">
             {bookmark && bookmark.length > 0 ? (
               bookmark.map((item) => (
-                <CardBookmark data={item} setRemoving={setRemoving} />
+                <Card
+                  data={item}
+                  setRemoving={setRemoving}
+                  cardType="bookmark"
+                />
               ))
             ) : (
-              <div>No data</div>
+              <Nodata />
             )}
           </div>
         </div>

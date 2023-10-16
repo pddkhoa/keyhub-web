@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/redux/authSlice";
 import { createAxios } from "@/api/createInstance";
 import { RootState } from "@/redux/store";
-import { useFormik } from "formik";
 import { showToast } from "@/hooks/useToast";
 import ClientServices from "@/services/client/client";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -85,6 +84,9 @@ export const EditBlog = () => {
   const locationState = location.state as BlogPost;
   const [displayModal, setDisplayModal] = useState(false);
   const [displayCreate, setDisplayCreate] = useBoolean(false);
+
+  const [checkNull, setCheckNull] = useState(false);
+
   // ...
 
   useEffect(() => {
@@ -121,8 +123,6 @@ export const EditBlog = () => {
           if (report?.content) {
             const content = convertHTMLToEditorJS(report?.content);
             if (localStorage.getItem("editBlog")) {
-              console.log(contentEdit);
-
               editor?.render(contentEdit as any);
             } else {
               editor?.render(content);
@@ -133,7 +133,10 @@ export const EditBlog = () => {
           const content = await editor?.saver.save();
           localStorage.setItem("editBlog", JSON.stringify(content));
           const edjsParser = edjsHTML();
-
+          setCheckNull(false);
+          if (content?.blocks.length !== 0) {
+            setCheckNull(true);
+          }
           const result = edjsParser.parse(content);
           setReport((prev): any => ({
             ...prev,
@@ -193,7 +196,6 @@ export const EditBlog = () => {
       });
     }
   }, []);
-  console.log(report);
 
   const handleCancle = async () => {
     try {
@@ -253,14 +255,26 @@ export const EditBlog = () => {
       case "STEP_ONE":
         return (
           <div className=" w-full">
-            <div id="editor" className=" rounded-lg w-full p-2 border" />
-            <p className="text-sm text-gray-500">
-              Use{" "}
-              <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-                Tab
-              </kbd>{" "}
-              to open the command menu.
-            </p>
+            <div
+              id="editor"
+              className={`rounded-lg w-full p-2 border ${
+                !checkNull ? "border-red-500" : "border-border"
+              }`}
+            />
+            <div className="flex justify-between">
+              <p className="text-sm text-gray-500">
+                Use{" "}
+                <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
+                  Tab
+                </kbd>{" "}
+                to open the command menu.
+              </p>
+              {!checkNull ? (
+                <p className="text-sm float-right text-red-500">
+                  Content required
+                </p>
+              ) : null}
+            </div>
           </div>
         );
       case "STEP_TWO":
@@ -366,7 +380,12 @@ export const EditBlog = () => {
                   onClick={() => {
                     setDisplayCreate.on(), setDisplayModal(true);
                   }}
-                  className="px-5 py-1.5 float-right button-save-end"
+                  disabled={!checkNull || !report?.title ? true : false}
+                  className={`px-5 py-1.5 float-right button-save-end ${
+                    !checkNull || !report?.title
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -1,17 +1,9 @@
 import AlphabetAvatar from "../../Avatar/avatar";
-import {
-  ArrowRight,
-  BadgeCheck,
-  Bookmark,
-  Heart,
-  MessageCircle,
-  Trash2,
-} from "lucide-react";
+import { ArrowRight, BadgeCheck, Heart, MessageCircle } from "lucide-react";
 import BlogPost from "@/types/blog";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,12 +18,14 @@ import Modal from "@/components/Modal/modal";
 import { DeleteBlog } from "@/components/Modal/Blog/deleteBlog";
 import convertDate from "@/components/FormatDate/formatDate";
 import { SaveBlog } from "@/components/Modal/Blog/saveBlog";
+import { IconBookmark, IconDelete, IconUnBookmark } from "@/components/ui/icon";
 
 interface GridCardProps {
   data: BlogPost;
+  setActiveBlog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const GridCard: React.FC<GridCardProps> = ({ data }) => {
+export const GridCard: React.FC<GridCardProps> = ({ data, setActiveBlog }) => {
   const formatDate = () => {
     const inputDate = data?.create_date;
     const formattedDate = convertDate(inputDate);
@@ -41,6 +35,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data }) => {
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const [displayModal, setDisplayModal] = useState("");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
+  const active = false;
 
   return (
     <div className="mb-4 break-inside p-6 bg-card  flex flex-col group over:brightness-90 transition-all  group  border-r-2 border-t-2 border-gray-900 m-4 rounded-lg overflow-hidden relative  bg-clip-border cursor-pointer ">
@@ -73,29 +68,21 @@ export const GridCard: React.FC<GridCardProps> = ({ data }) => {
         <div className="flex justify-center items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                className="text-gray-500 p-1 bg-gray-900 rounded-lg hover:bg-hover hover:brightness-150 hover:text-gray-300 cursor-pointer"
-                variant="outline"
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-more-vertical"
-                  >
-                    <circle cx="12" cy="12" r="1" />
-                    <circle cx="12" cy="5" r="1" />
-                    <circle cx="12" cy="19" r="1" />
-                  </svg>
-                </div>
-              </Button>
+              <button className="hover:brightness-150 opacity-70 rounded-full hover:bg-input p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-8 h-8"
+                  id="menumeatballs"
+                >
+                  <path
+                    fill="#ffff"
+                    d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                    className="color000000 svgShape"
+                  ></path>
+                </svg>
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mr-2">
               <DropdownMenuLabel>Option</DropdownMenuLabel>
@@ -106,44 +93,28 @@ export const GridCard: React.FC<GridCardProps> = ({ data }) => {
                 }}
                 className="cursor-pointer"
               >
-                <Trash2 className="w-5 h-5 mr-2" />
+                <IconDelete className="w-6 h-6 mr-2" />
                 <span>Delete</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  setDisplayCreate.on(), setDisplayModal("BOOKMARK");
+                  setDisplayCreate.on(),
+                    setDisplayModal("BOOKMARK"),
+                    setActiveBlog(!active);
                 }}
                 className="cursor-pointer"
               >
                 {data.isSave ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 48 48"
-                    id="bookmark"
-                    className="w-10 h-10 flex justify-center mx-auto"
-                  >
-                    <defs>
-                      <linearGradient
-                        id="a"
-                        x1="11"
-                        x2="37"
-                        y1="24"
-                        y2="24"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop offset="0" stop-color="#f12711"></stop>
-                        <stop offset="1" stop-color="#f5af19"></stop>
-                      </linearGradient>
-                    </defs>
-                    <path
-                      fill="url(#a)"
-                      d="M37,7V41a1,1,0,0,1-1,1,1,1,0,0,1-.5-.14L24,35.16l-11.5,6.7A1,1,0,0,1,11,41V7a1,1,0,0,1,1-1H36A1,1,0,0,1,37,7Z"
-                    ></path>
-                  </svg>
+                  <>
+                    <IconUnBookmark className="mr-2" />
+                    <span>Unbookmark</span>
+                  </>
                 ) : (
-                  <Bookmark className="w-5 h-5 mr-2" />
+                  <>
+                    <IconBookmark className="w-6 h-6 mr-2" />
+                    <span>Bookmark</span>
+                  </>
                 )}
-                <span>Bookmark</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

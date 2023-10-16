@@ -1,4 +1,6 @@
 import { createAxios } from "@/api/createInstance";
+import { Button } from "@/components/ui/button";
+import { IconDelete } from "@/components/ui/icon";
 import { showToast } from "@/hooks/useToast";
 import { loginSuccess } from "@/redux/authSlice";
 import { deleteSeriesSuccess } from "@/redux/seriesSlice";
@@ -45,34 +47,24 @@ export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
   return (
     <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
       <div>
+        <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
+          <button
+            className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
+            onClick={setFlag.off}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-full h-full"
+            >
+              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+            </svg>
+          </button>
+        </div>
         {/*body*/}
         <div className="text-center p-5 flex-auto justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-16 h-16 flex items-center text-red-500 mx-auto"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <IconDelete className="w-16 h-16 flex items-center  mx-auto" />
           <h2 className="text-xl font-bold py-4 text-title">Are you sure?</h2>
           <p className="text-sm text-gray-500 px-8">
             Do you really want to delete all your blog in series? This process
@@ -80,21 +72,21 @@ export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
           </p>
         </div>
         {/*footer*/}
-        <div className="p-3  mt-2 text-center space-x-4 md:block">
-          <button
+        <div className="p-3  mt-2 text-center space-x-4 flex justify-around">
+          <Button
             onClick={() => {
               setFlag.off();
             }}
             className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => handleDeleteSeries(id)}
             className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </div>
     </div>

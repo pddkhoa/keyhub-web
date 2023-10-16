@@ -5,7 +5,7 @@ import seriesType from "@/types/series";
 import { requestApiHelper } from "@/helpers/request";
 import api from "@/api/axios";
 import { getSeriesSuccess } from "@/redux/seriesSlice";
-import { getBlogSuccess } from "@/redux/blogSlice";
+import { getBlogFailed, getBlogSuccess } from "@/redux/blogSlice";
 import DraftPost from "@/types/draft";
 import CommentType from "@/types/comment";
 
@@ -238,6 +238,7 @@ class ClientServices {
       if (res.body?.success) {
         dispatch(getBlogSuccess(res.body?.result));
       } else {
+        dispatch(getBlogFailed);
         console.log(res.body?.message);
       }
     } catch (err) {
@@ -504,6 +505,24 @@ class ClientServices {
     };
     const res = await requestApiHelper<body>(
       axiosJWT.delete(`api/v1/blog/${id}/cancle-save`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogPopular = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`http://localhost:8081/api/v1/list/blog/${index}/popular`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
     );

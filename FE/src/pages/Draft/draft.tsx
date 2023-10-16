@@ -1,7 +1,8 @@
 import { createAxios } from "@/api/createInstance";
-import { CardDraft } from "@/components/Card/CardDraft/cardDraft";
+import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
+import { Nodata } from "@/components/ui/nodata";
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
@@ -17,6 +18,7 @@ export const ListDraft = () => {
   const axiosJWT = createAxios(user, dispatch, loginSuccess);
   const accessToken = user?.data.token;
   const [loading, setLoading] = useState(false);
+  const [removing, setRemoving] = useState(false);
 
   useEffect(() => {
     const fetchDrafts = async () => {
@@ -35,7 +37,7 @@ export const ListDraft = () => {
     };
 
     fetchDrafts();
-  }, []);
+  }, [removing]);
 
   if (loading) {
     return <Loading />;
@@ -70,9 +72,11 @@ export const ListDraft = () => {
           </div>
           <div className="mt-8">
             {drafts && drafts.length > 0 ? (
-              drafts.map((item) => <CardDraft data={item} />)
+              drafts.map((item) => (
+                <Card data={item} cardType="draft" setRemoving={setRemoving} />
+              ))
             ) : (
-              <div>No data</div>
+              <Nodata />
             )}
           </div>
         </div>

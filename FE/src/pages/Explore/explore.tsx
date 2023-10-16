@@ -5,8 +5,55 @@ import image from "../../asset/1111.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus } from "lucide-react";
 import { SlideVideo } from "@/components/Swipers/slideVideo";
+import { useEffect, useState } from "react";
+import BlogPost from "@/types/blog";
+import { createAxios } from "@/api/createInstance";
+import { loginSuccess } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import ClientServices from "@/services/client/client";
+import { Nodata } from "@/components/ui/nodata";
+import Pagination from "@/components/Pagination/pagination";
+import { Card } from "@/components/Card/card";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export const Explore = () => {
+  const user = useSelector((state: RootState) => state.auth.login);
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const accessToken = user?.data.token;
+  const [loading, setLoading] = useState(false);
+  const [blogPopular, setBlogPopular] = useState<BlogPost[]>();
+  const [index, setIndex] = useState<number>(1);
+
+  useEffect(() => {
+    const fetchBlogPopular = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getBlogPopular(
+        index,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setBlogPopular(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPopular();
+  }, [index]);
+
+  const handlePageChange = (pageIndex: number) => {
+    setIndex(pageIndex);
+  };
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
   return (
     <div className="container  min-h-0 px-9 py-16">
       <div className="w-full h-full grid grid-cols-8">
@@ -22,40 +69,69 @@ export const Explore = () => {
           <div className="w-full space-y-2">
             <h2 className="text-xl text-title">Các bài viết hay</h2>
             <div className="w-full space-y-2">
-              <Tabs defaultValue="cate1">
+              <Tabs defaultValue="Popular">
                 <TabsList className="w-full border-b-2 border-border text-title-foreground">
                   <TabsTrigger
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500 "
-                    value="cate1"
+                    value="Popular"
                   >
-                    Cate 1
+                    Popular
                   </TabsTrigger>
                   <TabsTrigger
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-                    value="cate2"
+                    value="Latest"
                   >
-                    Cate 2
+                    Latest
+                  </TabsTrigger>
+                  <TabsTrigger
+                    className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+                    value="mostLike"
+                  >
+                    Most Like
+                  </TabsTrigger>
+                  <TabsTrigger
+                    className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+                    value="mostView"
+                  >
+                    Most View
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="cate1">
+                <TabsContent value="Popular">
                   <div className="h-fit rounded-lg p-4 bg-card">
                     <div className="grid-flow-row w-full space-y-5">
-                      <span className="text-title">Cate1</span>
-                      {/* <ListCard />
-                      <ListCard />
-                      <ListCard />
-                      <ListCard /> */}
+                      {loading ? (
+                        <>
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                        </>
+                      ) : blogPopular && blogPopular.length > 0 ? (
+                        blogPopular.map((item) => (
+                          <Card cardType="bookmark" data={item} />
+                        ))
+                      ) : (
+                        <Nodata />
+                      )}
+                    </div>
+                    <div className="w-full mx-auto py-4 flex justify-center">
+                      <Pagination
+                        page={index}
+                        setPage={handlePageChange}
+                        maxPage={10}
+                      />
                     </div>
                   </div>
                 </TabsContent>
-                <TabsContent value="cate2">
+                <TabsContent value="Latest">
                   <div className="h-fit rounded-lg p-4 bg-card">
                     <div className="grid-flow-row w-full space-y-5">
                       <span className="text-title">Cate2</span>
-                      {/* <ListCard />
                       <ListCard />
                       <ListCard />
-                      <ListCard /> */}
+                      <ListCard />
+                      <ListCard />
                     </div>
                   </div>
                 </TabsContent>

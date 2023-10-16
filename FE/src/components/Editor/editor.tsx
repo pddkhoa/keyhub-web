@@ -79,8 +79,6 @@ export const Editor = () => {
         },
         onChange: async () => {
           const content = await editor?.saver.save();
-          console.log(content);
-          console.log(checkNull);
           localStorage.setItem("editorContent", JSON.stringify(content));
           const edjsParser = edjsHTML();
           setCheckNull(false);
@@ -92,8 +90,6 @@ export const Editor = () => {
             ...prev,
             content: result?.join(""),
           }));
-
-          console.log("content", content);
         },
         placeholder: "Type here to write your post...",
         inlineToolbar: true,
@@ -411,7 +407,12 @@ export const Editor = () => {
               <button
                 type="button"
                 onClick={handleSaveDaft}
-                className="px-5 py-1.5 float-right button-save-daft"
+                disabled={!checkNull || !report?.title ? true : false}
+                className={`px-5 py-1.5 float-right button-save-daft ${
+                  !checkNull || !report?.title
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

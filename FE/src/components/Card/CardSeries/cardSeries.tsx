@@ -61,29 +61,21 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                className="text-gray-500 p-1 rounded-lg hover:bg-hover hover:brightness-150 hover:text-gray-300 cursor-pointer"
-                variant="outline"
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    className="lucide lucide-more-vertical"
-                  >
-                    <circle cx="12" cy="12" r="1" />
-                    <circle cx="12" cy="5" r="1" />
-                    <circle cx="12" cy="19" r="1" />
-                  </svg>
-                </div>
-              </Button>
+              <button className="hover:brightness-150 opacity-70 rounded-full hover:bg-input p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-8 h-8"
+                  id="menumeatballs"
+                >
+                  <path
+                    fill="#ffff"
+                    d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                    className="color000000 svgShape"
+                  ></path>
+                </svg>
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mr-2">
               <DropdownMenuLabel>Option</DropdownMenuLabel>

@@ -2,45 +2,18 @@ import AlphabetAvatar from "../../components/Avatar/avatar";
 import banner from "../../asset/__banner-default.jpg";
 import { AboutMe } from "../../components/UserProfile/aboutMe";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { TabsProfile } from "@/components/Tab/tabsProfile";
 import { PenSquare, PlusCircle } from "lucide-react";
 
-import { useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
-import { useEffect, useState } from "react";
-import ClientServices from "@/services/client/client";
-import { Loading } from "@/components/Loading/loading";
+import { useNavigate } from "react-router";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
-  const user = useSelector((state: RootState) => state.auth.login);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-
-  useEffect(() => {
-    if (user?.data.token) {
-      setIsLoading(true);
-      try {
-        ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
-        ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    }
-  }, [isLoading]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <div className="container mx-auto min-h-0 px-4 py-6">

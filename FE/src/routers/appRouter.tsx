@@ -15,7 +15,7 @@ import { Explore } from "@/pages/Explore/explore";
 import { DetailBlog } from "@/pages/Blog/detailBlog";
 
 import { Categories } from "@/pages/Categories/categories";
-import { ListDraft } from "@/pages/Draft/listDraft";
+import { ListDraft } from "@/pages/Draft/draft";
 import { Editor } from "@/components/Editor/editor";
 import { EditBlog } from "@/components/Editor/editBlog";
 import PublicRouter from "./publicRouter";

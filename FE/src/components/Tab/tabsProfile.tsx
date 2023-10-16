@@ -26,7 +26,6 @@ import { CardVideo } from "../Card/CardVideo/cardVideo";
 import { CreateSeries } from "../Modal/Series/createSeries";
 import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
-import AlphabetAvatar from "../Avatar/avatar";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
 
@@ -35,8 +34,24 @@ export const TabsProfile = () => {
   const [displayCreate, setDisplayCreate] = useBoolean(false);
   const [displayModal, setDisplayModal] = useState("");
   const [option, setOption] = useState("LIST");
-
+  const [adding, setAdd] = useState(false);
+  const [activeBlog, setActiveBlog] = useState(false);
   const blog = useSelector((state: RootState) => state.blog.blog.result);
+  const user = useSelector((state: RootState) => state.auth.login);
+
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+
+  useEffect(() => {
+    if (user?.data.token) {
+      try {
+        ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+        ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [adding]);
 
   return (
     <div>
@@ -122,7 +137,12 @@ export const TabsProfile = () => {
             </div>
           </div>
         </div>
-        <TabContent tabName={tabs} optionview={option} data={blog} />
+        <TabContent
+          tabName={tabs}
+          optionview={option}
+          data={blog}
+          setActiveBlog={setActiveBlog}
+        />
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "FILTER" ? (
@@ -130,7 +150,7 @@ export const TabsProfile = () => {
         ) : null}
 
         {displayModal === "CREATE_SERIES" ? (
-          <CreateSeries setFlag={setDisplayCreate} />
+          <CreateSeries setFlag={setDisplayCreate} setAdd={setAdd} />
         ) : null}
       </Modal>
     </div>
@@ -141,12 +161,14 @@ interface TabsContentProps {
   tabName: string;
   optionview: string;
   data: BlogPost[];
+  setActiveBlog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TabContent: React.FC<TabsContentProps> = ({
   tabName,
   optionview,
   data,
+  setActiveBlog,
 }) => {
   const [expanded, setExpanded] = useState<number>();
   const dispatch = useDispatch();
@@ -189,7 +211,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
                 {data && data.length > 0 ? (
                   data.map((item) => (
                     <div key={item.id} className="col-span-2 h-full ">
-                      <GridCard data={item} />
+                      <GridCard data={item} setActiveBlog={setActiveBlog} />
                     </div>
                   ))
                 ) : (

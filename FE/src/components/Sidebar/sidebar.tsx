@@ -1,23 +1,10 @@
 import { useState } from "react";
 import { TbSquareRoundedChevronRight } from "react-icons/tb";
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootStateToken } from "../../types/token";
-import { Link, useNavigate } from "react-router-dom";
-import { createAxios } from "../../api/createInstance";
-import { logOutSuccess } from "../../redux/authSlice";
-import { logOut } from "../../services/access/apiRequest";
-import { Home, Newspaper, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Items } from "./items";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+
 import React from "react";
-import { ModeToggle } from "../DarkMode/modeToggle";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import "./sidebar.css";
 
 type SidebarProps = {
@@ -30,17 +17,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
   const handleOpenSidebar = () => {
     setOpen(!open);
     setOpenSidebar(!open);
-  };
-
-  const user = useSelector((state: RootStateToken) => state.auth.login);
-  const accessToken = user?.data.token;
-  const refreshToken = user?.data.refreshToken;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const axiosJWT = createAxios(user, dispatch, logOutSuccess);
-
-  const handleLogout = () => {
-    logOut(dispatch, refreshToken, navigate, accessToken, axiosJWT);
   };
 
   return (
@@ -279,7 +255,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
               </ul>
               <div className="py-3 space-y-2">
                 <div className="mt-0 w-full flex items-center rounded-xl p-1.5 hover:bg-hover ">
-                  <DropdownMenu>
+                  {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className="w-fit pr-7 h-full outline-none">
                         <Items
@@ -305,7 +281,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                         ) : null}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
-                  </DropdownMenu>
+                  </DropdownMenu> */}
                 </div>
               </div>
             </div>

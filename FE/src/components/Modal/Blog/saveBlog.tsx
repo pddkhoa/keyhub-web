@@ -3,6 +3,7 @@ import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { showToast } from "@/hooks/useToast";
 import { loginSuccess } from "@/redux/authSlice";
+import { isBookmark } from "@/redux/blogSlice";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { useState } from "react";
@@ -35,6 +36,7 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
       console.log(body);
       if (body?.success) {
         showToast("save  Thanh Cong", "success");
+        dispatch(isBookmark(blog_id));
         setFlag.off();
         setLoading(false);
       } else {
@@ -54,6 +56,21 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
   return (
     <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
       <div>
+        <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
+          <button
+            className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
+            onClick={setFlag.off}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-full h-full"
+            >
+              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+            </svg>
+          </button>
+        </div>
         {/*body*/}
         <div className="text-center p-5 flex-auto justify-center">
           <svg

@@ -47,6 +47,17 @@ const blogSlice = createSlice({
         (post) => post.id !== action.payload
       );
     },
+    isBookmark: (state, action: PayloadAction<number>) => {
+      // Find the blog post by ID
+      const blogPost = state.blog.result.find(
+        (post) => post.id === action.payload
+      );
+
+      if (blogPost) {
+        // Toggle the bookmark status
+        blogPost.isSave = true;
+      }
+    },
   },
 });
 
@@ -58,6 +69,7 @@ export const {
   createBlogFailed,
   createBlogSuccess,
   deleteBlogSuccess,
+  isBookmark,
 } = blogSlice.actions;
 
 export default blogSlice.reducer;

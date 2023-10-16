@@ -1,3 +1,5 @@
+import User from "./user";
+
 interface BlogPost {
   id: number;
   title: string;
@@ -13,6 +15,7 @@ interface BlogPost {
   series: BlogSeries; // Nếu series có thể là một object thì bạn cần định nghĩa một interface riêng cho nó
   isLike?: boolean;
   isSave?: boolean;
+  users: User;
 }
 
 interface Category {
