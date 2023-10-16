@@ -67,6 +67,7 @@ public class Users {
     private String School;
     @Column
     private String banner_url;
+
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,
                     @NotBlank
@@ -82,4 +83,5 @@ public class Users {
         this.email = email;
         this.password = encode;
     }
+
 }

@@ -11,6 +11,4 @@ public interface IStoryService {
    List<BlockUserDTO> findBlockedUsersByUserBlock(Users userBlock);
 
    Users findUserisBlock (BigInteger userID);
-   Block block_user(Users user_id_block, BigInteger user_is_block);
-
 }

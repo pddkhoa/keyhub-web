@@ -41,4 +41,6 @@ public interface IUserService {
     Series addSeries(SeriesDTO seriesDTO, Users users);
     Series editSeries(BigInteger series_id, SeriesDTO seriesDTO, Users users);
     Users changeBanner(BigInteger user_id, MultipartFile imageFile);
+    Users followUser(BigInteger followerId, BigInteger followingId);
+    Users unfollowUser(BigInteger followerId, BigInteger followingId);
 }

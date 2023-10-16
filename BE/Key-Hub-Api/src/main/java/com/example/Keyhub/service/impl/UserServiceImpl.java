@@ -2,6 +2,7 @@ package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
+import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.SeriesImage;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
@@ -9,15 +10,20 @@ import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
+import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.payload.respone.CustomResponse;
 import com.example.Keyhub.data.repository.*;
+import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.IEmailService;
 import com.example.Keyhub.service.IStoryService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +41,8 @@ import java.util.concurrent.ScheduledExecutorService;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    IFollowRepository iFollowRepository;
     @Autowired
     private ISeriesRepository seriesRepository;
     @Autowired
@@ -314,6 +322,66 @@ public class UserServiceImpl implements IUserService {
         String new_banner = uploadImageService.uploadFile(imageFile);
         us.setBanner_url(new_banner);
         return userRepository.save(us);
+    }
+
+    public UserResponseDTO createUserResponse(Users user) {
+        UserResponseDTO response = new UserResponseDTO();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        response.setCreateDate(user.getCreateDate());
+        response.setUpdateDate(user.getUpdateDate());
+        response.setAvatar(user.getAvatar());
+        response.setSecond_name(user.getSecond_name());
+        response.setStatus(user.getStatus());
+        response.setGender(user.getGender());
+        response.setDescriptions(user.getDescriptions());
+        response.setAddress(user.getAddress());
+        response.setCompany(user.getCompany());
+        response.setCountry(user.getCountry());
+        response.setSchool(user.getSchool());
+        response.setBanner_url(user.getBanner_url());
+        List<Follow> UserFollow = iFollowRepository.findByUserFollower(user);
+        response.setTotalFollowers(UserFollow.size());
+        List<Follow> UserFollowing = iFollowRepository.findByFollowing(user);
+        response.setTotalFollowers(UserFollowing.size());
+        return response;
+    }
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
+    @Override
+    public Users followUser(BigInteger followerId, BigInteger followingId) { // followerId: ID người dùng theo dõi, followingId: ID người dùng được theo dõi
+        Users follower = userRepository.findById(followerId).orElse(null);
+        Users following = userRepository.findById(followingId).orElse(null);
+        Follow follows = iFollowRepository.findAllByFollowingAndUserFollower(follower,following);
+        if (follows!=null)
+        {
+            return null;
+        }
+        logger.error("The token invalid format ->Message: {}",follows);
+
+        Follow follow = new Follow();
+        follow.setUserFollower(follower);
+        follow.setFollowing(following);
+        iFollowRepository.save(follow);
+        return follower;
+    }
+    @Override
+    public Users unfollowUser(BigInteger followerId, BigInteger followingId) {
+        Users follower = userRepository.findById(followerId).orElse(null);
+        if (follower==null)
+        {
+            return null;
+        }
+        Users following = userRepository.findById(followingId).orElse(null);
+        if (following==null)
+        {
+            return null;
+        }
+        Follow follow = new Follow();
+        return userRepository.save(follower);
     }
     @Transactional
     @Override

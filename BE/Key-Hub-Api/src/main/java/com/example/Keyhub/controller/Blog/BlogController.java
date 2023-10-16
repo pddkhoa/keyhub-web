@@ -309,6 +309,20 @@ public class BlogController {
                         .build()
                 );
     }
+    @GetMapping("/size")
+    public ResponseEntity getPopularSize() {
+        List<BlogDTO> list = ibLogService.getAllBlogPublis(getUserFromAuthentication());
+        int size = list.size() / 5 + (list.size() % 5 != 0 ? 1 : 0);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(size)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("That all blog")
+                        .build()
+                );
+    }
     @GetMapping("{index}/popular")
     public ResponseEntity getBlogPoppularWithPagging(@PathVariable int index) {
         Users users = getUserFromAuthentication();
