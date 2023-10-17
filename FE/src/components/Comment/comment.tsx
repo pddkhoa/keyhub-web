@@ -328,6 +328,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
 
   const [InputComment, setInputComment] = useState<string>();
   const isCheckComment = InputComment?.length === 0;
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleReplyComment = async (InputComment: string) => {
     const report = {
@@ -391,7 +392,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     <form onSubmit={onSubmit} className="flex flex-col  h-fit">
       <div
         className={`flex flex-row w-full  rounded-lg p-3 ${
-          isCheckComment ? " border-red-500 border" : null
+          isFocused && isCheckComment ? " border-red-500 border" : null
         }`}
       >
         <AlphabetAvatar size={50} />
@@ -401,6 +402,8 @@ export const CommentForm: React.FC<CommentFormProps> = ({
             onChange={(e) => {
               setInputComment(e.target.value);
             }}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             placeholder="Comment in area"
             value={InputComment}
             className={`flex flex-1  bg-transparent outline-none rounded-lg text-title-foreground p-2 placeholder:text-gray-600 placeholder:italic`}

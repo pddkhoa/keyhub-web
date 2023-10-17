@@ -28,6 +28,7 @@ import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
+import { Nodata } from "../ui/nodata";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
@@ -215,7 +216,9 @@ export const TabContent: React.FC<TabsContentProps> = ({
                     </div>
                   ))
                 ) : (
-                  <div>No data</div>
+                  <div className="col-span-4">
+                    <Nodata />
+                  </div>
                 )}
               </>
             ) : data && data.length > 0 ? (
@@ -225,7 +228,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
                 </div>
               ))
             ) : (
-              <div>No data</div>
+              <Nodata />
             )}
           </div>
         </div>
@@ -297,7 +300,11 @@ export const TabContent: React.FC<TabsContentProps> = ({
                   />
                 </div>
               ))
-            ) : null}
+            ) : (
+              <div className="col-span-4">
+                <Nodata />
+              </div>
+            )}
           </div>
         </div>
       );

@@ -1,5 +1,5 @@
 import convertDate from "@/components/FormatDate/formatDate";
-import { BadgeCheck, MoreHorizontal } from "lucide-react";
+import { BadgeCheck, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
 import AlphabetAvatar, { UserAvatar } from "@/components/Avatar/avatar";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal/modal";
@@ -73,54 +73,61 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
             </div>
           </div>
           <div className="flex justify-center items-center space-x-5">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button>
-                  <MoreHorizontal className="w-5 h-5" />
-                </Button>
-              </DropdownMenuTrigger>
+            {cardType === "default" ? (
+              <div className="flex justify-center items-center space-x-5">
+                <Heart className=" text-title  hover:text-title focus:outline-none focus:text-gray-700" />
+                <MessageCircle className=" text-title  hover:text-titlefocus:outline-none focus:text-gray-700" />
+              </div>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button>
+                    <MoreHorizontal className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
 
-              {cardType === "draft" ? (
-                <DropdownMenuContent className="w-56 mr-2">
-                  <DropdownMenuLabel>Option</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link
-                      to={`/editor/${data.id}`}
-                      state={data}
-                      className="flex items-center"
+                {cardType === "draft" ? (
+                  <DropdownMenuContent className="w-56 mr-2">
+                    <DropdownMenuLabel>Option</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link
+                        to={`/editor/${data.id}`}
+                        state={data}
+                        className="flex items-center"
+                      >
+                        <IconEdit className="mr-2 w-5 h-5 brightness-75" />
+                        <span>Edit</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setDisplayCreate.on(), setDisplayModal("DELETE");
+                      }}
+                      className="cursor-pointer"
                     >
-                      <IconEdit className="mr-2 w-5 h-5 brightness-75" />
-                      <span>Edit</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setDisplayCreate.on(), setDisplayModal("DELETE");
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <IconDelete className="mr-2 w-5 h-5" />
-                    <span>Delete</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              ) : (
-                <DropdownMenuContent className="w-56 mr-2">
-                  <DropdownMenuLabel>Option</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                      <IconDelete className="mr-2 w-5 h-5" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                ) : cardType === "bookmark" ? (
+                  <DropdownMenuContent className="w-56 mr-2">
+                    <DropdownMenuLabel>Option</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
 
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setDisplayCreate.on(), setDisplayModal("UNBOOKMARK");
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <IconUnBookmark className="mr-2 w-5 h-5" />
-                    <span>Unbookmark</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              )}
-            </DropdownMenu>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setDisplayCreate.on(), setDisplayModal("UNBOOKMARK");
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <IconUnBookmark className="mr-2 w-5 h-5" />
+                      <span>Unbookmark</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                ) : null}
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>
@@ -162,4 +169,12 @@ interface CardDraftProps {
 
 export const CardDraft: React.FC<CardDraftProps> = ({ data }) => {
   return <Card data={data} cardType="draft" />;
+};
+
+interface CardDefaultProps {
+  data: BlogPost;
+}
+
+export const CardDefault: React.FC<CardDefaultProps> = ({ data }) => {
+  return <Card data={data} cardType="default" />;
 };

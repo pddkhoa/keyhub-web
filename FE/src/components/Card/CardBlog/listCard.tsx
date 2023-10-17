@@ -19,7 +19,7 @@ import { DeleteBlog } from "@/components/Modal/Blog/deleteBlog";
 import convertDate from "@/components/FormatDate/formatDate";
 import { SaveBlog } from "@/components/Modal/Blog/saveBlog";
 import { IconBookmark, IconDelete, IconUnBookmark } from "@/components/ui/icon";
-
+import banner_default from "../../../asset/__banner-default.jpg";
 interface GridCardProps {
   data: BlogPost;
   setActiveBlog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +36,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data, setActiveBlog }) => {
   const [displayModal, setDisplayModal] = useState("");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
   const active = false;
+  const [removing, setRemoving] = useState(false);
 
   return (
     <div className="mb-4 break-inside p-6 bg-card  flex flex-col group over:brightness-90 transition-all  group  border-r-2 border-t-2 border-gray-900 m-4 rounded-lg overflow-hidden relative  bg-clip-border cursor-pointer ">
@@ -127,7 +128,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data, setActiveBlog }) => {
         <div className="flex w-full h-[200px] group">
           <img
             className="w-full h-full object-cover opacity-90 rounded-lg group-hover:opacity-70"
-            src={data.avatar}
+            src={data.avatar ? data.avatar : banner_default}
           />
         </div>
       </div>
@@ -166,7 +167,11 @@ export const GridCard: React.FC<GridCardProps> = ({ data, setActiveBlog }) => {
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "DELETE" ? (
-          <DeleteBlog setFlag={setDisplayCreate} id={data.id} />
+          <DeleteBlog
+            setFlag={setDisplayCreate}
+            id={data.id}
+            setRemoving={setRemoving}
+          />
         ) : null}
         {displayModal === "BOOKMARK" ? (
           <SaveBlog setFlag={setDisplayCreate} id={data.id} />

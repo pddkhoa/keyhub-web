@@ -522,7 +522,61 @@ class ClientServices {
       statusCode: number;
     };
     const res = await requestApiHelper<body>(
-      axiosJWT.get(`http://localhost:8081/api/v1/list/blog/${index}/popular`, {
+      axiosJWT.get(`api/v1/list/blog/${index}/popular`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogLastest = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/${index}/new`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogMostLike = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/${index}/like`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogMostViews = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/${index}/views`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
     );

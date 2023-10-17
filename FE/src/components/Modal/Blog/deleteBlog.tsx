@@ -21,7 +21,7 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
 }) => {
   const dispatch = useDispatch();
   const handleDeleteBlog = async (id: number) => {
-    if (setRemoving && id) {
+    if (id) {
       setRemoving(true);
       const { body } = await ClientServices.deleteBlog(id);
       if (body?.success) {
@@ -31,7 +31,6 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
         setFlag.off();
       } else {
         setRemoving(false);
-
         console.log(body?.message);
         showToast(body?.message || "Error", "error");
       }

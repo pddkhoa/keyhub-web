@@ -1,5 +1,4 @@
 import AlphabetAvatar from "@/components/Avatar/avatar";
-import { ListCard } from "@/components/Card/CardBlog/listCard";
 import { Slider } from "@/components/Swipers/slideHighlight";
 import image from "../../asset/1111.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,8 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import ClientServices from "@/services/client/client";
 import { Nodata } from "@/components/ui/nodata";
 import Pagination from "@/components/Pagination/pagination";
-import { Card } from "@/components/Card/card";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { CardDefault } from "@/components/Card/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Explore = () => {
   const user = useSelector((state: RootState) => state.auth.login);
@@ -24,6 +23,10 @@ export const Explore = () => {
   const accessToken = user?.data.token;
   const [loading, setLoading] = useState(false);
   const [blogPopular, setBlogPopular] = useState<BlogPost[]>();
+  const [blogLastest, setBlogLastest] = useState<BlogPost[]>();
+  const [blogMostLike, setBlogMostLike] = useState<BlogPost[]>();
+  const [blogMostView, setBlogMostView] = useState<BlogPost[]>();
+
   const [index, setIndex] = useState<number>(1);
 
   useEffect(() => {
@@ -44,6 +47,65 @@ export const Explore = () => {
     };
 
     fetchBlogPopular();
+  }, [index]);
+
+  useEffect(() => {
+    const fetchBlogLastest = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getBlogLastest(
+        index,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setBlogLastest(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBlogLastest();
+  }, [index]);
+
+  useEffect(() => {
+    const fetchBlogMostLike = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getBlogMostLike(
+        index,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setBlogMostLike(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBlogMostLike();
+  }, [index]);
+  useEffect(() => {
+    const fetchBlogMostView = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getBlogMostViews(
+        index,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setBlogMostView(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchBlogMostView();
   }, [index]);
 
   const handlePageChange = (pageIndex: number) => {
@@ -108,9 +170,7 @@ export const Explore = () => {
                           <Skeleton />
                         </>
                       ) : blogPopular && blogPopular.length > 0 ? (
-                        blogPopular.map((item) => (
-                          <Card cardType="bookmark" data={item} />
-                        ))
+                        blogPopular.map((item) => <CardDefault data={item} />)
                       ) : (
                         <Nodata />
                       )}
@@ -127,11 +187,78 @@ export const Explore = () => {
                 <TabsContent value="Latest">
                   <div className="h-fit rounded-lg p-4 bg-card">
                     <div className="grid-flow-row w-full space-y-5">
-                      <span className="text-title">Cate2</span>
-                      <ListCard />
-                      <ListCard />
-                      <ListCard />
-                      <ListCard />
+                      {loading ? (
+                        <>
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                        </>
+                      ) : blogLastest && blogLastest.length > 0 ? (
+                        blogLastest.map((item) => <CardDefault data={item} />)
+                      ) : (
+                        <Nodata />
+                      )}
+                    </div>
+                    <div className="w-full mx-auto py-4 flex justify-center">
+                      <Pagination
+                        page={index}
+                        setPage={handlePageChange}
+                        maxPage={10}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="mostLike">
+                  <div className="h-fit rounded-lg p-4 bg-card">
+                    <div className="grid-flow-row w-full space-y-5">
+                      {loading ? (
+                        <>
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                        </>
+                      ) : blogMostLike && blogMostLike.length > 0 ? (
+                        blogMostLike.map((item) => <CardDefault data={item} />)
+                      ) : (
+                        <Nodata />
+                      )}
+                    </div>
+                    <div className="w-full mx-auto py-4 flex justify-center">
+                      <Pagination
+                        page={index}
+                        setPage={handlePageChange}
+                        maxPage={10}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="mostView">
+                  <div className="h-fit rounded-lg p-4 bg-card">
+                    <div className="grid-flow-row w-full space-y-5">
+                      {loading ? (
+                        <>
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                          <Skeleton />
+                        </>
+                      ) : blogMostView && blogMostView.length > 0 ? (
+                        blogMostView.map((item) => <CardDefault data={item} />)
+                      ) : (
+                        <Nodata />
+                      )}
+                    </div>
+                    <div className="w-full mx-auto py-4 flex justify-center">
+                      <Pagination
+                        page={index}
+                        setPage={handlePageChange}
+                        maxPage={10}
+                      />
                     </div>
                   </div>
                 </TabsContent>
