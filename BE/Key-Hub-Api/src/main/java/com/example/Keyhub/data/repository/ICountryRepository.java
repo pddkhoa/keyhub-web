@@ -1,6 +1,7 @@
 package com.example.Keyhub.data.repository;
 
 import com.example.Keyhub.data.entity.ProdfileUser.Country;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,4 +15,5 @@ public interface ICountryRepository extends JpaRepository<Country, BigInteger> {
     List<Country> findbyUserIdAndName(BigInteger users_id, String name);
 
     Optional<Country> findById(BigInteger id);
+    List<Country> findAllByUsers(Users users);
 }

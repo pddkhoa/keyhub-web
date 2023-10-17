@@ -1,9 +1,8 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.entity.AvatarUser;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Optional;
 
 public interface IAvatarService {

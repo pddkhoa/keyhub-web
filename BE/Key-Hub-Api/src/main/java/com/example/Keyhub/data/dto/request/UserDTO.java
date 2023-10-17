@@ -28,12 +28,12 @@ public class UserDTO {
     private String password;
     private Set<String> roles;
     private Timestamp createDate;
-    @Column
     private Timestamp updateDate;
     @Pattern(regexp = ValidatorUtils.PHONE_REGEX)
     private String phone;
     private Boolean status;
     private String second_name;
     private String gender;
+    @Pattern(regexp = ValidatorUtils.VIETNAMESE_REGEX)
     private String Descriptions;
 }

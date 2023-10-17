@@ -17,4 +17,5 @@ public class UserDetailService implements UserDetailsService {
         Users users = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found -> user name or password"+username));
         return new CustomUserDetails(users);
     }
+
 }

@@ -1,17 +1,27 @@
 package com.example.Keyhub.security.jwt;
 
 //import com.example.Keyhub.security.userpincal.UserPrinciple;
+import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.repository.IUserRepository;
+import com.example.Keyhub.data.repository.RefreshTokenRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.Date;
 @Component
 public class JwtProvider {
+    @Autowired
+    IUserRepository iUserRepository;
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     @Value("${api.app.jwtSerectKey}")
     private String jwtSecret;
@@ -22,7 +32,16 @@ public class JwtProvider {
     private int jwtExpiration;
     public String createToken(Authentication authentication){
         CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
-        return Jwts.builder().setSubject(userPrinciple.getUsername()).setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime()+jwtExpiration*100000000))                .setExpiration(new Date(new Date().getTime()+jwtExpiration))
+        Claims claims = Jwts.claims().setSubject(userPrinciple.getUsername());
+        claims.put("userDetails", userPrinciple);
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpiration);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
@@ -47,9 +66,26 @@ public class JwtProvider {
         String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
         return userName;
     }
-    public String generateTokenFromUsername(String username) {
-        return Jwts.builder().setSubject(username).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+
+    public String generateTokenFromUserID(String  refreshToken) {
+
+        RefreshToken refreshToken1 = refreshTokenRepository.findByToken(refreshToken).get();
+        if (refreshToken1==null)
+        {
+            return null;
+        }
+        Users users = iUserRepository.findUsersById(refreshToken1.getUser().getId());
+        CustomUserDetails userPrinciple = new CustomUserDetails(users);
+        Claims claims = Jwts.claims().setSubject(userPrinciple.getUsername());
+        claims.put("userDetails", userPrinciple);
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpiration);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 

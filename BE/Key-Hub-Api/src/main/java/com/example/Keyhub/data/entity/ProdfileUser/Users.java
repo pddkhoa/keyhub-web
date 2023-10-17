@@ -17,25 +17,19 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
-        })
-})
+@Table(name = "user")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private BigInteger id;
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
-    @NotBlank
+
     @Size(min = 3,max = 50)
     private String username;
-    @NotBlank
+
     @Size(max = 50)
     @Email
     private String email;
@@ -58,11 +52,21 @@ public class Users {
     @Column
     private String second_name;
     @Column
-    private Boolean status;
+    private int status;
     @Column
     private String gender;
     @Column
     private String Descriptions;
+    @Column
+    private String address;
+    @Column
+    private String company;
+    @Column
+    private String country;
+    @Column
+    private String School;
+    @Column
+    private String banner_url;
 
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,
@@ -79,4 +83,5 @@ public class Users {
         this.email = email;
         this.password = encode;
     }
+
 }

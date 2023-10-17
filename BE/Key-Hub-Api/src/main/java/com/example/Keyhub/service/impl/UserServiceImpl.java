@@ -1,23 +1,29 @@
 package com.example.Keyhub.service.impl;
 
-import com.example.Keyhub.data.entity.AvatarUser;
-import com.example.Keyhub.data.entity.ProdfileUser.Role;
-import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
-import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.response.SeriesResponse;
+import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.SeriesImage;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
+import com.example.Keyhub.data.entity.Blog.Series;
+import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.ProfileInfor;
-import com.example.Keyhub.data.repository.IAvatarRepository;
-import com.example.Keyhub.data.repository.IUserRepository;
-import com.example.Keyhub.data.repository.IVerificationTokenRepos;
-import com.example.Keyhub.data.repository.ResetPassTokenRepos;
+import com.example.Keyhub.data.payload.respone.CustomResponse;
+import com.example.Keyhub.data.repository.*;
+import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.IEmailService;
+import com.example.Keyhub.service.IStoryService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,16 +31,40 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
     private ModelMapper mapper;
     @Autowired
+    IFollowRepository iFollowRepository;
+    @Autowired
+    private ISeriesRepository seriesRepository;
+    @Autowired
+    ISeriesImageRepository imageRepository;
+    @Autowired
     UserServiceImpl userService;
     @Autowired
+    ISeriesRepository iSeriesRepository;
+    @Autowired
     RoleServiceImpl roleService;
+    @Autowired
+    IStoryService iStoryService;
+    @Autowired
+    ISeriesImageRepository iSeriesImageRepository;
+    @Autowired
+    IAddressRepository addressRepository;
+    @Autowired
+    ICompanyRepository companyRepository;
+    @Autowired
+    ICountryRepository countryRepository;
+    @Autowired
+    ISchoolRepository schoolRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -50,7 +80,13 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IAvatarRepository avatarRepository;
     @Autowired
+    IBannerRepository bannerRepository;
+    @Autowired
     UploadImageService uploadImageService;
+
+    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private Map<BigInteger, LocalDateTime> scheduledAccounts = new ConcurrentHashMap<>();
+
 
     @Override
     public Users findByEmail(String email) {
@@ -69,7 +105,7 @@ public class UserServiceImpl implements IUserService {
     public void createResetToken(String email) {
         Users user = userRepository.findByEmail(email);
         if (user != null) {
-            int value = new Random().nextInt(999999) + 100000;
+            int value = new Random().nextInt(900000) + 100000;
             ResetPassToken resetToken = new ResetPassToken();
             resetToken.setUser(user);
             resetToken.setToken(value + "");
@@ -119,7 +155,7 @@ public class UserServiceImpl implements IUserService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Users user = mapper.map(dto, Users.class);
         user.setName(dto.getName());
-        user.setStatus(false);
+        user.setStatus(0);
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setPassword( passwordEncoder.encode(dto.getPassword()));
@@ -146,7 +182,6 @@ public class UserServiceImpl implements IUserService {
         user.setRoles(roles);
         return userService.save(user);
     }
-
     @Override
     public VerificationToken getVerificationToken(String VerificationToken) {
         return tokenRepos.findVerificationTokenByToken(VerificationToken);
@@ -161,33 +196,192 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<SeriesResponse> getAllSerieByUser(Users users) {
+        List<Series> series1 = seriesRepository.findAllByUser(users);
+        List<SeriesResponse> seriesDTOList = new ArrayList<>();
+        for (Series series : series1) {
+            SeriesResponse seriesDTO = new SeriesResponse();
+            SeriesImage seriesImage = iSeriesImageRepository.findById(series.getId()).orElse(null);
+            if (seriesImage!=null)
+            {
+                seriesDTO.setId(series.getId());
+                seriesDTO.setImage(seriesImage.getUrlImage());
+                seriesDTO.setCreateday(series.getCreateday());
+                seriesDTO.setName(series.getName());
+                seriesDTO.setDescription(series.getDescription());
+                seriesDTO.setSumBlog(series.getSumBlog());
+                seriesDTOList.add(seriesDTO);
+            }
+            else {
+            seriesDTO.setId(series.getId());
+            seriesDTO.setCreateday(series.getCreateday());
+            seriesDTO.setName(series.getName());
+            seriesDTO.setDescription(series.getDescription());
+            seriesDTO.setSumBlog(series.getSumBlog());
+            seriesDTOList.add(seriesDTO);
+            }
+        }
+        return seriesDTOList;
+    }
+
+    @Override
     @Transactional
-    public void changeInfo(BigInteger user_id, ProfileInfor body) {
+    public Users changeInfo(BigInteger user_id, ProfileInfor body) {
             Users us = userRepository.findById(user_id).get();
             if (us != null) {
               us.setName(body.getName());
-                us.setEmail(body.getEmail());
                 us.setPhone(body.getPhone());
                 us.setSecond_name(body.getSecond_name());
                 us.setGender(body.getGender());
                 us.setDescriptions(body.getDescriptions());
                 us.setUpdateDate(new Timestamp(new Date().getTime()));
-                userRepository.save(us);
+                us.setCompany(body.getCompany());
+                us.setCountry(body.getCountry());
+                us.setSchool(body.getSchool());
+                us.setAddress(body.getAddress());
+                //Update cho lần sau
+                //                List<String> addressList = body.getAddress();
+//                List<Address> checkAddress = addressRepository.findAllByUsers(us);
+//                for (String address : addressList) {
+//                    for (Address addr : checkAddress) {
+//                        if (address.equals(addr.getAddress())) {
+//                            return new CustomResponse(400,
+//                                    "The user's address already exists ",System.currentTimeMillis());
+//                        }
+//                    }
+//                }
+//                List<String> companylList = body.getCompany();
+//                List<Company> checkCompany = companyRepository.findAllByUsers(us);
+//                for (String company : companylList) {
+//                    for (Company addr : checkCompany) {
+//                        if (company.equals(addr.getCompany())) {
+//                            return new CustomResponse(400,
+//                                    "The user's company already exists ",System.currentTimeMillis());
+//                        }
+//                    }
+//                }
+//                List<String> schoolList = body.getSchool();
+//                List<School> checkSchool = schoolRepository.findAllByUsers(us);
+//                for (String school : schoolList) {
+//                    for (School addr : checkSchool) {
+//                        if (school.equals(addr.getName())) {
+//                            return new CustomResponse(400,
+//                                    "The user's school already exists ",System.currentTimeMillis());
+//                        }
+//                    }
+//                }
+//                List<String> countrylList = body.getCountry();
+//                List<Country> checkCountry = countryRepository.findAllByUsers(us);
+//                for (String country : countrylList) {
+//                    for (Country addr : checkCountry) {
+//                        if (country.equals(addr.getName())) {
+//                            return new CustomResponse(400,
+//                                    "The user's country already exists ",System.currentTimeMillis());
+//                        }
+//                    }
+//                }
+//                for (String addressDTO : body.getAddress()) {
+//                    Address address = new Address();
+//                    address.setUsers(us);
+//                    address.setAddress(addressDTO);
+//                   addressRepository.save(address);
+//                }
+//                for (String addressDTO : body.getSchool()) {
+//                    School school = new School();
+//                    school.setUsers(us);
+//                    school.setName(addressDTO);
+//                    schoolRepository.save(school);
+//                }
+//
+//                for (String addressDTO : body.getCountry()) {
+//                    Country country = new Country();
+//                    country.setUsers(us);
+//                    country.setName(addressDTO);
+//                    countryRepository.save(country);
+//                }
+//                for (String addressDTO : body.getCompany()) {
+//                    Company company = new Company();
+//                    company.setUsers(us);
+//                    company.setCompany(addressDTO);
+//                    companyRepository.save(company);
+//                }
             }
-            else
-                throw new CustomExceptionRuntime(405,"Not found User");
-
+        return userRepository.save(us);
     }
-    @Transactional
+
     @Override
-    public void changeAvatar(BigInteger user_id, MultipartFile imageFile) {
+    public Users changeAvatar(BigInteger user_id, MultipartFile imageFile) {
         Users us = userRepository.findById(user_id).orElseThrow(null);
-        if (us.getAvatar() != null) {
-            uploadImageService.removeFile(us.getAvatar());
-        }
         String new_avatar = uploadImageService.uploadFile(imageFile);
         us.setAvatar(new_avatar);
-        userRepository.save(us);
+        return userRepository.save(us);
+    }
+    @Override
+    public Users changeBanner(BigInteger user_id, MultipartFile imageFile) {
+        Users us = userRepository.findById(user_id).orElseThrow(null);
+        String new_banner = uploadImageService.uploadFile(imageFile);
+        us.setBanner_url(new_banner);
+        return userRepository.save(us);
+    }
+
+    public UserResponseDTO createUserResponse(Users user) {
+        UserResponseDTO response = new UserResponseDTO();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        response.setCreateDate(user.getCreateDate());
+        response.setUpdateDate(user.getUpdateDate());
+        response.setAvatar(user.getAvatar());
+        response.setSecond_name(user.getSecond_name());
+        response.setStatus(user.getStatus());
+        response.setGender(user.getGender());
+        response.setDescriptions(user.getDescriptions());
+        response.setAddress(user.getAddress());
+        response.setCompany(user.getCompany());
+        response.setCountry(user.getCountry());
+        response.setSchool(user.getSchool());
+        response.setBanner_url(user.getBanner_url());
+        List<Follow> UserFollow = iFollowRepository.findByUserFollower(user);
+        response.setTotalFollowers(UserFollow.size());
+        List<Follow> UserFollowing = iFollowRepository.findByFollowing(user);
+        response.setTotalFollowers(UserFollowing.size());
+        return response;
+    }
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
+    @Override
+    public Users followUser(BigInteger followerId, BigInteger followingId) { // followerId: ID người dùng theo dõi, followingId: ID người dùng được theo dõi
+        Users follower = userRepository.findById(followerId).orElse(null);
+        Users following = userRepository.findById(followingId).orElse(null);
+        Follow follows = iFollowRepository.findAllByFollowingAndUserFollower(follower,following);
+        if (follows!=null)
+        {
+            return null;
+        }
+        logger.error("The token invalid format ->Message: {}",follows);
+
+        Follow follow = new Follow();
+        follow.setUserFollower(follower);
+        follow.setFollowing(following);
+        iFollowRepository.save(follow);
+        return follower;
+    }
+    @Override
+    public Users unfollowUser(BigInteger followerId, BigInteger followingId) {
+        Users follower = userRepository.findById(followerId).orElse(null);
+        if (follower==null)
+        {
+            return null;
+        }
+        Users following = userRepository.findById(followingId).orElse(null);
+        if (following==null)
+        {
+            return null;
+        }
+        Follow follow = new Follow();
+        return userRepository.save(follower);
     }
     @Transactional
     @Override
@@ -197,6 +391,16 @@ public class UserServiceImpl implements IUserService {
             uploadImageService.removeFile(us.getAvatar());
         }
         us.setAvatar(null);
+        userRepository.save(us);
+    }
+    @Transactional
+    @Override
+    public void removeBanner(BigInteger user_id) {
+        Users us = userRepository.findById(user_id).orElseThrow(null);
+        if (us.getAvatar() != null) {
+            uploadImageService.removeFile(us.getAvatar());
+        }
+        us.setBanner_url(null);
         userRepository.save(us);
     }
     @Transactional
@@ -211,7 +415,60 @@ public class UserServiceImpl implements IUserService {
     }
     @Transactional
     @Override
+    public BannerUser saveBannerToStorage(BigInteger users_id) {
+        Users users = userRepository.findById(users_id).orElseThrow(null);
+        BannerUser avatarUser = new BannerUser();
+        avatarUser.setUrlBanner(users.getBanner_url());
+        avatarUser.setUploadDate(users.getCreateDate());
+        avatarUser.setUsers(users);
+        return bannerRepository.save(avatarUser);
+    }
+    @Transactional
+    @Override
     public void removeAvatarToStorage(BigInteger user_id) {
         iAvatarRepository.deleteByUserId(user_id);
     }
+    @Transactional
+    @Override
+    public void removeBannerToStorage(BigInteger user_id) {
+        bannerRepository.deleteByUserId(user_id);
+    }
+    @Override
+    public Series addSeries(SeriesDTO seriesDTO, Users users) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Series series = new Series();
+        series.setDescription(seriesDTO.getDescription());
+        series.setUser(users);
+        series.setSumBlog(BigInteger.valueOf(0));
+        series.setName(seriesDTO.getName());
+        series.setCreateday(timestamp);
+        return iSeriesRepository.save(series);
+    }
+    @Override
+    public Series editSeries(BigInteger series_id,SeriesDTO seriesDTO, Users users) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Series series = seriesRepository.findById(series_id).orElse(null);
+      if (series!=null) {
+          series.setDescription(seriesDTO.getDescription());
+          series.setUser(users);
+          series.setName(seriesDTO.getName());
+          SeriesImage seriesImage = iSeriesImageRepository.findBySeries(series).orElse(null);
+          if (seriesImage==null)
+          {
+              SeriesImage seriesImage1 = new SeriesImage();
+              seriesImage1.setSeries(series);
+              seriesImage1.setUrlImage(seriesDTO.getAvatar());
+              seriesImage1.setUploadDate(timestamp);
+              imageRepository.save(seriesImage1);
+          }
+          seriesImage.setUrlImage(seriesDTO.getAvatar());
+          imageRepository.save(seriesImage);
+          return iSeriesRepository.save(series);
+      }
+      else {
+          return null;
+      }
+    }
+
+
 }

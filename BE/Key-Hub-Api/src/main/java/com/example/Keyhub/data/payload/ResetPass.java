@@ -15,7 +15,6 @@ public class ResetPass {
     @NotEmpty
     @Pattern(regexp = ValidatorUtils.EMAIL_REGEX)
     private String email;
-    private String token;
     @Pattern(regexp = ValidatorUtils.PASSWORD_LOGIN_REGEX)
     private String old_pass;
     @Pattern(regexp = ValidatorUtils.PASSWORD_REGEX)
