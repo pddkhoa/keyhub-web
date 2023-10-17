@@ -1,0 +1,188 @@
+.editor {
+  box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  width: 70%;
+  margin: 50px auto;
+  color: #f9f9f9;
+}
+
+.codex-editor__redactor {
+  padding-bottom: 100px !important;
+}
+
+#editorjs-container {
+  padding: 20px 60px;
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.ce-toolbar__content,
+.ce-block__content {
+  max-width: unset;
+  width: 92% !important;
+}
+.cdx-block {
+  margin-top: 10px;
+}
+
+.editorjs-codeFlask_Wrapper .editorjs-codeFlask_LangDisplay {
+  max-width: unset;
+  height: unset !important;
+}
+
+.ce-toolbar__plus svg {
+  width: 24px;
+  height: 24px;
+  color: var(--title-foreground);
+}
+.ce-toolbar__settings-btn svg {
+  width: 24px;
+  height: 24px;
+  color: var(--title-foreground);
+}
+
+.ce-toolbar__settings-btn,
+.ce-toolbar__plus {
+  width: 30px;
+  height: 30px;
+}
+
+.ce-toolbar__plus:hover,
+.ce-toolbar__settings-btn:hover {
+  background: var(--hover);
+}
+.ce-header::selection,
+.cdx-checklist__item-text {
+  background: var(--hover);
+
+  color: var(--title-foreground);
+}
+
+.cdx-block::selection {
+  background: var(--hover);
+
+  color: var(--title-foreground);
+}
+.ce-block__content b::selection,
+.ce-block__content i::selection,
+.ce-block__content li::selection,
+.cdx-block::selection {
+  background: var(--hover);
+
+  color: var(--title-foreground);
+}
+.ce-inline-toolbar,
+.ce-conversion-toolbar,
+.ce-conversion-toolbar--showed,
+.ce-conversion-tool__icon,
+.ce-block--selected .ce-block__content {
+  background: var(--title);
+
+  color: black;
+}
+.ce-inline-toolbar__dropdown:hover,
+.ce-inline-tool:hover {
+  background-color: var(--hover);
+}
+.ce-popover {
+  background: var(--title);
+}
+
+.button-cancle,
+.button-save-daft,
+.button-save-end {
+  width: 70px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #2563eb;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.svgIcon {
+  width: 20px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon-save,
+.svgIcon-end {
+  width: 30px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path,
+.svgIcon-save path {
+  fill: white;
+}
+
+.button-cancle:hover {
+  width: 100px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+}
+.button-save-end:hover {
+  width: 100px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: rgb(86, 204, 53);
+  align-items: center;
+}
+
+.button-save-daft:hover {
+  width: 100px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: rgb(214, 211, 53);
+  align-items: center;
+}
+
+.button-cancle:hover .svgIcon,
+.button-save-daft:hover .svgIcon-save,
+.button-save-end:hover .svgIcon-end {
+  width: 50px;
+  transition-duration: 0.3s;
+  transform: translateY(60%);
+}
+
+.button-cancle::before {
+  position: absolute;
+  top: -20px;
+  content: "Cancle";
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 2px;
+}
+.button-save-daft::before {
+  position: absolute;
+  top: -20px;
+  content: "Save Draft";
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 2px;
+}
+
+.button-save-end::before {
+  position: absolute;
+  top: -20px;
+  content: "Confirm";
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 2px;
+}
+
+.button-cancle:hover::before,
+.button-save-daft:hover::before,
+.button-save-end:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: 0.3s;
+}

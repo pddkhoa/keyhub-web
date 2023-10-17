@@ -1,0 +1,5 @@
+.sidebar {
+  display: grid;
+  grid-template-columns: 100%;
+  transition: 500ms;
+}
