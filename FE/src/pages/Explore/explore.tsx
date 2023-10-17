@@ -134,24 +134,28 @@ export const Explore = () => {
               <Tabs defaultValue="Popular">
                 <TabsList className="w-full border-b-2 border-border text-title-foreground">
                   <TabsTrigger
+                    onClick={() => setIndex(1)}
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500 "
                     value="Popular"
                   >
                     Popular
                   </TabsTrigger>
                   <TabsTrigger
+                    onClick={() => setIndex(1)}
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
                     value="Latest"
                   >
                     Latest
                   </TabsTrigger>
                   <TabsTrigger
+                    onClick={() => setIndex(1)}
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
                     value="mostLike"
                   >
                     Most Like
                   </TabsTrigger>
                   <TabsTrigger
+                    onClick={() => setIndex(1)}
                     className="data-[state=active]:border-b-2 py-2.5 data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
                     value="mostView"
                   >

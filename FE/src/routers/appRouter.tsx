@@ -20,6 +20,7 @@ import { Editor } from "@/components/Editor/editor";
 import { EditBlog } from "@/components/Editor/editBlog";
 import PublicRouter from "./publicRouter";
 import { Bookmark } from "@/pages/Bookmark/bookmark";
+import { Users } from "@/pages/Users/users";
 
 const AppRouter = () => {
   return (
@@ -47,6 +48,8 @@ const AppRouter = () => {
           <Route path="blog/:id" element={<DetailBlog />} />
           <Route path="bookmark" element={<Bookmark />} />
           <Route path="draft" element={<ListDraft />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="users" element={<Users />} />
         </Route>
       </Route>
 

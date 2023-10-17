@@ -1,0 +1,35 @@
+.html {
+  scroll-behavior: smooth;
+}
+
+.slider-user .swiper-slide {
+  width: 20rem;
+  min-height: 23rem;
+  position: relative;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
