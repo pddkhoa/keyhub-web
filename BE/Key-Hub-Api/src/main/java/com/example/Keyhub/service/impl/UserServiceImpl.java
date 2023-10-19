@@ -443,17 +443,21 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserResponseDTO> getAllUserFollower( BigInteger users_id) {
-        Users users = userRepository.findById(users_id).orElse(null);
-        List<Follow> UserFollow = iFollowRepository.findAllByFollowing(users);
+    public List<UserResponseDTO> getAllUserFollower(Users users,BigInteger users_id) { // Lấy tất cả user follow user co user_id
+        Users users1 = userRepository.findById(users_id).orElse(null);
+        List<Follow> UserFollow = iFollowRepository.findAllByFollowing(users1);
+        List<Follow> followList = iFollowRepository.findAll();
         List<Users> followingUsers = UserFollow.stream()
                 .map(Follow::getUserFollower)
                 .collect(Collectors.toList());
         List<UserResponseDTO> userResponseDTOs = followingUsers.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
-                    boolean isFollowing = UserFollow.stream()
-                            .anyMatch(f -> f.getFollowing().equals(user));
+                    userResponseDTO.setCheckStatusFollow(false);
+                    if (iFollowRepository.existsByUserFollowerAndFollowing(users,user))
+                    {
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -462,9 +466,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserResponseDTO> getAllUserFollowing(BigInteger users_id) {
-        Users users = userRepository.findById(users_id).orElse(null);
-        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(users);
+    public List<UserResponseDTO> getAllUserFollowing( Users users,BigInteger users_id) {
+        Users users1 = userRepository.findById(users_id).orElse(null);
+        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(users1);
         List<Users> followingUsers = UserFollow.stream()
                 .map(Follow::getFollowing)
                 .collect(Collectors.toList());
@@ -472,7 +476,8 @@ public class UserServiceImpl implements IUserService {
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
                     boolean isFollowing = UserFollow.stream()
-                            .anyMatch(f -> f.getFollowing().equals(user));
+                            .anyMatch(f -> f.getFollowing().equals(users));
+                    userResponseDTO.setCheckStatusFollow(isFollowing);
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -518,6 +523,37 @@ public class UserServiceImpl implements IUserService {
             }
         }
         return seriesDTOList;
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUserHaveMostFollow(Users users) {
+        List<BigInteger> UserFollow = iFollowRepository.findUsersWithMostFollowers();
+        List<Users> users2= new ArrayList<>();
+        for (BigInteger id : UserFollow)
+        {
+            Users users1 = userRepository.findById(id).orElse(null);
+            users2.add(users1);
+        }
+        List<UserResponseDTO> userResponseDTOs = users2.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    for (Users users1: users2)
+                    {
+                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
+                        if (follow!=null)
+                        {
+                            userResponseDTO.setCheckStatusFollow(true);
+                        }
+                        else
+                        {
+                            userResponseDTO.setCheckStatusFollow(false);
+                        }
+                    }
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
     }
 
     @Transactional

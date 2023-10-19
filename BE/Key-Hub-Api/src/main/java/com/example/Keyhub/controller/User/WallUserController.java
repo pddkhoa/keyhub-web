@@ -88,7 +88,7 @@ public class WallUserController {
     @GetMapping("/{user_id}/user/categories")
     public ResponseEntity getAllUserFollowCategory(@PathVariable BigInteger user_id) {
         List<CategoryResponseCardDTO> cardDTO = categoryService.getAllCategoryFollowByUser(getUserFromAuthentication(),user_id);
-        if (cardDTO == null) {
+        if (cardDTO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -102,7 +102,7 @@ public class WallUserController {
                         .success(true)
                         .result(cardDTO)
                         .statusCode(HttpStatus.OK.value())
-                        .message("List user follow category")
+                        .message("List category user follow ")
                         .build()
                 );
     }

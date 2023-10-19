@@ -1036,7 +1036,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-            blogDTO.setUsers(users);
+            blogDTO.setUsers(blog.getUser());
 
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -1100,7 +1100,6 @@ public class BlogServiceImpl implements IBLogService {
                 uniqueBlogs.addAll(categoryBlogs);
             }
         }
-
         List<Blog> getAll = new ArrayList<>(uniqueBlogs);
         int size = (int) Math.ceil((double) getAll.size() / 5);
         return size;

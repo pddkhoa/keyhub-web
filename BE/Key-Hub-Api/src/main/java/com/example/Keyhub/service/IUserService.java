@@ -48,10 +48,10 @@ public interface IUserService {
     UserResponseDTO unFollowCategory(Users users, Long category_id);
     UserResponseDTO unfollowUser(BigInteger followerId, BigInteger followingId);
     UserResponseDTO getWallUserByID(Users users, BigInteger user_id);
-    List<UserResponseDTO> getAllUserFollower(BigInteger users_id);
-    List<UserResponseDTO> getAllUserFollowing(BigInteger users_id);
+    List<UserResponseDTO> getAllUserFollower(Users users, BigInteger users_id);
+    List<UserResponseDTO> getAllUserFollowing(Users users, BigInteger users_id);
     boolean isExistUserFollow(Users user, BigInteger users_id);
-
     List<SeriesResponse> getAllSerieByUserWall(Users users, BigInteger user_id);
 
+    List<UserResponseDTO> getAllUserHaveMostFollow(Users users);
 }

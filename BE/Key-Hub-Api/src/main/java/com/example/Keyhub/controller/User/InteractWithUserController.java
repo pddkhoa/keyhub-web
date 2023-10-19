@@ -82,8 +82,8 @@ public class InteractWithUserController {
                 );
     }
     @GetMapping("/{user_id}/follower")
-    public ResponseEntity getListUserFollerByUser(@PathVariable BigInteger user_id) {
-        List<UserResponseDTO> users = userService.getAllUserFollower(user_id);
+    public ResponseEntity getListUserFollowerByUser(@PathVariable BigInteger user_id) {
+        List<UserResponseDTO> users = userService.getAllUserFollower(getUserFromAuthentication(),user_id);
         if (users==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -105,7 +105,7 @@ public class InteractWithUserController {
     }
     @GetMapping("/{user_id}/following")
     public ResponseEntity getListUserFollowing(@PathVariable BigInteger user_id) {
-        List<UserResponseDTO> users = userService.getAllUserFollowing(user_id);
+        List<UserResponseDTO> users = userService.getAllUserFollowing(getUserFromAuthentication(),user_id);
         if (users==null)
         {
             return ResponseEntity.status(HttpStatus.OK)

@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 19/10/2023 09:41:26
+ Date: 19/10/2023 15:39:48
 */
 
 SET NAMES utf8mb4;
@@ -174,13 +174,22 @@ INSERT INTO `blog` VALUES (128, 'Sssgsgsdgsdg', NULL, 58, NULL, 65, NULL, 0.00, 
 INSERT INTO `blog` VALUES (129, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 66, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:53:15.909000');
 INSERT INTO `blog` VALUES (130, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https//', 0.00, 1, 1, NULL, '2023-10-12 22:56:21.925000');
 INSERT INTO `blog` VALUES (132, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:03:58.657000');
-INSERT INTO `blog` VALUES (133, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 68, 'https//', 0.00, 1, 1, NULL, '2023-10-12 23:07:49.391000');
-INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', 'a', 58, NULL, 68, NULL, 0.00, NULL, 0, NULL, '2023-10-12 23:07:18.323000');
-INSERT INTO `blog` VALUES (135, '21312312312312', '<p>2131asdasda</p><p>sdasdas</p><p>asdasdas</p><p>asdasdasdas</p>', 65, 'adasdas', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338477/e6yalnaa76hnbcjpolte.jpg', 1000.00, 1, 1, 1000, '2023-10-15 09:54:43.000000');
-INSERT INTO `blog` VALUES (136, 'Sssgsgsdgsdg', 'a', 58, NULL, 68, NULL, 0.00, NULL, 0, NULL, '2023-10-15 21:47:12.465000');
+INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', 'a', 58, NULL, 63, NULL, 0.00, NULL, 0, NULL, '2023-10-12 23:07:18.323000');
+INSERT INTO `blog` VALUES (135, '21312312312312', '<p>2131asdasda</p><p>sdasdas</p><p>asdasdas</p><p>asdasdasdas</p>', 65, 'adasdas', 63, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338477/e6yalnaa76hnbcjpolte.jpg', 1000.00, 1, 1, 1000, '2023-10-15 09:54:43.000000');
+INSERT INTO `blog` VALUES (136, 'Sssgsgsdgsdg', 'a', 58, NULL, 63, NULL, 0.00, NULL, 0, NULL, '2023-10-15 21:47:12.465000');
 INSERT INTO `blog` VALUES (138, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'htttp', 0.00, 1, 1, 0, '2023-10-16 21:22:26.487000');
 INSERT INTO `blog` VALUES (139, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'htttp', 0.00, 1, 1, 0, '2023-10-16 21:22:49.152000');
 INSERT INTO `blog` VALUES (141, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'htttp', 1.00, 1, 1, 0, '2023-10-17 23:46:37.560000');
+INSERT INTO `blog` VALUES (142, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'htttp', 0.00, 1, 1, 0, '2023-10-19 11:15:11.430000');
+INSERT INTO `blog` VALUES (148, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 63, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:35:55.988000');
+INSERT INTO `blog` VALUES (149, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:39.454000');
+INSERT INTO `blog` VALUES (150, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:42.200000');
+INSERT INTO `blog` VALUES (151, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:45.566000');
+INSERT INTO `blog` VALUES (152, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:51.473000');
+INSERT INTO `blog` VALUES (153, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:57.928000');
+INSERT INTO `blog` VALUES (154, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:37:04.352000');
+INSERT INTO `blog` VALUES (155, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 1, 1, 1, '2023-10-19 13:37:07.222000');
+INSERT INTO `blog` VALUES (156, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 2, 1, 0, '2023-10-19 13:37:15.510000');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -427,9 +436,6 @@ INSERT INTO `blog_tag` VALUES (130, 3);
 INSERT INTO `blog_tag` VALUES (132, 1);
 INSERT INTO `blog_tag` VALUES (132, 2);
 INSERT INTO `blog_tag` VALUES (132, 3);
-INSERT INTO `blog_tag` VALUES (133, 1);
-INSERT INTO `blog_tag` VALUES (133, 2);
-INSERT INTO `blog_tag` VALUES (133, 3);
 INSERT INTO `blog_tag` VALUES (135, 1);
 INSERT INTO `blog_tag` VALUES (135, 3);
 INSERT INTO `blog_tag` VALUES (138, 1);
@@ -441,6 +447,32 @@ INSERT INTO `blog_tag` VALUES (139, 3);
 INSERT INTO `blog_tag` VALUES (141, 1);
 INSERT INTO `blog_tag` VALUES (141, 2);
 INSERT INTO `blog_tag` VALUES (141, 3);
+INSERT INTO `blog_tag` VALUES (142, 1);
+INSERT INTO `blog_tag` VALUES (142, 2);
+INSERT INTO `blog_tag` VALUES (142, 3);
+INSERT INTO `blog_tag` VALUES (148, 1);
+INSERT INTO `blog_tag` VALUES (148, 2);
+INSERT INTO `blog_tag` VALUES (148, 3);
+INSERT INTO `blog_tag` VALUES (149, 1);
+INSERT INTO `blog_tag` VALUES (149, 2);
+INSERT INTO `blog_tag` VALUES (149, 3);
+INSERT INTO `blog_tag` VALUES (150, 1);
+INSERT INTO `blog_tag` VALUES (150, 2);
+INSERT INTO `blog_tag` VALUES (150, 3);
+INSERT INTO `blog_tag` VALUES (151, 1);
+INSERT INTO `blog_tag` VALUES (151, 2);
+INSERT INTO `blog_tag` VALUES (151, 3);
+INSERT INTO `blog_tag` VALUES (152, 1);
+INSERT INTO `blog_tag` VALUES (152, 2);
+INSERT INTO `blog_tag` VALUES (152, 3);
+INSERT INTO `blog_tag` VALUES (153, 1);
+INSERT INTO `blog_tag` VALUES (153, 3);
+INSERT INTO `blog_tag` VALUES (154, 2);
+INSERT INTO `blog_tag` VALUES (154, 3);
+INSERT INTO `blog_tag` VALUES (155, 2);
+INSERT INTO `blog_tag` VALUES (155, 3);
+INSERT INTO `blog_tag` VALUES (156, 2);
+INSERT INTO `blog_tag` VALUES (156, 3);
 
 -- ----------------------------
 -- Table structure for category
@@ -565,9 +597,17 @@ CREATE TABLE `follow`  (
 -- Records of follow
 -- ----------------------------
 INSERT INTO `follow` VALUES (40, 54, 58);
-INSERT INTO `follow` VALUES (41, 55, 58);
 INSERT INTO `follow` VALUES (42, 56, 58);
 INSERT INTO `follow` VALUES (43, 62, 58);
+INSERT INTO `follow` VALUES (44, 62, 42);
+INSERT INTO `follow` VALUES (45, 67, 58);
+INSERT INTO `follow` VALUES (46, 68, 58);
+INSERT INTO `follow` VALUES (47, 55, 58);
+INSERT INTO `follow` VALUES (49, 57, 42);
+INSERT INTO `follow` VALUES (50, 58, 42);
+INSERT INTO `follow` VALUES (51, 59, 58);
+INSERT INTO `follow` VALUES (52, 60, 58);
+INSERT INTO `follow` VALUES (53, 42, 58);
 
 -- ----------------------------
 -- Table structure for hibernate_sequence
@@ -580,7 +620,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (89);
+INSERT INTO `hibernate_sequence` VALUES (90);
 
 -- ----------------------------
 -- Table structure for refreshtoken
@@ -645,6 +685,7 @@ INSERT INTO `refreshtoken` VALUES (85, '2023-10-19 09:41:22.649000', '4dfa6890-6
 INSERT INTO `refreshtoken` VALUES (86, '2023-10-19 09:42:01.076000', 'd67b1638-3b9e-4955-bce7-4238e9ad3740', 68);
 INSERT INTO `refreshtoken` VALUES (87, '2023-10-19 15:38:12.330000', '1b96cbdb-169c-46f7-905f-260f7bc3df05', 68);
 INSERT INTO `refreshtoken` VALUES (88, '2023-10-20 09:28:01.119000', '87ce8a9f-3719-4d9e-b556-0a3547c2d2eb', 58);
+INSERT INTO `refreshtoken` VALUES (89, '2023-10-20 13:19:23.964000', '909d811e-262f-40a3-a772-cdfc8410af07', 65);
 
 -- ----------------------------
 -- Table structure for reset_pass_token
@@ -781,12 +822,14 @@ INSERT INTO `series` VALUES (57, 'hfag', 58, '2023-10-08 16:44:34.481000', 'Mo t
 INSERT INTO `series` VALUES (58, 'h55ag', 58, '2023-10-08 16:45:49.747000', 'Mo ta', 0);
 INSERT INTO `series` VALUES (61, 'test1', 58, '2023-10-10 21:47:43.503000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (62, 'h5hafaftag', 58, '2023-10-12 22:02:36.613000', 'Mo ta', 4);
-INSERT INTO `series` VALUES (63, 'hai', 58, '2023-10-12 22:44:37.427000', 'Mo ta', 5);
+INSERT INTO `series` VALUES (63, 'hai', 58, '2023-10-12 22:44:37.427000', 'Mo ta', 8);
 INSERT INTO `series` VALUES (64, 'hai221', 58, '2023-10-12 22:47:10.245000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (65, 'hai221q', 58, '2023-10-12 22:48:41.927000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (66, 'haih221q', 58, '2023-10-12 22:52:51.024000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (67, 'haih221qh', 58, '2023-10-12 22:55:50.657000', 'Mo ta', 3);
-INSERT INTO `series` VALUES (68, 'hhaih221qh', 58, '2023-10-12 23:07:07.172000', 'Mo ta', 1);
+INSERT INTO `series` VALUES (70, 'test', 65, '2023-10-19 13:36:17.928000', 'Mo ta', 2);
+INSERT INTO `series` VALUES (71, 'Khoa', 65, '2023-10-19 13:36:22.211000', 'Mo ta', 3);
+INSERT INTO `series` VALUES (72, 'lich sử', 65, '2023-10-19 13:36:30.164000', 'Mo ta', 3);
 
 -- ----------------------------
 -- Table structure for series_image
