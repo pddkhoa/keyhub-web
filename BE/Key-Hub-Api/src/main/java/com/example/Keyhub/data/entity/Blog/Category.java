@@ -22,7 +22,12 @@ public class Category {
     private Long id;
 
     private String name;
-
+    @Column
+    private String Description;
+    @Column
+    private String avatar;
+    @Column
+    private String banner;
     @ManyToMany
     @JoinTable(
             name = "category_tag",

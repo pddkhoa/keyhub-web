@@ -1,7 +1,9 @@
 package com.example.Keyhub.controller.User;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.response.CheckFollowCategory;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/user-interactions")
@@ -34,30 +37,31 @@ public class InteractWithUserController {
     }
     @RequestMapping(value = "/{user_id}/follow", method = RequestMethod.POST)
     public ResponseEntity followUser(@PathVariable BigInteger user_id) {
-        Users users = userService.followUser(getUserFromAuthentication().getId(),user_id);
-        if (users==null)
+        if (userService.isExistUserFollow(getUserFromAuthentication(),user_id))
         {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            UserResponseDTO users = userService.unfollowUser(getUserFromAuthentication().getId(),user_id);
+            return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
-                            .success(false)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("User has been followed")
+                            .success(true)
+                            .result(users)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Unfollow User Success!!")
                             .build()
                     );
         }
-        UserResponseDTO response = mapper.map(users, UserResponseDTO.class);
+        UserResponseDTO users = userService.followUser(getUserFromAuthentication().getId(),user_id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
-                        .result(response)
+                        .result(users)
                         .statusCode(HttpStatus.OK.value())
                         .message("Follow user success")
                         .build()
                 );
     }
-    @PostMapping("/{user_id}/unfollow")
-    public ResponseEntity unfollowUser(@PathVariable BigInteger user_id) {
-        Users users = userService.unfollowUser(getUserFromAuthentication().getId(),user_id);
+    @GetMapping("/{user_id}")
+    public ResponseEntity getUserById(@PathVariable BigInteger user_id) {
+        UserResponseDTO users = userService.getWallUserByID(getUserFromAuthentication(),user_id);
         if (users==null)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -68,13 +72,56 @@ public class InteractWithUserController {
                             .build()
                     );
         }
-        UserResponseDTO response = mapper.map(users, UserResponseDTO.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
-                        .result(response)
+                        .result(users)
                         .statusCode(HttpStatus.OK.value())
-                        .message("UnFollow user success")
+                        .message("Wall user")
+                        .build()
+                );
+    }
+    @GetMapping("/{user_id}/follower")
+    public ResponseEntity getListUserFollerByUser(@PathVariable BigInteger user_id) {
+        List<UserResponseDTO> users = userService.getAllUserFollower(user_id);
+        if (users==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("User hasn't follower")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(users)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Follow user")
+                        .build()
+                );
+    }
+    @GetMapping("/{user_id}/following")
+    public ResponseEntity getListUserFollowing(@PathVariable BigInteger user_id) {
+        List<UserResponseDTO> users = userService.getAllUserFollowing(user_id);
+        if (users==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("User hasn't following another user")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(users)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Following user")
                         .build()
                 );
     }

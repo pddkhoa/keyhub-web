@@ -3,6 +3,8 @@ package com.example.Keyhub.service.impl;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.Category;
+import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.Blog.SeriesImage;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
@@ -36,11 +38,16 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    ICategoryRepository categoryRepository;
+    @Autowired
+    IUserFollowCategory iUserFollowCategory;
     @Autowired
     IFollowRepository iFollowRepository;
     @Autowired
@@ -343,16 +350,16 @@ public class UserServiceImpl implements IUserService {
         response.setCountry(user.getCountry());
         response.setSchool(user.getSchool());
         response.setBanner_url(user.getBanner_url());
-        List<Follow> UserFollow = iFollowRepository.findByUserFollower(user);
-        response.setTotalFollowers(UserFollow.size());
-        List<Follow> UserFollowing = iFollowRepository.findByFollowing(user);
+        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(user);
+        response.setTotalFollowing(UserFollow.size());
+        List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(user);
         response.setTotalFollowers(UserFollowing.size());
         return response;
     }
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
     @Override
-    public Users followUser(BigInteger followerId, BigInteger followingId) { // followerId: ID người dùng theo dõi, followingId: ID người dùng được theo dõi
+    public UserResponseDTO followUser(BigInteger followerId, BigInteger followingId) { // followerId: ID người dùng theo dõi, followingId: ID người dùng được theo dõi
         Users follower = userRepository.findById(followerId).orElse(null);
         Users following = userRepository.findById(followingId).orElse(null);
         Follow follows = iFollowRepository.findAllByFollowingAndUserFollower(follower,following);
@@ -360,16 +367,44 @@ public class UserServiceImpl implements IUserService {
         {
             return null;
         }
-        logger.error("The token invalid format ->Message: {}",follows);
-
         Follow follow = new Follow();
         follow.setUserFollower(follower);
         follow.setFollowing(following);
         iFollowRepository.save(follow);
-        return follower;
+        UserResponseDTO userResponseDTO = createUserResponse(follower);
+        userResponseDTO.setCheckStatusFollow(true);
+        return userResponseDTO;
     }
     @Override
-    public Users unfollowUser(BigInteger followerId, BigInteger followingId) {
+    public UserResponseDTO followCategory(Users users, Long category_id) {
+        FollowCategory followCategory = new FollowCategory();
+        Category category = categoryRepository.findById(category_id).orElse(null);
+        if (category==null)
+        {
+            return null;
+        }
+        followCategory.setCategory(category);
+        followCategory.setUser(users);
+        iUserFollowCategory.save(followCategory);
+        UserResponseDTO userResponseDTO= createUserResponse(users);
+        userResponseDTO.setCheckFollowCategory(true);
+        return userResponseDTO;
+    }
+
+    @Override
+    public UserResponseDTO unFollowCategory(Users users, Long category_id) {
+        Category category = categoryRepository.findById(category_id).orElse(null);
+        FollowCategory followCategory = iUserFollowCategory.findByUserAndCategory(users,category);
+        if (followCategory!=null) {
+            iUserFollowCategory.delete(followCategory);
+        }
+        UserResponseDTO userResponseDTO = createUserResponse(users);
+        userResponseDTO.setCheckFollowCategory(false);
+        return userResponseDTO;
+    }
+
+    @Override
+    public UserResponseDTO unfollowUser(BigInteger followerId, BigInteger followingId) {
         Users follower = userRepository.findById(followerId).orElse(null);
         if (follower==null)
         {
@@ -380,9 +415,111 @@ public class UserServiceImpl implements IUserService {
         {
             return null;
         }
-        Follow follow = new Follow();
-        return userRepository.save(follower);
+        Follow follows = iFollowRepository.findAllByFollowingAndUserFollower(follower,following);
+        iFollowRepository.delete(follows);
+        UserResponseDTO responseDTO= createUserResponse(follower);
+        responseDTO.setCheckStatusFollow(false);
+        return responseDTO;
     }
+    @Override
+    public UserResponseDTO getWallUserByID(Users users, BigInteger user_id) {
+        Users user = userRepository.findUsersById(user_id);
+        if (users==null)
+        {
+            return null;
+        }
+        UserResponseDTO userResponseDTO= createUserResponse(user);
+        List<Follow> follows = iFollowRepository.findAllByUserFollower(users);
+        for (Follow f : follows) {
+            if (f.getFollowing().equals(user)) {
+                userResponseDTO.setCheckStatusFollow(true);
+                break;
+            }
+            else {
+                userResponseDTO.setCheckStatusFollow(true);
+            }
+        }
+        return userResponseDTO;
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUserFollower( BigInteger users_id) {
+        Users users = userRepository.findById(users_id).orElse(null);
+        List<Follow> UserFollow = iFollowRepository.findAllByFollowing(users);
+        List<Users> followingUsers = UserFollow.stream()
+                .map(Follow::getUserFollower)
+                .collect(Collectors.toList());
+        List<UserResponseDTO> userResponseDTOs = followingUsers.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    boolean isFollowing = UserFollow.stream()
+                            .anyMatch(f -> f.getFollowing().equals(user));
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUserFollowing(BigInteger users_id) {
+        Users users = userRepository.findById(users_id).orElse(null);
+        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(users);
+        List<Users> followingUsers = UserFollow.stream()
+                .map(Follow::getFollowing)
+                .collect(Collectors.toList());
+        List<UserResponseDTO> userResponseDTOs = followingUsers.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    boolean isFollowing = UserFollow.stream()
+                            .anyMatch(f -> f.getFollowing().equals(user));
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
+    }
+
+
+    @Override
+    public boolean isExistUserFollow(Users user, BigInteger users_id) {
+        Users users = userRepository.findUsersById(users_id);
+        if(!iFollowRepository.existsByUserFollowerAndFollowing(user,users)){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<SeriesResponse> getAllSerieByUserWall(Users users, BigInteger user_id) {
+        Users users1 = userRepository.findById(user_id).orElse(null);
+        List<Series> series1 = seriesRepository.findAllByUser(users1);
+        List<SeriesResponse> seriesDTOList = new ArrayList<>();
+        for (Series series : series1) {
+            SeriesResponse seriesDTO = new SeriesResponse();
+            SeriesImage seriesImage = iSeriesImageRepository.findById(series.getId()).orElse(null);
+            if (seriesImage!=null)
+            {
+                seriesDTO.setId(series.getId());
+                seriesDTO.setImage(seriesImage.getUrlImage());
+                seriesDTO.setCreateday(series.getCreateday());
+                seriesDTO.setName(series.getName());
+                seriesDTO.setDescription(series.getDescription());
+                seriesDTO.setSumBlog(series.getSumBlog());
+                seriesDTOList.add(seriesDTO);
+            }
+            else {
+                seriesDTO.setId(series.getId());
+                seriesDTO.setCreateday(series.getCreateday());
+                seriesDTO.setName(series.getName());
+                seriesDTO.setDescription(series.getDescription());
+                seriesDTO.setSumBlog(series.getSumBlog());
+                seriesDTOList.add(seriesDTO);
+            }
+        }
+        return seriesDTOList;
+    }
+
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {

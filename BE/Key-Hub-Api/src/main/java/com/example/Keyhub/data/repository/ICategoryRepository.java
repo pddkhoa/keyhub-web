@@ -9,5 +9,5 @@ import java.math.BigInteger;
 
 
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
-
+    boolean existsById(Long categoryId);
 }

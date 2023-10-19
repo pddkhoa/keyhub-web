@@ -12,10 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IFollowRepository extends JpaRepository<Follow, BigInteger> {
-    List<Follow> findByUserFollower(Users users);
+    boolean existsByUserFollowerAndFollowing(Users users, Users user);
+    @Query("SELECT f FROM Follow f WHERE  f.userFollower = :userFollower")
+    List<Follow> findAllByUserFollower( @Param("userFollower") Users userFollower);
 
-    List<Follow> findByFollowing(Users users);
+    @Query("SELECT f FROM Follow f WHERE  f.following = :userFollower")
+    List<Follow> findAllByFollowing( @Param("userFollower") Users userFollower);
 
-    @Query("SELECT f FROM Follow f WHERE f.following = :followingUser AND f.userFollower = :userFollower")
-    Follow findAllByFollowingAndUserFollower(@Param("followingUser") Users followingUser, @Param("userFollower") Users userFollower);
+    @Query("SELECT f FROM Follow f WHERE  f.userFollower = :userFollower AND f.following = :followingUser")
+    Follow findAllByFollowingAndUserFollower( @Param("userFollower") Users userFollower ,@Param("followingUser") Users followingUser);
+    @Query("SELECT f FROM Follow f WHERE  f.userFollower = :userFollower AND f.following = :followingUser")
+    Follow findAllByUserFollowerAndFollowing( @Param("userFollower") Users userFollower ,@Param("followingUser") Users followingUser);
 }

@@ -116,7 +116,6 @@ public class BlogController {
     }
     @GetMapping("/series/{series_id}")
     public ResponseEntity getBlogBySeries(@PathVariable BigInteger series_id) {
-
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogBySeries(series_id,users);
         if (list.isEmpty())
@@ -363,24 +362,25 @@ public class BlogController {
     public ResponseEntity getBlogFeedWithPagging(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllInFeed(index,users);
-        List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
-        if (list.isEmpty())
+        int size = ibLogService.getAllInFeedToCheck(users);
+        if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
                             .result(list)
                             .statusCode(HttpStatus.OK.value())
-                            .message("No blog Popular")
+                            .message("Not found blog")
                             .build()
                     );
         }
-        if (list.size() >= listAllBlog.size())
+        if (index>size)
         {
+            index = index-1;
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(ibLogService.getAllInFeed(index,users))
                             .statusCode(HttpStatus.OK.value())
                             .message("That all blog")
                             .build()
@@ -391,7 +391,7 @@ public class BlogController {
                         .success(true)
                         .result(list)
                         .statusCode(HttpStatus.OK.value())
-                        .message("The Popular Blogs ")
+                        .message("The feed Blogs ")
                         .build()
                 );
     }

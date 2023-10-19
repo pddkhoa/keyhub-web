@@ -26,6 +26,9 @@ public class UserResponseDTO {
     private String company;
     private String country;
     private String School;
+    private int sumBLog;
+    private boolean checkStatusFollow;
+    private boolean checkFollowCategory;
     private String banner_url;
     private int totalFollowers;
     private int totalFollowing;

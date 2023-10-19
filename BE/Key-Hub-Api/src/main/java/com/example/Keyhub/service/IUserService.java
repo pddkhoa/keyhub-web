@@ -2,6 +2,8 @@ package com.example.Keyhub.service;
 
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
+import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.BannerUser;
@@ -41,6 +43,15 @@ public interface IUserService {
     Series addSeries(SeriesDTO seriesDTO, Users users);
     Series editSeries(BigInteger series_id, SeriesDTO seriesDTO, Users users);
     Users changeBanner(BigInteger user_id, MultipartFile imageFile);
-    Users followUser(BigInteger followerId, BigInteger followingId);
-    Users unfollowUser(BigInteger followerId, BigInteger followingId);
+    UserResponseDTO followUser(BigInteger followerId, BigInteger followingId);
+    UserResponseDTO followCategory(Users users, Long category_id);
+    UserResponseDTO unFollowCategory(Users users, Long category_id);
+    UserResponseDTO unfollowUser(BigInteger followerId, BigInteger followingId);
+    UserResponseDTO getWallUserByID(Users users, BigInteger user_id);
+    List<UserResponseDTO> getAllUserFollower(BigInteger users_id);
+    List<UserResponseDTO> getAllUserFollowing(BigInteger users_id);
+    boolean isExistUserFollow(Users user, BigInteger users_id);
+
+    List<SeriesResponse> getAllSerieByUserWall(Users users, BigInteger user_id);
+
 }

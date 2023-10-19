@@ -4,6 +4,7 @@ import com.example.Keyhub.data.dto.request.BlogPostDTO;
 import com.example.Keyhub.data.dto.request.BlogPostDraftDTO;
 import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
+import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
@@ -923,8 +924,6 @@ public class BlogServiceImpl implements IBLogService {
         }
         return blogDTOs;
     }
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
     @Override
     public List<BlogDTO> getListPopularWithPagging(int index, Users users) {
         int limit = 5;
@@ -984,20 +983,50 @@ public class BlogServiceImpl implements IBLogService {
         }
         return blogDTOs;
     }
-
+    @Autowired
+    IFollowRepository iFollowRepository;
+    @Autowired
+    IUserFollowCategory userFollowCategory;
     @Override
     public List<BlogDTO> getAllInFeed(int index, Users users) {
-        int limit = 5;
-        limit = limit * index;
+        List<Follow> follows = iFollowRepository.findAllByUserFollower(users);
+        List<Users> followingUsers = follows.stream()
+                .map(Follow::getFollowing)
+                .collect(Collectors.toList());
+        Set<Blog> uniqueBlogs = new HashSet<>(); // Sử dụng Set để lưu trữ bài viết duy nhất
+        for(Users users1: followingUsers)
+        {
+            List<Blog> blogIsUser = blogRepository.findAllByUserAndStatusOrderByCreateDateDesc(users1,1);
+            uniqueBlogs.addAll(blogIsUser);
+        }
+        List<FollowCategory> followedCategories = userFollowCategory.findByUser(users);
+        List<Category> listCategoryFollowByUser = followedCategories.stream()
+                .map(FollowCategory::getCategory)
+                .collect(Collectors.toList());
+        boolean isFollowingCategory = !listCategoryFollowByUser.isEmpty();
+        if(isFollowingCategory) {
+            for(Category category: listCategoryFollowByUser) {
+                List<Blog> categoryBlogs = blogRepository.findByCategoryAndStatusOrderByCreateDateDesc(category, 1);
+                uniqueBlogs.addAll(categoryBlogs);
+            }
+        }
 
-        Pageable pageable = PageRequest.of(0, limit);
-        List<Blog> list = blogRepository.findAllByOrderByCreateDateDesc(pageable);
-        if (list.isEmpty())
+        List<Blog> getAll = new ArrayList<>(uniqueBlogs);
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+        getAll.sort(Comparator.comparing(Blog::getCreateDate).reversed());
+        List<Blog> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, getAll.size());
+        for (int i = 0; i < endIndex; i++) {
+            result.add(getAll.get(i));
+        }
+
+        if (result.isEmpty())
         {
             return null;
         }
         List<BlogDTO> blogDTOs = new ArrayList<>();
-        for (Blog blog : list) {
+        for (Blog blog : result) {
             BlogDTO blogDTO = new BlogDTO();
             blogDTO.setId(blog.getId());
             blogDTO.setTitle(blog.getTitle());
@@ -1007,6 +1036,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
+            blogDTO.setUsers(users);
 
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -1047,7 +1077,34 @@ public class BlogServiceImpl implements IBLogService {
         }
         return blogDTOs;
     }
+    @Override
+    public int getAllInFeedToCheck( Users users) {
+        List<Follow> follows = iFollowRepository.findAllByUserFollower(users);
+        List<Users> followingUsers = follows.stream()
+                .map(Follow::getFollowing)
+                .collect(Collectors.toList());
+        Set<Blog> uniqueBlogs = new HashSet<>(); // Sử dụng Set để lưu trữ bài viết duy nhất
+        for(Users users1: followingUsers)
+        {
+            List<Blog> blogIsUser = blogRepository.findAllByUserAndStatusOrderByCreateDateDesc(users1,1);
+            uniqueBlogs.addAll(blogIsUser);
+        }
+        List<FollowCategory> followedCategories = userFollowCategory.findByUser(users);
+        List<Category> listCategoryFollowByUser = followedCategories.stream()
+                .map(FollowCategory::getCategory)
+                .collect(Collectors.toList());
+        boolean isFollowingCategory = !listCategoryFollowByUser.isEmpty();
+        if(isFollowingCategory) {
+            for(Category category: listCategoryFollowByUser) {
+                List<Blog> categoryBlogs = blogRepository.findByCategoryAndStatusOrderByCreateDateDesc(category, 1);
+                uniqueBlogs.addAll(categoryBlogs);
+            }
+        }
 
+        List<Blog> getAll = new ArrayList<>(uniqueBlogs);
+        int size = (int) Math.ceil((double) getAll.size() / 5);
+        return size;
+    }
     @Override
     public List<BlogDTO> getAllBlogNews(int index, Users users) {
         int limit = 5;
@@ -1233,6 +1290,68 @@ public class BlogServiceImpl implements IBLogService {
             blogDTOs.add(blogDTO);
         }
         return blogDTOs;
+    }
+    public BlogDTO createBlogDTO(Users users, Blog blog)
+    {
+        BlogDTO blogDTO = new BlogDTO();
+        blogDTO.setId(blog.getId());
+        blogDTO.setTitle(blog.getTitle());
+        blogDTO.setContent(blog.getContent());
+        blogDTO.setDescription(blog.getDescription());
+        blogDTO.setCreate_date(blog.getCreateDate());
+        blogDTO.setAvatar(blog.getAvatar());
+        blogDTO.setStatus_id(blog.getStatus());
+        blogDTO.setLikes(blog.getLikes());
+        blogDTO.setUsers(blog.getUser());
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(blog.getCategory().getId());
+        categoryDTO.setName(blog.getCategory().getName());
+        blogDTO.setCategories(categoryDTO);
+
+        BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
+        BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
+        if (blogSave==null)
+        {
+            blogDTO.setIsSave(false);
+        }
+        else {
+            blogDTO.setIsSave(true);
+        }
+        if (blogLike==null)
+        {
+            blogDTO.setIsLike(false);
+        }
+        else {
+            blogDTO.setIsLike(true);
+        }
+        List<TagDTO> tagDTOs = blog.getTags().stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                .collect(Collectors.toList());
+        blogDTO.setTags(tagDTOs);
+        if (blog.getSeries() != null) {
+            SeriesResponse seriesDTO = new SeriesResponse();
+            seriesDTO.setId(blog.getSeries().getId());
+            seriesDTO.setName(blog.getSeries().getName());
+            seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
+            seriesDTO.setDescription(blog.getSeries().getDescription());
+            seriesDTO.setCreateday(blog.getSeries().getCreateday());
+            blogDTO.setSeries(seriesDTO);
+        }
+        return blogDTO;
+    }
+    @Autowired
+    IUserRepository userRepository;
+    @Override
+    public List<BlogDTO> getAllByBlogInWallUser(Users users, BigInteger user_id) {
+        Users users1 = userRepository.findById(user_id).orElse(null);
+        List<Blog> list = blogRepository.findAllByUserAndStatusOrderByCreateDateDesc(users1,1);
+        List<BlogDTO>  result = new ArrayList<>();
+        for (Blog blogDTO:list)
+        {
+            BlogDTO blogDTO1 = createBlogDTO(users,blogDTO);
+            result.add(blogDTO1);
+        }
+        return result;
     }
 
 }

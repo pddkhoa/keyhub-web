@@ -40,4 +40,8 @@ public interface IBLogService {
     List<BlogDTO> getAllBlogNews(int index, Users users);
     List<BlogDTO> getAllBlogLike(int index, Users users);
     List<BlogDTO> getAllBlogViews(int index, Users users);
+
+    List<BlogDTO> getAllByBlogInWallUser(Users users, BigInteger user_id);
+
+    int getAllInFeedToCheck( Users users);
 }
