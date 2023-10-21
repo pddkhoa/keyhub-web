@@ -3,11 +3,8 @@ package com.example.Keyhub.service.impl;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.Category;
-import com.example.Keyhub.data.entity.Blog.FollowCategory;
-import com.example.Keyhub.data.entity.Blog.SeriesImage;
+import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
-import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
@@ -46,6 +43,8 @@ public class UserServiceImpl implements IUserService {
     private ModelMapper mapper;
     @Autowired
     ICategoryRepository categoryRepository;
+    @Autowired
+    IBlogRepository blogRepository;
     @Autowired
     IUserFollowCategory iUserFollowCategory;
     @Autowired
@@ -349,6 +348,8 @@ public class UserServiceImpl implements IUserService {
         response.setCompany(user.getCompany());
         response.setCountry(user.getCountry());
         response.setSchool(user.getSchool());
+        int sumBlog = blogRepository.countBlogsByUserIdAndStatus(user.getId());
+        response.setSumBLog(sumBlog);
         response.setBanner_url(user.getBanner_url());
         List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(user);
         response.setTotalFollowing(UserFollow.size());
@@ -524,7 +525,6 @@ public class UserServiceImpl implements IUserService {
         }
         return seriesDTOList;
     }
-
     @Override
     public List<UserResponseDTO> getAllUserHaveMostFollow(Users users) {
         List<BigInteger> UserFollow = iFollowRepository.findUsersWithMostFollowers();
@@ -538,6 +538,47 @@ public class UserServiceImpl implements IUserService {
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
                     for (Users users1: users2)
+                    {
+                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
+                        if (follow!=null)
+                        {
+                            userResponseDTO.setCheckStatusFollow(true);
+                        }
+                        else
+                        {
+                            userResponseDTO.setCheckStatusFollow(false);
+                        }
+                    }
+                    userResponseDTO.setCheckFollowCategory(false);
+                    logger.error("Ivalid JWT sinature ->Message: {}", userResponseDTO.getSumBLog());
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUsers(int index, Users users) {
+        List<BigInteger> mostFollowedUsers = iFollowRepository.findUsersWithMostFollowers();
+        List<BigInteger> mostFollowedUserIds = mostFollowedUsers;
+        List<Users> usersList = userRepository.findAllByIdNotInAndStatus(mostFollowedUserIds, 1);
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+        usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
+        List<Users> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, usersList.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(usersList.get(i));
+        }
+
+        if (result.isEmpty())
+        {
+            return null;
+        }
+        List<UserResponseDTO> userResponseDTOs = result.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    for (Users users1: usersList)
                     {
                         Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
                         if (follow!=null)

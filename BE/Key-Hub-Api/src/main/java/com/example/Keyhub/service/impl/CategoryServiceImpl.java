@@ -101,7 +101,8 @@ public class CategoryServiceImpl implements ICategoryService {
         response.setCountry(user.getCountry());
         response.setSchool(user.getSchool());
         response.setBanner_url(user.getBanner_url());
-        response.setSumBLog(blogRepository.countByUserAndStatus(user,1));
+        int sumBlog = blogRepository.countBlogsByUserIdAndStatus(user.getId());
+        response.setSumBLog(sumBlog);
         List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(user);
         response.setTotalFollowing(UserFollow.size());
         List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(user);

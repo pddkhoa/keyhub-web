@@ -2,9 +2,12 @@ package com.example.Keyhub.data.repository;
 
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +17,8 @@ public interface IUserRepository extends JpaRepository<Users, BigInteger> {
     Boolean existsByEmail(String email);
     Users  findByEmail(String email);
     Users findUsersById(BigInteger user_id);
+
+    @Query("SELECT u FROM Users u WHERE u.id NOT IN :excludedIds AND u.status = :status")
+    List<Users> findAllByIdNotInAndStatus(@Param("excludedIds") List<BigInteger> excludedIds, @Param("status") int status);
+    List<Users> findAllByStatus(int status);
 }

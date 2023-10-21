@@ -362,25 +362,11 @@ public class BlogController {
     public ResponseEntity getBlogFeedWithPagging(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllInFeed(index,users);
-        int size = ibLogService.getAllInFeedToCheck(users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
-                            .statusCode(HttpStatus.OK.value())
-                            .message("Not found blog")
-                            .build()
-                    );
-        }
-        if (index>size)
-        {
-            index = index-1;
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(GenericResponse.builder()
-                            .success(true)
-                            .result(ibLogService.getAllInFeed(index,users))
                             .statusCode(HttpStatus.OK.value())
                             .message("That all blog")
                             .build()

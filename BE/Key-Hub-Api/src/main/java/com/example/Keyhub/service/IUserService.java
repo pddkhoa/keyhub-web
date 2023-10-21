@@ -54,4 +54,5 @@ public interface IUserService {
     List<SeriesResponse> getAllSerieByUserWall(Users users, BigInteger user_id);
 
     List<UserResponseDTO> getAllUserHaveMostFollow(Users users);
+    List<UserResponseDTO> getAllUsers (int index,Users users);
 }

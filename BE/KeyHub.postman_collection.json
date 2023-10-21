@@ -2036,7 +2036,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjIiLCJ1c2VyRGV0YWlscyI6eyJ1c2VycyI6eyJpZCI6NTgsIm5hbWUiOiJI4bqjaSIsInVzZXJuYW1lIjoiYWRtaW4yIiwiZW1haWwiOiJuZ29jYWhhaTA2MTIyMDAyYWFAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NTI2MTAxOTE1NCwidXBkYXRlRGF0ZSI6MTY5NTU2MjMyMDAwMCwiYXZhdGFyIjoiaHR0cDovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kbXBydTB3Z3EvaW1hZ2UvdXBsb2FkL3YxNjk2NDk5MDUxL2h4N2UyZHhiemExZ2p0cmVtbXFwLmpwZyIsInNlY29uZF9uYW1lIjoiQmFib2dhIiwic3RhdHVzIjoxLCJnZW5kZXIiOiJuYW0iLCJhZGRyZXNzIjoieWRma2EiLCJjb21wYW55IjoiYWNhZGFmYWQiLCJjb3VudHJ5IjoiYWF0YSIsImJhbm5lcl91cmwiOiJodHRwOi8vcmVzLmNsb3VkaW5hcnkuY29tL2RtcHJ1MHdncS9pbWFnZS91cGxvYWQvdjE2OTY0OTkwNTUvZGVtaHdjM3UzbGJ1NTRyeWhiaG0uanBnIiwic2Nob29sIjoiYmFhYyIsImRlc2NyaXB0aW9ucyI6bnVsbH0sImVuYWJsZWQiOnRydWUsInBhc3N3b3JkIjoiJDJhJDEwJE1MRWZUSVBQT1BGMVB1c2IuMnVYM09UOGVQVkM4bmR5b21YTVkwOUVacGc0LkZydjBPT0RDIiwidXNlcm5hbWUiOiJhZG1pbjIiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJhY2NvdW50Tm9uTG9ja2VkIjp0cnVlfSwiaWF0IjoxNjk3NjgyNDgxLCJleHAiOjE2OTgyODcyODF9.qcovt00Of-7U-986j8bE8KVs6ra-98beF6wHL6Qb_vo_qTcxcNpCFZ0g7_IlVDhr3EKyx_X_L9VhQkSwm5tdnQ",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjIiLCJ1c2VyRGV0YWlscyI6eyJ1c2VycyI6eyJpZCI6NTgsIm5hbWUiOiJI4bqjaSIsInVzZXJuYW1lIjoiYWRtaW4yIiwiZW1haWwiOiJuZ29jYWhhaTA2MTIyMDAyYWFAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NTI2MTAxOTE1NCwidXBkYXRlRGF0ZSI6MTY5NTU2MjMyMDAwMCwiYXZhdGFyIjoiaHR0cDovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kbXBydTB3Z3EvaW1hZ2UvdXBsb2FkL3YxNjk2NDk5MDUxL2h4N2UyZHhiemExZ2p0cmVtbXFwLmpwZyIsInNlY29uZF9uYW1lIjoiQmFib2dhIiwic3RhdHVzIjoxLCJnZW5kZXIiOiJuYW0iLCJhZGRyZXNzIjoieWRma2EiLCJjb21wYW55IjoiYWNhZGFmYWQiLCJjb3VudHJ5IjoiYWF0YSIsImJhbm5lcl91cmwiOiJodHRwOi8vcmVzLmNsb3VkaW5hcnkuY29tL2RtcHJ1MHdncS9pbWFnZS91cGxvYWQvdjE2OTY0OTkwNTUvZGVtaHdjM3UzbGJ1NTRyeWhiaG0uanBnIiwiZGVzY3JpcHRpb25zIjpudWxsLCJzY2hvb2wiOiJiYWFjIn0sInVzZXJuYW1lIjoiYWRtaW4yIiwiZW5hYmxlZCI6dHJ1ZSwicGFzc3dvcmQiOiIkMmEkMTAkTUxFZlRJUFBPUEYxUHVzYi4ydVgzT1Q4ZVBWQzhuZHlvbVhNWTA5RVpwZzQuRnJ2ME9PREMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25Mb2NrZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlfSwiaWF0IjoxNjk3ODc2NzA0LCJleHAiOjE2OTg0ODE1MDR9.2R52lCZ85gQ1JUPADbA2FrHWwkqebz54bD4KohfdKnzwvUtyL8IQO9RLMZt2UaOUMy5io6JeR97r02b-NKXH0g",
 									"type": "string"
 								}
 							]
@@ -2070,7 +2070,7 @@
 							"variable": [
 								{
 									"key": "index",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
@@ -2754,6 +2754,46 @@
 								"v1",
 								"network",
 								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUserWithSurface",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjIiLCJ1c2VyRGV0YWlscyI6eyJ1c2VycyI6eyJpZCI6NTgsIm5hbWUiOiJI4bqjaSIsInVzZXJuYW1lIjoiYWRtaW4yIiwiZW1haWwiOiJuZ29jYWhhaTA2MTIyMDAyYWFAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NTI2MTAxOTE1NCwidXBkYXRlRGF0ZSI6MTY5NTU2MjMyMDAwMCwiYXZhdGFyIjoiaHR0cDovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kbXBydTB3Z3EvaW1hZ2UvdXBsb2FkL3YxNjk2NDk5MDUxL2h4N2UyZHhiemExZ2p0cmVtbXFwLmpwZyIsInNlY29uZF9uYW1lIjoiQmFib2dhIiwic3RhdHVzIjoxLCJnZW5kZXIiOiJuYW0iLCJhZGRyZXNzIjoieWRma2EiLCJjb21wYW55IjoiYWNhZGFmYWQiLCJjb3VudHJ5IjoiYWF0YSIsImJhbm5lcl91cmwiOiJodHRwOi8vcmVzLmNsb3VkaW5hcnkuY29tL2RtcHJ1MHdncS9pbWFnZS91cGxvYWQvdjE2OTY0OTkwNTUvZGVtaHdjM3UzbGJ1NTRyeWhiaG0uanBnIiwic2Nob29sIjoiYmFhYyIsImRlc2NyaXB0aW9ucyI6bnVsbH0sImVuYWJsZWQiOnRydWUsInBhc3N3b3JkIjoiJDJhJDEwJE1MRWZUSVBQT1BGMVB1c2IuMnVYM09UOGVQVkM4bmR5b21YTVkwOUVacGc0LkZydjBPT0RDIiwidXNlcm5hbWUiOiJhZG1pbjIiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJhY2NvdW50Tm9uTG9ja2VkIjp0cnVlfSwiaWF0IjoxNjk3NjgyNDgxLCJleHAiOjE2OTgyODcyODF9.qcovt00Of-7U-986j8bE8KVs6ra-98beF6wHL6Qb_vo_qTcxcNpCFZ0g7_IlVDhr3EKyx_X_L9VhQkSwm5tdnQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/network/:index/all/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"network",
+								":index",
+								"all",
+								"follow"
+							],
+							"variable": [
+								{
+									"key": "index",
+									"value": "18"
+								}
 							]
 						}
 					},

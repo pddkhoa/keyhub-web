@@ -1017,7 +1017,7 @@ public class BlogServiceImpl implements IBLogService {
         getAll.sort(Comparator.comparing(Blog::getCreateDate).reversed());
         List<Blog> result = new ArrayList<>();
         int endIndex = Math.min(startIndex + itemsPerPage, getAll.size());
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             result.add(getAll.get(i));
         }
 

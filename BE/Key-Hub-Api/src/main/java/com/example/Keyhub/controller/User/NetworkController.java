@@ -52,4 +52,28 @@ public class NetworkController {
                         .build()
                 );
     }
+    @GetMapping("/{index}/all/follow")
+    public ResponseEntity getAllUser( @PathVariable int index) {
+        Users users = getUserFromAuthentication();
+        List<UserResponseDTO> list = userService.getAllUsers( index,users);
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all User")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("All user")
+                        .build()
+                );
+    }
 }

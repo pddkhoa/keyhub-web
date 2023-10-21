@@ -19,7 +19,8 @@ import java.util.List;
 
 public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findByUser(Users users);
-    int countByUserAndStatus(Users users, int status);
+    @Query("SELECT COUNT(b) FROM Blog b WHERE b.user.id = ?1 AND b.status = 1")
+    int countBlogsByUserIdAndStatus(BigInteger userId);
     @Query("SELECT COUNT(b) FROM Blog b WHERE b.series.id = :series_id and b.status = 1 order by b.createDate DESC ")
     BigInteger countBySeriesId(BigInteger series_id);
     @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE) AND b.status =1 ORDER BY  b.create_date DESC", nativeQuery = true)
