@@ -597,6 +597,44 @@ public class UserServiceImpl implements IUserService {
         return userResponseDTOs;
     }
 
+    @Override
+    public List<UserResponseDTO> searchUser(int index, String text, Users users) {
+        List<Users> usersList = userRepository.searchUser(text);
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+        usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
+        List<Users> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, usersList.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(usersList.get(i));
+        }
+
+        if (result.isEmpty())
+        {
+            return null;
+        }
+        List<UserResponseDTO> userResponseDTOs = result.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    for (Users users1: usersList)
+                    {
+                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
+                        if (follow!=null)
+                        {
+                            userResponseDTO.setCheckStatusFollow(true);
+                        }
+                        else
+                        {
+                            userResponseDTO.setCheckStatusFollow(false);
+                        }
+                    }
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
+    }
+
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {

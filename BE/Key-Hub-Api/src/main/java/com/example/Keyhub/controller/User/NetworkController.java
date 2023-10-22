@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -56,6 +53,33 @@ public class NetworkController {
     public ResponseEntity getAllUser( @PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<UserResponseDTO> list = userService.getAllUsers( index,users);
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("That all User")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("All user")
+                        .build()
+                );
+    }
+    @PostMapping("/search")
+    public ResponseEntity getAllUser(   @RequestParam(value = "index", required = false) Integer index,   @RequestParam(value = "text") String text) {
+        Users users = getUserFromAuthentication();
+        if (index == null || index <= 0) {
+            index = 1;
+        }
+        List<UserResponseDTO> list = userService.searchUser(index,text,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)

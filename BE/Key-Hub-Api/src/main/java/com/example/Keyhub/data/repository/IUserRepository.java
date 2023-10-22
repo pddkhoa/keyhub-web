@@ -20,5 +20,8 @@ public interface IUserRepository extends JpaRepository<Users, BigInteger> {
 
     @Query("SELECT u FROM Users u WHERE u.id NOT IN :excludedIds AND u.status = :status")
     List<Users> findAllByIdNotInAndStatus(@Param("excludedIds") List<BigInteger> excludedIds, @Param("status") int status);
-    List<Users> findAllByStatus(int status);
+
+    @Query(value = "SELECT * FROM user " +
+            "WHERE MATCH(name, Descriptions, second_name) AGAINST (:searchKeyword IN BOOLEAN MODE) > 0", nativeQuery = true)
+    List<Users> searchUser(@Param("searchKeyword") String searchKeyword);
 }

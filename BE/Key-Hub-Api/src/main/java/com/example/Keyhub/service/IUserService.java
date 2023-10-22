@@ -55,4 +55,6 @@ public interface IUserService {
 
     List<UserResponseDTO> getAllUserHaveMostFollow(Users users);
     List<UserResponseDTO> getAllUsers (int index,Users users);
+
+    List<UserResponseDTO> searchUser(int index, String text, Users users);
 }
