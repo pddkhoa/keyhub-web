@@ -10,8 +10,10 @@ import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
+import com.example.Keyhub.data.payload.MessageDTO;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.payload.respone.CustomResponse;
+import com.example.Keyhub.data.payload.respone.MessageResponseDTO;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.IEmailService;
@@ -425,7 +427,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResponseDTO getWallUserByID(Users users, BigInteger user_id) {
         Users user = userRepository.findUsersById(user_id);
-        if (users==null)
+        if (user==null)
         {
             return null;
         }
@@ -633,6 +635,27 @@ public class UserServiceImpl implements IUserService {
                 })
                 .collect(Collectors.toList());
         return userResponseDTOs;
+    }
+    @Autowired
+    IMessageRepository messageRepository;
+    @Override
+    public MessageResponseDTO sendChat(Users users, MessageDTO messageDTO) {
+        Users receiver = userRepository.findById(messageDTO.getReceiverId()).orElse(null);
+        Message message = new Message();
+        message.setSender(users);
+        message.setReceiver(receiver);
+        message.setContent(messageDTO.getContent());
+        message.setSentDate(LocalDateTime.now());
+        messageRepository.save(message);
+        UserResponseDTO usersSender = createUserResponse(users);
+        UserResponseDTO usersReceiver = createUserResponse(receiver);
+
+        MessageResponseDTO responseDTO = new MessageResponseDTO();
+        responseDTO.setSender(usersSender);
+        responseDTO.setReceiver(usersReceiver);
+        responseDTO.setContent(message.getContent());
+        responseDTO.setSentDay(message.getSentDate());
+        return responseDTO;
     }
 
     @Transactional

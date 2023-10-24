@@ -1,5 +1,6 @@
 package com.example.Keyhub.data.entity.ProdfileUser;
 
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

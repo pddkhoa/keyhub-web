@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 23/10/2023 18:48:46
+ Date: 24/10/2023 21:56:57
 */
 
 SET NAMES utf8mb4;
@@ -75,7 +75,7 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 158 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
@@ -190,6 +190,7 @@ INSERT INTO `blog` VALUES (153, 'Sample Taitle 3', 'ok', 65, 'Sample Description
 INSERT INTO `blog` VALUES (154, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:37:04.352000');
 INSERT INTO `blog` VALUES (155, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 1, 1, 1, '2023-10-19 13:37:07.222000');
 INSERT INTO `blog` VALUES (156, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 2, 1, 0, '2023-10-19 13:37:15.510000');
+INSERT INTO `blog` VALUES (157, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 2, 1, 0, '2023-10-23 21:00:51.934000');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -473,6 +474,8 @@ INSERT INTO `blog_tag` VALUES (155, 2);
 INSERT INTO `blog_tag` VALUES (155, 3);
 INSERT INTO `blog_tag` VALUES (156, 2);
 INSERT INTO `blog_tag` VALUES (156, 3);
+INSERT INTO `blog_tag` VALUES (157, 2);
+INSERT INTO `blog_tag` VALUES (157, 3);
 
 -- ----------------------------
 -- Table structure for category
@@ -491,9 +494,11 @@ CREATE TABLE `category`  (
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES (1, 'A', NULL, NULL, NULL);
-INSERT INTO `category` VALUES (2, 'b', NULL, NULL, NULL);
-INSERT INTO `category` VALUES (3, 'C', NULL, NULL, NULL);
+INSERT INTO `category` VALUES (1, 'SÁCH', 'Nơi trao đổi những sách nổi bật và chia sẻ quan điểm về chúng', 'https://images.pexels.com/photos/3358707/pexels-photo-3358707.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/1907785/pexels-photo-1907785.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+INSERT INTO `category` VALUES (2, 'TÂM LÝ HỌC', 'Nơi chia sẻ về những quan điểm về tâm lí', 'https://images.pexels.com/photos/4100670/pexels-photo-4100670.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/4101164/pexels-photo-4101164.jpeg?auto=compress&cs=tinysrgb&w=600');
+INSERT INTO `category` VALUES (3, 'NHIẾP ẢNH', 'Nơi chia sẻ những tác phẩm nghệ thuật', 'https://images.pexels.com/photos/1252983/pexels-photo-1252983.jpeg?auto=compress&cs=tinysrgb&w=600', 'https://images.pexels.com/photos/733853/pexels-photo-733853.jpeg?auto=compress&cs=tinysrgb&w=600');
+INSERT INTO `category` VALUES (4, 'QUAN ĐIỂM - TRANH LUẬN', 'Nơi chia sẻ những quan điểm cá nhân', 'https://images.pexels.com/photos/4049960/pexels-photo-4049960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/4861347/pexels-photo-4861347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+INSERT INTO `category` VALUES (5, 'SÁNG TÁC', 'Nơi cái nôi của nghệ thuật', 'https://images.pexels.com/photos/5118500/pexels-photo-5118500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/5530229/pexels-photo-5530229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 
 -- ----------------------------
 -- Table structure for category_tag
@@ -591,7 +596,7 @@ CREATE TABLE `follow`  (
   INDEX `FKl4cyiwx3lv8jf0xt3sr537308`(`user_follow` ASC) USING BTREE,
   CONSTRAINT `FK992xdy1dmmqlhwayassqk5c8q` FOREIGN KEY (`user_is_following`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKl4cyiwx3lv8jf0xt3sr537308` FOREIGN KEY (`user_follow`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follow
@@ -614,6 +619,7 @@ INSERT INTO `follow` VALUES (43, 62, 58);
 INSERT INTO `follow` VALUES (44, 62, 42);
 INSERT INTO `follow` VALUES (49, 57, 42);
 INSERT INTO `follow` VALUES (50, 58, 42);
+INSERT INTO `follow` VALUES (59, 62, 68);
 
 -- ----------------------------
 -- Table structure for hibernate_sequence
@@ -626,7 +632,28 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (93);
+INSERT INTO `hibernate_sequence` VALUES (99);
+
+-- ----------------------------
+-- Table structure for message
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `sent_date` datetime(6) NULL DEFAULT NULL,
+  `receiver_id` bigint NULL DEFAULT NULL,
+  `sender_id` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK86f0kc2mt26ifwupnivu6v8oa`(`receiver_id` ASC) USING BTREE,
+  INDEX `FKcnj2qaf5yc36v2f90jw2ipl9b`(`sender_id` ASC) USING BTREE,
+  CONSTRAINT `FK86f0kc2mt26ifwupnivu6v8oa` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKcnj2qaf5yc36v2f90jw2ipl9b` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of message
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for refreshtoken
@@ -641,7 +668,7 @@ CREATE TABLE `refreshtoken`  (
   UNIQUE INDEX `UK_or156wbneyk8noo4jstv55ii3`(`token` ASC) USING BTREE,
   INDEX `FKfr75ge3iecdx26qe8afh1srf6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKfr75ge3iecdx26qe8afh1srf6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 95 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of refreshtoken
@@ -693,6 +720,9 @@ INSERT INTO `refreshtoken` VALUES (87, '2023-10-19 15:38:12.330000', '1b96cbdb-1
 INSERT INTO `refreshtoken` VALUES (88, '2023-10-20 09:28:01.119000', '87ce8a9f-3719-4d9e-b556-0a3547c2d2eb', 58);
 INSERT INTO `refreshtoken` VALUES (89, '2023-10-20 13:19:23.964000', '909d811e-262f-40a3-a772-cdfc8410af07', 65);
 INSERT INTO `refreshtoken` VALUES (90, '2023-10-22 15:25:04.739000', '2f4bca59-d4ed-4978-913d-dd735c698617', 58);
+INSERT INTO `refreshtoken` VALUES (93, '2023-10-24 20:58:15.051000', '5f8efb24-e4e6-4ab6-83a0-ee5e2ba15125', 58);
+INSERT INTO `refreshtoken` VALUES (94, '2023-10-24 21:29:08.679000', '4c09a73a-1cd6-4d2c-a3c8-6478c5469c13', 58);
+INSERT INTO `refreshtoken` VALUES (95, '2023-10-25 21:11:26.052000', '4ab22df7-0adb-4c21-9d23-72ed92a737a9', 58);
 
 -- ----------------------------
 -- Table structure for reset_pass_token
@@ -836,7 +866,7 @@ INSERT INTO `series` VALUES (66, 'haih221q', 58, '2023-10-12 22:52:51.024000', '
 INSERT INTO `series` VALUES (67, 'haih221qh', 58, '2023-10-12 22:55:50.657000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (70, 'test', 65, '2023-10-19 13:36:17.928000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (71, 'Khoa', 65, '2023-10-19 13:36:22.211000', 'Mo ta', 3);
-INSERT INTO `series` VALUES (72, 'lich sử', 65, '2023-10-19 13:36:30.164000', 'Mo ta', 3);
+INSERT INTO `series` VALUES (72, 'lich sử', 65, '2023-10-19 13:36:30.164000', 'Mo ta', 4);
 
 -- ----------------------------
 -- Table structure for series_image
@@ -909,54 +939,54 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (19, 'Hải', NULL, '$2a$10$X8LDlDu4VbEwdfk2DVTkce1SSPFVsMQk1V4k4NGtpDi4vb6Kh0nIu', NULL, '0814069391', '2023-08-25 13:41:20.937000', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (20, 'Hải', NULL, '$2a$10$2.ZjVySeOxlxkALmJEy9VOdSIIMzFFcI6ZpU4DtZ4JDOTWRBPLoMW', NULL, '0814069391', '2023-08-25 14:06:10.922000', '2023-08-25 16:28:54', NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (22, 'Hải', NULL, '$2a$10$IgLOWwjHm5imKEohAPjnvud66Muz8KRAOL1pJGH2cQ8WpATiwm9dW', NULL, '0814069391', '2023-08-26 16:38:29.011000', '2023-09-07 11:20:06', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg', 'nam', 'Baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (23, 'Hải', NULL, '$2a$10$2LbTQH7tevUm1.Ed04.Rve5NeUtacXm8WjYqmrQhEvEcKbGUW7dmi', NULL, '0814069391', '2023-08-26 16:44:43.976000', '2023-08-26 16:47:34', NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (24, 'Khoa', NULL, '$2a$10$yFKuBcHWiqUoO9exVsPNqukQVb0sfAKbOUbBD1yOximYUjcf6I1Sq', NULL, '0814069391', '2023-08-27 13:33:38.045000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (25, 'Khoa', NULL, '$2a$10$8.XSa9yLYYktXoSevO15BONit5aO0X2xpXSvA9JETV.oqtdH0Agfy', NULL, '0814069391', '2023-09-07 13:32:27.288000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (26, 'Khoa', NULL, '$2a$10$iceJIqv5MFkmHBtE3TtfYuEBunOj88kvbLJRovwRgXz1RY/LC0YNe', NULL, '0814069391', '2023-09-07 13:34:37.391000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (27, 'Khoa', NULL, '$2a$10$Yi0PZQsNgcTANleP/FEC8.CkC.8WGn5gAQb1gMQ0k728wx6lBUi4i', NULL, '0814069391', '2023-09-10 16:50:26.807000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (28, 'Khoa', NULL, '$2a$10$2tNr977OLZzI7Kpau1zwuOe1oBHuc6X5EqRgMmwGTwf1zHuhZo9S6', NULL, '0814069391', '2023-09-10 16:50:43.225000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (29, 'hieu', NULL, '$2a$10$4SYKvJFBATZXSGFbdsO8pu2e47YTBvNTv58L5q48KgUEUB3iRvV4q', NULL, '0814069395', '2023-09-11 13:48:19.029000', NULL, NULL, 'Femnale', 'aa', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (30, 'Khoa', NULL, '$2a$10$e53bgWXABfljtObuu.FmKehzbfFTUcGtHvaE5beeM3fgZ.Zzbcaoe', NULL, '0814069391', '2023-09-11 21:37:36.266000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (32, 'Khoa', NULL, '$2a$10$g5MYGRfENsvukhDRqjtf5eOheHMGVwYXekl40S.u5UIwAtUy6dAem', NULL, '0814069391', '2023-09-12 08:43:12.920000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (33, 'Khoa', NULL, '$2a$10$.7i7Q5C1aC/9ei4bM3nvqOxasJDCWjG6Pmnn52m03Cehhapm7tOjG', NULL, '0814069391', '2023-09-12 08:48:38.123000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (34, 'Khoa', NULL, '$2a$10$D0STwuplRYZfEUDU09PLi.bHIqITEuGzTvWoic3xHaioocHQK/ywm', NULL, '0814069391', '2023-09-12 08:50:28.823000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (35, 'Khoa', NULL, '$2a$10$EXKw8PZqC5rTG8t8Sw1w9u6IzJmUuolNQm/sy/5hfaX/RJ2TJfB2.', NULL, '0814069391', '2023-09-12 09:16:34.758000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (36, 'Khoa', NULL, '$2a$10$ZGAf1RoNdzLRPITuotVMLuyNFTmPiUrp8P9qsMympzu/zyEdxIXaG', NULL, '0814069391', '2023-09-12 09:19:45.230000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (37, 'Khoa', NULL, '$2a$10$a2NZj2WLYjqoXwx9DIlpWuDRJlCS4nbaeRhW.nw/5vSptr6RydQZK', NULL, '0814069391', '2023-09-12 09:29:44.499000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (38, 'Khoa', NULL, '$2a$10$oS//1H82CTRUsoDAbYyKoOSq.Des9EmSiA3R7ofnL4JHGI7l7N/JW', NULL, '0814069391', '2023-09-12 09:35:09.930000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (39, 'Khoa', NULL, '$2a$10$E/cZ7WTFtH6k.2.UTJEYF.vNM9jTxtTrrxguIEy84XKk4Cf4I3N16', NULL, '0814069391', '2023-09-12 10:11:24.022000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (40, 'Khoa', NULL, '$2a$10$ooWCsmVetzaXuume27xDCOqQH1XJx.qw/2K1L2WmRfM1bGcY5Y5Z2', NULL, '0814069391', '2023-09-12 10:19:31.542000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (41, 'Khoa', 'ngocahai0612@gmail.com', '$2a$10$CX.isCWN0Hf7e8HALOj77uzH3gAdtkuJPP77f3l/FjMY9CoSH1bpK', 'baboga', '0814069391', '2023-09-12 10:53:54.418000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (42, 'Khoa', NULL, '$2a$10$TIxIHPEO3PtyTx1WDc9DneUYCKJrzVP4.tB0A1HbUR5Q8vUi2sksq', NULL, '0814069391', '2023-09-12 10:56:57.820000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (43, 'Khoa', NULL, '$2a$10$c2cCfc/.jnpkMkkpQyTVLe0ZrUYpU6jTitbxsiVAMiFFXuADesSde', NULL, '0814069391', '2023-09-12 11:51:29.933000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (44, 'Khoa', NULL, '$2a$10$0l/nOtQ..ptcPKYxazORMOkjldIO.JaKgynCQ5FggJ0h.D.Eo9rf2', NULL, '0814069391', '2023-09-12 11:51:55.022000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (45, 'Khoa', NULL, '$2a$10$cZu4tuxdUDFuz2KATnmzGet2/dbuTGUILrGckjIM9fgceKgJ6lcXK', NULL, '0814069391', '2023-09-12 11:53:59.323000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (46, 'Khoa', NULL, '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', NULL, '0814069391', '2023-09-12 12:28:00.632000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (47, 'Khoa', NULL, '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', NULL, '0814069391', '2023-09-12 12:40:53.308000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (48, 'Khoa', NULL, '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', NULL, '0814069391', '2023-09-12 12:44:31.675000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (49, 'Khoa', NULL, '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', NULL, '0814069391', '2023-09-12 12:46:39.212000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (50, 'Khoa', NULL, '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', NULL, '0814069391', '2023-09-12 12:47:33.803000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (51, 'Khoa', NULL, '$2a$10$xXl4YxkdltVeHJ19e.uDT.OHokgSdVbbhhlVUffeSLYjg9nphmcRC', NULL, '0814069391', '2023-09-12 13:04:46.097000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (52, 'Hải', 'ngoaaahai06122002@gmail.com', '$2a$10$fxq.vLECu0lt/othW/m2Ru67.Z6FQVg/Rooz3IGDIo1Wtp3HS5yWa', 'AdminHai', '0814069391', '2023-09-13 09:31:00.547000', '2023-09-22 06:13:44', NULL, 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'aata', NULL);
-INSERT INTO `user` VALUES (53, 'afa', NULL, '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', NULL, '0814069391', '2023-09-13 09:37:15.845000', NULL, NULL, 'Male', 'afa', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (54, 'Hải', NULL, '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-09-19 10:55:52', NULL, 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'aata', NULL);
-INSERT INTO `user` VALUES (55, 'Khoa', 'ngochg0ah6hs122002@gmail.com', '$2a$10$2expwu3ci8YfEQz4lytl2eXw/lLxR2pr1/YZz/u1wSRxU6tYjzqT6', 'nga0hchshai', '0814069391', '2023-09-20 10:49:44.823000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (56, 'Khoa', 'ngkkochai06122002@gmail.com', '$2a$10$QCHuqO.3fJEG.Ffv/x4kE.4brFQ6f2YcYwww0qy7Xf93lwUsGfaxu', 'admin', '0814069391', '2023-09-21 08:42:06.113000', '2023-09-21 08:43:31', NULL, 'nam', 'baboga', 2, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (57, 'Khoa', 'ngoqchai06122002@gmail.com', '$2a$10$5QazZwr6VcBai5jgMii9i.DCOKseNbHDI0wxM0N9y0zhTGL7bxvu2', 'admin1', '0814069391', '2023-09-21 08:45:05.254000', '2023-09-21 08:46:40', NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (58, 'Hải', 'ngocahai06122002aa@gmail.com', '$2a$10$MLEfTIPPOPF1Pusb.2uX3OT8ePVC8ndyomXMY09EZpg4.Frv0OODC', 'admin2', '0814069391', '2023-09-21 08:50:19.154000', '2023-09-24 20:32:00', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696499051/hx7e2dxbza1gjtremmqp.jpg', 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'aata', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696499055/demhwc3u3lbu54ryhbhm.jpg');
-INSERT INTO `user` VALUES (59, 'baboga', NULL, '$2a$10$yxYrIeuNYk8tEwC0dseazeGTqK0hWEh9KXWdNzpQdBcDDCCdC.FoG', NULL, '0814069391', '2023-09-24 12:07:24.231000', NULL, NULL, 'Male', '1', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (60, 'baboga', NULL, '$2a$10$zt.RjAj/3BRendfziHCxr.I.UTDIi.wjMK6SOiNXRjkZBNfbwUgcW', NULL, '0814069391', '2023-09-24 12:14:43.850000', NULL, NULL, 'Male', 'afa', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (61, 'Đinh Anh Trâm', 'anhtram900@gmail.com', '$2a$10$3z9y4NYExDwteqFDTOwcJuJu/rQne7LaMLA6ApYaznV7S1S/qhRci', 'UserTram', '0814069391', '2023-09-24 16:54:38.887000', '2023-09-24 17:03:04', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg', 'Male', 'AnhT', 1, '', '', '', '', '', NULL);
-INSERT INTO `user` VALUES (62, 'baboga', NULL, '$2a$10$FxhUhdZDX.T7SsiLn8C5i.qIxE7GQ1UETN5bHdd9e8QnglzyVIdSy', NULL, '0814069391', '2023-09-24 17:05:49.871000', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1693275371/q3pjzz3sfbszcldmrcnv.jpg', 'Femnale', 'afa', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (63, 'Khoa', NULL, '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki1i9v0bxt2qEncIeRrA43ATZFSy', NULL, '0814069391', '2023-09-26 08:43:36.497000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (64, 'baboga', 'ng1ochai06122002@gmail.com', '$2a$10$8yqiRdp3uznrJPXUhKEV5.c.kolDlNGGWMBH13OTRLXd54z4y5wgy', 'UserTramaa', '0814069391', '2023-10-01 11:16:43.232000', NULL, NULL, 'Male', '1', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (65, 'Phan Dai Dang khoa ', 'khoadang88vn@gmail.com', '$2a$10$Qst3491pHdGxr/P0fU3j9ugndfwz53n7IOtHre1OaVgwB/DRPv2Ka', 'pddkhoa', '0973455342', '2023-10-15 09:50:30.000000', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697339276/ooyaozcuga2v2ht3so4x.png', 'Male', 'pddkhoa', 1, NULL, NULL, NULL, NULL, NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338600/xfa3fcejehof514f4fuv.jpg');
-INSERT INTO `user` VALUES (66, 'Khoa', 'angochai06122002@gmail.com', '$2a$10$EzGEX/zodEnpS3HXIoPfr.yR.BAm8TKwPWdRRjtghNkz7lAIxTnae', 'userHai', '0814069391', '2023-10-15 19:19:44.005000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$CTMVWnjVMICT.KrpwJOTVOz97a6k8t1NKK3tAHgefsZOUcQbIYGKq', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-10-17 09:26:21', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511638/r4wcsyhdnhf22yyospmr.jpg', 'Male', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'VT', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511633/elh5chkubmsdvxifhjql.jpg');
-INSERT INTO `user` VALUES (68, 'Khoa', 'ngochai06122f002@gmail.com', '$2a$10$VBJ2ghn4UCc9jIcw/Mwqfe0V8zC/M622posRzIsrBOUaOdWjqEg2W', 'userHfai', '0814069391', '2023-10-16 18:18:38.253000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (19, 'Hải', 'ngochaif06122002@gmail.com', '$2a$10$X8LDlDu4VbEwdfk2DVTkce1SSPFVsMQk1V4k4NGtpDi4vb6Kh0nIu', 'AdminTam', '0814069391', '2023-08-25 13:41:20.937000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', NULL, 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (20, 'Hải', 'ngochaa06122002@gmail.com', '$2a$10$2.ZjVySeOxlxkALmJEy9VOdSIIMzFFcI6ZpU4DtZ4JDOTWRBPLoMW', 'UserKhoa', '0814069391', '2023-08-25 14:06:10.922000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (22, 'Hải', 'ngoc06122002@gmail.com', '$2a$10$IgLOWwjHm5imKEohAPjnvud66Muz8KRAOL1pJGH2cQ8WpATiwm9dW', 'UserTien', '0814069391', '2023-08-26 16:38:29.011000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (23, 'Hải', 'Khoa06122002@gmail.com', '$2a$10$2LbTQH7tevUm1.Ed04.Rve5NeUtacXm8WjYqmrQhEvEcKbGUW7dmi', 'User98', '0814069391', '2023-08-26 16:44:43.976000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (24, 'Khoa', 'dangkhoa@gmail.com', '$2a$10$yFKuBcHWiqUoO9exVsPNqukQVb0sfAKbOUbBD1yOximYUjcf6I1Sq', 'User12', '0814069391', '2023-08-27 13:33:38.045000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (25, 'Khoa', 'honghieu@gmail.com', '$2a$10$8.XSa9yLYYktXoSevO15BONit5aO0X2xpXSvA9JETV.oqtdH0Agfy', 'User13', '0814069391', '2023-09-07 13:32:27.288000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (26, 'Khoa', 'vangluong@gmai.com', '$2a$10$iceJIqv5MFkmHBtE3TtfYuEBunOj88kvbLJRovwRgXz1RY/LC0YNe', 'User', '0814069391', '2023-09-07 13:34:37.391000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (27, 'Khoa', 'tiendat@gmail.com', '$2a$10$Yi0PZQsNgcTANleP/FEC8.CkC.8WGn5gAQb1gMQ0k728wx6lBUi4i', 'User14', '0814069391', '2023-09-10 16:50:26.807000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (28, 'Khoa', 'huutrong@gmail.com', '$2a$10$2tNr977OLZzI7Kpau1zwuOe1oBHuc6X5EqRgMmwGTwf1zHuhZo9S6', 'User15', '0814069391', '2023-09-10 16:50:43.225000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (29, 'hieu', 'thanhhuye@gmail.com', '$2a$10$4SYKvJFBATZXSGFbdsO8pu2e47YTBvNTv58L5q48KgUEUB3iRvV4q', 'Userfa', '0814069395', '2023-09-11 13:48:19.029000', '2023-10-10 21:47:27', 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745', 'Male', 'aa', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (30, 'Khoa', 'thivan@gmail.com', '$2a$10$e53bgWXABfljtObuu.FmKehzbfFTUcGtHvaE5beeM3fgZ.Zzbcaoe', 'User1747', '0814069391', '2023-09-11 21:37:36.266000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (32, 'Khoa', 'thaotrang@gmail.com', '$2a$10$g5MYGRfENsvukhDRqjtf5eOheHMGVwYXekl40S.u5UIwAtUy6dAem', 'User18', '0814069391', '2023-09-12 08:43:12.920000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (33, 'Khoa', 'hien@gmail.com', '$2a$10$.7i7Q5C1aC/9ei4bM3nvqOxasJDCWjG6Pmnn52m03Cehhapm7tOjG', 'User19', '0814069391', '2023-09-12 08:48:38.123000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (34, 'Khoa', 'cute@gmail.com', '$2a$10$D0STwuplRYZfEUDU09PLi.bHIqITEuGzTvWoic3xHaioocHQK/ywm', 'User20', '0814069391', '2023-09-12 08:50:28.823000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (35, 'Khoa', 'dangkhoa114@gmail.com', '$2a$10$EXKw8PZqC5rTG8t8Sw1w9u6IzJmUuolNQm/sy/5hfaX/RJ2TJfB2.', 'User21', '0814069391', '2023-09-12 09:16:34.758000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (36, 'Khoa', 'hutring@gmail.com', '$2a$10$ZGAf1RoNdzLRPITuotVMLuyNFTmPiUrp8P9qsMympzu/zyEdxIXaG', 'User22', '0814069391', '2023-09-12 09:19:45.230000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (37, 'Khoa', 'thaytrang@gmail.com', '$2a$10$a2NZj2WLYjqoXwx9DIlpWuDRJlCS4nbaeRhW.nw/5vSptr6RydQZK', 'User23', '0814069391', '2023-09-12 09:29:44.499000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (38, 'Khoa', 'thaunhua@gmail.com', '$2a$10$oS//1H82CTRUsoDAbYyKoOSq.Des9EmSiA3R7ofnL4JHGI7l7N/JW', 'User24', '0814069391', '2023-09-12 09:35:09.930000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (39, 'Khoa', 'conraca@gmail.com', '$2a$10$E/cZ7WTFtH6k.2.UTJEYF.vNM9jTxtTrrxguIEy84XKk4Cf4I3N16', 'User25', '0814069391', '2023-09-12 10:11:24.022000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (40, 'Khoa', 'beamen@gmail.com', '$2a$10$ooWCsmVetzaXuume27xDCOqQH1XJx.qw/2K1L2WmRfM1bGcY5Y5Z2', 'User26', '0814069391', '2023-09-12 10:19:31.542000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', NULL);
+INSERT INTO `user` VALUES (41, 'Khoa', 'ngocahai0612@gmail.com', '$2a$10$CX.isCWN0Hf7e8HALOj77uzH3gAdtkuJPP77f3l/FjMY9CoSH1bpK', 'baboga', '0814069391', '2023-09-12 10:53:54.418000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (42, 'Khoa', 'vongdoan@gmail.com', '$2a$10$TIxIHPEO3PtyTx1WDc9DneUYCKJrzVP4.tB0A1HbUR5Q8vUi2sksq', 'User 30', '0814069391', '2023-09-12 10:56:57.820000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (43, 'Khoa', 'hivong@gmail.com', '$2a$10$c2cCfc/.jnpkMkkpQyTVLe0ZrUYpU6jTitbxsiVAMiFFXuADesSde', 'User 31', '0814069391', '2023-09-12 11:51:29.933000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (44, 'Khoa', 'huutri@gmail.com', '$2a$10$0l/nOtQ..ptcPKYxazORMOkjldIO.JaKgynCQ5FggJ0h.D.Eo9rf2', 'User 32', '0814069391', '2023-09-12 11:51:55.022000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (45, 'Khoa', 'ngochieu@gmail.com', '$2a$10$cZu4tuxdUDFuz2KATnmzGet2/dbuTGUILrGckjIM9fgceKgJ6lcXK', 'User 33', '0814069391', '2023-09-12 11:53:59.323000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (46, 'Khoa', 'danhdima@gmail.com', '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', 'User 34', '0814069391', '2023-09-12 12:28:00.632000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (47, 'Khoa', 'congchuabongbong@gmail.com', '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', 'User 35', '0814069391', '2023-09-12 12:40:53.308000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (48, 'Khoa', 'danagkhoa@gmail.com', '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', 'User 36', '0814069391', '2023-09-12 12:44:31.675000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (49, 'Khoa', 'ngochairau@gmail.cim', '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', 'User 37', '0814069391', '2023-09-12 12:46:39.212000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (50, 'Khoa', 'honghieurau@gmail.com', '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', 'User 38', '0814069391', '2023-09-12 12:47:33.803000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (51, 'Khoa', 'vanluongrau@gmail.com', '$2a$10$xXl4YxkdltVeHJ19e.uDT.OHokgSdVbbhhlVUffeSLYjg9nphmcRC', 'User 39', '0814069391', '2023-09-12 13:04:46.097000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (52, 'Hải', 'ngoaaahai06122002@gmail.com', '$2a$10$fxq.vLECu0lt/othW/m2Ru67.Z6FQVg/Rooz3IGDIo1Wtp3HS5yWa', 'AdminHai', '0814069391', '2023-09-13 09:31:00.547000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (53, 'afa', 'bading@gmail.com', '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', 'AdminTamTa', '0814069391', '2023-09-13 09:37:15.845000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (54, 'Hải', 'bug@gmail.com', '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (55, 'Khoa', 'ngochg0ah6hs122002@gmail.com', '$2a$10$2expwu3ci8YfEQz4lytl2eXw/lLxR2pr1/YZz/u1wSRxU6tYjzqT6', 'nga0hchshai', '0814069391', '2023-09-20 10:49:44.823000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (56, 'Khoa', 'ngkkochai06122002@gmail.com', '$2a$10$QCHuqO.3fJEG.Ffv/x4kE.4brFQ6f2YcYwww0qy7Xf93lwUsGfaxu', 'admin', '0814069391', '2023-09-21 08:42:06.113000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 2, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (57, 'Khoa', 'ngoqchai06122002@gmail.com', '$2a$10$5QazZwr6VcBai5jgMii9i.DCOKseNbHDI0wxM0N9y0zhTGL7bxvu2', 'admin1', '0814069391', '2023-09-21 08:45:05.254000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (58, 'Hải', 'ngocahai06122002aa@gmail.com', '$2a$10$MLEfTIPPOPF1Pusb.2uX3OT8ePVC8ndyomXMY09EZpg4.Frv0OODC', 'admin2', '0814069391', '2023-09-21 08:50:19.154000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (59, 'baboga', 'dixa@gmail.com', '$2a$10$yxYrIeuNYk8tEwC0dseazeGTqK0hWEh9KXWdNzpQdBcDDCCdC.FoG', 'AdminTu', '0814069391', '2023-09-24 12:07:24.231000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (60, 'baboga', 'dxc@gmail.com', '$2a$10$zt.RjAj/3BRendfziHCxr.I.UTDIi.wjMK6SOiNXRjkZBNfbwUgcW', 'AdminNgu', '0814069391', '2023-09-24 12:14:43.850000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (61, 'Đinh Anh Trâm', 'anhtram900@gmail.com', '$2a$10$3z9y4NYExDwteqFDTOwcJuJu/rQne7LaMLA6ApYaznV7S1S/qhRci', 'UserTram', '0814069391', '2023-09-24 16:54:38.887000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'AnhT', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (62, 'baboga', 'gsoft@gmail.com', '$2a$10$FxhUhdZDX.T7SsiLn8C5i.qIxE7GQ1UETN5bHdd9e8QnglzyVIdSy', 'AdminLuc', '0814069391', '2023-09-24 17:05:49.871000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Femnale', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (63, 'Khoa', 'fpt@gmail.com', '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki1i9v0bxt2qEncIeRrA43ATZFSy', 'AdminThat', '0814069391', '2023-09-26 08:43:36.497000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (64, 'baboga', 'ng1ochai06122002@gmail.com', '$2a$10$8yqiRdp3uznrJPXUhKEV5.c.kolDlNGGWMBH13OTRLXd54z4y5wgy', 'UserTramaa', '0814069391', '2023-10-01 11:16:43.232000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (65, 'Phan Dai Dang khoa ', 'khoadang88vn@gmail.com', '$2a$10$Qst3491pHdGxr/P0fU3j9ugndfwz53n7IOtHre1OaVgwB/DRPv2Ka', 'pddkhoa', '0973455342', '2023-10-15 09:50:30.000000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'pddkhoa', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (66, 'Khoa', 'angochai06122002@gmail.com', '$2a$10$EzGEX/zodEnpS3HXIoPfr.yR.BAm8TKwPWdRRjtghNkz7lAIxTnae', 'userHai', '0814069391', '2023-10-15 19:19:44.005000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$CTMVWnjVMICT.KrpwJOTVOz97a6k8t1NKK3tAHgefsZOUcQbIYGKq', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (68, 'Khoa', 'ngochai06122f002@gmail.com', '$2a$10$VBJ2ghn4UCc9jIcw/Mwqfe0V8zC/M622posRzIsrBOUaOdWjqEg2W', 'userHfai', '0814069391', '2023-10-16 18:18:38.253000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 
 -- ----------------------------
 -- Table structure for user_banner
@@ -1003,10 +1033,19 @@ CREATE TABLE `user_category`  (
 -- ----------------------------
 -- Records of user_category
 -- ----------------------------
+INSERT INTO `user_category` VALUES (69, 4, 66);
+INSERT INTO `user_category` VALUES (70, 3, 66);
+INSERT INTO `user_category` VALUES (71, 2, 66);
+INSERT INTO `user_category` VALUES (72, 1, 66);
+INSERT INTO `user_category` VALUES (73, 5, 65);
+INSERT INTO `user_category` VALUES (74, 4, 65);
+INSERT INTO `user_category` VALUES (75, 3, 65);
+INSERT INTO `user_category` VALUES (76, 1, 65);
+INSERT INTO `user_category` VALUES (77, 2, 65);
 INSERT INTO `user_category` VALUES (78, 2, 58);
 INSERT INTO `user_category` VALUES (79, 3, 58);
 INSERT INTO `user_category` VALUES (90, 1, 62);
-INSERT INTO `user_category` VALUES (92, 1, 58);
+INSERT INTO `user_category` VALUES (98, 1, 58);
 
 -- ----------------------------
 -- Table structure for user_following

@@ -44,4 +44,5 @@ public interface IBLogService {
     List<BlogDTO> getAllByBlogInWallUser(Users users, BigInteger user_id);
 
     int getAllInFeedToCheck( Users users);
+    boolean exitUser(BigInteger id);
 }

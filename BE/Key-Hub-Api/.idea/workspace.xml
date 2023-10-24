@@ -28,6 +28,11 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Key-Hub-Api" type="f1a62948:ProjectNode" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Key-Hub-Api" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -65,7 +70,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/Key-Hub-Api - Copy&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/Key-Hub-Api/src/main/java/com/example/Keyhub/config&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
@@ -79,14 +84,15 @@
       <recent name="com.example.Keyhub.data.entity" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Desktop\Key-Hub-Api\src\main\java\com\example\Keyhub\config" />
       <recent name="C:\Users\Admin\Desktop\Key-Hub-Api\src\main\java\com\example\Keyhub" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.Keyhub.data.payload.respone" />
+      <recent name="com.example.Keyhub.data.dto.request" />
+      <recent name="com.example.Keyhub.controller.User" />
+      <recent name="com.example.Keyhub.event" />
       <recent name="com.example.Keyhub.data.dto.response" />
-      <recent name="com.example.Keyhub.data.repository" />
-      <recent name="com.example.Keyhub.data.entity.Blog" />
-      <recent name="com.example.Keyhub.data.exception" />
-      <recent name="com.example.Keyhub.data.entity.ProdfileUser" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -350,7 +356,13 @@
       <workItem from="1697876378686" duration="4296000" />
       <workItem from="1697880940202" duration="1873000" />
       <workItem from="1697984727575" duration="1568000" />
-      <workItem from="1698060752626" duration="970000" />
+      <workItem from="1698060752626" duration="2062000" />
+      <workItem from="1698063162783" duration="2324000" />
+      <workItem from="1698065512378" duration="1677000" />
+      <workItem from="1698067369034" duration="2025000" />
+      <workItem from="1698071168246" duration="1059000" />
+      <workItem from="1698118016501" duration="633000" />
+      <workItem from="1698156514485" duration="1990000" />
     </task>
     <servers />
   </component>

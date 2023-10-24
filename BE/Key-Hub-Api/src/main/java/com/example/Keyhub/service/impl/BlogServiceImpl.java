@@ -864,11 +864,11 @@ public class BlogServiceImpl implements IBLogService {
     public List<BlogDTO> getFiveBlogPopular(Users users) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendar.add(Calendar.DATE, -6);
 
         Date startDate = calendar.getTime();
-        calendar.add(Calendar.DATE, 6);
 
+        calendar.setTime(new Date());
         Date endDate = calendar.getTime();
 
 
@@ -1104,6 +1104,18 @@ public class BlogServiceImpl implements IBLogService {
         int size = (int) Math.ceil((double) getAll.size() / 5);
         return size;
     }
+
+    @Override
+    public boolean exitUser(BigInteger id) {
+        Users users =userRepository.findById(id).orElse(null);
+        if (users==null)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+
     @Override
     public List<BlogDTO> getAllBlogNews(int index, Users users) {
         int limit = 5;
