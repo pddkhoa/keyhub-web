@@ -658,6 +658,16 @@ public class UserServiceImpl implements IUserService {
         return responseDTO;
     }
 
+    @Override
+    public boolean exitUser(BigInteger id) {
+        Users users = userRepository.findById(id).orElse(null);
+        if (users==null)
+        {
+            return false;
+        }
+        else return true;
+    }
+
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {

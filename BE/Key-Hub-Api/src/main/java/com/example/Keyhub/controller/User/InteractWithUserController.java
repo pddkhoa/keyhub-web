@@ -37,6 +37,16 @@ public class InteractWithUserController {
     }
     @RequestMapping(value = "/{user_id}/follow", method = RequestMethod.POST)
     public ResponseEntity followUser(@PathVariable BigInteger user_id) {
+        if (!userService.exitUser(user_id))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Unfollow User Success!!")
+                            .build()
+                    );
+        }
         if (userService.isExistUserFollow(getUserFromAuthentication(),user_id))
         {
             UserResponseDTO users = userService.unfollowUser(getUserFromAuthentication().getId(),user_id);
