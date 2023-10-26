@@ -1,6 +1,8 @@
 package com.example.Keyhub.service;
 
+import com.example.Keyhub.data.dto.request.ReportDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.response.ReportResponseDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
@@ -10,6 +12,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.Message;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.VerificationToken;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.payload.MessageDTO;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.payload.respone.MessageResponseDTO;
@@ -61,5 +64,7 @@ public interface IUserService {
     MessageResponseDTO sendChat(Users users , MessageDTO messageDTO);
 
     boolean exitUser(BigInteger id);
+
+    ReportResponseDTO reportBlog(Users users , ReportDTO dto);
 
 }

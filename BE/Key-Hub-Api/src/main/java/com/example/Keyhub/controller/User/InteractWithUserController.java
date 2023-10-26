@@ -1,11 +1,13 @@
 package com.example.Keyhub.controller.User;
 
+import com.example.Keyhub.data.dto.request.ReportDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.CheckFollowCategory;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -135,4 +137,4 @@ public class InteractWithUserController {
                         .build()
                 );
     }
-    }
+}

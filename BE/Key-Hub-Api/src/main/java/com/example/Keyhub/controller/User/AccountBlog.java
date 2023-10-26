@@ -7,6 +7,7 @@ import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
@@ -44,6 +45,8 @@ import java.util.stream.Collectors;
 public class AccountBlog {
     @Autowired
     ISeriesImageRepository seriesImageRepository;
+    @Autowired
+    IUserService userService;
     @Autowired
     ICommentService commentService;
     @Autowired
@@ -713,7 +716,6 @@ public class AccountBlog {
     }
     @GetMapping("/{blog_id}")
     public ResponseEntity getBlogById( @PathVariable BigInteger blog_id) {
-
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setId(newBlog.getId());
@@ -724,6 +726,7 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
         blogDTO.setUsers(newBlog.getUser());
+        blogDTO.setLikes(newBlog.getLikes());
         //IsSave - IsLike
         Users users = getUserFromAuthentication();
         BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
@@ -1094,6 +1097,28 @@ public class AccountBlog {
                         .result(null)
                         .statusCode(HttpStatus.OK.value())
                         .message("Delete comment blog success")
+                        .build()
+                );
+    }
+    @PostMapping("/report-blog")
+    public ResponseEntity reportBlog(@RequestBody ReportDTO reportDTO) {
+        ReportResponseDTO reportBlog = userService.reportBlog(getUserFromAuthentication(),reportDTO);
+        if (reportBlog==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found blog")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(reportBlog)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Report blog success")
                         .build()
                 );
     }

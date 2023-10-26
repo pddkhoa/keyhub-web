@@ -2,10 +2,12 @@ package com.example.Keyhub.controller.Blog;
 
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.TagDTO;
-import com.example.Keyhub.data.entity.Blog.*;
+import com.example.Keyhub.data.entity.Blog.Blog;
+import com.example.Keyhub.data.entity.Blog.Category;
+import com.example.Keyhub.data.entity.Blog.Comment;
+import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.repository.IBlogComment;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICategoryRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -18,9 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +43,7 @@ public class BlogController {
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
     @GetMapping("/category/{category_id}")
-    public ResponseEntity getBlogByCategory(@PathVariable Long category_id) {
+    public ResponseEntity<GenericResponse> getBlogByCategory(@PathVariable Long category_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogByCategory(category_id,users);
         if (list.isEmpty())
@@ -67,7 +67,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/tags/{tag_id}")
-    public ResponseEntity getBlogByTag(@PathVariable Long tag_id) {
+    public ResponseEntity<GenericResponse> getBlogByTag(@PathVariable Long tag_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogByTag(tag_id,users);
         if (list.isEmpty())
@@ -91,7 +91,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/save")
-    public ResponseEntity getBlogSaveByTag() {
+    public ResponseEntity<GenericResponse> getBlogSaveByTag() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogBySave(users);
         if (list.isEmpty())
@@ -115,7 +115,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/series/{series_id}")
-    public ResponseEntity getBlogBySeries(@PathVariable BigInteger series_id) {
+    public ResponseEntity<GenericResponse> getBlogBySeries(@PathVariable BigInteger series_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogBySeries(series_id,users);
         if (list.isEmpty())
@@ -139,7 +139,7 @@ public class BlogController {
                 );
     }
     @PostMapping("/search/{key}")
-    public ResponseEntity getBlogBySearch(@PathVariable String key) {
+    public ResponseEntity<GenericResponse> getBlogBySearch(@PathVariable String key) {
         Users users = getUserFromAuthentication();
         if (key.isEmpty())
         {
@@ -174,7 +174,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/allBlog")
-    public ResponseEntity getAllBlog() {
+    public ResponseEntity<GenericResponse> getAllBlog() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlog(users);
         if (list.isEmpty())
@@ -198,7 +198,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/{category_id}/tags")
-    public ResponseEntity getTagsByBlog(@PathVariable long category_id) {
+    public ResponseEntity<GenericResponse> getTagsByBlog(@PathVariable long category_id) {
         Category category= categoryRepository.findById(category_id).orElse(null);
         if (category==null)
         {
@@ -236,7 +236,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/draft")
-    public ResponseEntity getBlogDraftByUser() {
+    public ResponseEntity<GenericResponse> getBlogDraftByUser() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getBlogDraftByUser(users,0);
         if (list==null)
@@ -260,7 +260,7 @@ public class BlogController {
                 );
     }
     @GetMapping("{blog_id}/commentBlog")
-    public ResponseEntity getCommentByBlog(@PathVariable BigInteger blog_id) {
+    public ResponseEntity<GenericResponse> getCommentByBlog(@PathVariable BigInteger blog_id) {
         Users users = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blog_id).orElse(null);
         if (blog==null)
@@ -285,7 +285,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/five-popular")
-    public ResponseEntity getBlogPoppular() {
+    public ResponseEntity<GenericResponse> getBlogPoppular() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getFiveBlogPopular(users);
         if (list.isEmpty())
@@ -309,7 +309,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/size")
-    public ResponseEntity getPopularSize() {
+    public ResponseEntity<GenericResponse> getPopularSize() {
         List<BlogDTO> list = ibLogService.getAllBlogPublis(getUserFromAuthentication());
         int size = list.size() / 5 + (list.size() % 5 != 0 ? 1 : 0);
 
@@ -323,7 +323,7 @@ public class BlogController {
                 );
     }
     @GetMapping("{index}/popular")
-    public ResponseEntity getBlogPoppularWithPagging(@PathVariable int index) {
+    public ResponseEntity<GenericResponse> getBlogPoppularWithPagging(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getListPopularWithPagging(index,users);
         List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
@@ -359,7 +359,7 @@ public class BlogController {
                 );
     }
     @GetMapping("{index}/feed")
-    public ResponseEntity getBlogFeedWithPagging(@PathVariable int index) {
+    public ResponseEntity<GenericResponse> getBlogFeedWithPagging(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllInFeed(index,users);
         if (list==null)
@@ -382,7 +382,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/{index}/new")
-    public ResponseEntity getBlogNew(@PathVariable int index) {
+    public ResponseEntity<GenericResponse> getBlogNew(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogNews(index,users);
         List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
@@ -420,7 +420,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/{index}/like")
-    public ResponseEntity getBlogLikes(@PathVariable int index) {
+    public ResponseEntity<GenericResponse> getBlogLikes(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogLike(index,users);
         List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
@@ -458,7 +458,7 @@ public class BlogController {
                 );
     }
     @GetMapping("/{index}/views")
-    public ResponseEntity getBlogViews(@PathVariable int index) {
+    public ResponseEntity<GenericResponse> getBlogViews(@PathVariable int index) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getAllBlogViews(index,users);
         List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);

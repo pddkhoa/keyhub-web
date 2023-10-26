@@ -1,6 +1,8 @@
 package com.example.Keyhub.service.impl;
 
+import com.example.Keyhub.data.dto.request.ReportDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.response.ReportResponseDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.*;
@@ -9,6 +11,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ResetPassToken;
 import com.example.Keyhub.data.entity.VerificationToken;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.exception.CustomExceptionRuntime;
 import com.example.Keyhub.data.payload.MessageDTO;
 import com.example.Keyhub.data.payload.ProfileInfor;
@@ -91,6 +94,8 @@ public class UserServiceImpl implements IUserService {
     IBannerRepository bannerRepository;
     @Autowired
     UploadImageService uploadImageService;
+    @Autowired
+    IReportRepository reportRepository;
 
     private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private Map<BigInteger, LocalDateTime> scheduledAccounts = new ConcurrentHashMap<>();
@@ -666,6 +671,26 @@ public class UserServiceImpl implements IUserService {
             return false;
         }
         else return true;
+    }
+
+    @Override
+    public ReportResponseDTO reportBlog(Users users, ReportDTO dto) {
+        Blog blog = blogRepository.findById(dto.getBlog_id()).orElse(null);
+        if (blog==null)
+        {
+            return null;
+        }
+        ReportBlog reportBlog = new ReportBlog();
+        reportBlog.setBlog(blog);
+        reportBlog.setReason(dto.getReason());
+        reportBlog.setUser(users);
+        reportRepository.save(reportBlog);
+        ReportResponseDTO responseDTO = new ReportResponseDTO();
+        responseDTO.setId(reportBlog.getId());
+        responseDTO.setBlog_id(blog.getId());
+        responseDTO.setUser(createUserResponse(users));
+        responseDTO.setReason(dto.getReason());
+        return responseDTO;
     }
 
     @Transactional
