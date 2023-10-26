@@ -1,13 +1,7 @@
-import { cva } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
-import React from "react";
 
-const IconDelete = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => (
-  <div {...props}>
+const IconDelete = ({ className }: any) => (
+  <div>
     <svg
       className={cn(className)}
       xmlns="http://www.w3.org/2000/svg"
@@ -35,13 +29,10 @@ const IconDelete = React.forwardRef<
       ></path>
     </svg>
   </div>
-));
+);
 IconDelete.displayName = "IconDelete";
 
-const IconUnBookmark = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => (
+const IconUnBookmark = ({ className, ...props }: any) => (
   <div {...props}>
     <svg
       className={cn(className)}
@@ -70,13 +61,10 @@ const IconUnBookmark = React.forwardRef<
       </defs>
     </svg>
   </div>
-));
+);
 IconUnBookmark.displayName = "IconUnBookmark";
 
-const IconBookmark = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => (
+const IconBookmark = ({ className, ...props }: any) => (
   <div {...props}>
     <svg
       className={cn(className)}
@@ -105,13 +93,10 @@ const IconBookmark = React.forwardRef<
       ></path>
     </svg>
   </div>
-));
+);
 IconBookmark.displayName = "IconBookmark";
 
-const IconEdit = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => (
+const IconEdit = ({ className, ...props }: any) => (
   <div {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -141,13 +126,10 @@ const IconEdit = React.forwardRef<
       </defs>
     </svg>
   </div>
-));
+);
 IconEdit.displayName = "IconEdit";
 
-const IconComment = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }) => (
+const IconComment = ({ className, ...props }: any) => (
   <div {...props}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +179,45 @@ const IconComment = React.forwardRef<
       </g>
     </svg>
   </div>
-));
+);
 IconComment.displayName = "IconComment";
 
-export { IconDelete, IconUnBookmark, IconBookmark, IconEdit, IconComment };
+const IconHide = ({ className, ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      data-name="Layer 56"
+      viewBox="0 0 24 24"
+      className={cn(className)}
+      id="hide"
+    >
+      <defs>
+        <linearGradient
+          id="a"
+          x1="5.99"
+          x2="18.01"
+          y1="5.99"
+          y2="18.009"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stop-color="#8e2de2"></stop>
+          <stop offset="1" stop-color="#4a00e0"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#a)"
+        d="m17.37 5.739 1.46-2.19a1 1 0 1 0-1.66-1.1l-1.56 2.34A9.082 9.082 0 0 0 12 4C6.63 4 2 9.369 2 12c0 1.68 1.88 4.45 4.63 6.26l-1.46 2.19a.988.988 0 0 0 .28 1.38A.938.938 0 0 0 6 22a1 1 0 0 0 .83-.45l1.56-2.34A9.081 9.081 0 0 0 12 20c5.37 0 10-5.37 10-8 0-1.681-1.88-4.451-4.63-6.261ZM9.02 14.66v.01l-1.29 1.94C5.49 15.15 4 12.95 4 12c0-1.47 3.6-6 8-6a7.1 7.1 0 0 1 2.48.47l-1.16 1.75A4.248 4.248 0 0 0 12 8a3.994 3.994 0 0 0-2.98 6.66ZM12 18a7.094 7.094 0 0 1-2.48-.47l6.75-10.14C18.51 8.849 20 11.049 20 12c0 1.47-3.6 6-8 6Z"
+      ></path>
+    </svg>
+  </div>
+);
+IconHide.displayName = "IconHide";
+
+export {
+  IconDelete,
+  IconUnBookmark,
+  IconBookmark,
+  IconEdit,
+  IconComment,
+  IconHide,
+};

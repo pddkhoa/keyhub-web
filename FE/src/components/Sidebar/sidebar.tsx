@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { TbSquareRoundedChevronRight } from "react-icons/tb";
 
 import { Link } from "react-router-dom";
 import { Items } from "./items";
 
 import React from "react";
 import "./sidebar.css";
+import { ButtonMenu } from "./btnMenu";
 
 type SidebarProps = {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,16 +27,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
       }`}
     >
       <div
-        className="absolute  cursor-pointer rounded-lg shadow-xl bg-white  group-hover:opacity-100 duration-300 right-3 top-16 z-50"
+        className="absolute  cursor-pointer  shadow-xl bg-white  group-hover:opacity-100 duration-300 right-4 top-[70px] z-50"
         onClick={handleOpenSidebar}
       >
-        {
-          <TbSquareRoundedChevronRight
-            className={`fixed w-fit h-6  bg-white rounded-lg duration-300 transition  ${
-              open ? "rotate-180" : ""
-            }`}
-          />
-        }
+        {<ButtonMenu open={open} />}
       </div>
       <div
         className={`flex overflow-x-hidden overflow-y-auto flex-col h-full no-scrollbar`}
@@ -59,9 +53,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                         >
                           <path
                             fill="url(#paint0_linear_1233_4660)"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M5 1C2.79086 1 1 2.79086 1 5V9V19C1 21.2091 2.79086 23 5 23H19C21.2091 23 23 21.2091 23 19V9V5C23 2.79086 21.2091 1 19 1H5ZM6.5 8H21V5C21 3.89543 20.1046 3 19 3H6.5H5C3.89543 3 3 3.89543 3 5V8H6.5ZM9 5.5C9 6.88071 7.88071 8 6.5 8C5.11929 8 4 6.88071 4 5.5C4 4.11929 5.11929 3 6.5 3C7.88071 3 9 4.11929 9 5.5ZM3 10H21V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V10ZM6.5 5C6.22386 5 6 5.22386 6 5.5C6 5.77614 6.22386 6 6.5 6C6.77614 6 7 5.77614 7 5.5C7 5.22386 6.77614 5 6.5 5ZM11 4.5C10.4477 4.5 10 4.94772 10 5.5C10 6.05228 10.4477 6.5 11 6.5H19C19.5523 6.5 20 6.05228 20 5.5C20 4.94772 19.5523 4.5 19 4.5H11Z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                           <defs>
                             <linearGradient
@@ -72,8 +66,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                               y2="23"
                               gradientUnits="userSpaceOnUse"
                             >
-                              <stop stop-color="#57EAEA"></stop>
-                              <stop offset="1" stop-color="#2BC9FF"></stop>
+                              <stop stopColor="#57EAEA"></stop>
+                              <stop offset="1" stopColor="#2BC9FF"></stop>
                             </linearGradient>
                           </defs>
                         </svg>
@@ -89,11 +83,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="w-full pr-0.5 "
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          image-rendering="optimizeQuality"
-                          shape-rendering="geometricPrecision"
-                          text-rendering="geometricPrecision"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          imageRendering="optimizeQuality"
+                          shapeRendering="geometricPrecision"
+                          textRendering="geometricPrecision"
                           viewBox="0 0 4335 4335"
                           id="article"
                         >
@@ -106,14 +100,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                               y2="4129.22"
                               gradientUnits="userSpaceOnUse"
                             >
-                              <stop offset="0" stop-color="#1e8ac6"></stop>
-                              <stop offset=".302" stop-color="#834fbc"></stop>
-                              <stop offset="1" stop-color="#e813b1"></stop>
+                              <stop offset="0" stopColor="#1e8ac6"></stop>
+                              <stop offset=".302" stopColor="#834fbc"></stop>
+                              <stop offset="1" stopColor="#e813b1"></stop>
                             </linearGradient>
                           </defs>
                           <path
                             fill="url(#a)"
-                            fill-rule="nonzero"
+                            fillRule="nonzero"
                             d="M806 4063c-67,0 -67,-102 0,-102l509 0 177 -332 1351 0 177 332 509 0c67,0 67,102 0,102l-2723 0zm793 -635l-80 150 1297 0 -80 -150 1178 0c231,0 420,-189 421,-421l0 -2022c0,-232 -189,-421 -421,-421l-647 0c0,-93 12,-170 -55,-237 -34,-34 -81,-55 -132,-55l-1825 0c-51,0 -98,21 -132,55l0 0c-67,68 -55,143 -55,237l-647 0c-232,0 -421,189 -421,421l0 2027c1,226 190,416 421,416l1178 0zm1668 -2762l647 0c176,0 319,143 319,319l0 1977 -4131 0 0 -1977c0,-176 143,-319 319,-319l647 0 0 1981c0,103 84,187 187,187l1825 0c103,0 187,-84 187,-187l0 -1981zm-1888 507l1577 0c33,0 33,51 0,51l-1577 0c-33,0 -33,-51 0,-51zm0 273l1577 0c33,0 33,51 0,51l-1577 0c-33,0 -33,-51 0,-51zm0 272l1577 0c33,0 33,51 0,51l-1577 0c-33,0 -33,-51 0,-51zm0 273l1577 0c33,0 33,50 0,50l-1577 0c-33,0 -33,-50 0,-50zm0 272l1577 0c33,0 33,51 0,51l-1577 0c-33,0 -33,-51 0,-51zm0 272l1577 0c33,0 33,51 0,51l-1577 0c-33,0 -33,-51 0,-51zm221 -1577l0 0zm421 24l-250 0c-14,0 -26,-11 -26,-25l0 -412c0,-14 12,-25 26,-25l250 0c33,0 33,51 0,51l-225 0 0 155 220 0c33,0 33,50 0,50l-220 0 0 155 225 0c33,0 33,51 0,51zm-421 -435l0 411c0,25 -32,35 -46,14l-232 -343 0 329c0,33 -51,33 -51,0l0 -411c0,-25 33,-37 47,-13l231 341 0 -328c0,-34 51,-34 51,0zm837 80l-109 337c-8,25 -43,23 -49,-1l-109 -408c-9,-32 40,-45 49,-13l87 326 107 -331c8,-23 41,-23 48,0l108 331 87 -326c9,-32 58,-19 49,13l-109 408c-7,24 -41,25 -49,2l-110 -338zm589 -70l0 0zm-35 36l0 0zm35 351l0 0zm-35 -35l0 0zm-184 -261c0,-171 257,-166 257,0 0,33 -51,33 -51,0 0,-101 -155,-103 -155,0 0,128 206,25 206,206 0,166 -257,171 -257,0 0,-34 51,-34 51,0 0,103 155,101 155,0 0,-129 -206,-25 -206,-206z"
                           ></path>
                         </svg>
@@ -123,21 +117,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                   </Link>
                 </li>
                 <li className="mt-0  flex items-center rounded-xl p-1.5 hover:bg-hover">
-                  <Link to="users">
+                  <Link to="user">
                     <Items
                       icon={
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           xmlnsXlink="http://www.w3.org/1999/xlink"
-                          enable-background="new 0 0 32 32"
+                          enableBackground="new 0 0 32 32"
                           viewBox="0 0 32 32"
                           className="w-7 h-7"
                           id="user"
                         >
                           <defs>
                             <linearGradient id="a">
-                              <stop offset="0" stop-color="#000092"></stop>
-                              <stop offset="1" stop-color="#ff00f3"></stop>
+                              <stop offset="0" stopColor="#000092"></stop>
+                              <stop offset="1" stopColor="#ff00f3"></stop>
                             </linearGradient>
                             <linearGradient
                               id="b"
@@ -179,8 +173,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
                               y2="12"
                               gradientUnits="userSpaceOnUse"
                             >
-                              <stop offset="0" stop-color="#16b0e2"></stop>
-                              <stop offset="1" stop-color="#6e5af0"></stop>
+                              <stop offset="0" stopColor="#16b0e2"></stop>
+                              <stop offset="1" stopColor="#6e5af0"></stop>
                             </linearGradient>
                             <linearGradient
                               id="b"

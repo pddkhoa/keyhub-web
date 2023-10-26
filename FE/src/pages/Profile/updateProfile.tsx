@@ -25,6 +25,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -263,19 +265,18 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ info }) => {
               <PenSquare />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
+          <DropdownMenuContent className="w-56 mr-8  rounded-lg bg-card">
+            <DropdownMenuLabel>Edit</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
                 setDisplayCreate.on(), setDisplayModal(true);
               }}
-              className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+              className="flex justify-between h-9 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
             >
-              <span className="text-title-foreground whitespace-nowrap">
+              <span className="flex items-center transform transition-colors duration-125 w-full border-r-4 border-transparent hover:border-indigo-700">
                 Reset Password
               </span>
-              <div className="">
-                <ChevronRight className="text-title-foreground" />
-              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -358,45 +359,38 @@ const AboutInfo: React.FC<AboutInfoProps> = ({ info }) => {
               <PenSquare />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
+          <DropdownMenuContent className="w-56 mr-8  rounded-lg bg-card">
+            <DropdownMenuLabel>Edit</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
                 setDisplayCreate.on(), setDisplayModal("CHANGE_NAME");
               }}
-              className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+              className="flex justify-between h-9 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
             >
-              <span className="text-title-foreground whitespace-nowrap">
+              <span className="flex items-center transform transition-colors duration-125 w-full border-r-4 border-transparent hover:border-indigo-700">
                 Change Name
               </span>
-              <div className="">
-                <ChevronRight className="text-title-foreground" />
-              </div>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 setDisplayCreate.on(), setDisplayModal("UPDATE_BIO");
               }}
-              className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+              className="flex justify-between h-9 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
             >
-              <span className="text-title-foreground whitespace-nowrap">
+              <span className="flex items-center transform transition-colors duration-125 w-full border-r-4 border-transparent hover:border-indigo-700">
                 Update Bio
               </span>
-              <div className="">
-                <ChevronRight className="text-title-foreground" />
-              </div>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 setDisplayCreate.on(), setDisplayModal("EDIT_MORE");
               }}
-              className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
+              className="flex justify-between h-9  rounded-lg cursor-pointer items-center w-full hover:bg-hover"
             >
-              <span className="text-title-foreground whitespace-nowrap">
+              <span className="flex items-center transform transition-colors duration-125 w-full border-r-4 border-transparent hover:border-indigo-700">
                 Edit Detail
               </span>
-              <div className="">
-                <ChevronRight className="text-title-foreground" />
-              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

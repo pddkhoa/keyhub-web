@@ -1,10 +1,87 @@
+import { createAxios } from "@/api/createInstance";
 import { CardUser } from "@/components/Card/cardUser";
 import { SlideUser } from "@/components/Swipers/slideUser";
 import { Button } from "@/components/ui/button";
+import { Nodata } from "@/components/ui/nodata";
+import { SkeletonUser } from "@/components/ui/skeleton";
+import useLoadingLazy from "@/hooks/useLoadingLazy";
+import { loginSuccess } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
+import User from "@/types/user";
 import { Label } from "@radix-ui/react-label";
 import { SlidersHorizontal } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Users = () => {
+  const [indexPage, setIndexPage] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isLoadingUserMost, setIsLoadingUserMost] = useState(false);
+  const [userMost, setUserMost] = useState<User[]>([]);
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.login);
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const accessToken = user?.data.token;
+
+  const getUserAllCustom = async (
+    indexPage: any,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    return await ClientServices.getUserAll(indexPage, accessToken, axiosJWT);
+  };
+  const { isLoading, result, hasNextPage } = useLoadingLazy<User>(
+    indexPage,
+    getUserAllCustom
+  );
+
+  const intObserver = useRef<any>();
+  const lastUserRef = useCallback(
+    (data: User) => {
+      if (isLoading) return;
+      if (intObserver.current) {
+        intObserver.current.disconnect();
+      }
+      intObserver.current = new IntersectionObserver((datas) => {
+        if (datas[0].isIntersecting && hasNextPage && !isLoading) {
+          setIsLoadingMore(true);
+          setIndexPage((prev) => prev + 1);
+        }
+        if (!hasNextPage) setIsLoadingMore(false);
+      });
+      if (data) intObserver.current.observe(data);
+    },
+    [isLoading, hasNextPage]
+  );
+
+  const content =
+    result &&
+    result.length > 0 &&
+    result.map((data, i) => {
+      if (result.length === i + 1) {
+        return <CardUser ref={lastUserRef} key={data.id} data={data} />;
+      }
+      return <CardUser key={data.id} data={data} />;
+    });
+
+  useEffect(() => {
+    setIsLoadingUserMost(true);
+    const fetchData = async () => {
+      const { body } = await ClientServices.getUserMost(accessToken, axiosJWT);
+
+      if (body?.success) {
+        setUserMost(body?.result);
+
+        setIsLoadingUserMost(false);
+      } else {
+        console.log(body?.message);
+        setIsLoadingUserMost(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
       <div className="flex flex-col gap-5">
@@ -73,7 +150,7 @@ export const Users = () => {
         <div className="mb-4 flex flex-col gap-5 h-fit ">
           <Label className="text-title text-xl font-bold">Suggestions</Label>
           <div className="w-full ">
-            <SlideUser />
+            <SlideUser user={userMost} loading={isLoadingUserMost} />
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -94,20 +171,33 @@ export const Users = () => {
               </svg>
               <input
                 placeholder="Search users"
-                id="posts-search"
+                id="datas-search"
                 className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
-            <Button>
+            <Button variant={"gradient"}>
               <SlidersHorizontal className="h-5 w-5" />
             </Button>
           </div>
 
           <div className="grid grid-cols-4 gap-5 mt-8">
-            <CardUser />
-            <CardUser />
-            <CardUser />
-            <CardUser />
+            {result && result.length > 0 ? (
+              content
+            ) : (
+              <div className="col-span-4">
+                <Nodata />
+              </div>
+            )}
+            {isLoadingMore && (
+              <>
+                <SkeletonUser />
+              </>
+            )}
+            {/* {!isLoading && !hasNextPage && (
+              <div className="col-span-4 text-center text-gray-500">
+                All users have been loaded.
+              </div>
+            )} */}
           </div>
         </div>
       </div>

@@ -21,6 +21,7 @@ import { EditBlog } from "@/components/Editor/editBlog";
 import PublicRouter from "./publicRouter";
 import { Bookmark } from "@/pages/Bookmark/bookmark";
 import { Users } from "@/pages/Users/users";
+import { CategoriesDetail } from "@/pages/Categories/detail";
 
 const AppRouter = () => {
   return (
@@ -38,6 +39,8 @@ const AppRouter = () => {
         <Route element={<PrivateRouter />}>
           <Route path="profile/update" element={<UpdateProfile />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="user/:id" element={<Profile />} />
+
           <Route path="categories" element={<Categories />} />
 
           <Route path="explore" element={<Explore />} />
@@ -49,7 +52,8 @@ const AppRouter = () => {
           <Route path="bookmark" element={<Bookmark />} />
           <Route path="draft" element={<ListDraft />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="users" element={<Users />} />
+          <Route path="categories/:id" element={<CategoriesDetail />} />
+          <Route path="user" element={<Users />} />
         </Route>
       </Route>
 

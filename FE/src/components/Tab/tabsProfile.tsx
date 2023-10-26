@@ -29,6 +29,7 @@ import seriesType from "@/types/series";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
 import { Nodata } from "../ui/nodata";
+import { useParams } from "react-router";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
@@ -39,20 +40,57 @@ export const TabsProfile = () => {
   const [activeBlog, setActiveBlog] = useState(false);
   const blog = useSelector((state: RootState) => state.blog.blog.result);
   const user = useSelector((state: RootState) => state.auth.login);
+  const userData = useSelector((state: RootState) => state.user.detail?.data);
 
   const dispatch = useDispatch();
   const axiosJWT = createAxios(user, dispatch, loginSuccess);
 
+  const { id } = useParams();
+  const [isUser, setIsUser] = useState(false);
+  const [blogUser, setBlogUser] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(false);
+  const userId = Number(id);
+  console.log(isUser);
+
+  const accessToken = user?.data.token;
+
   useEffect(() => {
-    if (user?.data.token) {
-      try {
-        ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
-        ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
-      } catch (error) {
-        console.log(error);
-      }
+    if (!userId || userData.id !== Number(userId)) {
+      const isUser = !userId || userData.id === Number(userId);
+      setIsUser(isUser);
+    }
+  });
+
+  useEffect(() => {
+    try {
+      ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+    } catch (error) {
+      console.log(error);
     }
   }, [adding]);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchBlogUser = async () => {
+        setLoading(true);
+        const { body } = await ClientServices.getBlogByUserId(
+          userId,
+          accessToken,
+          axiosJWT
+        );
+        if (body?.success) {
+          setBlogUser(body?.result);
+          setLoading(false);
+        } else {
+          console.log(body?.message);
+          setLoading(false);
+        }
+      };
+
+      fetchBlogUser();
+    }
+  }, [userId]);
 
   return (
     <div>
@@ -65,7 +103,7 @@ export const TabsProfile = () => {
           </div>
         </div>
       </div>
-      <div className="w-full min-h-0  p-3 space-y-3">
+      <div className="w-full min-h-0  p-1.5 space-y-3">
         <div className="w-full bg-card shadow-lg  rounded-lg overflow-hidden">
           <div className="py-2 px-6 flex justify-between items-center">
             <span className="font-semibold text-title text-xl">{tabs}</span>
@@ -138,12 +176,21 @@ export const TabsProfile = () => {
             </div>
           </div>
         </div>
-        <TabContent
-          tabName={tabs}
-          optionview={option}
-          data={blog}
-          setActiveBlog={setActiveBlog}
-        />
+        {!isUser ? (
+          <TabContent
+            tabName={tabs}
+            optionview={option}
+            data={blogUser}
+            setActiveBlog={setActiveBlog}
+          />
+        ) : (
+          <TabContent
+            tabName={tabs}
+            optionview={option}
+            data={blog}
+            setActiveBlog={setActiveBlog}
+          />
+        )}
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "FILTER" ? (
@@ -178,9 +225,41 @@ export const TabContent: React.FC<TabsContentProps> = ({
   const axiosJWT = createAxios(auth, dispatch, loginSuccess);
   const accessToken = auth?.data.token;
   const [blogData, setBlogData] = useState<BlogPost[]>([]);
-
   const [seriesSelected, setSeriesSelected] = useState<seriesType>();
+  const { id } = useParams();
+  const [isUser, setIsUser] = useState(false);
+  const [seriesData, setSeriesData] = useState<seriesType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const userData = useSelector((state: RootState) => state.user.detail?.data);
 
+  const userId = Number(id);
+
+  useEffect(() => {
+    const isUser = !userId || userData.id === Number(userId);
+    setIsUser(isUser);
+  }, [userData, userId]);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchSeriesByUser = async () => {
+        setLoading(true);
+        const { body } = await ClientServices.getSeriesByUserId(
+          userId,
+          accessToken,
+          axiosJWT
+        );
+        if (body?.success) {
+          setSeriesData(body?.result);
+          setLoading(false);
+        } else {
+          console.log(body?.message);
+          setLoading(false);
+        }
+      };
+
+      fetchSeriesByUser();
+    }
+  }, [userId]);
   const listSeries = useSelector(
     (state: RootState) => state.series.series.result
   );
@@ -193,7 +272,11 @@ export const TabContent: React.FC<TabsContentProps> = ({
           accessToken,
           axiosJWT
         );
-        setBlogData(body?.result);
+        if (body?.success) {
+          setBlogData(body?.result);
+        } else {
+          console.log(body?.message);
+        }
       };
 
       if (expanded) {
@@ -290,8 +373,24 @@ export const TabContent: React.FC<TabsContentProps> = ({
                     ))
                   : null}
               </>
-            ) : listSeries && listSeries.length > 0 ? (
-              listSeries.map((item) => (
+            ) : isUser ? (
+              listSeries && listSeries.length > 0 ? (
+                listSeries.map((item) => (
+                  <div className="col-span-2 h-full ">
+                    <CardSeries
+                      data={item}
+                      setExpanded={setExpanded}
+                      setSeriesSelected={setSeriesSelected}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-4">
+                  <Nodata />
+                </div>
+              )
+            ) : seriesData && seriesData.length > 0 ? (
+              seriesData.map((item) => (
                 <div className="col-span-2 h-full ">
                   <CardSeries
                     data={item}

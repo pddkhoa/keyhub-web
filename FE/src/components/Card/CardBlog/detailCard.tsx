@@ -1,11 +1,47 @@
+import { createAxios } from "@/api/createInstance";
 import AlphabetAvatar from "@/components/Avatar/avatar";
+import { showToast } from "@/hooks/useToast";
+import { loginSuccess } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
 import BlogPost from "@/types/blog";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 interface DetailCardProps {
   data: BlogPost;
 }
 
 export const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
+  const user = useSelector((state: RootState) => state.auth.login);
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const accessToken = user?.data.token;
+  const [isLike, setIsLike] = useState(data.isLike);
+
+  const handleLike = async (id: number) => {
+    if (!isLike) {
+      // Nếu chưa follow, thực hiện follow
+      const { body } = await ClientServices.likeBlog(id, accessToken, axiosJWT);
+      if (body?.success) {
+        setIsLike(true);
+        showToast(body?.message, "success");
+      } else {
+        showToast("Error", "error");
+        console.log(body?.message);
+      }
+    } else {
+      // Nếu chưa follow, thực hiện follow
+      const { body } = await ClientServices.likeBlog(id, accessToken, axiosJWT);
+      if (body?.success) {
+        setIsLike(false);
+        showToast(body?.message, "success");
+      } else {
+        console.log(body?.message);
+      }
+    }
+  };
+
   return (
     <article className="mb-4 mx-2 break-inside p-6 rounded-xl bg-card flex flex-col bg-clip-border">
       <div className="flex pb-6 items-center justify-between">
@@ -49,7 +85,10 @@ export const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
       </div>
       <p className="text-title-foreground">{data.description}</p>
       <div className="py-4">
-        <a className="inline-flex items-center" href="#">
+        <div
+          className="inline-flex items-center"
+          onClick={() => handleLike(data.id)}
+        >
           <span className="mr-2">
             <svg
               className="fill-rose-600 dark:fill-rose-400"
@@ -62,7 +101,7 @@ export const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
           <span className="text-lg font-bold text-title-foreground">
             {data.likes}
           </span>
-        </a>
+        </div>
       </div>
       <div className="relative">
         <input

@@ -26,6 +26,7 @@ export const Explore = () => {
   const [blogLastest, setBlogLastest] = useState<BlogPost[]>();
   const [blogMostLike, setBlogMostLike] = useState<BlogPost[]>();
   const [blogMostView, setBlogMostView] = useState<BlogPost[]>();
+  const [maxPages, setMaxPages] = useState<number>();
 
   const [index, setIndex] = useState<number>(1);
 
@@ -108,6 +109,25 @@ export const Explore = () => {
     fetchBlogMostView();
   }, [index]);
 
+  useEffect(() => {
+    const fetchSizeBlog = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getSizeBlogExplore(
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setMaxPages(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchSizeBlog();
+  }, [index]);
+
   const handlePageChange = (pageIndex: number) => {
     setIndex(pageIndex);
   };
@@ -183,7 +203,7 @@ export const Explore = () => {
                       <Pagination
                         page={index}
                         setPage={handlePageChange}
-                        maxPage={10}
+                        maxPage={maxPages ? maxPages : 100}
                       />
                     </div>
                   </div>
@@ -209,7 +229,7 @@ export const Explore = () => {
                       <Pagination
                         page={index}
                         setPage={handlePageChange}
-                        maxPage={10}
+                        maxPage={maxPages ? maxPages : 100}
                       />
                     </div>
                   </div>
@@ -235,7 +255,7 @@ export const Explore = () => {
                       <Pagination
                         page={index}
                         setPage={handlePageChange}
-                        maxPage={10}
+                        maxPage={maxPages ? maxPages : 100}
                       />
                     </div>
                   </div>
@@ -261,7 +281,7 @@ export const Explore = () => {
                       <Pagination
                         page={index}
                         setPage={handlePageChange}
-                        maxPage={10}
+                        maxPage={maxPages ? maxPages : 100}
                       />
                     </div>
                   </div>

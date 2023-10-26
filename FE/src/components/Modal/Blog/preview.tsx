@@ -1,5 +1,10 @@
+import { UserAvatar } from "@/components/Avatar/avatar";
+import { Comments } from "@/components/Comment/comment";
 import { Button } from "@/components/ui/button";
-import { View, Image } from "lucide-react";
+import BlogPost from "@/types/blog";
+import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type PreviewProps = {
   setFlag: {
@@ -7,12 +12,14 @@ type PreviewProps = {
     off: () => void;
     toggle: () => void;
   };
+  data: BlogPost;
 };
 
-export const Preview: React.FC<PreviewProps> = ({ setFlag }) => {
+export const Preview: React.FC<PreviewProps> = ({ setFlag, data }) => {
+  const [openComment, setOpenComment] = useState(false);
   return (
-    <div className="w-5/6 h-full 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125 overflow-y-scroll">
-      <div className="h-full flex flex-col space-y-5">
+    <div className="w-5/6 h-full 2xl:w-xl sm:x-0  rounded-xl shadow bg-card brightness-125 ">
+      <div className="h-full flex flex-col">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <h1 className="text-lg grow text-title">Preview</h1>
           <button
@@ -32,37 +39,37 @@ export const Preview: React.FC<PreviewProps> = ({ setFlag }) => {
         <div className="grid grid-cols-8 px-4 h-full pb-4 overflow-y-auto">
           <div className=" col-span-6 h-full  rounded-lg">
             <div className="flex flex-col space-y-5 p-1.5">
-              <div className="text-title text-2xl font-bold">
-                An Introduction to Federated GraphQL
+              <div className="mt-2 flex gap-2">
+                <UserAvatar size={65} data={data.users.avatar} />
+                <div className="flex flex-col mt-2">
+                  <div className="text-xl text-title-foreground font-bold">
+                    {data.users.name}
+                  </div>
+                  <div className="text-md text-blue-700">
+                    @{data.users.second_name}
+                  </div>
+                </div>
               </div>
+              <div className="text-title text-2xl font-bold">{data.title}</div>
               <div className="border-l-4 border-border p-1 ">
-                <p className="ml-2 text-title-foreground">
-                  TLDRIn an ideal version of this world, your monolithic backend
-                  would be modularized and factored into discrete services with
-                  well-defined boundaries. WunderGraph Cosmo can help you
-                  implement federated graphs that augment your modular,
-                  microservices-based development, help you scale up and move
-                  fast without breaking things.
-                </p>
+                <p className="ml-2 text-title-foreground">{data.description}</p>
               </div>
               <div className="flex flex-wrap gap-3">
-                <span className="p-1.5 bg-input text-title-foreground text-sm rounded-lg font-bold hover:brightness-125 cursor-pointer ">
-                  #typescripts
-                </span>
-                <span className="p-1.5 bg-input text-title-foreground text-sm rounded-lg font-bold hover:brightness-125 cursor-pointer">
-                  #typescripts
-                </span>
-                <span className="p-1.5 bg-input text-title-foreground text-sm rounded-lg font-bold hover:brightness-125 cursor-pointer">
-                  #typescripts
-                </span>
-                <span className="p-1.5 bg-input text-title-foreground text-sm rounded-lg font-bold hover:brightness-125 cursor-pointer">
-                  #typescripts
-                </span>
+                {data.tags && data.tags.length > 0
+                  ? data.tags.map((item) => (
+                      <span
+                        key={item.id}
+                        className="p-1.5 bg-input text-title-foreground text-sm rounded-lg font-bold hover:brightness-125 cursor-pointer "
+                      >
+                        #{item.name}
+                      </span>
+                    ))
+                  : null}
               </div>
-              <div className="h-64 w-3/4 mx-auto">
+              <div className="h-80 w-3/4 mx-auto">
                 <img
                   className="w-full h-full object-cover rounded-xl hover:brightness-125"
-                  src="https://res.cloudinary.com/daily-now/image/upload/f_auto,q_auto/v1/posts/14aafb53287e365d83b70f7848b07076?_a=AQAEufR"
+                  src={data.avatar}
                 />
               </div>
               <div className="flex gap-5">
@@ -99,40 +106,252 @@ export const Preview: React.FC<PreviewProps> = ({ setFlag }) => {
                 </span>
               </div>
             </div>
-            <div className="border-t-2 ">
-              <div className="flex gap-x-4 mx-4  items-center my-5 text-title ">
-                <span className="text-xl">Comments</span>
+            <div className="border-t-2 p-2">
+              {openComment ? (
+                <div className="relative mx-4 mt-4 flex flex-col bg-card rounded-xl space-y-5">
+                  <Comments idBlog={data.id} />
+                </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    setOpenComment(!openComment);
+                  }}
+                  className="flex items-center w-full rounded-xl typo-callout border border-border my-6 p-3 hover:bg-hover cursor-pointer"
+                >
+                  <img
+                    src="https://res.cloudinary.com/daily-now/image/upload/s--sYrpGLn---/f_auto,q_auto/v1694801471/avatars/avatar_mDenuln7M9yJMqBFVVMNi"
+                    alt="pddkhoavn2k2's profile"
+                    className="object-cover w-10 h-10 rounded-lg"
+                    loading="lazy"
+                  />
+                  <span className="ml-4 text-title-foreground">
+                    Share your thoughts
+                  </span>
+                  <Button variant={"gradient"} className="ml-auto">
+                    Post
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className=" col-span-2">
+            <div className="flex flex-col w-full p-1 mt-4 gap-5 justify-center items-center self-center">
+              <Link to={`/blog/${data.id}`}>
+                <Button variant={"gradient"}>Read Post</Button>
+              </Link>
+              <div className="h-fit w-full border rounded-xl ">
+                <div className="flex relative flex-row p-3">
+                  <a className="flex items-center no-underline">
+                    <div
+                      aria-label="Community Picks"
+                      className="rounded-full cursor-pointer w-12 h-12 relative overflow-hidden"
+                      style={{
+                        background: "var(--theme-background-secondary)",
+                      }}
+                    >
+                      <img
+                        className="absolute block inset-0 w-full h-full m-auto object-cover"
+                        alt="Community Picks"
+                        src="https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community"
+                      />
+                    </div>
+                  </a>
+                  <div className="flex flex-col ml-2">
+                    <a className="font-bold text-lg  text-title-foreground flex items-center no-underline">
+                      Community Picks
+                    </a>
+                    <a className="text-md text-blue-600">@community</a>
+                  </div>
+                </div>
+                <div className="flex relative flex-row p-3">
+                  <a className="flex items-center no-underline">
+                    <div
+                      aria-label="Community Picks"
+                      className="rounded-full cursor-pointer w-12 h-12 relative overflow-hidden"
+                      style={{
+                        background: "var(--theme-background-secondary)",
+                      }}
+                    >
+                      <img
+                        className="absolute block inset-0 w-full h-full m-auto object-cover"
+                        alt="Community Picks"
+                        src="https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community"
+                      />
+                    </div>
+                  </a>
+                  <div className="flex flex-col ml-2">
+                    <a className="font-bold text-lg  text-title-foreground flex items-center no-underline">
+                      Community Picks
+                    </a>
+                    <a className="text-md text-blue-600">@community</a>
+                  </div>
+                </div>
               </div>
-              <div className="relative mx-4 mt-4 flex flex-col bg-card rounded-xl space-y-5">
-                <div className="flex flex-col h-fit">
-                  <div className="flex flex-row w-full p-3">
-                    <img
-                      className="object-cover w-12 h-12 border-2 border-gray-300 rounded-full"
-                      alt="Noob master's avatar"
-                      src="https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&faces=1&faceindex=1&facepad=2.5&w=500&h=500&q=80"
-                    />
-                    <span className="flex relative flex-1 p-3">
-                      <textarea
-                        className="flex flex-1 bg-transparent outline-none rounded-lg text-title-foreground p-2"
-                        rows={3}
-                      ></textarea>
+              <div className="h-fit w-full border rounded-xl p-4">
+                <Label className="text-title-foreground text-lg">
+                  Categories recommend{" "}
+                </Label>
+                <div className="grid grid-cols-3 gap-2 gap-y-4 mt-4">
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
                     </span>
                   </div>
-                  <div className="flex flex-row gap-3 justify-between items-center p-3 px-4 border-t text-title-foreground">
-                    <div className="flex gap-4">
-                      <Image className="hover:brightness-110 cursor-pointer" />
-                      <View className="hover:brightness-110 cursor-pointer" />
-                    </div>
-                    <div>
-                      <Button>Post Comment</Button>
-                    </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="h-fit w-full border rounded-xl p-4">
+                <Label className="text-title-foreground text-lg">
+                  Users recommend{" "}
+                </Label>
+                <div className="grid grid-cols-3 gap-2 gap-y-4 mt-4">
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center w-16">
+                    <button className="iconOnly medium btn flex-row items-center border typo-callout font-bold no-underline shadow-none cursor-pointer select-none focus-outline justify-center flex relative">
+                      <div className="object-cover w-10 h-10 rounded-full relative overflow-hidden">
+                        <img
+                          className="absolute block inset-0 w-full h-full m-auto object-cover ls-is-cached lazyloaded"
+                          data-src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                          alt="projectboard's profile"
+                          src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
+                        />
+                      </div>
+                    </button>
+                    <span className="mt-1.5 max-w-[4rem] text-title-foreground overflow-hidden overflow-ellipsis text-center typo-caption1 text-theme-label-tertiary cursor-pointer">
+                      @projectboard
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className=" col-span-2 border rounded-lg">
-            <div className="flex flex-auto p-2"></div>
           </div>
         </div>
       </div>

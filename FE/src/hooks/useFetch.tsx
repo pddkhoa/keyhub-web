@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "./useToast";
 import { loginFailed, loginStart, loginSuccess } from "@/redux/authSlice";
 import { TokenType } from "@/types/token";
-import User from "@/types/user";
-import { register } from "module";
 import { useDispatch } from "react-redux";
 import { AnyAction } from "@reduxjs/toolkit";
 

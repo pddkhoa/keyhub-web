@@ -17,6 +17,8 @@ import { ModeToggle } from "../DarkMode/modeToggle";
 import { createAxios } from "@/api/createInstance";
 import { logOutSuccess } from "@/redux/authSlice";
 import { logOut } from "@/services/access/apiRequest";
+import { Button } from "../ui/button";
+import { ButtonAddPost } from "../ui/buttonAddPost";
 
 const Header = () => {
   const { data } = useSelector((state: RootStateToken) => state.auth.login);
@@ -43,6 +45,9 @@ const Header = () => {
           <div className="flex gap-5 items-center justify-end mx-4">
             {data.token ? (
               <>
+                <Link to={"/editor"}>
+                  <ButtonAddPost />
+                </Link>
                 <a
                   href="#"
                   className="block shrink-0 rounded-full  p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground"
@@ -73,7 +78,7 @@ const Header = () => {
                       <AlphabetAvatar size={40} />
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-64 mr-4 ">
+                  <DropdownMenuContent className="w-80 mr-4 ">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuItem
                       onClick={() => {

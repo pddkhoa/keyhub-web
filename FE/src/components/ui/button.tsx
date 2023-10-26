@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: " text-title hover:brightness-105",
         gradient:
-          "bg-gradient-to-r from-violet-400 to-pink-400 text-white hover:brightness-110",
+          "cursor-pointer text-white uppercase bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro text-xs ease-soft-in tracking-tight-soft  shadow-lg hover:scale-[1.1]  rounded-full px-5 py-2 ",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:

@@ -1,6 +1,39 @@
+import { createAxios } from "@/api/createInstance";
 import { CardCategories } from "@/components/Card/cardCategories";
+import { Nodata } from "@/components/ui/nodata";
+import { loginSuccess } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
+import CategoryType from "@/types/categories";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Categories = () => {
+  const user = useSelector((state: RootState) => state.auth.login);
+  const dispatch = useDispatch();
+  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const accessToken = user?.data.token;
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      const { body } = await ClientServices.getCategories(
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        setCategories(body?.result);
+        setLoading(false);
+      } else {
+        console.log(body?.message);
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
       <div className="mb-4">
@@ -92,10 +125,11 @@ export const Categories = () => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-5 ">
-        <CardCategories />
-        <CardCategories />
-        <CardCategories />
-        <CardCategories />
+        {categories && categories.length > 0 ? (
+          categories.map((item) => <CardCategories key={item.id} data={item} />)
+        ) : (
+          <Nodata />
+        )}
       </div>
     </div>
   );

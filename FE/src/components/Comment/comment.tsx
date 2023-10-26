@@ -4,7 +4,7 @@ import { loginSuccess } from "@/redux/authSlice";
 import ClientServices from "@/services/client/client";
 import CommentType from "@/types/comment";
 import { RootStateToken } from "@/types/token";
-import { ChevronUp, MessagesSquare, View, Image } from "lucide-react";
+import { ChevronUp, View, Image } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -13,11 +13,15 @@ import convertDate from "../FormatDate/formatDate";
 import { Button } from "../ui/button";
 import { IconComment, IconDelete } from "../ui/icon";
 
-export const Comments = () => {
+interface CommentsProps {
+  idBlog?: number;
+}
+
+export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
   const [comment, setComment] = useState<CommentType[]>();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const blog_id = Number(id);
+  const blogid = Number(id);
   const [loading, setLoading] = useState(false);
   const [posting, setPosting] = useState(false);
 
@@ -30,6 +34,12 @@ export const Comments = () => {
   useEffect(() => {
     setLoading(true);
     const fetchComment = async () => {
+      let selectedId = blogid; // Sử dụng giá trị ban đầu là blog_id
+
+      if (!selectedId && idBlog) {
+        selectedId = idBlog; // Nếu blog_id không tồn tại, sử dụng idBlog thay thế
+      }
+      const blog_id = blogid ? blogid : selectedId;
       try {
         const { body } = await ClientServices.getCommentByBlog(
           blog_id,
@@ -75,7 +85,7 @@ export const Comments = () => {
         Comments
       </div>
       <div className="relative flex flex-col bg-card rounded-xl">
-        <CommentForm setPosting={setPosting} />
+        <CommentForm setPosting={setPosting} idBlog={idBlog} />
       </div>
 
       {rootComment && rootComment.length > 0
@@ -90,6 +100,7 @@ export const Comments = () => {
                 setActiveComment={setActiveComment}
                 setPosting={setPosting}
                 nestingLevel={0}
+                idBlog={idBlog}
               />
             </>
           ))
@@ -108,16 +119,16 @@ interface CommentProps {
   parentId?: number;
   childComment: any;
   nestingLevel: number;
+  idBlog?: number;
 }
 
 export const Comment: React.FC<CommentProps> = ({
   comment,
-  child,
   isChild,
   activeComment,
   setActiveComment,
   setPosting,
-  parentId,
+  idBlog,
   childComment,
   nestingLevel,
 }) => {
@@ -278,6 +289,7 @@ export const Comment: React.FC<CommentProps> = ({
             setPosting={setPosting}
             parentId={comment.id}
             setActiveComment={setActiveComment}
+            idBlog={idBlog}
           />
         </div>
       )}
@@ -311,16 +323,19 @@ interface CommentFormProps {
   setPosting: React.Dispatch<React.SetStateAction<boolean>>;
   parentId?: number;
   setActiveComment?: React.Dispatch<React.SetStateAction<undefined>>;
+  idBlog?: number;
 }
 
 export const CommentForm: React.FC<CommentFormProps> = ({
   setPosting,
   parentId,
   setActiveComment,
+  idBlog,
 }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const blog_id = Number(id);
+  const blogid = Number(id);
+  const selectedId = blogid ? blogid : idBlog;
 
   const auth = useSelector((state: RootStateToken) => state.auth.login);
   const axiosJWT = createAxios(auth, dispatch, loginSuccess);
@@ -339,7 +354,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       setPosting(true);
       const { body } = await ClientServices.replyComment(
         report,
-        blog_id,
+        selectedId,
         accessToken,
         axiosJWT
       );
@@ -360,10 +375,9 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       content: InputComment,
     };
     if (InputComment) {
-      setPosting(true);
       const { body } = await ClientServices.addComment(
         report,
-        blog_id,
+        selectedId,
         accessToken,
         axiosJWT
       );
@@ -381,8 +395,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     event?.preventDefault();
     if (InputComment) {
       if (parentId) {
+        console.log(selectedId);
         handleReplyComment(InputComment);
       } else {
+        console.log(selectedId);
         handlePostComment(InputComment);
       }
     }

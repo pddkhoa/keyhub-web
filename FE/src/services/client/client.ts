@@ -8,6 +8,8 @@ import { getSeriesSuccess } from "@/redux/seriesSlice";
 import { getBlogFailed, getBlogSuccess } from "@/redux/blogSlice";
 import DraftPost from "@/types/draft";
 import CommentType from "@/types/comment";
+import User from "@/types/user";
+import LikeType from "@/types/like";
 
 class ClientServices {
   static updateProfile = async (
@@ -577,6 +579,215 @@ class ClientServices {
     };
     const res = await requestApiHelper<body>(
       axiosJWT.get(`api/v1/list/blog/${index}/views`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogInFeed = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/${index}/feed`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getUserAll = async (
+    index: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/network/${index}/all/follow`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getUserMost = async (accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/network/follow`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getSizeBlogExplore = async (accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: number;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/size`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getUserById = async (id: number, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/user-interactions/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getBlogByUserId = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/wall/${id}/blog`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static getSeriesByUserId = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: seriesType[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/wall/${id}/series`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static getCategories = async (accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: CategoryType[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/categories`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static getBlogByCategories = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: BlogPost[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/list/blog/category/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static followCategories = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/categories/${id}/follow`, null, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static followUser = async (id: number, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/user-interactions/${id}/follow`, null, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+
+  static likeBlog = async (id: number, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: LikeType;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/blog/${id}/like`, null, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static hideBlog = async (id: number, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: number;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/blog/${id}/hide`, null, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
     );
