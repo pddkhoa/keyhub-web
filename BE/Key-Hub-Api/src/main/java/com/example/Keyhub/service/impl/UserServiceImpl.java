@@ -67,6 +67,8 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IStoryService iStoryService;
     @Autowired
+    IBlogHIdeRepository blogHIdeRepository;
+    @Autowired
     ISeriesImageRepository iSeriesImageRepository;
     @Autowired
     IAddressRepository addressRepository;
@@ -544,17 +546,14 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDTO> userResponseDTOs = users2.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
-                    for (Users users1: users2)
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
                     {
-                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
-                        if (follow!=null)
-                        {
-                            userResponseDTO.setCheckStatusFollow(true);
-                        }
-                        else
-                        {
-                            userResponseDTO.setCheckStatusFollow(false);
-                        }
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
                     }
                     userResponseDTO.setCheckFollowCategory(false);
                     logger.error("Ivalid JWT sinature ->Message: {}", userResponseDTO.getSumBLog());
@@ -585,17 +584,14 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
-                    for (Users users1: usersList)
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
                     {
-                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
-                        if (follow!=null)
-                        {
-                            userResponseDTO.setCheckStatusFollow(true);
-                        }
-                        else
-                        {
-                            userResponseDTO.setCheckStatusFollow(false);
-                        }
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
                     }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
@@ -691,6 +687,19 @@ public class UserServiceImpl implements IUserService {
         responseDTO.setUser(createUserResponse(users));
         responseDTO.setReason(dto.getReason());
         return responseDTO;
+    }
+    @Override
+    public boolean hideBlog(BigInteger blog_id, Users users) {
+        Blog blog = blogRepository.findById(blog_id).orElse(null);
+        if (blog==null)
+        {
+            return false;
+        }
+        BlogHide blogHide = new BlogHide();
+        blogHide.setBlog(blog);
+        blogHide.setUsers(users);
+        blogHIdeRepository.save(blogHide);
+        return true;
     }
 
     @Transactional

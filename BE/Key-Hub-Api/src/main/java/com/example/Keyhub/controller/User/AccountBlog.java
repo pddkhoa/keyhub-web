@@ -7,7 +7,6 @@ import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
@@ -15,19 +14,14 @@ import com.example.Keyhub.service.ICommentService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,48 +29,66 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/blog")
 public class AccountBlog {
-    @Autowired
+    final
     ISeriesImageRepository seriesImageRepository;
-    @Autowired
+    final
     IUserService userService;
-    @Autowired
+    final
     ICommentService commentService;
-    @Autowired
+    final
     IBlogLikeRepository blogLikeRepository;
-    @Autowired
+    final
     IBlogSaveRepository blogSaveRepository;
-    @Autowired
+    final
     ICommentRepository commentRepository;
-    @Autowired
+    final
     Cloudinary cloudinary;
-    @Autowired
+    final
     IBlogSaveRepository iBlogSaveRepository;
-    @Autowired
-    private IBLogService ibLogService;
-    @Autowired
-    private ISeriesRepository seriesRepository;
-    @Autowired
+    private final IBLogService ibLogService;
+    private final ISeriesRepository seriesRepository;
+    final
     IUserService iUserService;
-    @Autowired
+    final
     UploadImageService uploadImageService;
-    @Autowired
+    final
     ModelMapper modelMapper;
-    @Autowired
+    final
     IBlogImange iBlogImange;
-    @Autowired
+    final
     ICategoryRepository iCategoryRepository;
-    @Autowired
+    final
     ITagRepository iTagRepository;
-    @Autowired
+    final
     IBlogRepository blogRepository;
+
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange) {
+        this.blogLikeRepository = blogLikeRepository;
+        this.seriesImageRepository = seriesImageRepository;
+        this.userService = userService;
+        this.commentService = commentService;
+        this.iTagRepository = iTagRepository;
+        this.blogSaveRepository = blogSaveRepository;
+        this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+        this.cloudinary = cloudinary;
+        this.iBlogSaveRepository = iBlogSaveRepository;
+        this.blogRepository = blogRepository;
+        this.uploadImageService = uploadImageService;
+        this.modelMapper = modelMapper;
+        this.ibLogService = ibLogService;
+        this.iCategoryRepository = iCategoryRepository;
+        this.seriesRepository = seriesRepository;
+        this.iUserService = iUserService;
+        this.iBlogImange = iBlogImange;
+    }
 
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -84,11 +96,11 @@ public class AccountBlog {
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
 
-    @Autowired
+    final
     IUserRepository userRepository;
 
     @RequestMapping(value = "/upload-video", method = RequestMethod.POST)
-    public ResponseEntity uploadVideo(@RequestParam MultipartFile video_file, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> uploadVideo(@RequestParam MultipartFile video_file, HttpServletRequest request, HttpServletResponse response) {
         if (!ValidatorUtils.validateMineVideoFile(video_file))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -132,15 +144,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        Cookie tempoUrl = new Cookie("tempoUrl",tempImageUrls);
-        tempoUrl.setMaxAge(60*60*24);
-        response.addCookie(tempoUrl);
-        if (currentImageUrls != null) {
-            url = currentImageUrls + "-" + url;
-        }
-        Cookie imageUrlsCookie = new Cookie("temporaryImageUrls", url);
-        imageUrlsCookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(imageUrlsCookie);
+        url = getString(response, url, currentImageUrls, tempImageUrls);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -150,16 +154,32 @@ public class AccountBlog {
                         .build()
                 );
     }
+
+    private String getString(HttpServletResponse response, String url, String currentImageUrls, String tempImageUrls) {
+        Cookie tempoUrl = new Cookie("tempoUrl",tempImageUrls);
+        tempoUrl.setMaxAge(60*60*24);
+        response.addCookie(tempoUrl);
+        if (currentImageUrls != null) {
+            url = currentImageUrls + "-" + url;
+        }
+        Cookie imageUrlsCookie = new Cookie("temporaryImageUrls", url);
+        imageUrlsCookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(imageUrlsCookie);
+        return url;
+    }
+
     @RequestMapping(value = "/upload-file", method = RequestMethod.POST)
     public ResponseEntity uploadFile(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         if (!ValidatorUtils.validateMineFile(file))
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(GenericResponse.builder()
-                        .success(false)
-                        .statusCode(HttpStatus.BAD_REQUEST.value())
-                        .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp, tiff, webp, svg+xml, pdf, doc, docx, xls, xlsx,ppt, pptx, odt, ods. Please validate the file again.")
-                        .build()
-                );
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp, tiff, webp, svg+xml, pdf, doc, docx, xls, xlsx,ppt, pptx, odt, ods. Please validate the file again.")
+                            .build()
+                    );
+        }
         String url = uploadImageService.uploadFile(file);
         Cookie[] cookies = request.getCookies();
         if (url==null)
@@ -191,15 +211,7 @@ public class AccountBlog {
         }
         if (tempImageUrls==null)
             tempImageUrls = url;
-        Cookie tempoUrl = new Cookie("tempoUrl",tempImageUrls);
-        tempoUrl.setMaxAge(60*60*24);
-        response.addCookie(tempoUrl);
-        if (currentImageUrls != null) {
-            url = currentImageUrls + "-" + url;
-        }
-        Cookie imageUrlsCookie = new Cookie("temporaryImageUrls", url);
-        imageUrlsCookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(imageUrlsCookie);
+        url = getString(response, url, currentImageUrls, tempImageUrls);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -210,7 +222,7 @@ public class AccountBlog {
                 );
     }
     @GetMapping(value="/fetchUrl")
-    public ResponseEntity fetchUrl( HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> fetchUrl( HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
 
         String tempImageUrls = null;
@@ -245,7 +257,7 @@ public class AccountBlog {
                 );
     }
     @RequestMapping(value = "/upload-avatar", method = RequestMethod.POST)
-    public ResponseEntity uploadAvatar(@RequestParam MultipartFile file) {
+    public ResponseEntity<GenericResponse> uploadAvatar(@RequestParam MultipartFile file) {
         if (!ValidatorUtils.validateMineFile(file))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -266,8 +278,8 @@ public class AccountBlog {
     }
     @Transactional
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
-    public ResponseEntity createBlog(@Valid @RequestBody BlogPostDTO body,
-                                     BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> createBlog(@Valid @RequestBody BlogPostDTO body,
+                                                      HttpServletRequest request, HttpServletResponse response) {
         List<String> errors = body.validateAndGetErrors();
         if (!errors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -339,7 +351,7 @@ public class AccountBlog {
     }
 
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
-    public ResponseEntity hideBlog( @RequestBody BlogPostDraftDTO body,
+    public ResponseEntity<GenericResponse> hideBlog( @RequestBody BlogPostDraftDTO body,
                                       HttpServletRequest request, HttpServletResponse response) {
         List<String> errors = body.validateAndGetErrors();
         if (!errors.isEmpty()) {
@@ -426,7 +438,7 @@ public class AccountBlog {
                 );
     }
     @PostMapping("/cancel")
-    public ResponseEntity cancelRequest(HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> cancelRequest(HttpServletResponse response) {
         Cookie emptyCookie = new Cookie("temporaryImageUrls", "");
         emptyCookie.setMaxAge(0);
         response.addCookie(emptyCookie);
@@ -443,15 +455,15 @@ public class AccountBlog {
                 );
     }
     @RequestMapping(value = "/image-series", method = RequestMethod.POST)
-    public ResponseEntity uploadSeriesImage(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> uploadSeriesImage(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         if (!ValidatorUtils.validateMineFile(file))
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        {return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericResponse.builder()
                         .success(false)
                         .statusCode(HttpStatus.BAD_REQUEST.value())
                         .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp. Please validate the file again.")
                         .build()
-                );
+                );}
         String url = uploadImageService.uploadFile(file);
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
@@ -479,7 +491,7 @@ public class AccountBlog {
                 );
     }
     @PatchMapping("/{series_id}/edit-series")
-    public ResponseEntity editSeries( @PathVariable BigInteger series_id,@Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> editSeries( @PathVariable BigInteger series_id,@Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
 
         Series seriesCheck= seriesRepository.findById(series_id).orElse(null);
         if (seriesCheck==null)
@@ -524,10 +536,7 @@ public class AccountBlog {
             seriesResponse.setDescription(series1.getDescription());
             seriesResponse.setCreateday(series1.getCreateday());
             SeriesImage seriesImage = seriesImageRepository.findBySeries(series1).orElse(null);
-            if (seriesCheck!=null)
-            {
-                seriesResponse.setImage(seriesImage.getUrlImage());
-            }
+            seriesResponse.setImage(seriesImage != null ? seriesImage.getUrlImage() : null);
 
             Cookie emptyCookie = new Cookie("seriesImage", "");
             emptyCookie.setMaxAge(0);
@@ -550,15 +559,16 @@ public class AccountBlog {
                 );
     }
     @PostMapping("/add-series")
-    public ResponseEntity addsSeries(@Valid @RequestBody SeriesDTO series, BindingResult bindingResult , HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors())
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(GenericResponse.builder()
-                        .success(false)
-                        .statusCode(HttpStatus.BAD_REQUEST.value())
-                        .message("The request has failed to execute. Please check the input data.")
-                        .build()
-                );
+    public ResponseEntity<GenericResponse> addsSeries(@Valid @RequestBody SeriesDTO series, BindingResult bindingResult , HttpServletRequest request, HttpServletResponse response) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("The request has failed to execute. Please check the input data.")
+                            .build()
+                    );
+        }
         Series seriesFind = seriesRepository.findByNameAndUser(series.getName(),getUserFromAuthentication());
         if(seriesFind==null){
         Series series1= iUserService.addSeries(series, getUserFromAuthentication());
@@ -608,24 +618,20 @@ public class AccountBlog {
     }
     @Transactional
     @DeleteMapping("/remove-series/{series_id}")
-    public ResponseEntity removeSeries( @PathVariable BigInteger series_id) {
+    public ResponseEntity<GenericResponse> removeSeries( @PathVariable BigInteger series_id) {
         Series series = seriesRepository.findById(series_id).orElse(null);
         if (series==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(series)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("Not found series")
                             .build()
                     );
         }
-        SeriesImage seriesImage = seriesImageRepository.findBySeries(series).orElse(null);
-        if (seriesImage!=null)
-        {
-            seriesImageRepository.delete(seriesImage);
-        }
+        seriesImageRepository.findBySeries(series).ifPresent(seriesImageRepository::delete);
         List<Blog> blogList= blogRepository.findBySeriesAndStatusOrderByCreateDateDesc(series,1);
         for (Blog blog :blogList)
         {
@@ -641,7 +647,7 @@ public class AccountBlog {
                 );
     }
     @GetMapping("/series/list")
-    public ResponseEntity getBlockList() {
+    public ResponseEntity<GenericResponse> getBlockList() {
         Users users = getUserFromAuthentication();
         List<SeriesResponse> list = iUserService.getAllSerieByUser(users);
         if (list.isEmpty()) {
@@ -663,7 +669,7 @@ public class AccountBlog {
                 );
     }
     @GetMapping("/category/list")
-    public ResponseEntity getListCategory() {
+    public ResponseEntity<GenericResponse> getListCategory() {
         List<Category> series1 = iCategoryRepository.findAll();
         if (series1.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK)
@@ -689,7 +695,7 @@ public class AccountBlog {
                 );
     }
     @GetMapping("/tags/list")
-    public ResponseEntity getListTag() {
+    public ResponseEntity<GenericResponse> getListTag() {
         List<Tag> series1 = iTagRepository.findAll();
         if (series1.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK)
@@ -715,9 +721,10 @@ public class AccountBlog {
                 );
     }
     @GetMapping("/{blog_id}")
-    public ResponseEntity getBlogById( @PathVariable BigInteger blog_id) {
+    public ResponseEntity<GenericResponse> getBlogById( @PathVariable BigInteger blog_id) {
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
         BlogDTO blogDTO = new BlogDTO();
+        assert newBlog != null;
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setContent(newBlog.getContent());
@@ -731,13 +738,7 @@ public class AccountBlog {
         Users users = getUserFromAuthentication();
         BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
         BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,newBlog);
-        if (blogSave==null)
-        {
-            blogDTO.setIsSave(false);
-        }
-        else {
-            blogDTO.setIsSave(true);
-        }
+        blogDTO.setIsSave(blogSave != null);
         if (blogLike==null)
         {
             blogDTO.setIsLike(false);
@@ -747,12 +748,12 @@ public class AccountBlog {
         }
 
         //Views
-        if (users.getId()!=newBlog.getUser().getId())
+        if (!Objects.equals(users.getId(), newBlog.getUser().getId()))
         {
             Long count = newBlog.getViews();
             if(count==null)
             {
-                count = Long.valueOf(1);
+                count = 1L;
             }
             else {
                 count= count+1;
@@ -866,7 +867,7 @@ public class AccountBlog {
                 );
     }
     @Transactional
-    @DeleteMapping("/{blogId}/cancle-save")
+    @DeleteMapping("/{blogId}/cancel-save")
     public ResponseEntity<?> disableSaveBlog(@PathVariable BigInteger blogId) {
         Users user = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blogId).orElse(null);
@@ -961,31 +962,6 @@ public class AccountBlog {
                         .result(blog)
                         .statusCode(HttpStatus.OK.value())
                         .message("Edit success")
-                        .build()
-                );
-    }
-    @PostMapping("/{blogId}/hide")
-    public ResponseEntity<?> hideBlog(@PathVariable BigInteger blogId) {
-        Blog blog = blogRepository.findById(blogId).orElse(null);
-        if (blog==null)
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(GenericResponse.builder()
-                            .success(false)
-                            .result(null)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Not found Blog")
-                            .build()
-                    );
-        }
-        blog.setStatus(0);
-        blogRepository.save(blog);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(GenericResponse.builder()
-                        .success(true)
-                        .result(blog.getStatus())
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Hide blog success")
                         .build()
                 );
     }
@@ -1107,7 +1083,7 @@ public class AccountBlog {
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
-                            .success(false)
+                            .success(true)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Not found blog")
                             .build()
@@ -1121,6 +1097,30 @@ public class AccountBlog {
                         .message("Report blog success")
                         .build()
                 );
+    }
+
+    @PostMapping("/{blog_id}/hide")
+    public ResponseEntity<GenericResponse> getBlogLikes(@PathVariable BigInteger blog_id) {
+        if (userService.hideBlog(blog_id,getUserFromAuthentication()))
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(true)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Hide blog successes")
+                            .build()
+                    );
+        }
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found blog")
+                            .build()
+                    );
     }
 }
 

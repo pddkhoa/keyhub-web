@@ -62,9 +62,8 @@ public interface IUserService {
 
     List<UserResponseDTO> searchUser(int index, String text, Users users);
     MessageResponseDTO sendChat(Users users , MessageDTO messageDTO);
-
     boolean exitUser(BigInteger id);
-
     ReportResponseDTO reportBlog(Users users , ReportDTO dto);
+    boolean hideBlog(BigInteger blog_id, Users users);
 
 }

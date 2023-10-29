@@ -1,10 +1,8 @@
 package com.example.Keyhub.controller.User;
 
-import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
-import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -38,7 +36,7 @@ public class WallUserController {
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
     @GetMapping("/{user_id}/blog")
-    public ResponseEntity getAllBlogByUser(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> getAllBlogByUser(@PathVariable BigInteger user_id) {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list = ibLogService.getAllByBlogInWallUser(users, user_id);
         if (list==null)
@@ -62,7 +60,7 @@ public class WallUserController {
                 );
     }
     @GetMapping("/{user_id}/series")
-    public ResponseEntity getAllSeriesByUserWallf(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> getAllSeriesByUserWall(@PathVariable BigInteger user_id) {
         Users users = getUserFromAuthentication();
         List<SeriesResponse> list = userService.getAllSerieByUserWall(users, user_id);
         if (list==null)
@@ -86,7 +84,7 @@ public class WallUserController {
                 );
     }
     @GetMapping("/{user_id}/user/categories")
-    public ResponseEntity getAllUserFollowCategory(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> getAllUserFollowCategory(@PathVariable BigInteger user_id) {
         List<CategoryResponseCardDTO> cardDTO = categoryService.getAllCategoryFollowByUser(getUserFromAuthentication(),user_id);
         if (cardDTO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK)

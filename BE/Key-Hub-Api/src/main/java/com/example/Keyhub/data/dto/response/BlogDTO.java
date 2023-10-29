@@ -2,8 +2,8 @@ package com.example.Keyhub.data.dto.response;
 
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.User;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class BlogDTO {
     private BigInteger id;
     private String title;

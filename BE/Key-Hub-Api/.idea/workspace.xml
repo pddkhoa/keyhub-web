@@ -33,8 +33,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -63,6 +63,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/Key-Hub-Api/src/main/java/com/example/Keyhub/config&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -88,11 +89,11 @@
       <recent name="C:\Users\Admin\Desktop\Key-Hub-Api\src\main\java\com\example\Keyhub" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.Keyhub.data.entity.Blog" />
       <recent name="com.example.Keyhub.data.dto.response" />
       <recent name="com.example.Keyhub.data.payload.respone" />
       <recent name="com.example.Keyhub.data.dto.request" />
       <recent name="com.example.Keyhub.controller.User" />
-      <recent name="com.example.Keyhub.event" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -369,6 +370,12 @@
       <workItem from="1698200993307" duration="3483000" />
       <workItem from="1698304445685" duration="139000" />
       <workItem from="1698310827461" duration="1269000" />
+      <workItem from="1698312106766" duration="1244000" />
+      <workItem from="1698381296193" duration="3435000" />
+      <workItem from="1698412414125" duration="2075000" />
+      <workItem from="1698479036780" duration="1247000" />
+      <workItem from="1698492536537" duration="667000" />
+      <workItem from="1698563888559" duration="1898000" />
     </task>
     <servers />
   </component>
