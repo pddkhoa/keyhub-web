@@ -110,7 +110,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return response;
     }
     @Override
-    public List<UserResponseDTO> getAllUserFollowCategory(Long category_id) {
+    public List<UserResponseDTO> getAllUserFollowCategory(Long category_id, Users users) {
         Category category = categoryRepository.findById(category_id).orElse(null);
         List<FollowCategory> followCategory = followCategoryRepository.findByCategory(category);
         List<Users> followingUsers = followCategory.stream()
@@ -124,6 +124,15 @@ public class CategoryServiceImpl implements ICategoryService {
                 .map(user -> {
                      UserResponseDTO userResponseDTO= createUserResponse(user);
                     userResponseDTO.setCheckFollowCategory(true);
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
+                    {
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
+                    }
                     return userResponseDTO;
                 })
                 .collect(Collectors.toList());

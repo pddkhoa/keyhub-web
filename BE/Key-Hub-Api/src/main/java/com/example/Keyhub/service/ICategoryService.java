@@ -11,7 +11,7 @@ import java.util.List;
 public interface ICategoryService {
     List<CategoryResponseCardDTO> getAllCategoryFollowByUser(Users users,BigInteger user);
     List<CategoryResponseCardDTO> getAllCategoryCard(Users users);
-    List<UserResponseDTO> getAllUserFollowCategory(Long category_id);
+    List<UserResponseDTO> getAllUserFollowCategory(Long category_id, Users users);
     boolean isPresentCategory(Long id);
     boolean isPresentCategoryAndUser(Long id, Users users);
 }

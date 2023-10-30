@@ -120,7 +120,7 @@ public class InteractWithUserAndCategoryController {
                             .build()
                     );
         }
-        List<UserResponseDTO> cardDTO = categoryService.getAllUserFollowCategory(category_id);
+        List<UserResponseDTO> cardDTO = categoryService.getAllUserFollowCategory(category_id,getUserFromAuthentication());
         if (cardDTO == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
