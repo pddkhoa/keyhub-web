@@ -1,6 +1,6 @@
 import convertDate from "@/components/FormatDate/formatDate";
 import { BadgeCheck, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
-import AlphabetAvatar, { UserAvatar } from "@/components/Avatar/avatar";
+import { UserAvatar } from "@/components/Avatar/avatar";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal/modal";
 import useBoolean from "@/hooks/useBoolean";
@@ -19,7 +19,6 @@ import {
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { IconDelete, IconEdit, IconUnBookmark } from "../ui/icon";
 import { DeleteBlog } from "../Modal/Blog/deleteBlog";
-import { da } from "date-fns/locale";
 
 interface CardProps {
   data: BlogPost;
@@ -37,9 +36,16 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
   const [displayModal, setDisplayModal] = useState("");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
+  const divStyle = {
+    backgroundImage: "url('https://source.unsplash.com/random/640x480')",
+    backgroundPosition: "center center",
+    backgroundBlendMode: "multiply",
+    backgroundSize: "cover",
+  };
+
   return (
-    <div className="relative w-full h-44 flex md:flex-row md:space-x-5 md:space-y-0 rounded-xl hover:shadow-lg p-4 mx-auto cursor-pointer hover:bg-hover">
-      <div className="w-1/4 h-full ">
+    <div className="relative bg-gray-800 w-full h-44 flex md:flex-row md:space-x-5 md:space-y-0 rounded-xl hover:shadow-lg p-4 mx-auto cursor-pointer hover:bg-hover shadow-xl">
+      <div className="w-1/5 h-full ">
         <img
           src={data.avatar || banner}
           alt="tailwind logo"

@@ -1,148 +1,84 @@
 import User from "@/types/user";
-import { Button } from "../ui/button";
 import React, { useState } from "react";
-import { createAxios } from "@/api/createInstance";
-import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
-import { Link } from "react-router-dom";
+import "../../pages/Introduction/spotlight";
+
+import { UserAvatar } from "../Avatar/avatar";
+import useBoolean from "@/hooks/useBoolean";
+import Modal from "../Modal/modal";
+import { ModalUser } from "../Modal/modalUser";
+import { Button } from "../ui/button";
 
 interface CardUserProps {
   data: User;
   ref?: any;
+  setFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CardUser: React.FC<CardUserProps> = React.forwardRef(
-  ({ data }, ref) => {
-    const user = useSelector((state: RootState) => state.auth.login);
-    const dispatch = useDispatch();
-    const axiosJWT = createAxios(user, dispatch, loginSuccess);
-    const accessToken = user?.data.token;
-    const [isFollowing, setIsFollowing] = useState(data.checkStatusFollow);
-    const handleFollow = async (id: number) => {
-      if (!isFollowing) {
-        // Nếu chưa follow, thực hiện follow
-        const { body } = await ClientServices.followUser(
-          id,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          showToast(body?.message, "success");
-          setIsFollowing(true);
-        } else {
-          console.log(body?.message);
-
-          showToast("error", "error");
-        }
-      } else {
-        // Nếu đã follow, thực hiện unfollow (tương tự)
-        const { body } = await ClientServices.followUser(
-          id,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          showToast(body?.message, "success");
-          setIsFollowing(false);
-        } else {
-          console.log(body?.message);
-          showToast("error", "error");
-        }
-      }
-    };
+  ({ data, setFollowing }, ref) => {
+    const [displayModal, setDisplayModal] = useState(false);
+    const [displayCreate, setDisplayCreate] = useBoolean(false);
 
     const card = (
-      <div className="flex justify-center items-end text-center min-h-screen sm:block rounded-xl mt-40">
-        <div className="bg-gray-500 transition-opacity bg-opacity-75" />
-        <div className="inline-block text-left bg-gray-900 rounded-lg overflow-hidden align-bottom transition-all ">
-          <div className="items-center w-full mr-auto ml-auto relative max-w-7xl md:px-12 lg:px-24">
-            <div className="grid grid-cols-1">
-              <div className="mt-4 mr-auto mb-4 ml-auto bg-gray-900 max-w-lg">
-                <div className="flex flex-col items-center pt-6 pr-6 pb-6 pl-6">
-                  <img
-                    src={data.avatar}
-                    className="flex-shrink-0 object-cover object-center btn- flex w-16 h-16 mr-auto -mb-8 ml-auto rounded-full shadow-xl"
-                  />
-                  <p className="mt-8 text-2xl font-semibold leading-none text-white tracking-tighter lg:text-2xl">
-                    {data.name}
-                  </p>
-                  <div className="w-full mb-10">
-                    <div className="text-3xl text-indigo-500 text-left leading-tight h-3">
-                      “
-                    </div>
-                    <p className="text-md text-title-foreground text-center px-5">
-                      {data.descriptions
-                        ? data.descriptions
-                        : " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam obcaecati laudantium recusandae, debitis eum voluptatem ad, illovoluptatibus temporibus odio provident."}
-                    </p>
-                    <div className="text-3xl text-indigo-500 text-right leading-tight h-3 -mt-3">
-                      ”
-                    </div>
-                  </div>
-                  <div className="w-full mt-6 mx-auto flex justify-center">
-                    <Link to={`/user/${data.id}`}>
-                      <Button variant={"gradient"}>Visit site</Button>
-                    </Link>
-                  </div>
-                </div>
+      <div className="w-full h-full gap-5 z-0 items-start group" data-spotlight>
+        <div className="relative h-full w-full bg-slate-800 rounded-3xl p-px before:absolute before:w-80 before:h-80 before:-left-40 before:-top-40 before:bg-slate-400 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:group-hover:opacity-100 before:z-10 before:blur-[100px] after:absolute after:w-96 after:h-96 after:-left-48 after:-top-48 after:bg-indigo-500 after:rounded-full after:opacity-0 after:pointer-events-none after:transition-opacity after:duration-500 after:translate-x-[var(--mouse-x)] after:translate-y-[var(--mouse-y)] after:hover:opacity-10 after:z-30 after:blur-[100px] overflow-hidden">
+          <div className="relative h-full bg-slate-900 p-6 pb-8 rounded-[inherit] z-20 overflow-hidden">
+            <div
+              className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 translate-z-0 bg-slate-800 rounded-full blur-[80px]" />
+            </div>
+            <div className="flex flex-col h-full items-center text-center">
+              <div
+                className="w-[20%] h-[20%] absolute inset-0 m-auto -translate-y-[10%] blur-3xl -z-10 rounded-full bg-indigo-600"
+                aria-hidden="true"
+              />
+              <UserAvatar size={90} data={data.avatar} />
+
+              <div className="grow mb-5 w-72 h-14 mt-6">
+                <h2 className="text-xl text-slate-200 font-bold mb-1">
+                  {data.name}
+                </h2>
+                <p className="text-sm text-slate-500">
+                  {data.descriptions ? data.descriptions : "Lorem"}
+                </p>
               </div>
+              <Button
+                onClick={() => {
+                  setDisplayCreate.on(), setDisplayModal(true);
+                }}
+                className="inline-flex justify-center items-center whitespace-nowrap rounded-lg bg-slate-800 hover:bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-medium text-slate-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 transition-colors duration-150"
+              >
+                <svg
+                  className="fill-slate-500 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={16}
+                  height={14}
+                >
+                  <path d="M12.82 8.116A.5.5 0 0 0 12 8.5V10h-.185a3 3 0 0 1-2.258-1.025l-.4-.457-1.328 1.519.223.255A5 5 0 0 0 11.815 12H12v1.5a.5.5 0 0 0 .82.384l3-2.5a.5.5 0 0 0 0-.768l-3-2.5ZM12.82.116A.5.5 0 0 0 12 .5V2h-.185a5 5 0 0 0-3.763 1.708L3.443 8.975A3 3 0 0 1 1.185 10H1a1 1 0 1 0 0 2h.185a5 5 0 0 0 3.763-1.708l4.609-5.267A3 3 0 0 1 11.815 4H12v1.5a.5.5 0 0 0 .82.384l3-2.5a.5.5 0 0 0 0-.768l-3-2.5ZM1 4h.185a3 3 0 0 1 2.258 1.025l.4.457 1.328-1.52-.223-.254A5 5 0 0 0 1.185 2H1a1 1 0 0 0 0 2Z" />
+                </svg>
+                <span>Connect</span>
+              </Button>
             </div>
           </div>
         </div>
+        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+          {displayModal ? (
+            <ModalUser
+              setFlag={setDisplayCreate}
+              data={data}
+              setFollowing={setFollowing}
+            />
+          ) : null}
+        </Modal>
       </div>
     );
 
     const body = (
-      <HoverCard>
-        <HoverCardTrigger asChild>
-          <div className="bg-card font-semibold text-center rounded-2xl  shadow-lg p-10 max-w-xs">
-            <img
-              className="mb-3 w-28 h-28 rounded-full shadow-lg mx-auto"
-              src={data.avatar}
-            />
-
-            <h1 className="text-lg text-title"> {data.name}</h1>
-            <h3 className="text-sm text-gray-400 "> {data.second_name}</h3>
-            <div className="text-xs w-48 text-gray-400 mt-4">
-              {" "}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-            </div>
-            <div className="w-full flex justify-center pt-3">
-              {isFollowing && data.id ? (
-                <Button
-                  onClick={() => handleFollow(data.id)}
-                  variant={"gradient"}
-                  className="px-6 py-4 rounded-lg h-fit "
-                >
-                  UNFOLLOW
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => handleFollow(data.id)}
-                  variant={"gradient"}
-                  className="px-6 py-4 rounded-lg h-fit "
-                >
-                  FOLLOW
-                </Button>
-              )}
-            </div>
-          </div>
-        </HoverCardTrigger>
-
-        <HoverCardContent className="my-2 relative w-fit h-96 p-6 brightness-125  shadow-xl z-50">
-          {card}
-        </HoverCardContent>
-      </HoverCard>
+      <div className="my-2 relative w-fit h-96 p-6  z-50">{card}</div>
     );
+
     const content = ref ? (
       <div
         ref={ref}

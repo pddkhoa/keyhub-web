@@ -37,13 +37,7 @@ export const Categories = () => {
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
       <div className="mb-4">
-        <div
-          className="flex relative flex-col rounded-xl items-center p-6 pb-10 mb-16 text-center bg-center bg-cover rounded-24 bg-theme-bg-primary"
-          style={{
-            backgroundImage:
-              'url("https://daily-now-res.cloudinary.com/image/upload/s--7QJfELWV--/f_auto/v1686299194/Squads_Background_z0uuvc")',
-          }}
-        >
+        <div className="flex relative flex-col rounded-xl items-center p-6 pb-10 mb-16 text-center bg-center bg-cover bg-gradient-to-tr from-[rgb(7,16,45)] to-[rgb(58,60,84)]">
           <div className="flex relative z-1 flex-col items-center">
             <div className="p-1.5 rounded-full bg-hover brightness-125">
               <svg
@@ -112,23 +106,25 @@ export const Categories = () => {
               </svg>
             </div>
 
-            <div className="flex justify-center items-center mb-3 mt-3 font-bold text-white typo-large-title">
-              Categories Squad
-            </div>
-            <div className="mb-4 font-normal text-title-foreground typo-title3 max-w-[40rem]">
-              Unleashing the magic of developer communities with Squads. An
-              opportunity to dive deep and go niche together with like-minded
-              devs.
+            <div className="flex flex-col gap-3 mt-8">
+              <span className="text-2xl font-semibold  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-100">
+                The security first platform
+              </span>
+              <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 ">
+                Simplify your security with authentication services
+              </span>
             </div>
           </div>
-          <div className="absolute right-0 bottom-0 left-0 z-0 h-1/3 bg-gradient-to-t to-transparent  from-slate-950" />
+          <div className="absolute right-0  bottom-0 left-0  z-0  bg-gradient-to-b w-12 to-transparent  from-gray-900 via-gray-900 filter blur-2xl" />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-5 ">
         {categories && categories.length > 0 ? (
           categories.map((item) => <CardCategories key={item.id} data={item} />)
         ) : (
-          <Nodata />
+          <div className="col-span-3">
+            <Nodata />
+          </div>
         )}
       </div>
     </div>

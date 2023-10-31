@@ -11,9 +11,10 @@ export const Loading: React.FC<React.HTMLProps<HTMLDivElement>> = ({
               className ? className : ""
             }`}
           >
-            <div className="loader" />
-            <div className="loader" />
-            <div className="loader" />
+            <div className="loader">
+              <span className="loader-text">loading</span>
+              <span className="load" />
+            </div>
           </div>
         </div>
       </div>

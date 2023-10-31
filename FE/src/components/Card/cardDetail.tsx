@@ -20,20 +20,25 @@ import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { useSelector, useDispatch } from "react-redux";
 import { showToast } from "@/hooks/useToast";
+import { Button } from "../ui/button";
 
 interface CardDetailProps {
   post: BlogPost;
   ref?: any;
+  setIsHide: React.Dispatch<React.SetStateAction<boolean>>;
+  isHide: boolean;
 }
 
 const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
-  ({ post }, ref) => {
+  ({ post, setIsHide, isHide }, ref) => {
     const user = useSelector((state: RootState) => state.auth.login);
     const dispatch = useDispatch();
     const axiosJWT = createAxios(user, dispatch, loginSuccess);
     const accessToken = user?.data.token;
     const [isLike, setIsLike] = useState(post.isLike);
     const [valueLike, setValueLike] = useState(post.likes);
+    const [hiddenPosts, setHiddenPosts] = useState<any>({});
+    const isHidden = hiddenPosts[post.id];
 
     const handleLike = async (id: number) => {
       if (!isLike) {
@@ -71,6 +76,11 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
       const { body } = await ClientServices.hideBlog(id, accessToken, axiosJWT);
       if (body) {
         if (body?.success) {
+          setIsHide(true);
+          setHiddenPosts({
+            ...hiddenPosts,
+            [id]: true,
+          });
           showToast(body.message, "success");
         } else {
           showToast(body.message, "error");
@@ -80,9 +90,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
 
     const formatDate = () => {
       const inputDate = post?.create_date;
-
       const formattedDate = inputDate && convertDate(inputDate);
-
       return formattedDate;
     };
 
@@ -178,7 +186,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                 className={`h-5 w-5 ${
                   !isLike ? "text-title-foreground" : "text-red-500"
                 }  `}
-                fill="currentColor"
+                fill={`${isLike ? "currentColor" : "none"}`}
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -250,34 +258,15 @@ group-hover:scale-100"
             <span className="text-lg text-title-foreground ">100+</span>
           </div>
           <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-            <span
+            <Button
+              variant={"gradient"}
               onClick={() => {
                 setDisplayModal("PREVIEW"), setDisplayCreate.on();
               }}
-              title="Preview"
-              className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
+              className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-                className="w-5 h-5 text-title-foreground"
-                id="next"
-              >
-                <path
-                  fill="currentColor"
-                  d="M29.14,11.34l-9-9A1,1,0,0,0,18.39,3V6.52H12.57a10,10,0,0,0-10,10v2.31a1,1,0,0,0,2,0V16.52a8,8,0,0,1,8-8h6.83a1,1,0,0,0,1-1V5.41L27,12l-6.63,6.63V16.57a1,1,0,0,0-1-1H14.77a7,7,0,0,0-5.91,3.24l-4.3,6.76V24.13a1,1,0,0,0-2,0V29a1,1,0,0,0,.72,1,1,1,0,0,0,.28,0,1,1,0,0,0,.84-.46l6.14-9.66a5,5,0,0,1,4.22-2.32h3.62v3.52a1,1,0,0,0,1.71.71l9-9a1,1,0,0,0,0-1.41Z"
-                ></path>
-              </svg>
-              <span
-                className="absolute -top-10 left-[50%] -translate-x-[50%] 
-z-20 origin-left scale-0 px-3 rounded-lg
-bg-card py-2 text-sm
-shadow-md transition-all duration-300 ease-in-out text-title-foreground
-group-hover:scale-100"
-              >
-                Preview<span></span>
-              </span>
-            </span>
+              <span>Read Post</span>
+            </Button>
           </div>
         </div>
         <div className="flex w-full border-t border-border"></div>
@@ -323,13 +312,15 @@ group-hover:scale-100"
       </>
     );
 
-    const content = ref ? (
-      <article ref={ref} className="bg-card shadow rounded-lg">
-        {body}
-      </article>
-    ) : (
-      <article className="bg-card shadow rounded-lg">{body}</article>
-    );
+    const content = ref
+      ? !hiddenPosts[post.id] && (
+          <article ref={ref} className="bg-card shadow rounded-lg">
+            {body}
+          </article>
+        )
+      : !hiddenPosts[post.id] && (
+          <article className="bg-card shadow rounded-lg">{body}</article>
+        );
 
     return content;
   }

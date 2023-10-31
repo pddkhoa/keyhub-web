@@ -32,6 +32,7 @@ export const Profile = () => {
   useEffect(() => {
     const isUser = !userId || userData.id === Number(userId);
     setIsUser(isUser);
+    window.scroll(0, 0);
   }, [userData, userId]);
 
   useEffect(() => {

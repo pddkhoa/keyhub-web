@@ -35,11 +35,13 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-background w-full border-border border-b-2 fixed z-50">
-      <div className="mx-auto max-w-screen-2xl px-4 py-2 ">
+    <header className="bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-900-900 to-slate-950 w-full border-border border-b-2 fixed z-50">
+      <div className="mx-auto max-w-screen-3xl px-8 py-2 ">
         <div className="flex items-center justify-between gap-4">
           <div className="relative flex gap-5 justify-center items-center">
-            <img src={logoLight} alt="logo-light" className="h-6" width={120} />
+            <span className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent">
+              Rainbow Hover
+            </span>
             <SearchBar />
           </div>
           <div className="flex gap-5 items-center justify-end mx-4">

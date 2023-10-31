@@ -61,7 +61,7 @@ export const VerifySignUp = () => {
   };
 
   return (
-    <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">
+    <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
       <div className="relative h-screen   sm:flex sm:flex-row  justify-center bg-transparent ">
         <div className="flex justify-center self-center z-10">
           <div className="relative bg-card brightness-105 border-2 border-border px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
@@ -93,7 +93,7 @@ export const VerifySignUp = () => {
                     <div className="flex flex-col space-y-5">
                       <div>
                         {isLoading ? (
-                          <Button disabled>
+                          <Button className="w-full" disabled>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Please wait
                           </Button>

@@ -124,7 +124,7 @@ export const SignUp = () => {
   });
   return (
     <>
-      <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">
+      <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
         <div className="relative h-screen my-10  sm:flex sm:flex-row  justify-center bg-transparent ">
           <div className="flex justify-center self-center z-10">
             <div className="p-12 bg-card brightness-125 mx-auto rounded-3xl min-w-0 ">

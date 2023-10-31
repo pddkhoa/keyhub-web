@@ -23,6 +23,7 @@ export const Users = () => {
   const user = useSelector((state: RootState) => state.auth.login);
   const axiosJWT = createAxios(user, dispatch, loginSuccess);
   const accessToken = user?.data.token;
+  const [following, setFollowing] = useState(false);
 
   const getUserAllCustom = async (
     indexPage: any,
@@ -39,6 +40,7 @@ export const Users = () => {
   const intObserver = useRef<any>();
   const lastUserRef = useCallback(
     (data: User) => {
+      following;
       if (isLoading) return;
       if (intObserver.current) {
         intObserver.current.disconnect();
@@ -60,9 +62,16 @@ export const Users = () => {
     result.length > 0 &&
     result.map((data, i) => {
       if (result.length === i + 1) {
-        return <CardUser ref={lastUserRef} key={data.id} data={data} />;
+        return (
+          <CardUser
+            ref={lastUserRef}
+            key={data.id}
+            data={data}
+            setFollowing={setFollowing}
+          />
+        );
       }
-      return <CardUser key={data.id} data={data} />;
+      return <CardUser key={data.id} data={data} setFollowing={setFollowing} />;
     });
 
   useEffect(() => {
@@ -80,19 +89,18 @@ export const Users = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [following]);
+  useEffect(() => {
+    if (following) {
+      setIndexPage(1); // Cập nhật lại indexPage để tái tải từ trang đầu tiên
+    }
+  }, [following]);
 
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
       <div className="flex flex-col gap-5">
         <div className="">
-          <div
-            className="flex relative flex-col  rounded-xl items-center p-6 pb-10 mb-16 text-center bg-center bg-cover  bg-card"
-            style={{
-              backgroundImage:
-                'url("https://daily-now-res.cloudinary.com/image/upload/s--7QJfELWV--/f_auto/v1686299194/Squads_Background_z0uuvc")',
-            }}
-          >
+          <div className="flex relative flex-col items-center p-6 pb-10 mb-16 text-center bg-center bg-cover  bg-gradient-to-tr from-[rgb(7,16,45)] to-[rgb(58,60,84)] rounded-xl">
             <div className="flex relative z-1 flex-col items-center">
               <div className="p-1.5 rounded-full bg-hover brightness-125">
                 <svg
@@ -134,23 +142,25 @@ export const Users = () => {
                   ></path>
                 </svg>
               </div>
-
-              <div className="flex justify-center items-center mb-3 mt-3 font-bold text-white typo-large-title">
-                Connect Users
-              </div>
-              <div className="mb-4 font-normal text-title-foreground typo-title3 max-w-[40rem]">
-                Unleashing the magic of developer communities with Squads. An
-                opportunity to dive deep and go niche together with like-minded
-                devs.
+              <div className="flex flex-col gap-3 mt-8">
+                <span className="text-2xl font-semibold  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-100">
+                  The security first platform
+                </span>
+                <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 ">
+                  Simplify your security with authentication services
+                </span>
               </div>
             </div>
-            <div className="absolute right-0 bottom-0 left-0 z-0 h-1/3 bg-gradient-to-t to-transparent from-slate-950" />
           </div>
         </div>
-        <div className="mb-4 flex flex-col gap-5 h-fit ">
+        <div className="mb-4 flex flex-col h-fit ">
           <Label className="text-title text-xl font-bold">Suggestions</Label>
           <div className="w-full ">
-            <SlideUser user={userMost} loading={isLoadingUserMost} />
+            <SlideUser
+              user={userMost}
+              loading={isLoadingUserMost}
+              setFollowing={setFollowing}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -180,11 +190,11 @@ export const Users = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-4 gap-5 mt-8">
+          <div className="grid grid-cols-3 gap-5 mt-8 z-0">
             {result && result.length > 0 ? (
               content
             ) : (
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <Nodata />
               </div>
             )}
@@ -193,11 +203,6 @@ export const Users = () => {
                 <SkeletonUser />
               </>
             )}
-            {/* {!isLoading && !hasNextPage && (
-              <div className="col-span-4 text-center text-gray-500">
-                All users have been loaded.
-              </div>
-            )} */}
           </div>
         </div>
       </div>

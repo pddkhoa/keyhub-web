@@ -22,11 +22,13 @@ import PublicRouter from "./publicRouter";
 import { Bookmark } from "@/pages/Bookmark/bookmark";
 import { Users } from "@/pages/Users/users";
 import { CategoriesDetail } from "@/pages/Categories/detail";
+import { Introduction } from "@/pages/Introduction/introduction";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route element={<PublicRouter />}>
+        <Route path="intro" element={<Introduction />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<SignUp />} />
         <Route path="verify" element={<VerifySignUp />} />
@@ -45,7 +47,7 @@ const AppRouter = () => {
 
           <Route path="explore" element={<Explore />} />
           <Route path="editor" element={<Editor />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" index element={<Home />} />
           <Route path="editor/:id" element={<EditBlog />} />
 
           <Route path="blog/:id" element={<DetailBlog />} />

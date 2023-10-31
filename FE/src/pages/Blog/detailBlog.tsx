@@ -12,10 +12,11 @@ import { RootStateToken } from "@/types/token";
 import { loginSuccess } from "@/redux/authSlice";
 import { Loading } from "@/components/Loading/loading";
 import { Comments } from "@/components/Comment/comment";
+import "./detailBlog.css";
 
 export const DetailBlog = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
-  const blog = useSelector((state: RootState) => state.blog.blog.result);
+  // const blog = useSelector((state: RootState) => state.blog.blog.result);
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStateToken) => state.auth.login);
   const axiosJWT = createAxios(auth, dispatch, loginSuccess);
@@ -175,120 +176,114 @@ export const DetailBlog = () => {
   }
 
   return (
-    <div>
-      <div>
-        <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-background dark:bg-gray-900 antialiased">
-          <div className="flex justify-between px-4 mx-auto ">
-            <div className="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-              <div className="mb-4 lg:mb-6 not-format">
-                <div className="pt-8 pb-8  bg-background dark:bg-gray-900 antialiased">
-                  <div className="flex justify-between mx-auto ">
-                    <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-                      <div className="mb-4 lg:mb-6 not-format">
-                        <address className="flex items-center justify-between mb-6 not-italic">
-                          <div className="inline-flex items-center mr-3 text-sm text-title ">
-                            <AlphabetAvatar size={80} />
-                            <div className="ml-4 mt-1">
-                              <a
-                                href="#"
-                                rel="author"
-                                className="text-xl font-bold text-title "
-                              >
-                                {userData.name}
-                              </a>
-                              <p className="text-base text-title-foreground ">
-                                {userData.second_name}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex flex-col mt-1 items-center space-x-3 ">
-                            <div className="flex gap-3 text-title">
-                              <div>{blogData?.categories.name}</div>
-                            </div>
-                            <p className="text-base text-title-foreground ">
-                              <div>
-                                {format(editorData.time, "MMM. d, yyyy")}
-                              </div>
-                            </p>
-                            <div></div>
-                          </div>
-                        </address>
-                        <h1 className="mb-4 text-3xl font-extrabold leading-tight text-title">
-                          {blogData?.title}
-                        </h1>
-                        <div className="output">
-                          <Output
-                            data={editorData}
-                            config={{
-                              code: {
-                                className: "language-js",
-                              },
-                              delimiter: {
-                                className: "border border-2 w-16 mx-auto",
-                              },
-                              embed: {
-                                className: "border-0",
-                              },
-                              header: {
-                                className: "font-bold text-lg",
-                              },
-                              image: {
-                                className:
-                                  " flex flex-col h-[500px] w-[600px] justify-center items-center  mt-10 mx-auto bg-transparent",
-                              },
-                              list: {
-                                className: "text-title-foreground",
-                              },
-                              paragraph: {
-                                className:
-                                  "text-base text-opacity-75 text-title-foreground para",
-                                actionsClassNames: {
-                                  alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                                },
-                              },
-                              quote: {
-                                className: "py-3 px-5 italic",
-                              },
-                            }}
-                          />
+    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-transparent antialiased">
+      <div className="flex justify-between px-4 mx-auto">
+        <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+          <div className="mb-4 lg:mb-6 not-format">
+            <div className="pt-8 pb-8  bg-transparent antialiased">
+              <div className="flex justify-between mx-auto ">
+                <div className="mx-auto w-full max-w-6xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+                  <div className="mb-4 lg:mb-6 not-format">
+                    <div className="flex items-center justify-between mb-6 not-italic">
+                      <div className="inline-flex items-center mr-3 text-sm text-title ">
+                        <AlphabetAvatar size={110} />
+                        <div className="ml-4 mt-1">
+                          <a
+                            href="#"
+                            rel="author"
+                            className="text-3xl font-bold text-title "
+                          >
+                            {userData.name}
+                          </a>
+                          <p className="text-base text-title-foreground ">
+                            @{userData.second_name}
+                          </p>
                         </div>
                       </div>
+                      <div className="flex flex-col mt-1 items-center space-x-3 ">
+                        <div className="flex gap-3 text-title text-xl">
+                          <div>{blogData?.categories.name}</div>
+                        </div>
+                        <p className="text-base text-title-foreground ">
+                          <div>{format(editorData.time, "MMM. d, yyyy")}</div>
+                        </p>
+                      </div>
+                    </div>
+                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 my-4">
+                      {blogData?.title}
+                    </h1>
+                    <div className="output">
+                      <Output
+                        data={editorData}
+                        config={{
+                          code: {
+                            className: "language-js py-4 text-white",
+                          },
+                          delimiter: {
+                            className: "border border-2 w-16 mx-auto",
+                          },
+                          embed: {
+                            className: "border-0",
+                          },
+                          header: {
+                            className:
+                              "text-2xl font-semibold  text-transparent text-white my-6",
+                          },
+                          image: {
+                            className:
+                              " flex flex-col h-[500px] w-[600px] justify-center items-center  mt-10 mx-auto bg-transparent",
+                          },
+                          list: {
+                            className: "text-title-foreground",
+                          },
+                          paragraph: {
+                            className:
+                              "text-lg text-opacity-90 text-title para ",
+                            actionsClassNames: {
+                              alignment: "text-{alignment}",
+                            },
+                          },
+                          quote: {
+                            className: "py-3 px-5 italic",
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
 
-                      <div className="border-t-2 w-full mt-10 p-4">
-                        <div className="flex flex-col space-y-3">
-                          <div className="flex items-center space-x-3 text-title-foreground">
-                            <span>Tags:</span>
-                            <div className="flex gap-3">
-                              <div>
-                                {blogData?.tags && blogData.tags.length > 0 ? (
-                                  blogData.tags.map((item) => (
-                                    <span
-                                      key={item.id}
-                                      className="bg-blue-100 text-title-foreground text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                                    >
-                                      {item.name}
-                                    </span>
-                                  ))
-                                ) : (
-                                  <div>No Selected Tags</div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                  <div className="border-t-2 w-full mt-10 p-4">
+                    <div className="flex flex-col space-y-3">
+                      <div className="flex items-center space-x-3 text-title-foreground">
+                        <span className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100">
+                          Tags:
+                        </span>
+                        <div className="flex gap-3">
+                          {blogData?.tags && blogData.tags.length > 0 ? (
+                            blogData.tags.map((item) => (
+                              <span
+                                key={item.id}
+                                className="p-1.5 bg-input text-title-foreground text-sm rounded-md font-bold hover:brightness-125 cursor-pointer "
+                              >
+                                #{item.name}
+                              </span>
+                            ))
+                          ) : (
+                            <div>No Selected Tags</div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div className=" w-full mt-10 p-4">
-                <Comments />
-              </div>
             </div>
           </div>
-        </main>
+
+          <div className=" w-full mt-10 p-4">
+            <Comments />
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 };

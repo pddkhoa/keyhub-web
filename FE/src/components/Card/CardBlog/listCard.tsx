@@ -18,6 +18,8 @@ import { DeleteBlog } from "@/components/Modal/Blog/deleteBlog";
 import convertDate from "@/components/FormatDate/formatDate";
 import { SaveBlog } from "@/components/Modal/Blog/saveBlog";
 import { IconBookmark, IconDelete, IconUnBookmark } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 interface GridCardProps {
   data: BlogPost;
   setActiveBlog?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,7 +44,7 @@ export const GridCard: React.FC<GridCardProps> = ({
   const [removing, setRemoving] = useState(false);
 
   return (
-    <div className="bg-card p-4 rounded-xl  max-w-xl">
+    <div className="bg-gray-900 border p-4 rounded-xl  max-w-xl">
       <div className="flex justify-between">
         <div className="flex items-center">
           {!isUser ? (
@@ -212,32 +214,18 @@ export const GridCard: React.FC<GridCardProps> = ({
           </span>
           <span className="text-lg text-title-foreground ">100+</span>
         </div>
-        <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-          <span
-            title="Preview"
-            className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 32 32"
-              className="w-5 h-5 text-title-foreground"
-              id="next"
+        <div className="flex justify-end w-full mt-1 pt-2 pr-2">
+          <Link to={`/blog/${data.id}`}>
+            <Button
+              variant={"gradient"}
+              // onClick={() => {
+              //   setDisplayModal("PREVIEW"), setDisplayCreate.on();
+              // }}
+              className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
             >
-              <path
-                fill="currentColor"
-                d="M29.14,11.34l-9-9A1,1,0,0,0,18.39,3V6.52H12.57a10,10,0,0,0-10,10v2.31a1,1,0,0,0,2,0V16.52a8,8,0,0,1,8-8h6.83a1,1,0,0,0,1-1V5.41L27,12l-6.63,6.63V16.57a1,1,0,0,0-1-1H14.77a7,7,0,0,0-5.91,3.24l-4.3,6.76V24.13a1,1,0,0,0-2,0V29a1,1,0,0,0,.72,1,1,1,0,0,0,.28,0,1,1,0,0,0,.84-.46l6.14-9.66a5,5,0,0,1,4.22-2.32h3.62v3.52a1,1,0,0,0,1.71.71l9-9a1,1,0,0,0,0-1.41Z"
-              ></path>
-            </svg>
-            <span
-              className="absolute -top-10 left-[50%] -translate-x-[50%] 
-  z-20 origin-left scale-0 px-3 rounded-lg
-   bg-card py-2 text-sm
-  shadow-md transition-all duration-300 ease-in-out text-title-foreground
-  group-hover:scale-100"
-            >
-              Preview<span></span>
-            </span>
-          </span>
+              <span>Read Post</span>
+            </Button>
+          </Link>
         </div>
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>

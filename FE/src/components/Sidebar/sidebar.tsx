@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
     <div
       className={`${
         open ? "w-52" : "w-16"
-      } sidebar z-40 left-0  border-r-2 border-border  bg-background ease-in-out group fixed top-0 h-full 
+      } sidebar z-40 left-0  border-r-2 border-border  bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-900-900 to-slate-950 ease-in-out group fixed top-0 h-full 
       }`}
     >
       <div
@@ -40,7 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setOpenSidebar }) => {
             <div className="flex flex-col justify-between h-full">
               <ul className="py-3 h-full sticky top-14  space-y-2">
                 <li className="mt-0  flex items-center rounded-xl p-1.5 hover:bg-hover">
-                  <Link to={"/home"}>
+                  <Link to={"/"}>
                     <Items
                       icon={
                         <svg

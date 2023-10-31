@@ -2,6 +2,7 @@ import { createAxios } from "@/api/createInstance";
 import { GridCard } from "@/components/Card/CardBlog/listCard";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
+import { showToast } from "@/hooks/useToast";
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
@@ -23,12 +24,17 @@ export const CategoriesDetail = () => {
   const location = useLocation();
 
   const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     if (location.state) {
       setCategoriesDetail(location.state.data);
+      setIsFollowing(location.state.data.checkFollowCategory);
     }
   }, [location.state]);
+
+  console.log(isFollowing);
+  console.log(categoriesDetail);
 
   const [blog, setBlog] = useState<BlogPost[]>([]);
 
@@ -52,46 +58,84 @@ export const CategoriesDetail = () => {
     fetchBlog();
   }, []);
 
+  const handleFollow = async (id: number) => {
+    if (!isFollowing) {
+      // Nếu chưa follow, thực hiện follow
+      const { body } = await ClientServices.followCategories(
+        id,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        showToast(body?.message, "success");
+        setIsFollowing(true);
+      } else {
+        console.log(body?.message);
+
+        showToast("error", "error");
+      }
+    } else {
+      // Nếu đã follow, thực hiện unfollow (tương tự)
+      const { body } = await ClientServices.followCategories(
+        id,
+        accessToken,
+        axiosJWT
+      );
+      if (body?.success) {
+        showToast(body?.message, "success");
+        setIsFollowing(false);
+      } else {
+        console.log(body?.message);
+        showToast("error", "error");
+      }
+    }
+  };
+
   return (
     <div className="min-h-0 w-full">
       {categoriesDetail && (
         <>
-          <div className="z-30 h-96 mt-10 relative items-center justify-center w-full overflow-hidden">
-            <div
-              className="inset-0 h-screen bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${categoriesDetail.banner})`,
-              }}
-            />
-            <div className="absolute inset-0 z-20 flex items-center justify-center h-screen w-full bg-gray-900 bg-opacity-75" />
-            <div className="absolute inset-0  z-30  flex flex-col items-center justify-center">
-              <div
-                className="shadow-2xl rounded-lg w-4/5 h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${categoriesDetail.banner})`,
-                }}
-              >
-                <div className="grid grid-cols-12 gap-1">
-                  <div className="relative my-6 px-8 col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-7 xxl:col-span-7">
-                    <div className="border-l-4 border-gray-400 py-12 px-5 mx-2 absolute left-0">
-                      <p className="italic text-white text-xl md:text-4xl lg:text-6xl uppercase text-center  font-semibold ">
-                        {categoriesDetail.name}
-                      </p>
-                    </div>
-                    <div className="absolute border-gray-400 border-t-4 bottom-0 py-1 px-4 w-4/5" />
-                  </div>
-                  <div className="col-span-12 sm:col-span-12 md:col-span-5 lg:col-span-5 xxl:col-span-5">
-                    <div className="relative bg-pink-800  h-64 w-full bg-opacity-50 rounded-tr-lg rounded-br-lg">
-                      <div className="p-8">
-                        <p className="text-white text-xs md:text-sm lg:text-xl mb-4">
-                          {categoriesDetail.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+          <div className=" z-30 h-96 mt-10 relative items-center justify-center w-full overflow-hidden">
+            <div className="grid grid-cols-2 p-4 mx-28 py-10">
+              <div className="col-span-1">
+                <div className="flex flex-col gap-3">
+                  <span className="text-xl font-semibold  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-100">
+                    The security first platform
+                  </span>
+                  <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 ">
+                    Simplify your security with authentication services
+                  </span>
+                  <span className="text-xl font-thin text-title-foreground">
+                    Define access roles for the end-users, and extend your
+                    authorization capabilities to implement dynamic access
+                    control.
+                  </span>
+                  {isFollowing ? (
+                    <Button
+                      variant={"gradient"}
+                      onClick={() => handleFollow(categoriesDetail.id)}
+                      className="w-1/5 mt-5 brightness-90"
+                    >
+                      UnFollow
+                    </Button>
+                  ) : (
+                    <Button
+                      variant={"gradient"}
+                      onClick={() => handleFollow(categoriesDetail.id)}
+                      className="w-1/5 mt-5 brightness-90"
+                    >
+                      Follow
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <div className="col-span-1">
+                <div>
+                  <img src="https://preview.cruip.com/stellar/images/feature-image-01.png" />
                 </div>
               </div>
             </div>
+            <div className="absolute right-0  bottom-0 left-0 z-0 h-full w-36 bg-gradient-to-tr to-transparent  from-gray-900 via-purple-950 filter blur-2xl" />
           </div>
           <div className="min-h-0 w-10/12 mx-auto py-10">
             <div className="grid grid-cols-3 gap-5">

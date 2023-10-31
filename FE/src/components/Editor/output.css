@@ -1,6 +1,9 @@
 .para a {
-  color: #1d4ed8;
+  color: #64748b;
   text-decoration: dashed;
+}
+.para {
+  line-height: 2;
 }
 .para a:hover {
   color: var(--title);
@@ -41,4 +44,8 @@
   position: relative;
   font-style: italic; /* Có thể sử dụng font-style để làm cho nó nghiêng (italic) */
   padding: 10px;
+}
+.output p code {
+  background-image: linear-gradient(144deg, #af40ff, #2f2285 50%, #001beb);
+  padding: 4px;
 }

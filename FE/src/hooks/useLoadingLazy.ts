@@ -13,6 +13,7 @@ const useLoadingLazy = <T>(pageNum = 1, fetchDataFunction: any) => {
   const user = useSelector((state: RootState) => state.auth.login);
   const axiosJWT = createAxios(user, dispatch, loginSuccess);
   const accessToken = user?.data.token;
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -45,7 +46,7 @@ const useLoadingLazy = <T>(pageNum = 1, fetchDataFunction: any) => {
       }, 1000);
     };
     fetchData();
-  }, [pageNum]);
+  }, [pageNum, isFollowing]);
 
   return { isLoading, result, isError, hasNextPage };
 };

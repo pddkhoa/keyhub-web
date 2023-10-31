@@ -17,13 +17,18 @@ import { SkeletonUser } from "../ui/skeleton";
 interface SlideUserProps {
   user: User[];
   loading: boolean;
+  setFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SlideUser: React.FC<SlideUserProps> = ({ user, loading }) => {
+export const SlideUser: React.FC<SlideUserProps> = ({
+  user,
+  loading,
+  setFollowing,
+}) => {
   return (
     <div className="h-full rounded-xl">
       <Swiper
-        slidesPerView={4}
+        slidesPerView={3}
         spaceBetween={20}
         navigation={{
           nextEl: ".swiper-button-next",
@@ -39,13 +44,12 @@ export const SlideUser: React.FC<SlideUserProps> = ({ user, loading }) => {
               <SkeletonUser />
               <SkeletonUser />
               <SkeletonUser />
-              <SkeletonUser />
             </div>
           </>
         ) : user && user.length > 0 ? (
           user.map((item) => (
             <SwiperSlide>
-              <CardUser key={item.id} data={item} />
+              <CardUser key={item.id} data={item} setFollowing={setFollowing} />
             </SwiperSlide>
           ))
         ) : (

@@ -732,6 +732,24 @@ class ClientServices {
     );
     return res;
   };
+  static getUserFollowByCategories = async (
+    id: number,
+    accessToken: any,
+    axiosJWT: any
+  ) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: User[];
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.get(`api/v1/${id}/user/categories`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
   static followCategories = async (
     id: number,
     accessToken: any,

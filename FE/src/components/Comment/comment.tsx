@@ -77,11 +77,10 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
       (comment) => comment.parentComment?.id === commentId
     );
   };
-  // console.log(childComment(30));
 
   return (
     <div className="flex flex-col w-full space-y-3 mt-5">
-      <div className="flex items-center space-x-3 text-xl text-title">
+      <div className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100">
         Comments
       </div>
       <div className="relative flex flex-col bg-card rounded-xl">
@@ -210,7 +209,7 @@ export const Comment: React.FC<CommentProps> = ({
           </div>
           <div className="flex-1 px-2 ml-2 text-sm font-medium leading-loose text-blue-700">
             {isChild ? "@" + comment.parentComment?.users.second_name : null}
-            <span className="ml-2 text-gray-600">{comment.content}</span>
+            <span className="ml-2 text-gray-300">{comment.content}</span>
           </div>
           <div className="flex gap-5">
             <div className="flex gap-2 items-center justify-center">
@@ -272,12 +271,12 @@ export const Comment: React.FC<CommentProps> = ({
         >
           <span>
             <ChevronUp
-              className={`w-5 h-5 duration-200 text-gray-500 ${
+              className={`w-5 h-5 duration-200 text-gray-300 ${
                 hideChildComment ? "rotate-180" : ""
               }`}
             />
           </span>
-          <span className="flex gap-2 items-center text-gray-500">
+          <span className="flex gap-2 items-center text-gray-300">
             {sumChildComment} <IconComment className="ml-2 w-6 h-6 " />
           </span>
         </div>
@@ -375,6 +374,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       content: InputComment,
     };
     if (InputComment) {
+      setPosting(true);
       const { body } = await ClientServices.addComment(
         report,
         selectedId,
@@ -443,12 +443,8 @@ export const CommentForm: React.FC<CommentFormProps> = ({
               Cancle
             </Button>
           ) : null}
-          <Button
-            disabled={isCheckComment}
-            type="submit"
-            className="disabled:cursor-not-allowed disabled:brightness-75"
-          >
-            Post
+          <Button disabled={isCheckComment} type="submit">
+            Comment
             <IconComment className="w-6 h-6 ml-2" />
           </Button>
         </div>
