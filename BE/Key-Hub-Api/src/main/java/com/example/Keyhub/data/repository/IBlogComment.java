@@ -13,4 +13,5 @@ import java.util.List;
 public interface IBlogComment extends JpaRepository<BlogComment, BigInteger> {
     List<BlogComment> findAllByBlog(Blog blog);
     BlogComment findAllByComment(Comment comment);
+    int countByBlog(Blog blog);
 }

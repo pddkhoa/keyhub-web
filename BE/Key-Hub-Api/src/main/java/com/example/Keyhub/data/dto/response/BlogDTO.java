@@ -28,4 +28,5 @@ public class BlogDTO {
     private SeriesResponse series;
     private Boolean isLike;
     private Boolean isSave;
+    private int sumComment;
 }

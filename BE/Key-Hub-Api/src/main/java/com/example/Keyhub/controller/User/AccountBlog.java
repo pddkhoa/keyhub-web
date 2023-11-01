@@ -14,6 +14,8 @@ import com.example.Keyhub.service.ICommentService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.AccessType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -46,6 +48,8 @@ public class AccountBlog {
     IBlogLikeRepository blogLikeRepository;
     final
     IBlogSaveRepository blogSaveRepository;
+    @Autowired
+    IBlogComment iBlogComment;
     final
     ICommentRepository commentRepository;
     final
@@ -318,6 +322,7 @@ public class AccountBlog {
         blogDTO.setIsSave(false);
         blogDTO.setUsers(getUserFromAuthentication());
         blogDTO.setIsLike(false);
+        blogDTO.setSumComment(0);
         blogDTO.setStatus_id(1);
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setAvatar(newBlog.getAvatar());
@@ -404,6 +409,7 @@ public class AccountBlog {
         blogDTO.setUsers(newBlog.getUser());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsLike(false);
+        blogDTO.setSumComment(0);
         blogDTO.setIsSave(false);
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setContent(newBlog.getContent());
@@ -720,6 +726,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/{blog_id}")
     public ResponseEntity<GenericResponse> getBlogById( @PathVariable BigInteger blog_id) {
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
@@ -733,6 +740,7 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
         blogDTO.setUsers(newBlog.getUser());
+        blogDTO.setSumComment(iBlogComment.countByBlog(newBlog));
         blogDTO.setLikes(newBlog.getLikes());
         //IsSave - IsLike
         Users users = getUserFromAuthentication();
