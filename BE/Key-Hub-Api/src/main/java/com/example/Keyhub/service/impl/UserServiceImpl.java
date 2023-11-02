@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
-    private ModelMapper mapper;
+    ModelMapper mapper;
     @Autowired
     ICategoryRepository categoryRepository;
     @Autowired
@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IFollowRepository iFollowRepository;
     @Autowired
-    private ISeriesRepository seriesRepository;
+    ISeriesRepository seriesRepository;
     @Autowired
     ISeriesImageRepository imageRepository;
     @Autowired
@@ -81,7 +81,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     ResetPassTokenRepos resetPassTokenRepos;
     @Autowired
-    private IVerificationTokenRepos tokenRepos;
+    IVerificationTokenRepos tokenRepos;
     @Autowired
     IAvatarRepository iAvatarRepository;
     @Autowired
@@ -99,6 +99,7 @@ public class UserServiceImpl implements IUserService {
 
     private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private Map<BigInteger, LocalDateTime> scheduledAccounts = new ConcurrentHashMap<>();
+
 
 
     @Override
@@ -618,9 +619,7 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= createUserResponse(user);
-                    for (Users users1: usersList)
-                    {
-                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,users1);
+                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
                         if (follow!=null)
                         {
                             userResponseDTO.setCheckStatusFollow(true);
@@ -629,7 +628,6 @@ public class UserServiceImpl implements IUserService {
                         {
                             userResponseDTO.setCheckStatusFollow(false);
                         }
-                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -677,6 +675,69 @@ public class UserServiceImpl implements IUserService {
         blogHide.setUsers(users);
         blogHIdeRepository.save(blogHide);
         return true;
+    }
+    private static final Logger loggers = LoggerFactory.getLogger(JwtProvider.class);
+
+    @Override
+    public boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback) {
+        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(usersFollow, usersFollowback);
+        Follow followCheck = iFollowRepository.findAllByFollowingAndUserFollower(usersFollowback, usersFollow);
+        if (follow==null)
+        {
+            loggers.error("sai","a");
+        }
+        else {
+            loggers.error("Ivalid JWT sinature ->Message: {}", follow.getId());
+
+        }
+        if (followCheck==null)
+        {
+            loggers.error("sai","a");
+        }
+        else {
+            loggers.error("Ivalid JWT sinature ->Message: {}", followCheck.getId());
+
+        }
+        if (follow!= null && followCheck != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<UserResponseDTO> findFriend(String keyWord, Users users) {
+        List<Users> listUser= userRepository.searchUser(keyWord);
+        if (listUser.isEmpty())
+        {
+            return null;
+        }
+        List<Users> checkUser = new ArrayList<>();
+        for (Users users1 : listUser)
+        {
+            if (userService.checkFollowAndFollowBack(users1, users))
+            {
+                checkUser.add(users1);
+            }
+        }
+        List<UserResponseDTO> userResponseDTOs = checkUser.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                        if (follow!=null)
+                        {
+                            userResponseDTO.setCheckStatusFollow(true);
+                        }
+                        else
+                        {
+                            userResponseDTO.setCheckStatusFollow(false);
+                        }
+
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+        return userResponseDTOs;
     }
 
     @Transactional

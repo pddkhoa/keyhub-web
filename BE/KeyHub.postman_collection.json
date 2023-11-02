@@ -3104,7 +3104,7 @@
 								},
 								{
 									"key": "userId",
-									"value": "45"
+									"value": "59"
 								}
 							]
 						}
@@ -3247,6 +3247,56 @@
 								{
 									"key": "chat_id",
 									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchUserInChat",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjIiLCJ1c2VyRGV0YWlscyI6eyJ1c2VycyI6eyJpZCI6NTgsIm5hbWUiOiJI4bqjaSIsInVzZXJuYW1lIjoiYWRtaW4yIiwiZW1haWwiOiJuZ29jYWhhaTA2MTIyMDAyYWFAZ21haWwuY29tIiwicm9sZXMiOlt7ImlkIjoyLCJuYW1lIjoiVVNFUiJ9XSwicGhvbmUiOiIwODE0MDY5MzkxIiwiY3JlYXRlRGF0ZSI6MTY5NTI2MTAxOTE1NCwidXBkYXRlRGF0ZSI6MTY5Njk0OTI0NzAwMCwiYXZhdGFyIjoiaHR0cHM6Ly9pbWFnZXMucGV4ZWxzLmNvbS9waG90b3MvNDI4MzI4L3BleGVscy1waG90by00MjgzMjguanBlZz9hdXRvPWNvbXByZXNzJmNzPXRpbnlzcmdiJnc9MTI2MCZoPTc1MCZkcHI9MSIsInNlY29uZF9uYW1lIjoiQmFib2dhIiwic3RhdHVzIjoxLCJnZW5kZXIiOiJuYW0iLCJhZGRyZXNzIjoiVGjhu6cgxJDhu6ljIiwiY29tcGFueSI6IjNGT1JDT00iLCJjb3VudHJ5IjoiQsOgIFLhu4thIFbFqW5nIFTDoHUiLCJiYW5uZXJfdXJsIjoiaHR0cHM6Ly93d3cucGV4ZWxzLmNvbS92aS12bi9hbmgvdGFjLXBoLW0tbmdoLXRodS10LW1hdS14YW0tdmEtZGVuLTI5NTYzNzYvIiwic2Nob29sIjoiVVRFIiwiZGVzY3JpcHRpb25zIjoiTcO0IHThuqMifSwicGFzc3dvcmQiOiIkMmEkMTAkTUxFZlRJUFBPUEYxUHVzYi4ydVgzT1Q4ZVBWQzhuZHlvbVhNWTA5RVpwZzQuRnJ2ME9PREMiLCJlbmFibGVkIjp0cnVlLCJ1c2VybmFtZSI6ImFkbWluMiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImFjY291bnROb25Mb2NrZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWV9LCJpYXQiOjE2OTg4NDc0NzAsImV4cCI6MTcwMDA1NzA3MH0.flZNNn0Gzcm4k2BCWp1_eYsJfN0TIoYfGI80yuGAhvIyRRMW79QUhlhbll_lHa5TTMnK3M9TMm7EPBefVUOo8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/chat/search/:keyword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"chat",
+								"search",
+								":keyword"
+							],
+							"variable": [
+								{
+									"key": "keyword",
+									"value": "Hải"
 								}
 							]
 						}

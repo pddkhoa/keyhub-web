@@ -2,6 +2,7 @@ package com.example.Keyhub.controller.Chat;
 
 import com.example.Keyhub.data.dto.request.GroupChatRequest;
 import com.example.Keyhub.data.dto.request.SigleChatRequestDTO;
+import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.chat.Chat;
@@ -137,5 +138,29 @@ public class ChatController {
     public ResponseEntity<GenericResponse> deleteChat(@PathVariable Long chatId)
     {
         return chatService.deleteChat(chatId,getUserFromAuthentication());
+    }
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<GenericResponse> searchUserFollowToChat(@PathVariable String keyword)
+    {
+        List<UserResponseDTO> userResponseDTOS = userService.findFriend(keyword,getUserFromAuthentication());
+        if (userResponseDTOS.isEmpty())
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("User not follow any user name like " + keyword)
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(userResponseDTOS)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("List User")
+                        .build()
+                );
     }
 }

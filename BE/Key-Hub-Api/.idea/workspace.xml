@@ -34,8 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -401,7 +401,7 @@
       <workItem from="1698908984721" duration="245000" />
       <workItem from="1698909338799" duration="1282000" />
       <workItem from="1698914433312" duration="413000" />
-      <workItem from="1698921049320" duration="989000" />
+      <workItem from="1698921049320" duration="6332000" />
     </task>
     <servers />
   </component>
@@ -414,6 +414,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.springframework.core.convert.ConverterNotFoundException" package="org.springframework.core.convert" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="3" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -63,5 +63,6 @@ public interface IUserService {
     boolean exitUser(BigInteger id);
     ReportResponseDTO reportBlog(Users users , ReportDTO dto);
     boolean hideBlog(BigInteger blog_id, Users users);
-
+    boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback);
+    List<UserResponseDTO> findFriend(String keyWord, Users users);
 }
