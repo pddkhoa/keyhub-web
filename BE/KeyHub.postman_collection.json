@@ -4,7 +4,7 @@
 		"name": "KeyHub",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26607907",
-		"_collection_link": "https://blue-rocket-82578.postman.co/workspace/IT_Project~5308dc49-5f73-445c-8144-bda10be35d5f/collection/26607907-f9a01bc4-9536-42f8-8b43-eb7caab10f1c?source=collection_link"
+		"_collection_link": "https://blue-rocket-82578.postman.co/workspace/IT_Project~5308dc49-5f73-445c-8144-bda10be35d5f/collection/26607907-f9a01bc4-9536-42f8-8b43-eb7caab10f1c?action=share&source=collection_link&creator=26607907"
 	},
 	"item": [
 		{
@@ -3255,9 +3255,6 @@
 				},
 				{
 					"name": "SearchUserInChat",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -3269,7 +3266,7 @@
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",

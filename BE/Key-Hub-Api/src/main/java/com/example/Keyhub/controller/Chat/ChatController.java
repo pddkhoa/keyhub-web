@@ -139,7 +139,7 @@ public class ChatController {
     {
         return chatService.deleteChat(chatId,getUserFromAuthentication());
     }
-    @GetMapping("/search/{keyword}")
+    @PostMapping("/search/{keyword}")
     public ResponseEntity<GenericResponse> searchUserFollowToChat(@PathVariable String keyword)
     {
         List<UserResponseDTO> userResponseDTOS = userService.findFriend(keyword,getUserFromAuthentication());
