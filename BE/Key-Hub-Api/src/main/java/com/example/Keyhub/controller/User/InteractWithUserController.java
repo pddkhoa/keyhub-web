@@ -1,13 +1,10 @@
 package com.example.Keyhub.controller.User;
 
-import com.example.Keyhub.data.dto.request.ReportDTO;
-import com.example.Keyhub.data.dto.request.SeriesDTO;
-import com.example.Keyhub.data.dto.response.CheckFollowCategory;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.GenericResponse;
+import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.entity.report.ReportBlog;
+import com.example.Keyhub.data.repository.IFollowRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -16,28 +13,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/user-interactions")
 public class InteractWithUserController {
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private ModelMapper mapper;
+    private final IUserService userService;
+    private final ModelMapper mapper;
+
+    public InteractWithUserController(IUserService userService, ModelMapper mapper) {
+        this.userService = userService;
+        this.mapper = mapper;
+    }
+
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getPrincipal().getClass());
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
-    @RequestMapping(value = "/{user_id}/follow", method = RequestMethod.POST)
+        @RequestMapping(value = "/{user_id}/follow", method = RequestMethod.POST)
     public ResponseEntity followUser(@PathVariable BigInteger user_id) {
         if (!userService.exitUser(user_id))
         {

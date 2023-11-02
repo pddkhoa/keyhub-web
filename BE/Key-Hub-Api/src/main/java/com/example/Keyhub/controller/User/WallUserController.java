@@ -9,7 +9,6 @@ import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.ICategoryService;
 import com.example.Keyhub.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,12 +24,19 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/wall")
 public class WallUserController {
-    @Autowired
+    final
     IBLogService ibLogService;
-    @Autowired
+    final
     IUserService userService;
-    @Autowired
+    final
     ICategoryService categoryService;
+
+    public WallUserController(IBLogService ibLogService, IUserService userService, ICategoryService categoryService) {
+        this.ibLogService = ibLogService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+    }
+
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();

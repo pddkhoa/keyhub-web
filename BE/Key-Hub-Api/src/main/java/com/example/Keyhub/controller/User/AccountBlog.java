@@ -48,7 +48,7 @@ public class AccountBlog {
     IBlogLikeRepository blogLikeRepository;
     final
     IBlogSaveRepository blogSaveRepository;
-    @Autowired
+    final
     IBlogComment iBlogComment;
     final
     ICommentRepository commentRepository;
@@ -73,7 +73,7 @@ public class AccountBlog {
     final
     IBlogRepository blogRepository;
 
-    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange) {
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment) {
         this.blogLikeRepository = blogLikeRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.userService = userService;
@@ -92,6 +92,7 @@ public class AccountBlog {
         this.seriesRepository = seriesRepository;
         this.iUserService = iUserService;
         this.iBlogImange = iBlogImange;
+        this.iBlogComment = iBlogComment;
     }
 
     private Users getUserFromAuthentication() {

@@ -8,11 +8,9 @@ import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.BannerUser;
-import com.example.Keyhub.data.entity.ProdfileUser.Message;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.VerificationToken;
-import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.payload.MessageDTO;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.payload.respone.MessageResponseDTO;
@@ -24,10 +22,11 @@ import java.util.Optional;
 
 public interface IUserService {
     Users findByEmail(String email);
+    Users findByID(BigInteger id);
+
     void resetPassword(Users user);
     void createResetToken(String email);
 
-    Optional<Users> findByUsername(String name);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     void createVerificationToken(Users user, String token);
@@ -61,7 +60,6 @@ public interface IUserService {
     List<UserResponseDTO> getAllUsers (int index,Users users);
 
     List<UserResponseDTO> searchUser(int index, String text, Users users);
-    MessageResponseDTO sendChat(Users users , MessageDTO messageDTO);
     boolean exitUser(BigInteger id);
     ReportResponseDTO reportBlog(Users users , ReportDTO dto);
     boolean hideBlog(BigInteger blog_id, Users users);
