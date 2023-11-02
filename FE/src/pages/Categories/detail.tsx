@@ -1,25 +1,20 @@
-import { createAxios } from "@/api/createInstance";
 import { GridCard } from "@/components/Card/CardBlog/listCard";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import BlogPost from "@/types/blog";
 import CategoryType from "@/types/categories";
 import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 
 export const CategoriesDetail = () => {
   const { id } = useParams();
   const idCategories = Number(id);
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 

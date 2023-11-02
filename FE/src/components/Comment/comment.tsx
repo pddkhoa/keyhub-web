@@ -1,17 +1,14 @@
-import { createAxios } from "@/api/createInstance";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
 import ClientServices from "@/services/client/client";
 import CommentType from "@/types/comment";
-import { RootStateToken } from "@/types/token";
 import { ChevronUp, View, Image } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import AlphabetAvatar from "../Avatar/avatar";
 import convertDate from "../FormatDate/formatDate";
 import { Button } from "../ui/button";
 import { IconComment, IconDelete } from "../ui/icon";
+import useAuth from "@/hooks/useAuth";
 
 interface CommentsProps {
   idBlog?: number;
@@ -20,14 +17,11 @@ interface CommentsProps {
 export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
   const [comment, setComment] = useState<CommentType[]>();
   const { id } = useParams();
-  const dispatch = useDispatch();
   const blogid = Number(id);
   const [loading, setLoading] = useState(false);
   const [posting, setPosting] = useState(false);
 
-  const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
 
   const [activeComment, setActiveComment] = useState();
 
@@ -136,10 +130,8 @@ export const Comment: React.FC<CommentProps> = ({
     activeComment.type === "replying" &&
     activeComment.id === comment.id;
 
-  const dispatch = useDispatch();
-  const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const MAX_NESTING = 3;
   const [hideChildComment, setHideChildComment] = useState(false);
 
@@ -332,13 +324,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({
   idBlog,
 }) => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const blogid = Number(id);
   const selectedId = blogid ? blogid : idBlog;
 
-  const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
 
   const [InputComment, setInputComment] = useState<string>();
   const isCheckComment = InputComment?.length === 0;

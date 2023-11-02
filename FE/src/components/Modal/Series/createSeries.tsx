@@ -1,18 +1,16 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
-import { loginSuccess } from "@/redux/authSlice";
 import { addSeries } from "@/redux/seriesSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 type CreateSeriesProps = {
@@ -39,9 +37,7 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
 
   const formik = useFormik({
     initialValues: {

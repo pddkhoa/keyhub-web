@@ -1,22 +1,17 @@
-import { createAxios } from "@/api/createInstance";
 import AlphabetAvatar from "@/components/Avatar/avatar";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import BlogPost from "@/types/blog";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 interface DetailCardProps {
   data: BlogPost;
 }
 
 export const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [isLike, setIsLike] = useState(data.isLike);
 
   const handleLike = async (id: number) => {

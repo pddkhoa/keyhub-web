@@ -4,6 +4,7 @@ import { SlideUser } from "@/components/Swipers/slideUser";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import { SkeletonUser } from "@/components/ui/skeleton";
+import useAuth from "@/hooks/useAuth";
 import useLoadingLazy from "@/hooks/useLoadingLazy";
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
@@ -19,10 +20,8 @@ export const Users = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoadingUserMost, setIsLoadingUserMost] = useState(false);
   const [userMost, setUserMost] = useState<User[]>([]);
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [following, setFollowing] = useState(false);
 
   const getUserAllCustom = async (

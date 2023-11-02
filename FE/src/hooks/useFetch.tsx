@@ -56,7 +56,6 @@ export const useFetch = () => {
       setIsLoading(true);
       const { body } = await requestApiHelper<body>(api.post(url, report));
       if (body?.result) {
-        // console.log(body.result);
         const a = dispatchSuccess(body.result);
         if (a) dispatch(a);
         showToast(body?.message || "Success", "success");

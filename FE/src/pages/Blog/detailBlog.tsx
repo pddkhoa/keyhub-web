@@ -13,14 +13,12 @@ import { loginSuccess } from "@/redux/authSlice";
 import { Loading } from "@/components/Loading/loading";
 import { Comments } from "@/components/Comment/comment";
 import "./detailBlog.css";
+import useAuth from "@/hooks/useAuth";
 
 export const DetailBlog = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
   // const blog = useSelector((state: RootState) => state.blog.blog.result);
-  const dispatch = useDispatch();
-  const auth = useSelector((state: RootStateToken) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
   const [blogData, setBlogData] = useState<BlogPost>();
 
   const [loading, setLoading] = useState(false);

@@ -36,13 +36,6 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
   const [displayModal, setDisplayModal] = useState("");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
-  const divStyle = {
-    backgroundImage: "url('https://source.unsplash.com/random/640x480')",
-    backgroundPosition: "center center",
-    backgroundBlendMode: "multiply",
-    backgroundSize: "cover",
-  };
-
   return (
     <div className="relative bg-gray-800 w-full h-44 flex md:flex-row md:space-x-5 md:space-y-0 rounded-xl hover:shadow-lg p-4 mx-auto cursor-pointer hover:bg-hover shadow-xl">
       <div className="w-1/5 h-full ">

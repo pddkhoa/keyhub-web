@@ -1,12 +1,10 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
 import { deleteSeriesSuccess } from "@/redux/seriesSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 type DeleteSeriesProps = {
   setFlag: {
@@ -18,11 +16,8 @@ type DeleteSeriesProps = {
 };
 
 export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
-
   const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
 
   const handleDeleteSeries = async (id: number) => {
     try {

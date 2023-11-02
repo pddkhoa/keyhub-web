@@ -12,16 +12,15 @@ import User from "@/types/user";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ModalListUser } from "../Modal/modalUser";
+import useAuth from "@/hooks/useAuth";
 
 interface CardCategoriesProps {
   data: CategoryType;
 }
 
 export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [isLoading, setIsLoading] = useState(false);
   const [userFollowing, setUserFollowing] = useState<User[]>([]);
   const [displayModal, setDisplayModal] = useState(false);

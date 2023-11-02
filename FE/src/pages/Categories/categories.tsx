@@ -1,18 +1,13 @@
-import { createAxios } from "@/api/createInstance";
 import { CardCategories } from "@/components/Card/cardCategories";
 import { Nodata } from "@/components/ui/nodata";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
+import useAuth from "@/hooks/useAuth";
 import ClientServices from "@/services/client/client";
 import CategoryType from "@/types/categories";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 export const Categories = () => {
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<CategoryType[]>([]);
 

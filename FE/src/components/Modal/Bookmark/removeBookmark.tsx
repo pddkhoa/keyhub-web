@@ -1,6 +1,7 @@
 import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
@@ -20,10 +21,8 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   id,
   setRemoving,
 }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const handleDeleteSave = async (id: number) => {
     try {
       setRemoving(true);

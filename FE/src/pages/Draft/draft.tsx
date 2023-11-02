@@ -1,22 +1,17 @@
-import { createAxios } from "@/api/createInstance";
 import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
+import useAuth from "@/hooks/useAuth";
 import ClientServices from "@/services/client/client";
 import DraftPost from "@/types/draft";
 import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 export const ListDraft = () => {
   const [drafts, setDrafts] = useState<DraftPost[]>([]);
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState(false);
 

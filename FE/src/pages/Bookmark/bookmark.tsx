@@ -1,21 +1,16 @@
-import { createAxios } from "@/api/createInstance";
 import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
+import useAuth from "@/hooks/useAuth";
 import ClientServices from "@/services/client/client";
 import BlogPost from "@/types/blog";
 import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 export const Bookmark = () => {
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [bookmark, setBookmark] = useState<BlogPost[]>();
   const [removing, setRemoving] = useState(false);

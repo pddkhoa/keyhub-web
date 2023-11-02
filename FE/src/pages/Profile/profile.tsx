@@ -2,7 +2,7 @@ import AlphabetAvatar, { UserAvatar } from "../../components/Avatar/avatar";
 import banner from "../../asset/__banner-default.jpg";
 import { AboutMe } from "../../components/UserProfile/aboutMe";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { TabsProfile } from "@/components/Tab/tabsProfile";
@@ -13,8 +13,7 @@ import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import User from "@/types/user";
 import ClientServices from "@/services/client/client";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
+import useAuth from "@/hooks/useAuth";
 
 export const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
@@ -24,11 +23,8 @@ export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [user, setUser] = useState<User>();
-  const auth = useSelector((state: RootState) => state.auth.login);
+  const { axiosJWT, accessToken } = useAuth();
 
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
   useEffect(() => {
     const isUser = !userId || userData.id === Number(userId);
     setIsUser(isUser);

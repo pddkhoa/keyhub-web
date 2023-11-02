@@ -1,26 +1,16 @@
-import AlphabetAvatar from "@/components/Avatar/avatar";
-import { Slider } from "@/components/Swipers/slideHighlight";
-import image from "../../asset/1111.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus } from "lucide-react";
-import { SlideVideo } from "@/components/Swipers/slideVideo";
 import { useEffect, useState } from "react";
 import BlogPost from "@/types/blog";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
-import { useSelector, useDispatch } from "react-redux";
 import ClientServices from "@/services/client/client";
 import { Nodata } from "@/components/ui/nodata";
 import Pagination from "@/components/Pagination/pagination";
 import { CardDefault } from "@/components/Card/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import useAuth from "@/hooks/useAuth";
 
 export const Explore = () => {
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [blogPopular, setBlogPopular] = useState<BlogPost[]>();
   const [blogLastest, setBlogLastest] = useState<BlogPost[]>();

@@ -14,13 +14,10 @@ import convertDate from "../FormatDate/formatDate";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import Preview from "../Modal/Blog/preview";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
-import { useSelector, useDispatch } from "react-redux";
 import { showToast } from "@/hooks/useToast";
 import { Button } from "../ui/button";
+import useAuth from "@/hooks/useAuth";
 
 interface CardDetailProps {
   post: BlogPost;
@@ -31,10 +28,8 @@ interface CardDetailProps {
 
 const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
   ({ post, setIsHide, isHide }, ref) => {
-    const user = useSelector((state: RootState) => state.auth.login);
-    const dispatch = useDispatch();
-    const axiosJWT = createAxios(user, dispatch, loginSuccess);
-    const accessToken = user?.data.token;
+    const { axiosJWT, accessToken } = useAuth();
+
     const [isLike, setIsLike] = useState(post.isLike);
     const [valueLike, setValueLike] = useState(post.likes);
     const [hiddenPosts, setHiddenPosts] = useState<any>({});

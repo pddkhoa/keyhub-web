@@ -1,10 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
 
@@ -13,6 +9,8 @@ import "./slideUser.css";
 import User from "@/types/user";
 import { Nodata } from "../ui/nodata";
 import { SkeletonUser } from "../ui/skeleton";
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 interface SlideUserProps {
   user: User[];
@@ -25,6 +23,8 @@ export const SlideUser: React.FC<SlideUserProps> = ({
   loading,
   setFollowing,
 }) => {
+  const [swiper, setSwiper] = useState(null);
+
   return (
     <div className="h-full rounded-xl">
       <Swiper
@@ -36,6 +36,9 @@ export const SlideUser: React.FC<SlideUserProps> = ({
           enabled: true,
         }}
         modules={[Pagination, Navigation]}
+        onSwiper={(swiper) => {
+          setSwiper(swiper);
+        }}
         className="slider-user"
       >
         {loading ? (
@@ -55,10 +58,52 @@ export const SlideUser: React.FC<SlideUserProps> = ({
         ) : (
           <Nodata />
         )}
+        <div className="flex justify-end -mt-12 mx-10">
+          <button
+            className="cursor-pointer  duration-200 hover:scale-125 active:scale-100 border-2  z-50"
+            title="Go Back"
+            onClick={() => {
+              swiper.slidePrev();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="50px"
+              height="50px"
+              viewBox="0 0 24 24"
+              className="stroke-blue-900"
+            >
+              <path
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                d="M11 6L5 12M5 12L11 18M5 12H19"
+              />
+            </svg>
+          </button>
 
-        <div className=" mx-auto">
-          <div className="swiper-button-prev slider-arrow"></div>
-          <div className="swiper-button-next slider-arrow"></div>
+          <button
+            className="cursor-pointer duration-200 hover:scale-125 active:scale-100 rotate-180  z-50"
+            title="Go Next"
+            onClick={() => {
+              swiper.slideNext();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="50px"
+              height="50px"
+              viewBox="0 0 24 24"
+              className="stroke-blue-900"
+            >
+              <path
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                d="M11 6L5 12M5 12L11 18M5 12H19"
+              />
+            </svg>
+          </button>
         </div>
       </Swiper>
     </div>

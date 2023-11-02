@@ -23,6 +23,7 @@ import { Bookmark } from "@/pages/Bookmark/bookmark";
 import { Users } from "@/pages/Users/users";
 import { CategoriesDetail } from "@/pages/Categories/detail";
 import { Introduction } from "@/pages/Introduction/introduction";
+import { Message } from "@/pages/Message/message";
 
 const AppRouter = () => {
   return (
@@ -37,8 +38,8 @@ const AppRouter = () => {
         <Route path="resetpassword" element={<ResetPassword />} />
       </Route>
 
-      <Route path="/" element={<Layout />}>
-        <Route element={<PrivateRouter />}>
+      <Route path="/" element={<PrivateRouter />}>
+        <Route element={<Layout />}>
           <Route path="profile/update" element={<UpdateProfile />} />
           <Route path="profile" element={<Profile />} />
           <Route path="user/:id" element={<Profile />} />
@@ -56,6 +57,7 @@ const AppRouter = () => {
           <Route path="categories" element={<Categories />} />
           <Route path="categories/:id" element={<CategoriesDetail />} />
           <Route path="user" element={<Users />} />
+          <Route path="message" element={<Message />} />
         </Route>
       </Route>
 

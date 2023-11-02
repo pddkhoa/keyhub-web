@@ -23,11 +23,8 @@ export const SliderLogo = () => {
           reverseDirection: true,
         }}
         speed={8000}
-        pagination={{
-          clickable: true,
-        }}
         modules={[Autoplay, Pagination]}
-        className="sample-slider swiper swiper-wrapper mySwiper flex items-center"
+        className="sample-slider swiper swiper-wrapper mySwiper flex items-center my-5"
       >
         <SwiperSlide>
           <svg

@@ -1,13 +1,11 @@
-import { createAxios } from "@/api/createInstance";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
 import { isBookmark } from "@/redux/blogSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 type SaveBlogsProps = {
   setFlag: {
@@ -19,10 +17,9 @@ type SaveBlogsProps = {
 };
 
 export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
+  const { axiosJWT, accessToken } = useAuth();
   const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch);
-  const accessToken = auth?.data.token;
+
   const [loading, setLoading] = useState(false);
 
   const handleSaveBlog = async (blog_id: number) => {

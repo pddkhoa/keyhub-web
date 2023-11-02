@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Items } from "@/components/Sidebar/items";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import User from "@/types/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,8 +38,6 @@ import { UpdateAccount } from "@/components/Modal/Profile/updateAccount";
 import { RootState } from "@/redux/store";
 
 import { showToast } from "@/hooks/useToast";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
 import {
   getUserSuccess,
   uploadAvatarSuccess,
@@ -47,19 +45,16 @@ import {
 } from "@/redux/userSlice";
 import ClientServices from "@/services/client/client";
 import AlphabetAvatar from "@/components/Avatar/avatar";
+import useAuth from "@/hooks/useAuth";
 
 export const UpdateProfile = () => {
   const location = useLocation();
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
-
-  const user = useSelector((state: RootState) => state.auth.login);
-  const auth = useSelector((state: RootState) => state.auth.login);
-
-  const accessToken = auth?.data.token;
   const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+
+  const { axiosJWT, accessToken } = useAuth();
 
   useEffect(() => {
     const { state } = location;

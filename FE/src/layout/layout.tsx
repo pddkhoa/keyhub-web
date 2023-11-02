@@ -22,7 +22,7 @@ const Layout = () => {
           <Outlet />
         </div>
         <hr />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );

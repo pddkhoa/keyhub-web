@@ -2,15 +2,12 @@ import User from "@/types/user";
 import { UserAvatar } from "../Avatar/avatar";
 import { Button } from "../ui/button";
 import { MousePointer2 } from "lucide-react";
-import { createAxios } from "@/api/createInstance";
 import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Nodata } from "../ui/nodata";
+import useAuth from "@/hooks/useAuth";
 
 type ModalUserProps = {
   setFlag: {
@@ -27,10 +24,8 @@ export const ModalUser: React.FC<ModalUserProps> = ({
   data,
   setFollowing,
 }) => {
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [isFollowing, setIsFollowing] = useState(data.checkStatusFollow);
   const handleFollow = async (id: number) => {
     if (!isFollowing) {
@@ -193,10 +188,8 @@ export const ModalListUser: React.FC<ModalListUserProps> = ({
   setFollowing,
 }) => {
   const [dataUser, setDataUser] = useState(initialData);
-  const user = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
-  const accessToken = user?.data.token;
+
+  const { axiosJWT, accessToken } = useAuth();
 
   const handleFollowUser = async (userId: number) => {
     try {
