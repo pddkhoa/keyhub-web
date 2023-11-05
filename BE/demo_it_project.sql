@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 02/11/2023 17:48:40
+ Date: 05/11/2023 17:02:59
 */
 
 SET NAMES utf8mb4;
@@ -75,7 +75,7 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 158 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
@@ -205,7 +205,7 @@ CREATE TABLE `blog_comment`  (
   INDEX `FKc4ysudanwhfrrhytio0272sx9`(`comment_id` ASC) USING BTREE,
   CONSTRAINT `FKb9cpog8ie2cyapsyyt7gikpbl` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKc4ysudanwhfrrhytio0272sx9` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -226,7 +226,7 @@ CREATE TABLE `blog_hide`  (
   INDEX `FKklq94vv39wmdj5scjnxttr8nc`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKbd9rm144lc3t4e6w1wu2lal24` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKklq94vv39wmdj5scjnxttr8nc` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_hide
@@ -246,7 +246,7 @@ CREATE TABLE `blog_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`blog_id` ASC) USING BTREE,
   CONSTRAINT `blog_image_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_image
@@ -279,7 +279,7 @@ CREATE TABLE `blog_like`  (
   INDEX `FKppog2vdhbhoff9omlv805wjau`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKppog2vdhbhoff9omlv805wjau` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKstm0v9i88mcn2763ubwgd2qjj` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_like
@@ -294,7 +294,7 @@ INSERT INTO `blog_like` VALUES (28, 157, 67);
 INSERT INTO `blog_like` VALUES (30, 152, 67);
 INSERT INTO `blog_like` VALUES (31, 151, 67);
 INSERT INTO `blog_like` VALUES (34, 43, 67);
-INSERT INTO `blog_like` VALUES (35, 142, 67);
+INSERT INTO `blog_like` VALUES (37, 142, 67);
 
 -- ----------------------------
 -- Table structure for blog_save
@@ -309,7 +309,7 @@ CREATE TABLE `blog_save`  (
   INDEX `FK1enjt512o4e8alk33j9jnf6gj`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK1enjt512o4e8alk33j9jnf6gj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKskcq75s8y1lv8l4cyt20ihhug` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_save
@@ -519,7 +519,7 @@ CREATE TABLE `category`  (
   `banner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of category
@@ -563,7 +563,7 @@ CREATE TABLE `chat`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKujsbbvemkq1qxpkgfix2ejj`(`created_by_user` ASC) USING BTREE,
   CONSTRAINT `FKujsbbvemkq1qxpkgfix2ejj` FOREIGN KEY (`created_by_user`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of chat
@@ -573,6 +573,9 @@ INSERT INTO `chat` VALUES (7, 'https://images.pexels.com/photos/1111369/pexels-p
 INSERT INTO `chat` VALUES (8, 'https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Cuối kì', b'1', 64);
 INSERT INTO `chat` VALUES (9, 'https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Cuối kì', b'1', 58);
 INSERT INTO `chat` VALUES (10, 'https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Cuối kì', b'1', 64);
+INSERT INTO `chat` VALUES (11, NULL, NULL, b'0', 58);
+INSERT INTO `chat` VALUES (12, 'https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Cuối kì', b'1', 64);
+INSERT INTO `chat` VALUES (13, 'https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Cuối kì', b'1', 64);
 
 -- ----------------------------
 -- Table structure for chat_admins
@@ -595,6 +598,8 @@ INSERT INTO `chat_admins` VALUES (7, 58);
 INSERT INTO `chat_admins` VALUES (9, 58);
 INSERT INTO `chat_admins` VALUES (8, 64);
 INSERT INTO `chat_admins` VALUES (10, 64);
+INSERT INTO `chat_admins` VALUES (12, 64);
+INSERT INTO `chat_admins` VALUES (13, 64);
 
 -- ----------------------------
 -- Table structure for chat_messages
@@ -634,20 +639,31 @@ INSERT INTO `chat_users` VALUES (7, 55);
 INSERT INTO `chat_users` VALUES (8, 55);
 INSERT INTO `chat_users` VALUES (9, 55);
 INSERT INTO `chat_users` VALUES (10, 55);
+INSERT INTO `chat_users` VALUES (12, 55);
+INSERT INTO `chat_users` VALUES (13, 55);
 INSERT INTO `chat_users` VALUES (6, 56);
 INSERT INTO `chat_users` VALUES (7, 56);
 INSERT INTO `chat_users` VALUES (8, 56);
 INSERT INTO `chat_users` VALUES (9, 56);
 INSERT INTO `chat_users` VALUES (10, 56);
+INSERT INTO `chat_users` VALUES (12, 56);
+INSERT INTO `chat_users` VALUES (13, 56);
 INSERT INTO `chat_users` VALUES (6, 57);
 INSERT INTO `chat_users` VALUES (7, 57);
 INSERT INTO `chat_users` VALUES (8, 57);
 INSERT INTO `chat_users` VALUES (9, 57);
 INSERT INTO `chat_users` VALUES (10, 57);
+INSERT INTO `chat_users` VALUES (11, 57);
+INSERT INTO `chat_users` VALUES (12, 57);
+INSERT INTO `chat_users` VALUES (13, 57);
 INSERT INTO `chat_users` VALUES (7, 58);
 INSERT INTO `chat_users` VALUES (9, 58);
+INSERT INTO `chat_users` VALUES (11, 58);
+INSERT INTO `chat_users` VALUES (6, 59);
 INSERT INTO `chat_users` VALUES (8, 64);
 INSERT INTO `chat_users` VALUES (10, 64);
+INSERT INTO `chat_users` VALUES (12, 64);
+INSERT INTO `chat_users` VALUES (13, 64);
 
 -- ----------------------------
 -- Table structure for comment
@@ -683,7 +699,7 @@ CREATE TABLE `company`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `company_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of company
@@ -727,7 +743,7 @@ CREATE TABLE `follow`  (
   INDEX `FKl4cyiwx3lv8jf0xt3sr537308`(`user_follow` ASC) USING BTREE,
   CONSTRAINT `FK992xdy1dmmqlhwayassqk5c8q` FOREIGN KEY (`user_is_following`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKl4cyiwx3lv8jf0xt3sr537308` FOREIGN KEY (`user_follow`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follow
@@ -773,7 +789,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (118);
+INSERT INTO `hibernate_sequence` VALUES (164);
 
 -- ----------------------------
 -- Table structure for message
@@ -815,7 +831,7 @@ CREATE TABLE `refreshtoken`  (
   UNIQUE INDEX `UK_or156wbneyk8noo4jstv55ii3`(`token` ASC) USING BTREE,
   INDEX `FKfr75ge3iecdx26qe8afh1srf6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKfr75ge3iecdx26qe8afh1srf6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 121 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of refreshtoken
@@ -882,6 +898,41 @@ INSERT INTO `refreshtoken` VALUES (114, '2023-11-03 10:29:48.070000', '4a058b95-
 INSERT INTO `refreshtoken` VALUES (115, '2023-11-03 10:34:59.321000', 'c241698a-c8e7-4747-b182-f9e400fee829', 58);
 INSERT INTO `refreshtoken` VALUES (116, '2023-11-03 10:37:04.262000', 'c966a529-9cde-4550-9088-2a23bf329594', 67);
 INSERT INTO `refreshtoken` VALUES (117, '2023-11-03 10:37:28.774000', '744b42d2-5faf-4f64-977e-67c0bef726a4', 64);
+INSERT INTO `refreshtoken` VALUES (118, '2023-11-03 18:50:08.619000', 'd737e9b4-9ea2-4d29-b43b-21e522d46b3a', 67);
+INSERT INTO `refreshtoken` VALUES (120, '2023-11-04 09:13:35.509000', '12ff424c-1b82-4671-bb60-3ba3d1925a69', 67);
+INSERT INTO `refreshtoken` VALUES (121, '2023-11-04 09:14:30.330000', 'b7728dc0-0b8d-4e3f-a711-c054677ca86e', 67);
+INSERT INTO `refreshtoken` VALUES (129, '2023-11-06 14:28:50.046000', '7d28f8f4-1d8b-4e3c-a538-1a36e7834f6d', 74);
+INSERT INTO `refreshtoken` VALUES (130, '2023-11-06 14:37:28.576000', '9616af28-9e5d-4365-ab94-c3a6fa828c7f', 74);
+INSERT INTO `refreshtoken` VALUES (131, '2023-11-06 14:37:29.589000', '5dcce08b-ef69-4c3b-b89d-73f144290f9e', 74);
+INSERT INTO `refreshtoken` VALUES (132, '2023-11-06 14:37:30.346000', '219a552b-1829-4e15-b42c-ba45c0980c1d', 74);
+INSERT INTO `refreshtoken` VALUES (133, '2023-11-06 14:37:31.036000', 'edad16c1-0a00-405f-a84a-e3c7feb2ae7d', 74);
+INSERT INTO `refreshtoken` VALUES (134, '2023-11-06 14:37:31.473000', '7a60432f-2f24-4857-83f7-d2b005507536', 74);
+INSERT INTO `refreshtoken` VALUES (135, '2023-11-06 14:37:32.029000', 'de1effa6-9987-47a7-83f8-2af92d82f75a', 74);
+INSERT INTO `refreshtoken` VALUES (136, '2023-11-06 14:37:32.592000', '04241919-95be-44b3-b14a-b8351d19c19f', 74);
+INSERT INTO `refreshtoken` VALUES (137, '2023-11-06 14:37:33.135000', '63c9d0bd-2984-4ca5-9ee2-b3d9a153dc01', 74);
+INSERT INTO `refreshtoken` VALUES (138, '2023-11-06 14:37:33.662000', 'fd5eb540-a204-41db-b8b9-e3f3eab5d632', 74);
+INSERT INTO `refreshtoken` VALUES (139, '2023-11-06 14:37:34.235000', 'f1271261-c1f7-429e-af84-d815c2f588a5', 74);
+INSERT INTO `refreshtoken` VALUES (140, '2023-11-06 14:37:34.860000', '8498e7ce-08b5-4f13-9c9c-6a612727a197', 74);
+INSERT INTO `refreshtoken` VALUES (141, '2023-11-06 14:37:35.439000', 'a4cfc4b7-7838-4c5a-8673-90ea33305e81', 74);
+INSERT INTO `refreshtoken` VALUES (142, '2023-11-06 14:37:35.985000', '9bc1dd88-e9c8-4103-b8e7-871ff09fc346', 74);
+INSERT INTO `refreshtoken` VALUES (143, '2023-11-06 14:37:36.586000', '1206c2d5-d0e9-4792-8096-303496f4d509', 74);
+INSERT INTO `refreshtoken` VALUES (144, '2023-11-06 14:37:37.106000', '75bce204-47f9-4eee-a38f-9bcad8b19f62', 74);
+INSERT INTO `refreshtoken` VALUES (145, '2023-11-06 14:37:37.606000', '4b7f9588-9c96-4783-9b09-9c843a8a16db', 74);
+INSERT INTO `refreshtoken` VALUES (146, '2023-11-06 14:37:38.041000', 'a1e3dfb7-8778-4895-a0b0-8d921b44c54e', 74);
+INSERT INTO `refreshtoken` VALUES (147, '2023-11-06 14:37:38.493000', '3e53bf7a-55e0-4d48-bd5c-710f09607005', 74);
+INSERT INTO `refreshtoken` VALUES (148, '2023-11-06 14:37:38.750000', '141ecdfd-1d16-48e3-9552-8b5aaf31eb06', 74);
+INSERT INTO `refreshtoken` VALUES (149, '2023-11-06 14:37:38.976000', '1bf673e1-56fe-487a-928b-5c646e45a29f', 74);
+INSERT INTO `refreshtoken` VALUES (150, '2023-11-06 14:37:39.181000', 'e64aecda-7c6c-4c09-8f6d-46eca6abb478', 74);
+INSERT INTO `refreshtoken` VALUES (151, '2023-11-06 14:37:39.406000', '16a038ec-1b75-40e8-9909-2cab0b643a6b', 74);
+INSERT INTO `refreshtoken` VALUES (152, '2023-11-06 14:37:39.648000', '71c2391c-a2cf-443a-81d1-75e2633abcef', 74);
+INSERT INTO `refreshtoken` VALUES (153, '2023-11-06 14:37:39.852000', '88f311a7-c27e-460e-8076-be024a5def2c', 74);
+INSERT INTO `refreshtoken` VALUES (154, '2023-11-06 14:37:40.083000', 'ddde40f9-6aca-4f94-8c38-cac2ecca02e1', 74);
+INSERT INTO `refreshtoken` VALUES (155, '2023-11-06 14:37:40.286000', '18446f3f-1fa3-4a84-8aa1-1939f8dbd6c1', 74);
+INSERT INTO `refreshtoken` VALUES (156, '2023-11-06 14:37:40.491000', '77344a55-cf60-4f4f-b82d-c6fd35052da7', 74);
+INSERT INTO `refreshtoken` VALUES (157, '2023-11-06 14:37:40.691000', '772f043a-5cee-4317-ac4b-b76fb45af5c0', 74);
+INSERT INTO `refreshtoken` VALUES (158, '2023-11-06 14:37:40.897000', '2abb36bf-274f-4a9b-a3f8-4ede20adbb0a', 74);
+INSERT INTO `refreshtoken` VALUES (159, '2023-11-06 14:40:02.421000', 'f30fb488-b2e4-4692-b5d0-bb80adcef711', 74);
+INSERT INTO `refreshtoken` VALUES (163, '2023-11-06 17:02:15.659000', '6c919243-b822-4e7c-8378-b5c65dbc0b26', 76);
 
 -- ----------------------------
 -- Table structure for report
@@ -925,6 +976,7 @@ CREATE TABLE `reset_pass_token`  (
 INSERT INTO `reset_pass_token` VALUES (10, '2023-08-26 00:00:00', '123497', 23);
 INSERT INTO `reset_pass_token` VALUES (152, '2023-09-12 00:00:00', '257788', 45);
 INSERT INTO `reset_pass_token` VALUES (154, '2023-09-12 00:00:00', '293271', 46);
+INSERT INTO `reset_pass_token` VALUES (160, '2023-11-05 00:00:00', '763801', 74);
 INSERT INTO `reset_pass_token` VALUES (168, '2023-09-17 00:00:00', '452367', 52);
 INSERT INTO `reset_pass_token` VALUES (169, '2023-09-17 00:00:00', '483377', 52);
 INSERT INTO `reset_pass_token` VALUES (170, '2023-09-17 00:00:00', '853711', 52);
@@ -950,7 +1002,7 @@ CREATE TABLE `role`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_epk9im9l9q67xmwi4hbed25do`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of role
@@ -998,7 +1050,7 @@ CREATE TABLE `series`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKhw97yr01d1ma13c0gdes3r5ok`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKhw97yr01d1ma13c0gdes3r5ok` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series
@@ -1061,7 +1113,7 @@ CREATE TABLE `series_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`series_id` ASC) USING BTREE,
   CONSTRAINT `FKltfgcmbg61cpwl4nk1lcwe0uk` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series_image
@@ -1078,7 +1130,7 @@ CREATE TABLE `tag`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tag
@@ -1115,7 +1167,7 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `UKsb8bbouer5wak8vyiiy4pf2bx`(`username` ASC) USING BTREE,
   UNIQUE INDEX `UKob8kqyqqgmefl0aco34akdtpe`(`email` ASC) USING BTREE,
   FULLTEXT INDEX `name`(`name`, `descriptions`, `second_name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -1145,29 +1197,34 @@ INSERT INTO `user` VALUES (42, 'Khoa', 'vongdoan@gmail.com', '$2a$10$TIxIHPEO3Pt
 INSERT INTO `user` VALUES (43, 'Khoa', 'hivong@gmail.com', '$2a$10$c2cCfc/.jnpkMkkpQyTVLe0ZrUYpU6jTitbxsiVAMiFFXuADesSde', 'User 31', '0814069391', '2023-09-12 11:51:29.933000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (44, 'Khoa', 'huutri@gmail.com', '$2a$10$0l/nOtQ..ptcPKYxazORMOkjldIO.JaKgynCQ5FggJ0h.D.Eo9rf2', 'User 32', '0814069391', '2023-09-12 11:51:55.022000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (45, 'Khoa', 'ngochieu@gmail.com', '$2a$10$cZu4tuxdUDFuz2KATnmzGet2/dbuTGUILrGckjIM9fgceKgJ6lcXK', 'User 33', '0814069391', '2023-09-12 11:53:59.323000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (46, 'Khoa', 'danhdima@gmail.com', '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', 'User 34', '0814069391', '2023-09-12 12:28:00.632000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (47, 'Khoa', 'congchuabongbong@gmail.com', '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', 'User 35', '0814069391', '2023-09-12 12:40:53.308000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (48, 'Khoa', 'danagkhoa@gmail.com', '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', 'User 36', '0814069391', '2023-09-12 12:44:31.675000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (49, 'Khoa', 'ngochairau@gmail.cim', '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', 'User 37', '0814069391', '2023-09-12 12:46:39.212000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (50, 'Khoa', 'honghieurau@gmail.com', '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', 'User 38', '0814069391', '2023-09-12 12:47:33.803000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (46, 'Khoa', NULL, '$2a$10$4zhkTI0JrmMFab8CP7U82.q1NT3ZHw6pgFyd33AWsSQuCDtMKvp4q', NULL, '0814069391', '2023-09-12 12:28:00.632000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (47, 'Khoa', NULL, '$2a$10$Y.N0ec6hTlReAhg7QZsPJe37YuY376sD4CWpKMZ8gjfsg7TwX.Pm6', NULL, '0814069391', '2023-09-12 12:40:53.308000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (48, 'Khoa', NULL, '$2a$10$82UF2OInYtPfMmtpw/IkDeNV7TKVO0CUAA8/WPoASPQC3laIdcy2e', NULL, '0814069391', '2023-09-12 12:44:31.675000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (49, 'Khoa', NULL, '$2a$10$033H7lolSnosSXTyCwT7Gu9/qUVDLj/8rTRlptOIv9Oe5kQEKvm.i', NULL, '0814069391', '2023-09-12 12:46:39.212000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (50, 'Khoa', NULL, '$2a$10$6htrED0olHBNPIqMmwK.OufgmJdbM8fppMQ9Ep0P4WydU.3algjb2', NULL, '0814069391', '2023-09-12 12:47:33.803000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (51, 'Khoa', 'vanluongrau@gmail.com', '$2a$10$xXl4YxkdltVeHJ19e.uDT.OHokgSdVbbhhlVUffeSLYjg9nphmcRC', 'User 39', '0814069391', '2023-09-12 13:04:46.097000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (52, 'Hải', 'ngoaaahai06122002@gmail.com', '$2a$10$fxq.vLECu0lt/othW/m2Ru67.Z6FQVg/Rooz3IGDIo1Wtp3HS5yWa', 'AdminHai', '0814069391', '2023-09-13 09:31:00.547000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (53, 'afa', 'bading@gmail.com', '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', 'AdminTamTa', '0814069391', '2023-09-13 09:37:15.845000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (53, 'afa', NULL, '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', NULL, '0814069391', '2023-09-13 09:37:15.845000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (54, 'Hải', 'bug@gmail.com', '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (55, 'Khoa', 'ngochg0ah6hs122002@gmail.com', '$2a$10$2expwu3ci8YfEQz4lytl2eXw/lLxR2pr1/YZz/u1wSRxU6tYjzqT6', 'nga0hchshai', '0814069391', '2023-09-20 10:49:44.823000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (56, 'Khoa', 'ngkkochai06122002@gmail.com', '$2a$10$QCHuqO.3fJEG.Ffv/x4kE.4brFQ6f2YcYwww0qy7Xf93lwUsGfaxu', 'admin', '0814069391', '2023-09-21 08:42:06.113000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 2, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (57, 'Khoa', 'ngoqchai06122002@gmail.com', '$2a$10$5QazZwr6VcBai5jgMii9i.DCOKseNbHDI0wxM0N9y0zhTGL7bxvu2', 'admin1', '0814069391', '2023-09-21 08:45:05.254000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (58, 'Hải', 'ngocahai06122002aa@gmail.com', '$2a$10$MLEfTIPPOPF1Pusb.2uX3OT8ePVC8ndyomXMY09EZpg4.Frv0OODC', 'admin2', '0814069391', '2023-09-21 08:50:19.154000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (59, 'baboga', 'dixa@gmail.com', '$2a$10$yxYrIeuNYk8tEwC0dseazeGTqK0hWEh9KXWdNzpQdBcDDCCdC.FoG', 'AdminTu', '0814069391', '2023-09-24 12:07:24.231000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (60, 'baboga', 'dxc@gmail.com', '$2a$10$zt.RjAj/3BRendfziHCxr.I.UTDIi.wjMK6SOiNXRjkZBNfbwUgcW', 'AdminNgu', '0814069391', '2023-09-24 12:14:43.850000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (59, 'baboga', NULL, '$2a$10$yxYrIeuNYk8tEwC0dseazeGTqK0hWEh9KXWdNzpQdBcDDCCdC.FoG', NULL, '0814069391', '2023-09-24 12:07:24.231000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (60, 'baboga', NULL, '$2a$10$zt.RjAj/3BRendfziHCxr.I.UTDIi.wjMK6SOiNXRjkZBNfbwUgcW', NULL, '0814069391', '2023-09-24 12:14:43.850000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (61, 'Đinh Anh Trâm', 'anhtram900@gmail.com', '$2a$10$3z9y4NYExDwteqFDTOwcJuJu/rQne7LaMLA6ApYaznV7S1S/qhRci', 'UserTram', '0814069391', '2023-09-24 16:54:38.887000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'AnhT', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (62, 'baboga', 'gsoft@gmail.com', '$2a$10$FxhUhdZDX.T7SsiLn8C5i.qIxE7GQ1UETN5bHdd9e8QnglzyVIdSy', 'AdminLuc', '0814069391', '2023-09-24 17:05:49.871000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Femnale', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (63, 'Khoa', 'fpt@gmail.com', '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki1i9v0bxt2qEncIeRrA43ATZFSy', 'AdminThat', '0814069391', '2023-09-26 08:43:36.497000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (62, 'baboga', NULL, '$2a$10$FxhUhdZDX.T7SsiLn8C5i.qIxE7GQ1UETN5bHdd9e8QnglzyVIdSy', NULL, '0814069391', '2023-09-24 17:05:49.871000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Femnale', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (63, 'Khoa', NULL, '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki1i9v0bxt2qEncIeRrA43ATZFSy', NULL, '0814069391', '2023-09-26 08:43:36.497000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (64, 'baboga', 'ng1ochai06122002@gmail.com', '$2a$10$8yqiRdp3uznrJPXUhKEV5.c.kolDlNGGWMBH13OTRLXd54z4y5wgy', 'UserTramaa', '0814069391', '2023-10-01 11:16:43.232000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (65, 'Phan Dai Dang khoa ', 'khoadang88vn@gmail.com', '$2a$10$Qst3491pHdGxr/P0fU3j9ugndfwz53n7IOtHre1OaVgwB/DRPv2Ka', 'pddkhoa', '0973455342', '2023-10-15 09:50:30.000000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'pddkhoa', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (66, 'Khoa', 'angochai06122002@gmail.com', '$2a$10$EzGEX/zodEnpS3HXIoPfr.yR.BAm8TKwPWdRRjtghNkz7lAIxTnae', 'userHai', '0814069391', '2023-10-15 19:19:44.005000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$CTMVWnjVMICT.KrpwJOTVOz97a6k8t1NKK3tAHgefsZOUcQbIYGKq', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (68, 'Khoa', 'ngochai06122f002@gmail.com', '$2a$10$VBJ2ghn4UCc9jIcw/Mwqfe0V8zC/M622posRzIsrBOUaOdWjqEg2W', 'userHfai', '0814069391', '2023-10-16 18:18:38.253000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (69, 'Đoàn Lê Hy Vọng', 'vongdoan9@gmail.com', '$2a$10$nUn53ERstsatM4wQoG/0fesmFC5.7vgwXVKcjLXLTTuTu7XZE/OSW', 'UserVong', '0814065693', '2023-11-05 13:51:39.133000', '2023-11-05 13:55:59', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg', 'Male', 'Panda', 1, 'Sinh viên Hutech\n', NULL, NULL, NULL, NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg');
+INSERT INTO `user` VALUES (70, 'Khoa', NULL, '$2a$10$oL20gpi.ZPfoCIsmelNW1.txrVNjXMluFDXovjD63zS/Srvntap1C', NULL, '0814069391', '2023-11-05 14:17:54.666000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (74, 'Khoa', 'baboga0204@gmail.com', '$2a$10$z4hAbd.nobKlM0hG1LlRAepxUyOrwkeOLK3RfMCA9jmgO8rHuAxw2', 'pdfahoa', '0814069391', '2023-11-05 14:27:50.363000', '2023-11-05 14:42:42', NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (75, 'NguyenVinhThanhThuy', NULL, '$2a$10$xqC3e.GtMCaxxKtFu36tpuYjdJDhPA1d2.jKY9MMQesMosfi57T/6', NULL, '0814069391', '2023-11-05 15:11:08.296000', NULL, NULL, 'Other', 'afa', 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (76, 'Khoa', 'ngochai06122f2002@gmail.com', '$2a$10$DAmbPJf.FXzTsL3BrRFN7.I8RVKk7GMyt52oxPlGOGQY50k06.zPm', 'pddkhoa123123', '0814069391', '2023-11-05 17:00:32.686000', NULL, NULL, 'nam', 'baboga', 3, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_banner
@@ -1195,6 +1252,7 @@ INSERT INTO `user_banner` VALUES (10, '2023-09-21 08:50:19.154000', 'http://res.
 INSERT INTO `user_banner` VALUES (11, '2023-09-21 08:50:19.154000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1696499055/demhwc3u3lbu54ryhbhm.jpg', 58);
 INSERT INTO `user_banner` VALUES (12, '2023-10-15 09:50:30.000000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338600/xfa3fcejehof514f4fuv.jpg', 65);
 INSERT INTO `user_banner` VALUES (13, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511633/elh5chkubmsdvxifhjql.jpg', 67);
+INSERT INTO `user_banner` VALUES (14, '2023-11-05 13:51:39.133000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg', 69);
 
 -- ----------------------------
 -- Table structure for user_category
@@ -1307,6 +1365,7 @@ INSERT INTO `user_images` VALUES (42, 65, '2023-10-15 09:50:30', 'http://res.clo
 INSERT INTO `user_images` VALUES (43, 65, '2023-10-15 09:50:30', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338896/vnkaf3v6s3ksay05fqub.jpg');
 INSERT INTO `user_images` VALUES (44, 65, '2023-10-15 09:50:30', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697339276/ooyaozcuga2v2ht3so4x.png');
 INSERT INTO `user_images` VALUES (45, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511638/r4wcsyhdnhf22yyospmr.jpg');
+INSERT INTO `user_images` VALUES (46, 69, '2023-11-05 13:51:39', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -1372,6 +1431,11 @@ INSERT INTO `user_role` VALUES (65, 2);
 INSERT INTO `user_role` VALUES (66, 2);
 INSERT INTO `user_role` VALUES (67, 2);
 INSERT INTO `user_role` VALUES (68, 2);
+INSERT INTO `user_role` VALUES (69, 2);
+INSERT INTO `user_role` VALUES (70, 2);
+INSERT INTO `user_role` VALUES (74, 2);
+INSERT INTO `user_role` VALUES (75, 2);
+INSERT INTO `user_role` VALUES (76, 2);
 
 -- ----------------------------
 -- Table structure for verification_token
@@ -1402,6 +1466,9 @@ INSERT INTO `verification_token` VALUES (102, '2023-09-08 00:00:00', b'0', '8004
 INSERT INTO `verification_token` VALUES (103, '2023-09-08 00:00:00', b'0', '363637', 26);
 INSERT INTO `verification_token` VALUES (109, '2023-09-11 00:00:00', b'0', '812440', 27);
 INSERT INTO `verification_token` VALUES (110, '2023-09-11 00:00:00', b'0', '815543', 28);
+INSERT INTO `verification_token` VALUES (122, '2023-11-06 00:00:00', b'1', '800339', 69);
+INSERT INTO `verification_token` VALUES (124, '2023-11-06 00:00:00', b'0', '589505', 70);
+INSERT INTO `verification_token` VALUES (128, '2023-11-06 00:00:00', b'0', '344421', 74);
 INSERT INTO `verification_token` VALUES (131, '2023-09-12 00:00:00', b'1', '636084', 29);
 INSERT INTO `verification_token` VALUES (133, '2023-09-12 00:00:00', b'0', '391514', 30);
 INSERT INTO `verification_token` VALUES (135, '2023-09-13 00:00:00', b'0', '729377', 32);
@@ -1425,6 +1492,8 @@ INSERT INTO `verification_token` VALUES (157, '2023-09-12 00:00:00', b'0', '9506
 INSERT INTO `verification_token` VALUES (158, '2023-09-13 00:00:00', b'0', '122353', 50);
 INSERT INTO `verification_token` VALUES (159, '2023-09-13 00:00:00', b'0', '278946', 51);
 INSERT INTO `verification_token` VALUES (160, '2023-09-14 00:00:00', b'1', '740201', 52);
+INSERT INTO `verification_token` VALUES (161, '2023-11-06 00:00:00', b'0', '399392', 75);
+INSERT INTO `verification_token` VALUES (162, '2023-11-06 00:00:00', b'0', '373606', 76);
 INSERT INTO `verification_token` VALUES (163, '2023-09-14 00:00:00', b'0', '689610', 53);
 INSERT INTO `verification_token` VALUES (164, '2023-09-18 00:00:00', b'0', '440474', 54);
 INSERT INTO `verification_token` VALUES (178, '2023-09-21 00:00:00', b'1', '731344', 55);

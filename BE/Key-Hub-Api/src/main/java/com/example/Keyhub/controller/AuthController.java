@@ -213,7 +213,7 @@ public class AuthController {
             String refresh = refreshToken.getToken();
             loginAttempts = 0;
             setLoginAttemptsCookie(response, loginAttempts);
-            if (userPrinciple.getUsers().getStatus()==0)
+            if (userPrinciple.getUsers().getStatus()==3)
             {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(GenericResponse.builder()

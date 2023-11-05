@@ -170,7 +170,7 @@ public class UserServiceImpl implements IUserService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Users user = mapper.map(dto, Users.class);
         user.setName(dto.getName());
-        user.setStatus(0);
+        user.setStatus(3);
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setPassword( passwordEncoder.encode(dto.getPassword()));

@@ -1,5 +1,6 @@
 package com.example.Keyhub.security.jwt;
 
+import com.example.Keyhub.data.entity.GenericResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,14 +20,14 @@ public class MyBasicAuthenticationEntryPoint  implements AuthenticationEntryPoin
                          AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-        Map<String, Object> errorMap = new HashMap<>();
-        errorMap.put("success", false);
-        errorMap.put("message","Unauthenticated!");
-        errorMap.put("result", authException.getMessage());
+        GenericResponse errorResponse = GenericResponse.builder()
+                .success(false)
+                .message("Unauthenticated!")
+                .statusCode(HttpServletResponse.SC_UNAUTHORIZED)
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String errorJson = objectMapper.writeValueAsString(errorMap);
+        String errorJson = objectMapper.writeValueAsString(errorResponse);
 
         response.getWriter().write(errorJson);
         response.getWriter().flush();

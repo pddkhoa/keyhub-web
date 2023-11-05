@@ -9,6 +9,7 @@ import com.example.Keyhub.data.entity.chat.Message;
 import com.example.Keyhub.data.repository.IChatRepository;
 import com.example.Keyhub.data.repository.IMessageRepository;
 import com.example.Keyhub.service.IChatService;
+import com.example.Keyhub.service.IMessageService;
 import com.example.Keyhub.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class MessageServiceImpl implements IMessageService{
+public class MessageServiceImpl implements IMessageService {
     final
     IMessageRepository messageRepository;
     final

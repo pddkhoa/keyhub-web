@@ -1,4 +1,4 @@
-package com.example.Keyhub.service.impl;
+package com.example.Keyhub.service;
 
 import com.example.Keyhub.data.dto.request.SendMessReQuest;
 import com.example.Keyhub.data.dto.response.MessageResponse;

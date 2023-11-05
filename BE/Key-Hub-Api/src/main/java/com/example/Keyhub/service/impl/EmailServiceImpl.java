@@ -151,7 +151,7 @@ public class EmailServiceImpl implements IEmailService {
                 "                                                    <table class=\"image_block block-1\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\n" +
                 "                                                        <tr>\n" +
                 "                                                            <td class=\"pad\" style=\"width:100%;padding-right:0px;padding-left:0px;\">\n" +
-                "                                                                <div class=\"alignment\" align=\"center\" style=\"line-height:10px\"><img src=\"https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.15752-9/373353139_6596050263810605_7760603276168250208_n.png?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=mHy6OIZo0SsAX8gzX1I&_nc_ht=scontent.fsgn5-2.fna&oh=03_AdSIlW_WrCOy-XgLMdf_Rym2axL2ivvPFS5ze5d0HmtRCg&oe=6520D739\" style=\"display: block; height: auto; border: 0; width: 100px; max-width: 100%;\" width=\"100\"></div>\n" +
+                "                                                                <div class=\"alignment\" align=\"center\" style=\"line-height:10px\"><img src=\"https://w7.pngwing.com/pngs/131/200/png-transparent-black-key-icon-key-key-angle-text-grey.png\" style=\"display: block; height: auto; border: 0; width: 100px; max-width: 100%;\" width=\"100\"></div>\n" +
                 "                                                            </td>\n" +
                 "                                                        </tr>\n" +
                 "                                                    </table>\n" +

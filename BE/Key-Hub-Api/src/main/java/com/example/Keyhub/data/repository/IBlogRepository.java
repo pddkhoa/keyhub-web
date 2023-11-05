@@ -13,12 +13,14 @@ import org.springframework.data.repository.query.Param;
 
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 
 public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findByUser(Users users);
+    int countByStatus(int status);
     @Query("SELECT COUNT(b) FROM Blog b WHERE b.user.id = ?1 AND b.status = 1")
     int countBlogsByUserIdAndStatus(BigInteger userId);
     @Query("SELECT COUNT(b) FROM Blog b WHERE b.series.id = :series_id and b.status = 1 order by b.createDate DESC ")
@@ -45,4 +47,6 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findPopularBlogs(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
     @Query("SELECT b FROM Blog b where b.status= 1 ORDER BY (b.Views + b.likes) DESC, b.createDate DESC")
     List<Blog> findPopularBlogsWithPagging(Pageable pageable);
+
+    int countByCreateDateBetween(Date createDate, Date createDate2);
 }
