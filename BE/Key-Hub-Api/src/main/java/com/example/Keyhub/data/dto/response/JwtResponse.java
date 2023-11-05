@@ -14,10 +14,10 @@ public class JwtResponse {
     String token;
     private String type = "Bearer";
     private String refreshToken;
-    int Status;
-    public JwtResponse(String token, CustomUserDetails customUserDetail,String refreshToken, int Status ) {
+    int statusCode;
+    public JwtResponse(String token, CustomUserDetails customUserDetail,String refreshToken, int statusCode ) {
         this.token = token;
         this.refreshToken=refreshToken;
-        this.Status=Status;
+        this.statusCode=statusCode;
     }
 }
