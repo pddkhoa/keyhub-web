@@ -4,6 +4,7 @@ import com.example.Keyhub.controller.exception.TokenRefreshException;
 import com.example.Keyhub.data.dto.request.LoginRequest;
 import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.dto.response.JwtResponse;
+import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
@@ -215,21 +216,25 @@ public class AuthController {
             setLoginAttemptsCookie(response, loginAttempts);
             if (userPrinciple.getUsers().getStatus()==3)
             {
+                StatusResopnes statusResopnes = new StatusResopnes();
+                statusResopnes.setStatusCode(3);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(GenericResponse.builder()
                                 .success(false)
+                                .result(statusResopnes)
                                 .message("Account not verify")
-                                .result("Please verify your account")
                                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                                 .build());
             }
             if (userPrinciple.getUsers().getStatus()==2)
             {
+                StatusResopnes statusResopnes = new StatusResopnes();
+                statusResopnes.setStatusCode(2);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(GenericResponse.builder()
                                 .success(false)
-                                .message("Please reset your password")
-                                .result("Account is block")
+                                .result(statusResopnes)
+                                .message("Account is block")
                                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                                 .build());
             }
@@ -237,7 +242,7 @@ public class AuthController {
                     .body(GenericResponse.builder()
                             .success(true)
                             .message("Login Success")
-                            .result(new JwtResponse(token,userPrinciple, refresh ))
+                            .result(new JwtResponse(token,userPrinciple, refresh,1))
                             .statusCode(HttpStatus.OK.value())
                             .build());
         }
