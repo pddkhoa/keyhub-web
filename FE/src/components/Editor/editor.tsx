@@ -32,7 +32,7 @@ interface ReportType {
   avatar: string;
 }
 
-export const Editor = () => {
+const Editor = () => {
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -470,3 +470,4 @@ export const Editor = () => {
     </div>
   );
 };
+export default Editor;

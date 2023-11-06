@@ -1,6 +1,6 @@
 import AlphabetAvatar from "@/components/Avatar/avatar";
 
-export const Message = () => {
+const Message = () => {
   return (
     <div className="flex h-screen antialiased text-gray-800 pt-10 fixed">
       <div className="flex flex-row h-full w-full overflow-x-hidden overflow-y-hidden">
@@ -311,3 +311,5 @@ export const Message = () => {
     </div>
   );
 };
+
+export default Message;

@@ -1,17 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
-import { forgortPassword } from "@/services/access/apiRequest";
+import { forgortPassword } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-export const ForgotPassword = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,22 +26,8 @@ export const ForgotPassword = () => {
       const report = {
         email: value.email,
       };
-      console.log(report);
-      setIsLoading(true);
-      try {
-        const { body } = await forgortPassword(report.email);
-        if (body?.statusCode === 200) {
-          showToast(body.message, "success");
-          setIsLoading(false);
-          navigate("/confirmmail", { state: { report } });
-        } else {
-          showToast(body?.message || "Error", "error");
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      }
+
+      forgortPassword(report.email, dispatch, navigate);
     },
   });
   return (
@@ -128,3 +116,5 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+
+export default ForgotPassword;

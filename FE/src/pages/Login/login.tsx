@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { loginUser } from "../../services/access/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
@@ -10,14 +9,18 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
+import { loginUser } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 
 const Login = () => {
   // const location = useLocation();
   // const from = location.state?.from?.pathname || "/";
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isFetching = useSelector((state: any) => state.auth.login.isFetching);
+  const dispatch = useDispatch();
+  const isFetching = useSelector(
+    (state: RootState) => state.auth.login.isFetching
+  );
   // const { handleRequest } = useFetch();
   const [showPass, setShowPass] = useState(false);
   const formik = useFormik({

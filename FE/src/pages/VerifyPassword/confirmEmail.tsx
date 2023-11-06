@@ -1,27 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { showToast } from "@/hooks/useToast";
-import { checkOtp } from "@/services/access/apiRequest";
+import { checkOtp } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const ConfirmEmail = () => {
+const ConfirmEmail = () => {
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState<string>();
+  const emailRegister = useSelector((state: RootState) => state.auth.email);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
 
   useEffect(() => {
-    const { state } = location;
-
-    if (state === null || typeof state !== "object") {
+    if (!emailRegister) {
       navigate("/login", { replace: true });
       return;
     }
-    setEmail(state.report.email);
-  }, [location, navigate]);
+    setEmail(emailRegister);
+  }, [location, navigate, emailRegister]);
 
   const handleInputChange = (e: any, index: number) => {
     // console.log(e.target.nextSibling);
@@ -40,22 +41,8 @@ export const ConfirmEmail = () => {
   };
 
   const handleSubmit = async (e: any) => {
-    setIsLoading(true);
-    try {
-      e.preventDefault();
-      const { body } = await checkOtp(report);
-      if (body?.success) {
-        showToast("Reset duoc roi nhen!", "success");
-        setIsLoading(false);
-        navigate("/resetpassword", { state: { email } });
-      } else {
-        setIsLoading(false);
-        showToast(body?.message || "Erorr", "error");
-      }
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
+    e.preventDefault();
+    checkOtp(report, dispatch, navigate);
   };
   return (
     <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
@@ -114,3 +101,5 @@ export const ConfirmEmail = () => {
     </div>
   );
 };
+
+export default ConfirmEmail;

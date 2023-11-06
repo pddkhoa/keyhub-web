@@ -8,7 +8,7 @@ import { CardDefault } from "@/components/Card/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import useAuth from "@/hooks/useAuth";
 
-export const Explore = () => {
+const Explore = () => {
   const { axiosJWT, accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -663,3 +663,5 @@ export const Explore = () => {
     </div>
   );
 };
+
+export default Explore;

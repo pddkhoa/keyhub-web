@@ -8,7 +8,7 @@ import DraftPost from "@/types/draft";
 import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const ListDraft = () => {
+const ListDraft = () => {
   const [drafts, setDrafts] = useState<DraftPost[]>([]);
   const { axiosJWT, accessToken } = useAuth();
 
@@ -124,3 +124,5 @@ export const ListDraft = () => {
     </div>
   );
 };
+
+export default ListDraft;

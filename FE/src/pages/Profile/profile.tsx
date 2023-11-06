@@ -15,7 +15,7 @@ import User from "@/types/user";
 import ClientServices from "@/services/client/client";
 import useAuth from "@/hooks/useAuth";
 
-export const Profile = () => {
+const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
   const { id } = useParams();
   const userId = Number(id);
@@ -129,3 +129,5 @@ export const Profile = () => {
     </div>
   );
 };
+
+export default Profile;

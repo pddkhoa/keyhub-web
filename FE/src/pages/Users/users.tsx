@@ -1,4 +1,3 @@
-import { createAxios } from "@/api/createInstance";
 import { CardUser } from "@/components/Card/cardUser";
 import { SlideUser } from "@/components/Swipers/slideUser";
 import { Button } from "@/components/ui/button";
@@ -6,16 +5,13 @@ import { Nodata } from "@/components/ui/nodata";
 import { SkeletonUser } from "@/components/ui/skeleton";
 import useAuth from "@/hooks/useAuth";
 import useLoadingLazy from "@/hooks/useLoadingLazy";
-import { loginSuccess } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import User from "@/types/user";
 import { Label } from "@radix-ui/react-label";
 import { SlidersHorizontal } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
-export const Users = () => {
+const Users = () => {
   const [indexPage, setIndexPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoadingUserMost, setIsLoadingUserMost] = useState(false);
@@ -154,7 +150,7 @@ export const Users = () => {
         </div>
         <div className="mb-4 flex flex-col h-fit ">
           <Label className="text-title text-xl font-bold">Suggestions</Label>
-          <div className="w-full ">
+          <div className="">
             <SlideUser
               user={userMost}
               loading={isLoadingUserMost}
@@ -208,3 +204,5 @@ export const Users = () => {
     </div>
   );
 };
+
+export default Users;

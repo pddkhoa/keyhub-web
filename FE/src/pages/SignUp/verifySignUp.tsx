@@ -1,25 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { showToast } from "@/hooks/useToast";
-import { verifyAccount } from "@/services/access/apiRequest";
+import { verifyAccount } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const VerifySignUp = () => {
+const VerifySignUp = () => {
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
+  const emailRegister = useSelector((state: RootState) => state.auth.email);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const { state } = location;
-
-    if (state === null || typeof state !== "object") {
+    if (!emailRegister) {
       navigate("/login", { replace: true });
       return;
     }
-  }, [location, navigate]);
+  }, [location, navigate, emailRegister]);
 
   const handleInputChange = (e: any, index: number) => {
     // console.log(e.target.nextSibling);
@@ -42,22 +43,8 @@ export const VerifySignUp = () => {
   const combinedValue = inputValues.join("");
 
   const handleSubmit = async (e: any) => {
-    setIsLoading(true);
-    try {
-      e.preventDefault();
-      const { body } = await verifyAccount(combinedValue);
-      if (body?.success) {
-        showToast("Dang Nhap dươc roi nhen!", "success");
-        setIsLoading(false);
-        navigate("/login");
-      } else {
-        setIsLoading(false);
-        showToast(body?.message || "Erorr", "error");
-      }
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
+    e.preventDefault();
+    verifyAccount(combinedValue, dispatch, navigate);
   };
 
   return (
@@ -128,3 +115,4 @@ export const VerifySignUp = () => {
     </div>
   );
 };
+export default VerifySignUp;

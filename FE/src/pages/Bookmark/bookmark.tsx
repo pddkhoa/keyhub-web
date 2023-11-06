@@ -8,7 +8,7 @@ import BlogPost from "@/types/blog";
 import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export const Bookmark = () => {
+const Bookmark = () => {
   const { axiosJWT, accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -129,3 +129,5 @@ export const Bookmark = () => {
     </div>
   );
 };
+
+export default Bookmark;

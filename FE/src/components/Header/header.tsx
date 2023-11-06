@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { SearchBar } from "../Search/search";
 import { RootStateToken } from "../../types/token";
 import { useDispatch, useSelector } from "react-redux";
-import logoLight from "../../asset/logo-white.png";
 import { RootState } from "@/redux/store";
 import AlphabetAvatar from "../Avatar/avatar";
 import {
@@ -15,10 +14,8 @@ import {
 } from "../ui/dropdown-menu";
 import { ModeToggle } from "../DarkMode/modeToggle";
 import { createAxios } from "@/api/createInstance";
-import { logOutSuccess } from "@/redux/authSlice";
-import { logOut } from "@/services/access/apiRequest";
-import { Button } from "../ui/button";
 import { ButtonAddPost } from "../ui/buttonAddPost";
+import { logOut, logOutSuccess } from "@/redux/authSlice";
 
 const Header = () => {
   const { data } = useSelector((state: RootStateToken) => state.auth.login);

@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { registerUser } from "@/services/access/apiRequest";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
 import {
@@ -20,12 +19,14 @@ import {
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
 import { Check, Loader2, X } from "lucide-react";
-import { showToast } from "@/hooks/useToast";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 
-export const SignUp = () => {
+const SignUp = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [genders, setGender] = useState("Male");
-  const [isLoading, setIsLoading] = useState(false);
   const [requirementsMet, setRequirementsMet] = useState({
     length: false,
     lowercase: false,
@@ -34,7 +35,7 @@ export const SignUp = () => {
     specialChar: false,
     space: false,
   });
-
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
 
@@ -88,7 +89,6 @@ export const SignUp = () => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         username: value.username,
         email: value.email,
@@ -104,22 +104,22 @@ export const SignUp = () => {
         ...report,
         confirmPass: value.confirmPass,
       };
-      // console.log(reportNew);
-      // alert(JSON.stringify(report, null, 2));
-      try {
-        const { body } = await registerUser(report);
 
-        if (body?.success) {
-          setIsLoading(false);
-          showToast("Verify Account nhen!", "success");
-          navigate("/verify", { state: { report } });
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
-      }
+      registerUser(report, dispatch, navigate);
+      // try {
+      //   const { body } = await registerUser(report);
+
+      //   if (body?.success) {
+      //     setIsLoading(false);
+      //     showToast("Verify Account nhen!", "success");
+      //     navigate("/verify", { state: { report } });
+      //   } else {
+      //     setIsLoading(false);
+      //     showToast(body?.message || "Erorr", "error");
+      //   }
+      // } catch (error) {
+      //   setIsLoading(false);
+      // }
     },
   });
   return (
@@ -432,3 +432,5 @@ export const SignUp = () => {
     </>
   );
 };
+
+export default SignUp;

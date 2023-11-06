@@ -1,13 +1,5 @@
+import seriesType from "@/types/series";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import seriesType from "../types/series";
-import { boolean, string } from "yup";
-
-type body = {
-  success: boolean;
-  message: string;
-  result: seriesType;
-  statusCode: number;
-};
 
 const seriesSlice = createSlice({
   name: "series",

@@ -36,7 +36,7 @@ interface ReportType {
   avatar: string;
 }
 
-export const EditBlog = () => {
+const EditBlog = () => {
   function convertToReportType(blogPost: BlogPost): ReportType {
     const { title, description, content, avatar } = blogPost;
     const categoryIds: CategoryType = {
@@ -423,3 +423,4 @@ export const EditBlog = () => {
     </div>
   );
 };
+export default EditBlog;

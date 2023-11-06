@@ -4,7 +4,7 @@ import { SliderBanner, SliderCard, SliderLogo } from "./swiper";
 import "./../Introduction/spotlight";
 import { Footer } from "@/components/Footer/footer";
 
-export const Introduction = () => {
+const Introduction = () => {
   return (
     <div className="relative bg-gradient-to-b from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
       <div className="relative h-full py-10  sm:flex sm:flex-row  justify-center bg-transparent ">
@@ -107,7 +107,7 @@ export const Introduction = () => {
 
 // Your code here to use the Spotlight class
 
-export const CardHover = () => {
+const CardHover = () => {
   return (
     <div
       className="max-w-sm mx-auto grid gap-6 lg:grid-cols-3 items-start lg:max-w-none group "
@@ -260,3 +260,5 @@ export const CardHover = () => {
     </div>
   );
 };
+
+export default Introduction;

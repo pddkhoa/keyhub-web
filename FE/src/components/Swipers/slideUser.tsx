@@ -5,12 +5,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
 import { CardUser } from "../Card/cardUser";
-import "./slideUser.css";
 import User from "@/types/user";
 import { Nodata } from "../ui/nodata";
 import { SkeletonUser } from "../ui/skeleton";
 import { useState } from "react";
-import { Button } from "../ui/button";
+// Import Swiper styles
+import "swiper/css";
+import "./slideUser.css";
 
 interface SlideUserProps {
   user: User[];
@@ -26,7 +27,7 @@ export const SlideUser: React.FC<SlideUserProps> = ({
   const [swiper, setSwiper] = useState(null);
 
   return (
-    <div className="h-full rounded-xl">
+    <div className="h-full w-full rounded-xl">
       <Swiper
         slidesPerView={3}
         spaceBetween={20}
@@ -39,25 +40,29 @@ export const SlideUser: React.FC<SlideUserProps> = ({
         onSwiper={(swiper) => {
           setSwiper(swiper);
         }}
-        className="slider-user"
+        className="sample-slider swiper swiper-wrapper mySwiper flex items-center my-5"
       >
-        {loading ? (
-          <>
-            <div className="grid grid-flow-col">
+        <div className="grid grid-flow-col">
+          {loading ? (
+            <>
               <SkeletonUser />
               <SkeletonUser />
               <SkeletonUser />
-            </div>
-          </>
-        ) : user && user.length > 0 ? (
-          user.map((item) => (
-            <SwiperSlide>
-              <CardUser key={item.id} data={item} setFollowing={setFollowing} />
-            </SwiperSlide>
-          ))
-        ) : (
-          <Nodata />
-        )}
+            </>
+          ) : user && user.length > 0 ? (
+            user.map((item) => (
+              <SwiperSlide>
+                <CardUser
+                  key={item.id}
+                  data={item}
+                  setFollowing={setFollowing}
+                />
+              </SwiperSlide>
+            ))
+          ) : (
+            <Nodata />
+          )}
+        </div>
         <div className="flex justify-end -mt-12 mx-10">
           <button
             className="cursor-pointer  duration-200 hover:scale-125 active:scale-100 border-2  z-50"

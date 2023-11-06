@@ -10,7 +10,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router";
 
-export const CategoriesDetail = () => {
+const CategoriesDetail = () => {
   const { id } = useParams();
   const idCategories = Number(id);
   const { axiosJWT, accessToken } = useAuth();
@@ -175,3 +175,5 @@ export const CategoriesDetail = () => {
     </div>
   );
 };
+
+export default CategoriesDetail;

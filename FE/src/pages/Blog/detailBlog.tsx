@@ -1,21 +1,18 @@
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import BlogPost from "@/types/blog";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Output from "editorjs-blocks-react-renderer";
 import { format } from "date-fns";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
-import { createAxios } from "@/api/createInstance";
-import { RootStateToken } from "@/types/token";
-import { loginSuccess } from "@/redux/authSlice";
 import { Loading } from "@/components/Loading/loading";
 import { Comments } from "@/components/Comment/comment";
 import "./detailBlog.css";
 import useAuth from "@/hooks/useAuth";
 
-export const DetailBlog = () => {
+const DetailBlog = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
   // const blog = useSelector((state: RootState) => state.blog.blog.result);
   const { axiosJWT, accessToken } = useAuth();
@@ -285,3 +282,4 @@ export const DetailBlog = () => {
     </main>
   );
 };
+export default DetailBlog;

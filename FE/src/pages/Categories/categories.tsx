@@ -5,7 +5,7 @@ import ClientServices from "@/services/client/client";
 import CategoryType from "@/types/categories";
 import { useState, useEffect } from "react";
 
-export const Categories = () => {
+const Categories = () => {
   const { axiosJWT, accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -125,3 +125,5 @@ export const Categories = () => {
     </div>
   );
 };
+
+export default Categories;

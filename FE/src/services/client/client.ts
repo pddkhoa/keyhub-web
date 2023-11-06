@@ -4,12 +4,12 @@ import TagType from "@/types/tags";
 import seriesType from "@/types/series";
 import { requestApiHelper } from "@/helpers/request";
 import api from "@/api/axios";
-import { getSeriesSuccess } from "@/redux/seriesSlice";
 import { getBlogFailed, getBlogSuccess } from "@/redux/blogSlice";
 import DraftPost from "@/types/draft";
 import CommentType from "@/types/comment";
 import User from "@/types/user";
 import LikeType from "@/types/like";
+import { getSeriesSuccess } from "@/redux/seriesSlice";
 
 class ClientServices {
   static updateProfile = async (

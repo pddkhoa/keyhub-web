@@ -1,7 +1,22 @@
+import { Button } from "@/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RULES } from "@/lib/rules";
+import { resetPassword } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 
 import User from "@/types/user";
+import { useFormik } from "formik";
+import { Check, Loader2, X } from "lucide-react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 type UpdateAccountProps = {
   setFlag: {
@@ -17,6 +32,72 @@ export const UpdateAccount: React.FC<UpdateAccountProps> = ({
   setFlag,
   data,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
+  const checkOffModal = useSelector(
+    (state: RootState) => state.auth.checkOffModal
+  );
+
+  const [requirementsMet, setRequirementsMet] = useState({
+    length: false,
+    lowercase: false,
+    uppercase: false,
+    number: false,
+    specialChar: false,
+    space: false,
+  });
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+
+    formik.setFieldValue("password", newPassword);
+
+    const containsSpace = /\s/.test(newPassword);
+    const lengthCheck = newPassword.length >= 8;
+    const lowercaseCheck = /[a-z]/.test(newPassword);
+    const uppercaseCheck = /[A-Z]/.test(newPassword);
+    const numberCheck = /[0-9]/.test(newPassword);
+    const specialCharCheck = /[@#$%^_&+=]/.test(newPassword);
+
+    setRequirementsMet({
+      length: lengthCheck,
+      lowercase: lowercaseCheck,
+      uppercase: uppercaseCheck,
+      number: numberCheck,
+      specialChar: specialCharCheck,
+      space: containsSpace,
+    });
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPass: "",
+    },
+    validationSchema: Yup.object().shape({
+      password: Yup.string()
+        .matches(RULES.password, "Password invalid")
+        .required("required"),
+      confirmPass: Yup.string()
+        .oneOf([Yup.ref("password")], "Confirm password not match.")
+        .required("Confirm password is required."),
+    }),
+    validateOnChange: true,
+    onSubmit: async (value) => {
+      const report = {
+        email: data.email,
+        old_pass: value.password,
+        new_pass: value.confirmPass,
+      };
+      resetPassword(report, dispatch, navigate, "");
+      if (checkOffModal) {
+        setFlag.off();
+      }
+    },
+  });
+
   return (
     <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-110">
       <div className="h-full flex flex-col space-y-5">
@@ -37,9 +118,9 @@ export const UpdateAccount: React.FC<UpdateAccountProps> = ({
           </button>
         </div>
         <div className="px-8 grow overflow-y-auto">
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 py-4">
                 <div className="relative px-2">
                   <Label
                     htmlFor="email"
@@ -60,10 +141,89 @@ export const UpdateAccount: React.FC<UpdateAccountProps> = ({
                   >
                     Password New
                   </Label>
-                  <Input
-                    className="w-full text-sm px-4 py-3  rounded-lg"
-                    disabled
-                  />
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Input
+                        type="password"
+                        id="password"
+                        name="password"
+                        onBlur={formik.handleBlur}
+                        onChange={handlePasswordChange}
+                        value={formik.values.password}
+                        placeholder="Password"
+                        className="w-full bg-input border  border-border"
+                      />
+                    </HoverCardTrigger>
+                    <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
+                      {formik.errors.password && formik.touched.password ? (
+                        <X className="text-red-500" />
+                      ) : null}
+                    </div>
+                    <HoverCardContent className="my-2 relative w-80 p-6 bg-modal brightness-125 border-2 border-border rounded-2xl shadow-xl z-[60]">
+                      <ul className="space-y-2">
+                        <li
+                          className={`text-sm flex justify-between border-b-2 items-center w-full ${
+                            requirementsMet.length
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>At least 8 characters</span>
+                          {requirementsMet.length ? <Check /> : <X />}
+                        </li>
+                        <li
+                          className={`text-sm flex justify-between border-b-2 w-full ${
+                            requirementsMet.lowercase
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>At least one lowercase letter</span>
+                          {requirementsMet.lowercase ? <Check /> : <X />}
+                        </li>
+                        <li
+                          className={`text-sm flex justify-between border-b-2 w-full ${
+                            requirementsMet.uppercase
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>At least one uppercase letter</span>
+                          {requirementsMet.uppercase ? <Check /> : <X />}
+                        </li>
+                        <li
+                          className={`text-sm flex justify-between border-b-2 w-full ${
+                            requirementsMet.number
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>At least one number</span>
+                          {requirementsMet.number ? <Check /> : <X />}
+                        </li>
+                        <li
+                          className={`text-sm flex justify-between border-b-2 w-full ${
+                            requirementsMet.specialChar
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>At least one special character</span>
+                          {requirementsMet.specialChar ? <Check /> : <X />}
+                        </li>
+                        <li
+                          className={`text-sm flex justify-between border-b-2 w-full ${
+                            !requirementsMet.space
+                              ? "text-green-500"
+                              : "text-red-500"
+                          }`}
+                        >
+                          <span>Password cannot contain spaces</span>
+                          {!requirementsMet.space ? <Check /> : <X />}
+                        </li>
+                      </ul>
+                    </HoverCardContent>
+                  </HoverCard>
                 </div>
                 <div className="relative px-2">
                   <Label
@@ -73,29 +233,46 @@ export const UpdateAccount: React.FC<UpdateAccountProps> = ({
                     Confirm Password
                   </Label>
                   <Input
-                    disabled
+                    type="password"
+                    id="confirmPass"
+                    name="confirmPass"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.confirmPass}
+                    placeholder="Confirm Password"
                     className="w-full text-sm px-4 py-3 rounded-lg"
                   />
+                  <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
+                    {formik.errors.confirmPass && formik.touched.confirmPass ? (
+                      <X className="text-red-500" />
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="px-5 py-2 border-t flex justify-end items-center gap-2">
+              <button
+                type="button"
+                onClick={setFlag.off}
+                className="px-5 py-1.5  float-right text-base font-medium rounded text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+              >
+                Close
+              </button>
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled={formik.isSubmitting || !formik.isValid}
+                >
+                  Save
+                </Button>
+              )}
+            </div>
           </form>
-        </div>
-
-        <div className="px-5 py-2 border-t">
-          <button
-            type="button"
-            className="px-5 py-1.5  float-right text-base font-medium rounded text-white bg-blue-700 hover:bg-indigo-500 transition-colors duration-200"
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={setFlag.off}
-            className="px-5 py-1.5  float-right text-base font-medium rounded text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
-          >
-            Close
-          </button>
         </div>
       </div>
     </div>

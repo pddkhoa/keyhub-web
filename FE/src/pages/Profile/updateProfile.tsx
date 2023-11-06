@@ -1,16 +1,8 @@
-import {
-  Camera,
-  ChevronRight,
-  Contact2,
-  FileCog,
-  FileLock2,
-  PenSquare,
-} from "lucide-react";
+import { Camera, PenSquare } from "lucide-react";
 import banner from "../../asset/__banner-default.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Items } from "@/components/Sidebar/items";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import User from "@/types/user";
@@ -47,7 +39,7 @@ import ClientServices from "@/services/client/client";
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import useAuth from "@/hooks/useAuth";
 
-export const UpdateProfile = () => {
+const UpdateProfile = () => {
   const location = useLocation();
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const [isUploading, setIsUploading] = useState(false);
@@ -116,33 +108,7 @@ export const UpdateProfile = () => {
   return (
     <div className=" container  min-h-0 px-4 py-16">
       <header className="w-full h-full mx-auto flex">
-        <div className="h-full w-1/4 flex flex-col p-5 space-y-5  overflow-x-hidden">
-          <div className="ease-in-out transition-transform z-3 ml-auto w-full h-full border-l-4  bg-card border-theme-divider-tertiary rounded-xl p-4">
-            <div className=" flex flex-col w-full h-full space-y-5">
-              <ul className="h-full  space-y-3">
-                <li className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover">
-                  <Items icon={<Contact2 />} title="Profile" />
-                  <div className="">
-                    <ChevronRight className="text-title-foreground" />
-                  </div>
-                </li>
-                <li className="flex justify-between p-2  rounded-lg cursor-pointer items-center w-full hover:bg-hover">
-                  <Items icon={<FileLock2 />} title="Security" />
-                  <div className="">
-                    <ChevronRight className="text-title-foreground" />
-                  </div>
-                </li>
-                <li className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover">
-                  <Items icon={<FileCog />} title="Other Setting" />
-                  <div className="">
-                    <ChevronRight className="text-title-foreground" />
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="h-full w-3/4 flex flex-col p-6 space-y-5  overflow-x-hidden">
+        <div className="h-full w-9/12 mx-auto flex flex-col p-6 space-y-5  overflow-x-hidden">
           <div className="space-y-2">
             <div className="flex justify-between">
               <div className="text-title">Profile Picture</div>
@@ -469,3 +435,4 @@ const MoreInfoItem = ({ icon, value }: any) => (
     </div>
   </div>
 );
+export default UpdateProfile;
