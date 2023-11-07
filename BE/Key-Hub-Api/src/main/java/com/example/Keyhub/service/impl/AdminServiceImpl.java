@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -28,12 +29,16 @@ public class AdminServiceImpl implements IAdminService {
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public ResponseEntity<GenericResponse> circleChartAnalystArticle() {
-        int published = blogRepository.countByStatus(1);
-        int draft = blogRepository.countByStatus(0);
+        int publish = blogRepository.countByStatus(1);
+        int draftCount = blogRepository.countByStatus(0);
+        float published = ((float) publish / (publish + draftCount)) * 100;
+        float draft = ((float) draftCount / (publish + draftCount)) * 100;
 
-        Map<String, Integer> stats = new HashMap<>();
-        stats.put("Published", published);
-        stats.put("Draft", draft);
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        Map<String, Float> stats = new HashMap<>();
+        stats.put("Published", Float.parseFloat(df.format(published)));
+        stats.put("Draft", Float.parseFloat(df.format(draft)));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -73,13 +78,13 @@ public class AdminServiceImpl implements IAdminService {
                 );
     }
     @Override
-    public ResponseEntity<GenericResponse> chartAriticleByMonth() {
+    public ResponseEntity<GenericResponse> chartAriticleByMonth(Integer month) {
         LocalDate now = LocalDate.now();
-        LocalDate startOfMonth = now.withDayOfMonth(1); // Ngày đầu tiên của tháng
-        LocalDate endOfMonth = now.with(TemporalAdjusters.lastDayOfMonth()).plusDays(1); // Ngày cuối cùng của tháng + 1 để bao gồm toàn bộ tháng
+        LocalDate firstDay = LocalDate.of(now.getYear(), month, 1);
+        LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
 
-        Date start = Date.from(startOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(endOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date start = Date.from(firstDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         Map<String, Integer> stats = new LinkedHashMap<>();
         while (start.before(end)) {
@@ -99,21 +104,23 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public ResponseEntity<GenericResponse> chartAriticleByYear() {
+    public ResponseEntity<GenericResponse> chartAriticleByYear(Integer year) {
         LocalDate now = LocalDate.now();
-        int year = now.getYear();
-
         Map<Integer, Integer> stats = new LinkedHashMap<>();
 
-        for (int i = year; i >= year - 9; i--) {
-            LocalDate startOfYear = LocalDate.of(i, 1, 1);
-            LocalDate endOfYear = startOfYear.plusYears(1);
+        for (int month = 1; month <= 12; month++) {
 
-            Date start = Date.from(startOfYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            Date end = Date.from(endOfYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            LocalDate firstDay = LocalDate.of(year, month, 1);
+            LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
+
+            Date start = Date.from(firstDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date end = Date.from(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             int count = blogRepository.countByCreateDateBetween(start, end);
-            stats.put(i, count);
+
+            // Lưu kết quả vào map
+            stats.put(month , count);
+
         }
 
         return ResponseEntity.status(HttpStatus.OK)

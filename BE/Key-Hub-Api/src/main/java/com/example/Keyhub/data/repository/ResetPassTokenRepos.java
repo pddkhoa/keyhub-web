@@ -1,6 +1,6 @@
 package com.example.Keyhub.data.repository;
 
-import com.example.Keyhub.data.entity.ResetPassToken;
+import com.example.Keyhub.data.entity.ProdfileUser.ResetPassToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

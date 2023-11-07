@@ -21,7 +21,7 @@ public interface IFollowRepository extends JpaRepository<Follow, BigInteger> {
 
     @Query("SELECT f FROM Follow f WHERE  f.userFollower = :userFollower AND f.following = :followingUser")
     Follow findAllByFollowingAndUserFollower( @Param("userFollower") Users userFollower ,@Param("followingUser") Users followingUser);
-    @Query(value = "SELECT DISTINCT follow.user_is_following FROM Follow GROUP BY follow.user_is_following ORDER BY COUNT(follow.user_follow) DESC limit 10", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT follow.user_is_following FROM Follow GROUP BY follow.user_is_following ORDER BY COUNT(follow.user_follow) DESC", nativeQuery = true)
     List<BigInteger> findUsersWithMostFollowers();
 
 }

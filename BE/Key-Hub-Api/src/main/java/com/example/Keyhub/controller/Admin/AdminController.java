@@ -37,13 +37,13 @@ public class AdminController {
     public ResponseEntity<GenericResponse> getBlogChartByWeak() {
         return adminService.chartAriticleByWeak();
     }
-    @GetMapping("/article-month")
-    public ResponseEntity<GenericResponse> getBlogChartByMonth() {
-        return adminService.chartAriticleByMonth();
+    @GetMapping("/article-month/{month}")
+    public ResponseEntity<GenericResponse> getBlogChartByMonth(@PathVariable Integer month) {
+        return adminService.chartAriticleByMonth(month);
     }
-    @GetMapping("/article-year")
-    public ResponseEntity<GenericResponse> getBlogChartByYear() {
-        return adminService.chartAriticleByYear();
+    @GetMapping("/article-year/{year}")
+    public ResponseEntity<GenericResponse> getBlogChartByYear(@PathVariable Integer year) {
+        return adminService.chartAriticleByYear(year);
     }
 
 

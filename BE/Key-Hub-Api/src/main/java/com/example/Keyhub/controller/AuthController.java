@@ -8,13 +8,11 @@ import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.entity.ResetPassToken;
-import com.example.Keyhub.data.entity.VerificationToken;
-import com.example.Keyhub.data.exception.CustomExceptionRuntime;
+import com.example.Keyhub.data.entity.ProdfileUser.ResetPassToken;
+import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
 import com.example.Keyhub.data.payload.ChechOtp;
 import com.example.Keyhub.data.payload.ResetPass;
 import com.example.Keyhub.data.payload.TokenRefreshRequest;
-import com.example.Keyhub.data.payload.respone.CustomResponse;
 import com.example.Keyhub.data.payload.respone.TokenRefreshResponse;
 import com.example.Keyhub.data.repository.IUserRepository;
 import com.example.Keyhub.data.repository.RefreshTokenRepository;
@@ -22,14 +20,9 @@ import com.example.Keyhub.data.repository.ResetPassTokenRepos;
 import com.example.Keyhub.event.OnRegistrationCompleteEvent;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
-import com.example.Keyhub.security.userpincal.UserDetailService;
 import com.example.Keyhub.service.IRefreshTokenService;
 import com.example.Keyhub.service.impl.UserServiceImpl;
-import org.apache.http.HttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,8 +30,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,34 +44,35 @@ import java.util.Objects;
 @RestController
 public class AuthController {
     private static final int MAX_LOGIN_ATTEMPTS = 5;
-    private int loginAttempts = 0;
     final
     UserServiceImpl userService;
-    @Autowired
+    final
     AuthenticationManager authenticationManager;
-    @Autowired
+    final
     IRefreshTokenService refreshTokenService;
-    @Autowired
+    final
     RefreshTokenRepository refreshTokenRepository;
-    @Autowired
+    final
     ResetPassTokenRepos resetPassTokenRepos;
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
-    @Autowired
+    private final ApplicationEventPublisher applicationEventPublisher;
+    final
     JwtProvider jwtProvider;
-    @Autowired
+    final
     IUserRepository iUserRepository;
 
-    public AuthController(UserServiceImpl userService) {
+    public AuthController(UserServiceImpl userService, AuthenticationManager authenticationManager, IRefreshTokenService refreshTokenService, RefreshTokenRepository refreshTokenRepository, ResetPassTokenRepos resetPassTokenRepos, ApplicationEventPublisher applicationEventPublisher, JwtProvider jwtProvider, IUserRepository iUserRepository) {
         this.userService = userService;
-    }
-    private Users getUserFromAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return ((CustomUserDetails) auth.getPrincipal()).getUsers();
+        this.authenticationManager = authenticationManager;
+        this.refreshTokenService = refreshTokenService;
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.resetPassTokenRepos = resetPassTokenRepos;
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.jwtProvider = jwtProvider;
+        this.iUserRepository = iUserRepository;
     }
 
     @PostMapping("/signup")
-    public ResponseEntity register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
+    public ResponseEntity<GenericResponse> register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -120,7 +112,7 @@ public class AuthController {
         }
     }
     @PostMapping("/verify-account")
-    public ResponseEntity verifyAccount(@RequestParam String token) {
+    public ResponseEntity<GenericResponse> verifyAccount(@RequestParam String token) {
         VerificationToken verificationToken = userService.getVerificationToken(token);
         if (verificationToken==null)
         {
@@ -133,7 +125,7 @@ public class AuthController {
                     );
         }
         Calendar cal = Calendar.getInstance();
-        if (verificationToken == null && verificationToken.isUsed() == true || (verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+        if (verificationToken.isUsed() || (verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -185,7 +177,7 @@ public class AuthController {
     }
     private void setLoginAttemptsCookie(HttpServletResponse response, int loginAttempts) {
         Cookie cookie = new Cookie("loginAttempts", Integer.toString(loginAttempts));
-        cookie.setMaxAge(24 * 60 * 60); // Thời gian tồn tại của cookie (tính theo giây)
+        cookie.setMaxAge(24 * 60 * 60);
         cookie.setPath("/");
         response.addCookie(cookie);
     }
@@ -212,7 +204,7 @@ public class AuthController {
             CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrinciple.getUsers().getId());
             String refresh = refreshToken.getToken();
-            loginAttempts = 0;
+            int loginAttempts = 0;
             setLoginAttemptsCookie(response, loginAttempts);
             if (userPrinciple.getUsers().getStatus()==3)
             {
@@ -273,7 +265,7 @@ public class AuthController {
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestParam("refreshToken") String refreshToken) {
-        RefreshToken delete = refreshTokenRepository.findByToken(refreshToken).get();
+        RefreshToken delete = refreshTokenRepository.findByToken(refreshToken).orElse(null);
         if (delete!=null) {
             return refreshTokenService.logout(refreshToken);
         }
@@ -286,7 +278,7 @@ public class AuthController {
                         .build());
     }
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-    public ResponseEntity forgotPassword(@RequestParam  String email) {
+    public ResponseEntity<GenericResponse> forgotPassword(@RequestParam  String email) {
         Users us = userService.findByEmail(email);
         if (us != null) {
             userService.createResetToken(email);
@@ -297,8 +289,8 @@ public class AuthController {
                             .result("Token in your email")
                             .statusCode(HttpStatus.OK.value())
                             .build());
-        } else
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        }
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(GenericResponse.builder()
                         .success(false)
                         .message("Create reset pass token fail check email or try again")
@@ -306,7 +298,7 @@ public class AuthController {
                         .build());
     }
     @PostMapping("/veriry-otp")
-    public ResponseEntity chechOtpResetPass(@RequestBody @Valid ChechOtp resetPass,
+    public ResponseEntity<GenericResponse> checkOtpResetPass(@RequestBody @Valid ChechOtp resetPass,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -340,7 +332,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.PATCH)
-    public ResponseEntity resetPassword(@RequestBody @Valid ResetPass resetPass,
+    public ResponseEntity<GenericResponse> resetPassword(@RequestBody @Valid ResetPass resetPass,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

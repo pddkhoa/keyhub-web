@@ -69,7 +69,7 @@ public class MessageController {
     public ResponseEntity<GenericResponse> deleteMessage(@PathVariable Long message_id)
     {
         boolean check= messageService.deleteMessage(message_id,getUserFromAuthentication());
-        if (check==false)
+        if (!check)
         {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(GenericResponse.builder()

@@ -27,15 +27,17 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     BigInteger countBySeriesId(BigInteger series_id);
     @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE) AND b.status =1 ORDER BY  b.create_date DESC", nativeQuery = true)
     List<Blog> searchByFullText(@Param("searchText") String searchText);
+    @Query(value = "SELECT * FROM Blog b WHERE MATCH(title, description, content) AGAINST(:searchText IN BOOLEAN MODE) AND b.status =1 AND b.category_id = :category_id ORDER BY  b.create_date DESC", nativeQuery = true)
+    List<Blog> searchByCategory(@Param("searchText") String searchText, @Param("category_id") Long category_id);
     List<Blog>  findAllByOrderByCreateDateDesc();
     List<Blog> findAllByStatus(int status);
     @Query("SELECT b FROM Blog b WHERE b.status = 1 ORDER BY b.createDate DESC")
-    List<Blog>  findAllByStatusOrderByCreateDateDesc(int stautus, Pageable pageable);
+    List<Blog>  findAllByStatusOrderByCreateDateDesc(int stautus);
     @Query("SELECT b FROM Blog b WHERE b.status = 1 ORDER BY b.likes DESC, b.createDate DESC")
-    List<Blog>  findAllByStatusOrderByLikesDesc( Pageable pageable);
+    List<Blog>  findAllByStatusOrderByLikesDesc();
 
     @Query("SELECT b FROM Blog b WHERE b.status = 1 ORDER BY b.Views DESC, b.createDate DESC")
-    List<Blog>  findAllByStatusOrderByViewsDesc(int stautus, Pageable pageable);
+    List<Blog>  findAllByStatusOrderByViewsDesc(int stautus );
     
     List<Blog>  findAllByOrderByCreateDateDesc(Pageable pageable);
     List<Blog> findByCategoryAndStatusOrderByCreateDateDesc(Category category, int status_id);
@@ -44,9 +46,9 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findAllByUserAndStatusOrderByCreateDateDesc(Users users,int status);
     @Query("SELECT b FROM Blog b WHERE b.createDate  BETWEEN :startDate AND :endDate and b.status= 1 " +
             "ORDER BY (b.Views + b.likes) DESC , b.createDate DESC ")
-    List<Blog> findPopularBlogs(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
+    List<Blog> findPopularBlogs(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
     @Query("SELECT b FROM Blog b where b.status= 1 ORDER BY (b.Views + b.likes) DESC, b.createDate DESC")
-    List<Blog> findPopularBlogsWithPagging(Pageable pageable);
+    List<Blog> findPopularBlogsWithPagging();
 
     int countByCreateDateBetween(Date createDate, Date createDate2);
 }

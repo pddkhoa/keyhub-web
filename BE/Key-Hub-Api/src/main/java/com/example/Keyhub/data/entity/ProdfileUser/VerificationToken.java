@@ -1,4 +1,4 @@
-package com.example.Keyhub.data.entity;
+package com.example.Keyhub.data.entity.ProdfileUser;
 
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.Getter;

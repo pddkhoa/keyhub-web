@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 public interface IAdminService {
     ResponseEntity<GenericResponse> circleChartAnalystArticle();
     ResponseEntity<GenericResponse> chartAriticleByWeak();
-    ResponseEntity<GenericResponse> chartAriticleByMonth();
-    ResponseEntity<GenericResponse> chartAriticleByYear();
+    ResponseEntity<GenericResponse> chartAriticleByMonth(Integer month);
+    ResponseEntity<GenericResponse> chartAriticleByYear(Integer year);
     ResponseEntity<GenericResponse> chartPointUser();
 
 }

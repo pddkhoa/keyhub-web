@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.example.Keyhub.config.ValidatorUtils;
 import com.example.Keyhub.data.dto.request.*;
 import com.example.Keyhub.data.dto.response.*;
+import com.example.Keyhub.data.dto.response.CategoryDTO;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
@@ -14,8 +15,6 @@ import com.example.Keyhub.service.ICommentService;
 import com.example.Keyhub.service.IUserService;
 import com.example.Keyhub.service.UploadImageService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -283,7 +282,7 @@ public class AccountBlog {
     }
     @Transactional
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
-    public ResponseEntity<GenericResponse> createBlog(@Valid @RequestBody BlogPostDTO body,
+    public ResponseEntity<GenericResponse> createBlog(@RequestBody BlogPostDTO body,
                                                       HttpServletRequest request, HttpServletResponse response) {
         List<String> errors = body.validateAndGetErrors();
         if (!errors.isEmpty()) {

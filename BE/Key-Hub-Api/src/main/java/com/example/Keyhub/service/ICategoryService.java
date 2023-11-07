@@ -1,8 +1,9 @@
 package com.example.Keyhub.service;
 
+import com.example.Keyhub.data.dto.response.BlogDTO;
+import com.example.Keyhub.data.dto.request.CategoryDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 
 import java.math.BigInteger;
@@ -14,4 +15,6 @@ public interface ICategoryService {
     List<UserResponseDTO> getAllUserFollowCategory(Long category_id, Users users);
     boolean isPresentCategory(Long id);
     boolean isPresentCategoryAndUser(Long id, Users users);
+    List<BlogDTO> searchByCategory(Users users, CategoryDTO categoryDTO);
+
 }

@@ -1,14 +1,18 @@
 package com.example.Keyhub.service.impl;
 
+import com.example.Keyhub.data.dto.request.CategoryDTO;
+import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.Blog;
+import com.example.Keyhub.data.entity.Blog.BlogHide;
 import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
+import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -18,16 +22,30 @@ import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
-    @Autowired
+    final
     ICategoryRepository categoryRepository;
-    @Autowired
+    final
     IFollowRepository iFollowRepository;
-    @Autowired
+    final
     IBlogRepository blogRepository;
-    @Autowired
+    final
     IUserFollowCategory followCategoryRepository;
-    @Autowired
+    final
     IUserRepository userRepository;
+    final
+    GeneralService generalService;
+    final
+    IBlogHIdeRepository blogHIdeRepository;
+
+    public CategoryServiceImpl(ICategoryRepository categoryRepository, IFollowRepository iFollowRepository, IBlogRepository blogRepository, IUserFollowCategory followCategoryRepository, IUserRepository userRepository, GeneralService generalService, IBlogHIdeRepository blogHIdeRepository) {
+        this.categoryRepository = categoryRepository;
+        this.iFollowRepository = iFollowRepository;
+        this.blogRepository = blogRepository;
+        this.followCategoryRepository = followCategoryRepository;
+        this.userRepository = userRepository;
+        this.generalService = generalService;
+        this.blogHIdeRepository = blogHIdeRepository;
+    }
 
     @Override
     public List<CategoryResponseCardDTO> getAllCategoryFollowByUser(Users users, BigInteger user_id) {
@@ -153,5 +171,20 @@ public class CategoryServiceImpl implements ICategoryService {
             return false;
         }
         return true;
+    }
+    @Override
+    public List<BlogDTO> searchByCategory(Users users, CategoryDTO categoryDTO) {
+        List<Blog> list = blogRepository.searchByCategory(categoryDTO.getKeyword(),categoryDTO.getCategory_id());
+        List<BlogDTO>  result = new ArrayList<>();
+        for (Blog blogDTO:list)
+        {
+            BlogDTO blogDTO1 = new BlogDTO();
+            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogDTO, users);
+            if (blogHide == null) {
+                blogDTO1 = generalService.createBlogDTO(users, blogDTO);
+            }
+            result.add(blogDTO1);
+        }
+        return result;
     }
 }

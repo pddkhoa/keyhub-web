@@ -34,8 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -100,11 +100,11 @@
       <recent name="com.example.Keyhub.controller.Admin" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.Keyhub.data.entity.Blog" />
-      <recent name="com.example.Keyhub.data.dto.response" />
-      <recent name="com.example.Keyhub.data.payload.respone" />
       <recent name="com.example.Keyhub.data.dto.request" />
-      <recent name="com.example.Keyhub.controller.User" />
+      <recent name="com.example.Keyhub.data.dto.response" />
+      <recent name="com.example.Keyhub.data.entity.report" />
+      <recent name="com.example.Keyhub.data.entity.Blog" />
+      <recent name="com.example.Keyhub.data.payload.respone" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -411,7 +411,12 @@
       <workItem from="1699162773761" duration="472000" />
       <workItem from="1699166893930" duration="5392000" />
       <workItem from="1699178045906" duration="2107000" />
-      <workItem from="1699194630074" duration="173000" />
+      <workItem from="1699194630074" duration="972000" />
+      <workItem from="1699232906763" duration="7480000" />
+      <workItem from="1699250133374" duration="5537000" />
+      <workItem from="1699278382227" duration="5809000" />
+      <workItem from="1699348652623" duration="3900000" />
+      <workItem from="1699367561806" duration="8041000" />
     </task>
     <servers />
   </component>

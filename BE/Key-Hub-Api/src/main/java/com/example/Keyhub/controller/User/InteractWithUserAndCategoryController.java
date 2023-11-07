@@ -1,5 +1,7 @@
 package com.example.Keyhub.controller.User;
 
+import com.example.Keyhub.data.dto.request.CategoryDTO;
+import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
@@ -48,7 +50,7 @@ public class InteractWithUserAndCategoryController {
                         .success(true)
                         .result(cardDTO)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Wall user")
+                        .message("All category")
                         .build()
                 );
     }
@@ -139,4 +141,16 @@ public class InteractWithUserAndCategoryController {
                         .build()
                 );
     }
-}
+    @PostMapping("/categories/search")
+    public ResponseEntity<GenericResponse> getAllUserFollowCategory(@RequestBody CategoryDTO categoryDTO) {
+        List<BlogDTO> list = categoryService.searchByCategory(getUserFromAuthentication(),categoryDTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("List blog by search in category")
+                        .build()
+                );
+    }
+    }

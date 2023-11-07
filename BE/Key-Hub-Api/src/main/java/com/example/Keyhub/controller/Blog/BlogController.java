@@ -327,6 +327,17 @@ public class BlogController {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list= ibLogService.getListPopularWithPagging(index,users);
         List<BlogDTO> listAllBlog =ibLogService.getAllBlogPublis(users);
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(list)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
         if (list.size()>= listAllBlog.size())
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -335,17 +346,6 @@ public class BlogController {
                             .result(list)
                             .statusCode(HttpStatus.OK.value())
                             .message("That all blog")
-                            .build()
-                    );
-        }
-        if (list.isEmpty())
-        {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(GenericResponse.builder()
-                            .success(true)
-                            .result(list)
-                            .statusCode(HttpStatus.OK.value())
-                            .message("No blog Popular")
                             .build()
                     );
         }

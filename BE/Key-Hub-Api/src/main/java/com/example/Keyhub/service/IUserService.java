@@ -1,8 +1,10 @@
 package com.example.Keyhub.service;
 
 import com.example.Keyhub.data.dto.request.ReportDTO;
+import com.example.Keyhub.data.dto.request.ReportUserDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
+import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
@@ -10,15 +12,12 @@ import com.example.Keyhub.data.entity.Blog.Series;
 import com.example.Keyhub.data.entity.ProdfileUser.BannerUser;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.dto.request.UserDTO;
-import com.example.Keyhub.data.entity.VerificationToken;
-import com.example.Keyhub.data.payload.MessageDTO;
+import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
 import com.example.Keyhub.data.payload.ProfileInfor;
-import com.example.Keyhub.data.payload.respone.MessageResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 public interface IUserService {
     Users findByEmail(String email);
@@ -65,4 +64,6 @@ public interface IUserService {
     boolean hideBlog(BigInteger blog_id, Users users);
     boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback);
     List<UserResponseDTO> findFriend(String keyWord, Users users);
+    ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO);
+    boolean blockUser(BigInteger user_id, Users users);
 }

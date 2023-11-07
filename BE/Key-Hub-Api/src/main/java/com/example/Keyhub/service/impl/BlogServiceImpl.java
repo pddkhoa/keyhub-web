@@ -8,6 +8,7 @@ import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
+import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IBLogService;
 import jdk.nashorn.internal.ir.IfNode;
 import org.slf4j.Logger;
@@ -32,6 +33,10 @@ public class BlogServiceImpl implements IBLogService {
     @Autowired
     private IBlogRepository blogRepository;
     @Autowired
+    IBlogHIdeRepository blogHIdeRepository;
+    @Autowired
+    IBlockRepository blockRepository;
+    @Autowired
     ISeriesImageRepository imageRepository;
     @Autowired
     private IBlogSaveRepository blogSaveRepository;
@@ -48,6 +53,10 @@ public class BlogServiceImpl implements IBLogService {
     ISeriesRepository iSeriesRepository;
     @Autowired
     private ISeriesRepository seriesRepository;
+    @Autowired
+    IUserRepository userRepository;
+    @Autowired
+    GeneralService generalService;
     @Override
     public Blog createBlog(BlogPostDTO blogPostDTO, Users user) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -120,8 +129,6 @@ public class BlogServiceImpl implements IBLogService {
         }
         return blogRepository.save(newBlog);
     }
-    @Autowired
-    IBlogHIdeRepository blogHIdeRepository;
     @Override
     public List<BlogDTO> getBlogByCategory(Long category_id, Users users ) {
         Category categorys = categoryRepository.findById(category_id).orElse(null);
@@ -135,7 +142,7 @@ public class BlogServiceImpl implements IBLogService {
 
         for (Blog blog : list) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog,users);
-            if (blogHide == null) {
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {
                 BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
@@ -205,7 +212,7 @@ public class BlogServiceImpl implements IBLogService {
 
         for (Blog blog : list) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {
                 BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
@@ -309,8 +316,7 @@ public class BlogServiceImpl implements IBLogService {
         List<BlogDTO> blogDTOs = new ArrayList<>();
         for (Blog blog : list) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
-                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
@@ -434,8 +440,7 @@ public class BlogServiceImpl implements IBLogService {
 
         for (Blog blog : list) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
-                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
@@ -495,8 +500,7 @@ public class BlogServiceImpl implements IBLogService {
         List<BlogDTO> blogDTOs = new ArrayList<>();
         for (Blog blog : list) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
-                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
@@ -885,12 +889,11 @@ public class BlogServiceImpl implements IBLogService {
 
 
         Pageable pageable = PageRequest.of(0, 5);
-        List<Blog> popularBlogs = blogRepository.findPopularBlogs(startDate,endDate, pageable);
+        List<Blog> popularBlogs = blogRepository.findPopularBlogs(startDate,endDate);
         List<BlogDTO> blogDTOs = new ArrayList<>();
         for (Blog blog : popularBlogs) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
-                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
@@ -938,15 +941,30 @@ public class BlogServiceImpl implements IBLogService {
     }
     @Override
     public List<BlogDTO> getListPopularWithPagging(int index, Users users) {
-        int limit = 5;
-        index = index -1;
-        int offset =  index * 5;
-        Pageable pageable = PageRequest.of(index, 5);
-        List<Blog> popularBlogs = blogRepository.findPopularBlogsWithPagging(pageable);
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+
+        List<Blog> popularBlogs = blogRepository.findPopularBlogsWithPagging();
+        popularBlogs.sort(Comparator.comparing(Blog::getCreateDate).reversed());
+        List<Blog> beforeFilter = new ArrayList<>();
+        for (Blog blogCheck : popularBlogs)
+        {
+            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogCheck, users);
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blogCheck.getUser()) && !blockRepository.existsByBlockerAndBlocked(blogCheck.getUser(),users)) {
+                beforeFilter.add(blogCheck);
+            }
+        }
+        List<Blog> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(beforeFilter.get(i));
+        }
+        if (result.isEmpty())
+        {
+            return null;
+        }
         List<BlogDTO> blogDTOs = new ArrayList<>();
-        for (Blog blog : popularBlogs) {
-            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
+        for (Blog blog : result) {
                 BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
@@ -992,7 +1010,6 @@ public class BlogServiceImpl implements IBLogService {
                     blogDTO.setSeries(seriesDTO);
                 }
                 blogDTOs.add(blogDTO);
-            }
         }
         return blogDTOs;
     }
@@ -1041,8 +1058,7 @@ public class BlogServiceImpl implements IBLogService {
         List<BlogDTO> blogDTOs = new ArrayList<>();
         for (Blog blog : result) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
-                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
@@ -1132,18 +1148,30 @@ public class BlogServiceImpl implements IBLogService {
 
     @Override
     public List<BlogDTO> getAllBlogNews(int index, Users users) {
-        int limit = 5;
-        index =index-1;
-        Pageable pageable = PageRequest.of(index, limit);
-        List<Blog> list = blogRepository.findAllByStatusOrderByCreateDateDesc(1,pageable);
-        if (list.isEmpty())
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+
+        List<Blog> popularBlogs = blogRepository.findAllByStatusOrderByCreateDateDesc(1);
+        popularBlogs.sort(Comparator.comparing(Blog::getCreateDate).reversed());
+        List<Blog> beforeFilter = new ArrayList<>();
+        for (Blog blogCheck : popularBlogs)
+        {
+            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogCheck, users);
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blogCheck.getUser()) && !blockRepository.existsByBlockerAndBlocked(blogCheck.getUser(),users)) {
+                beforeFilter.add(blogCheck);
+            }
+        }
+        List<Blog> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(beforeFilter.get(i));
+        }
+        if (result.isEmpty())
         {
             return null;
         }
         List<BlogDTO> blogDTOs = new ArrayList<>();
-        for (Blog blog : list) {
-            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
+        for (Blog blog : result) {
                 BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
@@ -1188,25 +1216,37 @@ public class BlogServiceImpl implements IBLogService {
                     blogDTO.setSeries(seriesDTO);
                 }
                 blogDTOs.add(blogDTO);
-            }
         }
         return blogDTOs;
     }
 
     @Override
     public List<BlogDTO> getAllBlogLike(int index, Users users) {
-        int limit = 5;
-        index =index-1;
-        Pageable pageable = PageRequest.of(index, limit);
-        List<Blog> list = blogRepository.findAllByStatusOrderByLikesDesc(pageable);
-        if (list.isEmpty())
+
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+
+        List<Blog> popularBlogs = blogRepository.findAllByStatusOrderByLikesDesc();
+        popularBlogs.sort(Comparator.comparing(Blog::getCreateDate).reversed());
+        List<Blog> beforeFilter = new ArrayList<>();
+        for (Blog blogCheck : popularBlogs)
+        {
+            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogCheck, users);
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blogCheck.getUser()) && !blockRepository.existsByBlockerAndBlocked(blogCheck.getUser(),users)) {
+                beforeFilter.add(blogCheck);
+            }
+        }
+        List<Blog> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(beforeFilter.get(i));
+        }
+        if (result.isEmpty())
         {
             return null;
         }
         List<BlogDTO> blogDTOs = new ArrayList<>();
-        for (Blog blog : list) {
-            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null) {
+        for (Blog blog : result) {
                 BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
@@ -1252,22 +1292,35 @@ public class BlogServiceImpl implements IBLogService {
                 }
                 blogDTOs.add(blogDTO);
             }
-        }
         return blogDTOs;
     }
 
     @Override
     public List<BlogDTO> getAllBlogViews(int index, Users users) {
-        int limit = 5;
-        index =index-1;
-        Pageable pageable = PageRequest.of(index, limit);
-        List<Blog> list = blogRepository.findAllByStatusOrderByViewsDesc(1,pageable);
-        if (list.isEmpty())
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+
+        List<Blog> popularBlogs = blogRepository.findAllByStatusOrderByViewsDesc(1);
+        popularBlogs.sort(Comparator.comparing(Blog::getCreateDate).reversed());
+        List<Blog> beforeFilter = new ArrayList<>();
+        for (Blog blogCheck : popularBlogs)
+        {
+            BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogCheck, users);
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blogCheck.getUser()) && !blockRepository.existsByBlockerAndBlocked(blogCheck.getUser(),users)) {
+                beforeFilter.add(blogCheck);
+            }
+        }
+        List<Blog> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(beforeFilter.get(i));
+        }
+        if (result.isEmpty())
         {
             return null;
         }
         List<BlogDTO> blogDTOs = new ArrayList<>();
-        for (Blog blog : list) {
+        for (Blog blog : result) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
             if (blogHide == null) {
                 BlogDTO blogDTO = new BlogDTO();
@@ -1318,58 +1371,6 @@ public class BlogServiceImpl implements IBLogService {
         }
         return blogDTOs;
     }
-    public BlogDTO createBlogDTO(Users users, Blog blog)
-    {
-        BlogDTO blogDTO = new BlogDTO();
-        blogDTO.setId(blog.getId());
-        blogDTO.setTitle(blog.getTitle());
-        blogDTO.setContent(blog.getContent());
-        blogDTO.setDescription(blog.getDescription());
-        blogDTO.setCreate_date(blog.getCreateDate());
-        blogDTO.setAvatar(blog.getAvatar());
-        blogDTO.setViews(blog.getViews());
-        blogDTO.setSumComment(blogComment.countByBlog(blog));
-        blogDTO.setStatus_id(blog.getStatus());
-        blogDTO.setLikes(blog.getLikes());
-        blogDTO.setUsers(blog.getUser());
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(blog.getCategory().getId());
-        categoryDTO.setName(blog.getCategory().getName());
-        blogDTO.setCategories(categoryDTO);
-
-        BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
-        BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
-        if (blogSave==null)
-        {
-            blogDTO.setIsSave(false);
-        }
-        else {
-            blogDTO.setIsSave(true);
-        }
-        if (blogLike==null)
-        {
-            blogDTO.setIsLike(false);
-        }
-        else {
-            blogDTO.setIsLike(true);
-        }
-        List<TagDTO> tagDTOs = blog.getTags().stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName()))
-                .collect(Collectors.toList());
-        blogDTO.setTags(tagDTOs);
-        if (blog.getSeries() != null) {
-            SeriesResponse seriesDTO = new SeriesResponse();
-            seriesDTO.setId(blog.getSeries().getId());
-            seriesDTO.setName(blog.getSeries().getName());
-            seriesDTO.setSumBlog(blog.getSeries().getSumBlog());
-            seriesDTO.setDescription(blog.getSeries().getDescription());
-            seriesDTO.setCreateday(blog.getSeries().getCreateday());
-            blogDTO.setSeries(seriesDTO);
-        }
-        return blogDTO;
-    }
-    @Autowired
-    IUserRepository userRepository;
     @Override
     public List<BlogDTO> getAllByBlogInWallUser(Users users, BigInteger user_id) {
         Users users1 = userRepository.findById(user_id).orElse(null);
@@ -1380,7 +1381,7 @@ public class BlogServiceImpl implements IBLogService {
             BlogDTO blogDTO1 = new BlogDTO();
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogDTO, users);
             if (blogHide == null) {
-                blogDTO1 = createBlogDTO(users, blogDTO);
+                blogDTO1 = generalService.createBlogDTO(users, blogDTO);
             }
             result.add(blogDTO1);
         }

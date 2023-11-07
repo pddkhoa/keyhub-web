@@ -1,27 +1,25 @@
 package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.ReportDTO;
+import com.example.Keyhub.data.dto.request.ReportUserDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
+import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.dto.request.UserDTO;
-import com.example.Keyhub.data.entity.ResetPassToken;
-import com.example.Keyhub.data.entity.VerificationToken;
-import com.example.Keyhub.data.entity.chat.Chat;
+import com.example.Keyhub.data.entity.ProdfileUser.ResetPassToken;
+import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
+import com.example.Keyhub.data.entity.report.Block;
 import com.example.Keyhub.data.entity.report.ReportBlog;
-import com.example.Keyhub.data.payload.MessageDTO;
+import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.payload.ProfileInfor;
-import com.example.Keyhub.data.payload.respone.MessageResponseDTO;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
-import com.example.Keyhub.service.IEmailService;
-import com.example.Keyhub.service.IStoryService;
-import com.example.Keyhub.service.IUserService;
-import com.example.Keyhub.service.UploadImageService;
+import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +43,13 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     ModelMapper mapper;
     @Autowired
+    IBlockRepository blockRepository;
+    @Autowired
     ICategoryRepository categoryRepository;
+    @Autowired
+    IReportUserRepository reportUserRepository;
+    @Autowired
+    GeneralService generalService;
     @Autowired
     IBlogRepository blogRepository;
     @Autowired
@@ -338,36 +342,6 @@ public class UserServiceImpl implements IUserService {
         us.setBanner_url(new_banner);
         return userRepository.save(us);
     }
-
-    public UserResponseDTO createUserResponse(Users user) {
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId(user.getId());
-        response.setName(user.getName());
-        response.setUsername(user.getUsername());
-        response.setEmail(user.getEmail());
-        response.setPhone(user.getPhone());
-        response.setCreateDate(user.getCreateDate());
-        response.setUpdateDate(user.getUpdateDate());
-        response.setAvatar(user.getAvatar());
-        response.setSecond_name(user.getSecond_name());
-        response.setStatus(user.getStatus());
-        response.setGender(user.getGender());
-        response.setDescriptions(user.getDescriptions());
-        response.setAddress(user.getAddress());
-        response.setCompany(user.getCompany());
-        response.setCountry(user.getCountry());
-        response.setSchool(user.getSchool());
-        int sumBlog = blogRepository.countBlogsByUserIdAndStatus(user.getId());
-        response.setSumBLog(sumBlog);
-        response.setBanner_url(user.getBanner_url());
-        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(user);
-        response.setTotalFollowing(UserFollow.size());
-        List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(user);
-        response.setTotalFollowers(UserFollowing.size());
-        return response;
-    }
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
     @Override
     public UserResponseDTO followUser(BigInteger followerId, BigInteger followingId) { // followerId: ID người dùng theo dõi, followingId: ID người dùng được theo dõi
         Users follower = userRepository.findById(followerId).orElse(null);
@@ -381,7 +355,7 @@ public class UserServiceImpl implements IUserService {
         follow.setUserFollower(follower);
         follow.setFollowing(following);
         iFollowRepository.save(follow);
-        UserResponseDTO userResponseDTO = createUserResponse(follower);
+        UserResponseDTO userResponseDTO = generalService.createUserResponse(follower);
         userResponseDTO.setCheckStatusFollow(true);
         return userResponseDTO;
     }
@@ -396,7 +370,7 @@ public class UserServiceImpl implements IUserService {
         followCategory.setCategory(category);
         followCategory.setUser(users);
         iUserFollowCategory.save(followCategory);
-        UserResponseDTO userResponseDTO= createUserResponse(users);
+        UserResponseDTO userResponseDTO= generalService.createUserResponse(users);
         userResponseDTO.setCheckFollowCategory(true);
         return userResponseDTO;
     }
@@ -408,7 +382,7 @@ public class UserServiceImpl implements IUserService {
         if (followCategory!=null) {
             iUserFollowCategory.delete(followCategory);
         }
-        UserResponseDTO userResponseDTO = createUserResponse(users);
+        UserResponseDTO userResponseDTO = generalService.createUserResponse(users);
         userResponseDTO.setCheckFollowCategory(false);
         return userResponseDTO;
     }
@@ -427,7 +401,7 @@ public class UserServiceImpl implements IUserService {
         }
         Follow follows = iFollowRepository.findAllByFollowingAndUserFollower(follower,following);
         iFollowRepository.delete(follows);
-        UserResponseDTO responseDTO= createUserResponse(follower);
+        UserResponseDTO responseDTO= generalService.createUserResponse(follower);
         responseDTO.setCheckStatusFollow(false);
         return responseDTO;
     }
@@ -438,7 +412,7 @@ public class UserServiceImpl implements IUserService {
         {
             return null;
         }
-        UserResponseDTO userResponseDTO= createUserResponse(user);
+        UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
         List<Follow> follows = iFollowRepository.findAllByUserFollower(users);
         for (Follow f : follows) {
             if (f.getFollowing().equals(user)) {
@@ -460,9 +434,16 @@ public class UserServiceImpl implements IUserService {
         List<Users> followingUsers = UserFollow.stream()
                 .map(Follow::getUserFollower)
                 .collect(Collectors.toList());
-        List<UserResponseDTO> userResponseDTOs = followingUsers.stream()
+        List<Users> beforeFilter = new ArrayList<>();
+        for (Users userCheck : followingUsers)
+        {
+            if (!blockRepository.existsByBlockerAndBlocked(users,userCheck) && !blockRepository.existsByBlockerAndBlocked(userCheck,users)) {
+                beforeFilter.add(userCheck);
+            }
+        }
+        List<UserResponseDTO> userResponseDTOs = beforeFilter.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                     userResponseDTO.setCheckStatusFollow(false);
                     if (iFollowRepository.existsByUserFollowerAndFollowing(users,user))
                     {
@@ -482,9 +463,16 @@ public class UserServiceImpl implements IUserService {
         List<Users> followingUsers = UserFollow.stream()
                 .map(Follow::getFollowing)
                 .collect(Collectors.toList());
-        List<UserResponseDTO> userResponseDTOs = followingUsers.stream()
+        List<Users> beforeFilter = new ArrayList<>();
+        for (Users userCheck : followingUsers)
+        {
+            if (!blockRepository.existsByBlockerAndBlocked(users,userCheck) && !blockRepository.existsByBlockerAndBlocked(userCheck,users)) {
+                beforeFilter.add(userCheck);
+            }
+        }
+        List<UserResponseDTO> userResponseDTOs = beforeFilter.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                     boolean isFollowing = UserFollow.stream()
                             .anyMatch(f -> f.getFollowing().equals(users));
                     userResponseDTO.setCheckStatusFollow(isFollowing);
@@ -541,11 +529,18 @@ public class UserServiceImpl implements IUserService {
         for (BigInteger id : UserFollow)
         {
             Users users1 = userRepository.findById(id).orElse(null);
-            users2.add(users1);
+            if (!blockRepository.existsByBlockerAndBlocked(users,users1) && !blockRepository.existsByBlockerAndBlocked(users1,users)) {
+                users2.add(users1);
+            }
         }
-        List<UserResponseDTO> userResponseDTOs = users2.stream()
+        List<Users> result = new ArrayList<>();
+        for(int i = 0 ; i <= 9 ; i++ )
+        {
+            result.add(users2.get(i));
+        }
+        List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                     Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
                     if (follow!=null)
                     {
@@ -556,7 +551,6 @@ public class UserServiceImpl implements IUserService {
                         userResponseDTO.setCheckStatusFollow(false);
                     }
                     userResponseDTO.setCheckFollowCategory(false);
-                    logger.error("Ivalid JWT sinature ->Message: {}", userResponseDTO.getSumBLog());
                     return userResponseDTO;
                 })
                 .collect(Collectors.toList());
@@ -571,10 +565,17 @@ public class UserServiceImpl implements IUserService {
         int itemsPerPage = 5;
         int startIndex = (index - 1) * itemsPerPage;
         usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
+        List<Users> beforeFilter = new ArrayList<>();
+        for (Users userCheck : usersList)
+        {
+            if (!blockRepository.existsByBlockerAndBlocked(users,userCheck) && !blockRepository.existsByBlockerAndBlocked(userCheck,users) ) {
+                beforeFilter.add(userCheck);
+            }
+        }
         List<Users> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, usersList.size());
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
         for (int i = startIndex; i < endIndex; i++) {
-            result.add(usersList.get(i));
+            result.add(beforeFilter.get(i));
         }
 
         if (result.isEmpty())
@@ -583,7 +584,7 @@ public class UserServiceImpl implements IUserService {
         }
         List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                     Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
                     if (follow!=null)
                     {
@@ -606,19 +607,25 @@ public class UserServiceImpl implements IUserService {
         int itemsPerPage = 5;
         int startIndex = (index - 1) * itemsPerPage;
         usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
-        List<Users> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, usersList.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            result.add(usersList.get(i));
+        List<Users> beforeFilter = new ArrayList<>();
+        for (Users userCheck : usersList)
+        {
+            if (!blockRepository.existsByBlockerAndBlocked(users,userCheck) && !blockRepository.existsByBlockerAndBlocked(userCheck,users)) {
+                beforeFilter.add(userCheck);
+            }
         }
-
+        List<Users> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
+        for (int i = startIndex; i < endIndex; i++) {
+                result.add(beforeFilter.get(i));
+        }
         if (result.isEmpty())
         {
             return null;
         }
         List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                         Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
                         if (follow!=null)
                         {
@@ -653,13 +660,15 @@ public class UserServiceImpl implements IUserService {
         }
         ReportBlog reportBlog = new ReportBlog();
         reportBlog.setBlog(blog);
+        reportBlog.setCreateDate(new Timestamp(new Date().getTime()));
         reportBlog.setReason(dto.getReason());
         reportBlog.setUser(users);
         reportRepository.save(reportBlog);
         ReportResponseDTO responseDTO = new ReportResponseDTO();
         responseDTO.setId(reportBlog.getId());
+        responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
         responseDTO.setBlog_id(blog.getId());
-        responseDTO.setUser(createUserResponse(users));
+        responseDTO.setUser(generalService.createUserResponse(users));
         responseDTO.setReason(dto.getReason());
         return responseDTO;
     }
@@ -676,35 +685,16 @@ public class UserServiceImpl implements IUserService {
         blogHIdeRepository.save(blogHide);
         return true;
     }
-    private static final Logger loggers = LoggerFactory.getLogger(JwtProvider.class);
-
     @Override
     public boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback) {
         Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(usersFollow, usersFollowback);
         Follow followCheck = iFollowRepository.findAllByFollowingAndUserFollower(usersFollowback, usersFollow);
-        if (follow==null)
-        {
-            loggers.error("sai","a");
-        }
-        else {
-            loggers.error("Ivalid JWT sinature ->Message: {}", follow.getId());
-
-        }
-        if (followCheck==null)
-        {
-            loggers.error("sai","a");
-        }
-        else {
-            loggers.error("Ivalid JWT sinature ->Message: {}", followCheck.getId());
-
-        }
         if (follow!= null && followCheck != null)
         {
             return true;
         }
         return false;
     }
-
     @Override
     public List<UserResponseDTO> findFriend(String keyWord, Users users) {
         List<Users> listUser= userRepository.searchUser(keyWord);
@@ -717,12 +707,14 @@ public class UserServiceImpl implements IUserService {
         {
             if (userService.checkFollowAndFollowBack(users1, users))
             {
+                if (!blockRepository.existsByBlockerAndBlocked(users,users1) && !blockRepository.existsByBlockerAndBlocked(users1,users)  ){
                 checkUser.add(users1);
+                }
             }
         }
         List<UserResponseDTO> userResponseDTOs = checkUser.stream()
                 .map(user -> {
-                    UserResponseDTO userResponseDTO= createUserResponse(user);
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                         Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
                         if (follow!=null)
                         {
@@ -739,7 +731,40 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toList());
         return userResponseDTOs;
     }
-
+    @Override
+    public ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO) {
+        Users user = userService.findByID(reportUserDTO.getUser_id());
+        if (user==null)
+        {
+            return null;
+        }
+        ReportUserResponseDTO responseDTO = new ReportUserResponseDTO();
+        ReportUser reportUser = new ReportUser();
+        reportUser.setUser_report(users);
+        reportUser.setUser_id_reported(user);
+        reportUser.setCreateDate(new Timestamp(new Date().getTime()));
+        reportUser.setReason(reportUserDTO.getReason());
+        reportUserRepository.save(reportUser);
+        responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
+        responseDTO.setUser_blocked(generalService.createUserResponse(users));
+        responseDTO.setUser_is_blocked(generalService.createUserResponse(user));
+        responseDTO.setReason(reportUser.getReason());
+        responseDTO.setId(reportUser.getId());
+        return responseDTO;
+    }
+    @Override
+    public boolean blockUser(BigInteger user_id, Users users) {
+        Users usercheck= userService.findByID(user_id);
+        if (usercheck==null)
+        {
+            return false;
+        }
+        Block block = new Block();
+        block.setBlocked(usercheck);
+        block.setBlocker(users);
+        blockRepository.save(block);
+        return true;
+    }
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {
@@ -826,6 +851,4 @@ public class UserServiceImpl implements IUserService {
           return null;
       }
     }
-
-
 }

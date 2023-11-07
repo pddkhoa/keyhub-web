@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 05/11/2023 17:02:59
+ Date: 07/11/2023 23:48:36
 */
 
 SET NAMES utf8mb4;
@@ -51,6 +51,27 @@ INSERT INTO `address` VALUES (96, 'eyat', 22);
 INSERT INTO `address` VALUES (97, 'ydfka', 22);
 
 -- ----------------------------
+-- Table structure for block
+-- ----------------------------
+DROP TABLE IF EXISTS `block`;
+CREATE TABLE `block`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `blocked_id` bigint NULL DEFAULT NULL,
+  `blocker_id` bigint NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FKhnrrhouh48pbxuiupjvgss192`(`blocked_id` ASC) USING BTREE,
+  INDEX `FK2xbkf5oyys1e9snvaeiu3sxrt`(`blocker_id` ASC) USING BTREE,
+  CONSTRAINT `FK2xbkf5oyys1e9snvaeiu3sxrt` FOREIGN KEY (`blocker_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKhnrrhouh48pbxuiupjvgss192` FOREIGN KEY (`blocked_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of block
+-- ----------------------------
+INSERT INTO `block` VALUES (204, 74, 67);
+INSERT INTO `block` VALUES (205, 68, 67);
+
+-- ----------------------------
 -- Table structure for blog
 -- ----------------------------
 DROP TABLE IF EXISTS `blog`;
@@ -75,7 +96,7 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
@@ -100,7 +121,7 @@ INSERT INTO `blog` VALUES (35, 'a', 'lê trương ngọc hải', 22, 'a', 33, NU
 INSERT INTO `blog` VALUES (36, 'a', 'lê trương ngọc hải', 22, 'a', 33, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (37, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (38, 'a', 'lê trương ngọc hải', 22, 'a', 15, NULL, 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
-INSERT INTO `blog` VALUES (39, 'Sample Taitle 3', 'ok', 22, 'Sample Description', 61, 'https//', 50.00, 3, 1, 50, '2023-10-12 13:55:21.465000');
+INSERT INTO `blog` VALUES (39, 'Sample Taitle 3', 'ok', 22, 'Sample Description', 61, 'https//', 51.00, 3, 1, 50, '2023-10-12 13:55:21.465000');
 INSERT INTO `blog` VALUES (40, 'a', 'lê trương ngọc hải', 22, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (41, 'a', 'lê trương ngọc hải', 58, 'a', 15, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1695696875/qt7ylr4qkzga5nzcc1gz.jpg-http://res.cloudinary.com/dmpru0wgq/image/upload/v1695779458/uoqu7wuvchhr9uu1c6hr.jpg', 50.00, 1, 1, 50, '2023-09-25 21:58:51.000000');
 INSERT INTO `blog` VALUES (42, 'a', 'lê trương ngọc hải', 58, 'a', 15, NULL, 50.00, 1, 0, 50, '2023-09-25 21:58:51.000000');
@@ -185,12 +206,11 @@ INSERT INTO `blog` VALUES (148, 'Sample Taitle 3', 'ok', 65, 'Sample Description
 INSERT INTO `blog` VALUES (149, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:39.454000');
 INSERT INTO `blog` VALUES (150, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:42.200000');
 INSERT INTO `blog` VALUES (151, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 1.00, 1, 1, 0, '2023-10-19 13:36:45.566000');
-INSERT INTO `blog` VALUES (152, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 1.00, 1, 1, 0, '2023-10-19 13:36:51.473000');
+INSERT INTO `blog` VALUES (152, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 1.00, 1, 1, 2, '2023-10-19 13:36:51.473000');
 INSERT INTO `blog` VALUES (153, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'htttp', 0.00, 1, 1, 0, '2023-10-19 13:36:57.928000');
-INSERT INTO `blog` VALUES (154, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 1, 1, 1, '2023-10-20 13:37:04.000000');
-INSERT INTO `blog` VALUES (155, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 1.00, 1, 1, 6, '2023-10-26 13:37:07.000000');
 INSERT INTO `blog` VALUES (156, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 0.00, 2, 1, 0, '2023-10-19 13:37:15.510000');
-INSERT INTO `blog` VALUES (157, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 1001.00, 2, 1, 1000, '2023-10-26 13:37:07.000000');
+INSERT INTO `blog` VALUES (157, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'htttp', 1001.00, 2, 1, 1002, '2023-10-26 13:37:07.000000');
+INSERT INTO `blog` VALUES (158, 'Tiêu đề của bài viết', '<p>Nội dung bài viết</p>', 67, 'Mô tả', 73, '', 0.00, NULL, 0, NULL, '2023-11-06 13:12:28.520000');
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -205,13 +225,11 @@ CREATE TABLE `blog_comment`  (
   INDEX `FKc4ysudanwhfrrhytio0272sx9`(`comment_id` ASC) USING BTREE,
   CONSTRAINT `FKb9cpog8ie2cyapsyyt7gikpbl` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKc4ysudanwhfrrhytio0272sx9` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
-INSERT INTO `blog_comment` VALUES (20, 154, 26);
-INSERT INTO `blog_comment` VALUES (21, 154, 27);
 
 -- ----------------------------
 -- Table structure for blog_hide
@@ -226,13 +244,20 @@ CREATE TABLE `blog_hide`  (
   INDEX `FKklq94vv39wmdj5scjnxttr8nc`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKbd9rm144lc3t4e6w1wu2lal24` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKklq94vv39wmdj5scjnxttr8nc` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_hide
 -- ----------------------------
 INSERT INTO `blog_hide` VALUES (1, 134, 58);
 INSERT INTO `blog_hide` VALUES (3, 157, 58);
+INSERT INTO `blog_hide` VALUES (4, 157, 67);
+INSERT INTO `blog_hide` VALUES (5, 142, 67);
+INSERT INTO `blog_hide` VALUES (6, 43, 67);
+INSERT INTO `blog_hide` VALUES (7, 104, 67);
+INSERT INTO `blog_hide` VALUES (8, 39, 67);
+INSERT INTO `blog_hide` VALUES (9, 21, 67);
+INSERT INTO `blog_hide` VALUES (10, 20, 67);
 
 -- ----------------------------
 -- Table structure for blog_image
@@ -246,7 +271,7 @@ CREATE TABLE `blog_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`blog_id` ASC) USING BTREE,
   CONSTRAINT `blog_image_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_image
@@ -279,7 +304,7 @@ CREATE TABLE `blog_like`  (
   INDEX `FKppog2vdhbhoff9omlv805wjau`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKppog2vdhbhoff9omlv805wjau` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKstm0v9i88mcn2763ubwgd2qjj` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_like
@@ -289,12 +314,12 @@ INSERT INTO `blog_like` VALUES (16, 42, 58);
 INSERT INTO `blog_like` VALUES (19, 105, 58);
 INSERT INTO `blog_like` VALUES (20, 105, 68);
 INSERT INTO `blog_like` VALUES (21, 141, 68);
-INSERT INTO `blog_like` VALUES (27, 155, 67);
 INSERT INTO `blog_like` VALUES (28, 157, 67);
 INSERT INTO `blog_like` VALUES (30, 152, 67);
 INSERT INTO `blog_like` VALUES (31, 151, 67);
 INSERT INTO `blog_like` VALUES (34, 43, 67);
 INSERT INTO `blog_like` VALUES (37, 142, 67);
+INSERT INTO `blog_like` VALUES (38, 39, 67);
 
 -- ----------------------------
 -- Table structure for blog_save
@@ -309,7 +334,7 @@ CREATE TABLE `blog_save`  (
   INDEX `FK1enjt512o4e8alk33j9jnf6gj`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK1enjt512o4e8alk33j9jnf6gj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKskcq75s8y1lv8l4cyt20ihhug` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_save
@@ -498,10 +523,6 @@ INSERT INTO `blog_tag` VALUES (152, 2);
 INSERT INTO `blog_tag` VALUES (152, 3);
 INSERT INTO `blog_tag` VALUES (153, 1);
 INSERT INTO `blog_tag` VALUES (153, 3);
-INSERT INTO `blog_tag` VALUES (154, 2);
-INSERT INTO `blog_tag` VALUES (154, 3);
-INSERT INTO `blog_tag` VALUES (155, 2);
-INSERT INTO `blog_tag` VALUES (155, 3);
 INSERT INTO `blog_tag` VALUES (156, 2);
 INSERT INTO `blog_tag` VALUES (156, 3);
 INSERT INTO `blog_tag` VALUES (157, 2);
@@ -519,7 +540,7 @@ CREATE TABLE `category`  (
   `banner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of category
@@ -699,7 +720,7 @@ CREATE TABLE `company`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `company_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of company
@@ -743,7 +764,7 @@ CREATE TABLE `follow`  (
   INDEX `FKl4cyiwx3lv8jf0xt3sr537308`(`user_follow` ASC) USING BTREE,
   CONSTRAINT `FK992xdy1dmmqlhwayassqk5c8q` FOREIGN KEY (`user_is_following`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKl4cyiwx3lv8jf0xt3sr537308` FOREIGN KEY (`user_follow`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follow
@@ -789,7 +810,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (164);
+INSERT INTO `hibernate_sequence` VALUES (206);
 
 -- ----------------------------
 -- Table structure for message
@@ -831,7 +852,7 @@ CREATE TABLE `refreshtoken`  (
   UNIQUE INDEX `UK_or156wbneyk8noo4jstv55ii3`(`token` ASC) USING BTREE,
   INDEX `FKfr75ge3iecdx26qe8afh1srf6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKfr75ge3iecdx26qe8afh1srf6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 121 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of refreshtoken
@@ -933,6 +954,24 @@ INSERT INTO `refreshtoken` VALUES (157, '2023-11-06 14:37:40.691000', '772f043a-
 INSERT INTO `refreshtoken` VALUES (158, '2023-11-06 14:37:40.897000', '2abb36bf-274f-4a9b-a3f8-4ede20adbb0a', 74);
 INSERT INTO `refreshtoken` VALUES (159, '2023-11-06 14:40:02.421000', 'f30fb488-b2e4-4692-b5d0-bb80adcef711', 74);
 INSERT INTO `refreshtoken` VALUES (163, '2023-11-06 17:02:15.659000', '6c919243-b822-4e7c-8378-b5c65dbc0b26', 76);
+INSERT INTO `refreshtoken` VALUES (164, '2023-11-06 17:51:52.716000', 'ed7574be-3c28-4078-bd72-1c7d76bbba26', 76);
+INSERT INTO `refreshtoken` VALUES (165, '2023-11-06 17:52:40.102000', 'a88d7c93-2c54-4494-898c-40f6b14b00b7', 76);
+INSERT INTO `refreshtoken` VALUES (166, '2023-11-06 21:32:27.437000', '08c22aa5-51b9-4af7-a784-9e7f54da0834', 76);
+INSERT INTO `refreshtoken` VALUES (167, '2023-11-06 21:32:51.705000', '0bed7551-b4e8-4882-9bdb-1d2b06d9cb11', 58);
+INSERT INTO `refreshtoken` VALUES (168, '2023-11-06 21:35:18.933000', '9497f3ad-a1d5-4c0c-bee7-d03194fc95e8', 76);
+INSERT INTO `refreshtoken` VALUES (169, '2023-11-06 21:37:01.861000', 'ab2c1ed4-b1c8-410c-ac28-620bba54498c', 58);
+INSERT INTO `refreshtoken` VALUES (170, '2023-11-06 21:38:11.603000', 'add4986e-c073-4d33-a5a8-7fe4eab48d1b', 58);
+INSERT INTO `refreshtoken` VALUES (171, '2023-11-06 21:38:25.964000', '86d9212a-cfbe-4fa8-b24e-0b49e0f8e834', 58);
+INSERT INTO `refreshtoken` VALUES (172, '2023-11-06 21:38:46.388000', '7f842d8c-12cf-4130-8ee6-b0da6f09bfe9', 58);
+INSERT INTO `refreshtoken` VALUES (175, '2023-11-07 09:04:33.402000', '9154b1cb-9764-4d13-bc0f-bb2de295589c', 58);
+INSERT INTO `refreshtoken` VALUES (181, '2023-11-07 14:34:19.381000', 'e6369ae8-fbd1-4586-803e-196168d06d45', 67);
+INSERT INTO `refreshtoken` VALUES (185, '2023-11-07 20:53:42.794000', '0f726e7f-9e58-4cc3-bd6d-5bde0acc8e9c', 67);
+INSERT INTO `refreshtoken` VALUES (186, '2023-11-07 20:54:08.103000', 'ef31aa97-50b2-485a-8683-09a6d1331749', 67);
+INSERT INTO `refreshtoken` VALUES (187, '2023-11-07 20:54:17.432000', 'efd5bd81-17c1-4a97-b702-3fbdaa30fbe5', 67);
+INSERT INTO `refreshtoken` VALUES (190, '2023-11-07 20:55:53.493000', '5c112920-1ed7-402d-85b1-15c287f53ba6', 67);
+INSERT INTO `refreshtoken` VALUES (191, '2023-11-07 22:16:55.500000', '31e07743-ce9e-499a-b1f1-553af0cb75c8', 67);
+INSERT INTO `refreshtoken` VALUES (192, '2023-11-08 17:10:43.164000', '977ea903-4a45-4631-afa7-91694882e87e', 67);
+INSERT INTO `refreshtoken` VALUES (198, '2023-11-08 22:24:01.827000', 'ff14a202-b8c6-47bd-9794-d79e85f3c0d2', 67);
 
 -- ----------------------------
 -- Table structure for report
@@ -943,18 +982,44 @@ CREATE TABLE `report`  (
   `user_id` bigint NULL DEFAULT NULL,
   `blog_id` bigint NULL DEFAULT NULL,
   `reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `create_date` datetime(6) NULL DEFAULT NULL,
   PRIMARY KEY (`report_id`) USING BTREE,
   INDEX `FKn9oor0wpm4bo44xqgfo06ux4m`(`blog_id` ASC) USING BTREE,
   INDEX `FKj62onw73yx1qnmd57tcaa9q3a`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKj62onw73yx1qnmd57tcaa9q3a` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKn9oor0wpm4bo44xqgfo06ux4m` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of report
 -- ----------------------------
-INSERT INTO `report` VALUES (1, 68, 18, 'Vi phạm ngôn từ');
-INSERT INTO `report` VALUES (2, 68, 18, 'Vi phạm ngôn từ');
+INSERT INTO `report` VALUES (1, 68, 18, 'Vi phạm ngôn từ', NULL);
+INSERT INTO `report` VALUES (2, 68, 18, 'Vi phạm ngôn từ', NULL);
+INSERT INTO `report` VALUES (3, 67, 18, 'Vi phạm ngôn từ', NULL);
+INSERT INTO `report` VALUES (4, 67, 18, 'Vi phạm ngôn từ', '2023-11-07 17:22:43.566000');
+
+-- ----------------------------
+-- Table structure for report_user
+-- ----------------------------
+DROP TABLE IF EXISTS `report_user`;
+CREATE TABLE `report_user`  (
+  `report_id` bigint NOT NULL AUTO_INCREMENT,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `user_id_reported` bigint NULL DEFAULT NULL,
+  `user_report` bigint NULL DEFAULT NULL,
+  `create_date` datetime(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`report_id`) USING BTREE,
+  INDEX `FKenaen8kny03rg1ghdhej7ndu2`(`user_id_reported` ASC) USING BTREE,
+  INDEX `FK4g8hfop8whx2anev9usvgy28g`(`user_report` ASC) USING BTREE,
+  CONSTRAINT `FK4g8hfop8whx2anev9usvgy28g` FOREIGN KEY (`user_report`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKenaen8kny03rg1ghdhej7ndu2` FOREIGN KEY (`user_id_reported`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of report_user
+-- ----------------------------
+INSERT INTO `report_user` VALUES (4, 'Đặt tên sai chính tả', 58, 67, '2023-11-07 17:20:39.351000');
+INSERT INTO `report_user` VALUES (5, 'Không phù hợp', 58, 67, '2023-11-07 23:48:09.275000');
 
 -- ----------------------------
 -- Table structure for reset_pass_token
@@ -973,25 +1038,9 @@ CREATE TABLE `reset_pass_token`  (
 -- ----------------------------
 -- Records of reset_pass_token
 -- ----------------------------
-INSERT INTO `reset_pass_token` VALUES (10, '2023-08-26 00:00:00', '123497', 23);
-INSERT INTO `reset_pass_token` VALUES (152, '2023-09-12 00:00:00', '257788', 45);
-INSERT INTO `reset_pass_token` VALUES (154, '2023-09-12 00:00:00', '293271', 46);
-INSERT INTO `reset_pass_token` VALUES (160, '2023-11-05 00:00:00', '763801', 74);
-INSERT INTO `reset_pass_token` VALUES (168, '2023-09-17 00:00:00', '452367', 52);
-INSERT INTO `reset_pass_token` VALUES (169, '2023-09-17 00:00:00', '483377', 52);
-INSERT INTO `reset_pass_token` VALUES (170, '2023-09-17 00:00:00', '853711', 52);
-INSERT INTO `reset_pass_token` VALUES (171, '2023-09-17 00:00:00', '793002', 52);
-INSERT INTO `reset_pass_token` VALUES (179, '2023-09-20 00:00:00', '968725', 52);
-INSERT INTO `reset_pass_token` VALUES (180, '2023-09-20 00:00:00', '497456', 52);
-INSERT INTO `reset_pass_token` VALUES (181, '2023-09-20 00:00:00', '344100', 52);
-INSERT INTO `reset_pass_token` VALUES (182, '2023-09-20 00:00:00', '877665', 52);
-INSERT INTO `reset_pass_token` VALUES (183, '2023-09-20 00:00:00', '195070', 52);
-INSERT INTO `reset_pass_token` VALUES (184, '2023-09-21 00:00:00', '280364', 52);
-INSERT INTO `reset_pass_token` VALUES (189, '2023-09-21 00:00:00', '1009647', 56);
-INSERT INTO `reset_pass_token` VALUES (191, '2023-09-21 00:00:00', '863917', 57);
-INSERT INTO `reset_pass_token` VALUES (196, '2023-09-21 00:00:00', '105469', 58);
-INSERT INTO `reset_pass_token` VALUES (205, '2023-09-21 00:00:00', '719962', 58);
-INSERT INTO `reset_pass_token` VALUES (208, '2023-09-21 00:00:00', '408113', 58);
+INSERT INTO `reset_pass_token` VALUES (178, '2023-11-06 00:00:00', '977991', 67);
+INSERT INTO `reset_pass_token` VALUES (179, '2023-11-06 00:00:00', '492602', 67);
+INSERT INTO `reset_pass_token` VALUES (188, '2023-11-06 00:00:00', '195735', 67);
 
 -- ----------------------------
 -- Table structure for role
@@ -1002,7 +1051,7 @@ CREATE TABLE `role`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `UK_epk9im9l9q67xmwi4hbed25do`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of role
@@ -1050,7 +1099,7 @@ CREATE TABLE `series`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FKhw97yr01d1ma13c0gdes3r5ok`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKhw97yr01d1ma13c0gdes3r5ok` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series
@@ -1099,7 +1148,8 @@ INSERT INTO `series` VALUES (66, 'haih221q', 58, '2023-10-12 22:52:51.024000', '
 INSERT INTO `series` VALUES (67, 'haih221qh', 58, '2023-10-12 22:55:50.657000', 'Mo ta', 3);
 INSERT INTO `series` VALUES (70, 'test', 65, '2023-10-19 13:36:17.928000', 'Mo ta', 2);
 INSERT INTO `series` VALUES (71, 'Khoa', 65, '2023-10-19 13:36:22.211000', 'Mo ta', 3);
-INSERT INTO `series` VALUES (72, 'lich sử', 65, '2023-10-19 13:36:30.164000', 'Mo ta', 4);
+INSERT INTO `series` VALUES (72, 'lich sử', 65, '2023-10-19 13:36:30.164000', 'Mo ta', 2);
+INSERT INTO `series` VALUES (73, 'Name', 67, '2023-11-06 13:10:28.082000', 'Mô tả', 0);
 
 -- ----------------------------
 -- Table structure for series_image
@@ -1113,7 +1163,7 @@ CREATE TABLE `series_image`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `blog_id`(`series_id` ASC) USING BTREE,
   CONSTRAINT `FKltfgcmbg61cpwl4nk1lcwe0uk` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of series_image
@@ -1130,7 +1180,7 @@ CREATE TABLE `tag`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tag
@@ -1167,7 +1217,7 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `UKsb8bbouer5wak8vyiiy4pf2bx`(`username` ASC) USING BTREE,
   UNIQUE INDEX `UKob8kqyqqgmefl0aco34akdtpe`(`email` ASC) USING BTREE,
   FULLTEXT INDEX `name`(`name`, `descriptions`, `second_name`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -1218,13 +1268,14 @@ INSERT INTO `user` VALUES (63, 'Khoa', NULL, '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki
 INSERT INTO `user` VALUES (64, 'baboga', 'ng1ochai06122002@gmail.com', '$2a$10$8yqiRdp3uznrJPXUhKEV5.c.kolDlNGGWMBH13OTRLXd54z4y5wgy', 'UserTramaa', '0814069391', '2023-10-01 11:16:43.232000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (65, 'Phan Dai Dang khoa ', 'khoadang88vn@gmail.com', '$2a$10$Qst3491pHdGxr/P0fU3j9ugndfwz53n7IOtHre1OaVgwB/DRPv2Ka', 'pddkhoa', '0973455342', '2023-10-15 09:50:30.000000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'pddkhoa', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (66, 'Khoa', 'angochai06122002@gmail.com', '$2a$10$EzGEX/zodEnpS3HXIoPfr.yR.BAm8TKwPWdRRjtghNkz7lAIxTnae', 'userHai', '0814069391', '2023-10-15 19:19:44.005000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
-INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$CTMVWnjVMICT.KrpwJOTVOz97a6k8t1NKK3tAHgefsZOUcQbIYGKq', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
+INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$Fy.9n2GlvAIFAeIaShMPIuvb/es54TQUiBcL8YW5jmFCF9pmWTBBW', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-11-07 16:27:43', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244054/tcsbbzaygndoirs3jsjw.jpg', 'Male', 'Baboga', 1, 'Sinh viên UTE', 'UTE', 'Bà Rịa Vũng Tàu', '3FORCOM', 'Bà Rịa Vũng Tàu', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244095/acqamlycpxocfymy0i6w.jpg');
 INSERT INTO `user` VALUES (68, 'Khoa', 'ngochai06122f002@gmail.com', '$2a$10$VBJ2ghn4UCc9jIcw/Mwqfe0V8zC/M622posRzIsrBOUaOdWjqEg2W', 'userHfai', '0814069391', '2023-10-16 18:18:38.253000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/');
 INSERT INTO `user` VALUES (69, 'Đoàn Lê Hy Vọng', 'vongdoan9@gmail.com', '$2a$10$nUn53ERstsatM4wQoG/0fesmFC5.7vgwXVKcjLXLTTuTu7XZE/OSW', 'UserVong', '0814065693', '2023-11-05 13:51:39.133000', '2023-11-05 13:55:59', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg', 'Male', 'Panda', 1, 'Sinh viên Hutech\n', NULL, NULL, NULL, NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg');
 INSERT INTO `user` VALUES (70, 'Khoa', NULL, '$2a$10$oL20gpi.ZPfoCIsmelNW1.txrVNjXMluFDXovjD63zS/Srvntap1C', NULL, '0814069391', '2023-11-05 14:17:54.666000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user` VALUES (74, 'Khoa', 'baboga0204@gmail.com', '$2a$10$z4hAbd.nobKlM0hG1LlRAepxUyOrwkeOLK3RfMCA9jmgO8rHuAxw2', 'pdfahoa', '0814069391', '2023-11-05 14:27:50.363000', '2023-11-05 14:42:42', NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user` VALUES (75, 'NguyenVinhThanhThuy', NULL, '$2a$10$xqC3e.GtMCaxxKtFu36tpuYjdJDhPA1d2.jKY9MMQesMosfi57T/6', NULL, '0814069391', '2023-11-05 15:11:08.296000', NULL, NULL, 'Other', 'afa', 0, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user` VALUES (76, 'Khoa', 'ngochai06122f2002@gmail.com', '$2a$10$DAmbPJf.FXzTsL3BrRFN7.I8RVKk7GMyt52oxPlGOGQY50k06.zPm', 'pddkhoa123123', '0814069391', '2023-11-05 17:00:32.686000', NULL, NULL, 'nam', 'baboga', 3, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (77, 'asd', 'babogadasda12@gmail.com', '$2a$10$wTL2.7y3QNbbucKvRvKAPumu4oSCKGYtzi0a3UVvQEtpdoOMumOKG', 'UserVongasd', '0814069391', '2023-11-06 08:20:49.204000', NULL, NULL, 'Male', 'asd', 3, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_banner
@@ -1238,7 +1289,7 @@ CREATE TABLE `user_banner`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_banner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_banner
@@ -1253,6 +1304,7 @@ INSERT INTO `user_banner` VALUES (11, '2023-09-21 08:50:19.154000', 'http://res.
 INSERT INTO `user_banner` VALUES (12, '2023-10-15 09:50:30.000000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697338600/xfa3fcejehof514f4fuv.jpg', 65);
 INSERT INTO `user_banner` VALUES (13, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511633/elh5chkubmsdvxifhjql.jpg', 67);
 INSERT INTO `user_banner` VALUES (14, '2023-11-05 13:51:39.133000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg', 69);
+INSERT INTO `user_banner` VALUES (15, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244095/acqamlycpxocfymy0i6w.jpg', 67);
 
 -- ----------------------------
 -- Table structure for user_category
@@ -1320,7 +1372,7 @@ CREATE TABLE `user_images`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK2jg7uf46pq5ihgoj39y7phhy6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK2jg7uf46pq5ihgoj39y7phhy6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_images
@@ -1366,6 +1418,8 @@ INSERT INTO `user_images` VALUES (43, 65, '2023-10-15 09:50:30', 'http://res.clo
 INSERT INTO `user_images` VALUES (44, 65, '2023-10-15 09:50:30', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697339276/ooyaozcuga2v2ht3so4x.png');
 INSERT INTO `user_images` VALUES (45, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511638/r4wcsyhdnhf22yyospmr.jpg');
 INSERT INTO `user_images` VALUES (46, 69, '2023-11-05 13:51:39', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg');
+INSERT INTO `user_images` VALUES (47, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244048/mqe1rsa5smusegtf94gd.jpg');
+INSERT INTO `user_images` VALUES (48, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244054/tcsbbzaygndoirs3jsjw.jpg');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -1386,6 +1440,7 @@ CREATE TABLE `user_role`  (
 INSERT INTO `user_role` VALUES (19, 1);
 INSERT INTO `user_role` VALUES (20, 1);
 INSERT INTO `user_role` VALUES (23, 1);
+INSERT INTO `user_role` VALUES (67, 1);
 INSERT INTO `user_role` VALUES (22, 2);
 INSERT INTO `user_role` VALUES (24, 2);
 INSERT INTO `user_role` VALUES (25, 2);
@@ -1436,6 +1491,7 @@ INSERT INTO `user_role` VALUES (70, 2);
 INSERT INTO `user_role` VALUES (74, 2);
 INSERT INTO `user_role` VALUES (75, 2);
 INSERT INTO `user_role` VALUES (76, 2);
+INSERT INTO `user_role` VALUES (77, 2);
 
 -- ----------------------------
 -- Table structure for verification_token
@@ -1455,56 +1511,5 @@ CREATE TABLE `verification_token`  (
 -- ----------------------------
 -- Records of verification_token
 -- ----------------------------
-INSERT INTO `verification_token` VALUES (4, '2023-10-16 00:00:00', b'1', '586749', 65);
-INSERT INTO `verification_token` VALUES (7, '2023-08-27 00:00:00', b'0', '800041', 22);
-INSERT INTO `verification_token` VALUES (8, '2023-08-27 00:00:00', b'1', '386099', 23);
-INSERT INTO `verification_token` VALUES (49, '2023-08-28 00:00:00', b'0', '665894', 24);
-INSERT INTO `verification_token` VALUES (67, '2023-10-16 00:00:00', b'1', '804544', 66);
-INSERT INTO `verification_token` VALUES (71, '2023-10-17 00:00:00', b'1', '909118', 67);
-INSERT INTO `verification_token` VALUES (73, '2023-10-17 00:00:00', b'0', '316105', 68);
-INSERT INTO `verification_token` VALUES (102, '2023-09-08 00:00:00', b'0', '800491', 25);
-INSERT INTO `verification_token` VALUES (103, '2023-09-08 00:00:00', b'0', '363637', 26);
-INSERT INTO `verification_token` VALUES (109, '2023-09-11 00:00:00', b'0', '812440', 27);
-INSERT INTO `verification_token` VALUES (110, '2023-09-11 00:00:00', b'0', '815543', 28);
-INSERT INTO `verification_token` VALUES (122, '2023-11-06 00:00:00', b'1', '800339', 69);
-INSERT INTO `verification_token` VALUES (124, '2023-11-06 00:00:00', b'0', '589505', 70);
-INSERT INTO `verification_token` VALUES (128, '2023-11-06 00:00:00', b'0', '344421', 74);
-INSERT INTO `verification_token` VALUES (131, '2023-09-12 00:00:00', b'1', '636084', 29);
-INSERT INTO `verification_token` VALUES (133, '2023-09-12 00:00:00', b'0', '391514', 30);
-INSERT INTO `verification_token` VALUES (135, '2023-09-13 00:00:00', b'0', '729377', 32);
-INSERT INTO `verification_token` VALUES (136, '2023-09-13 00:00:00', b'0', '527857', 33);
-INSERT INTO `verification_token` VALUES (137, '2023-09-13 00:00:00', b'0', '147409', 34);
-INSERT INTO `verification_token` VALUES (140, '2023-09-13 00:00:00', b'0', '339619', 35);
-INSERT INTO `verification_token` VALUES (141, '2023-09-13 00:00:00', b'0', '603136', 36);
-INSERT INTO `verification_token` VALUES (142, '2023-09-13 00:00:00', b'0', '497660', 37);
-INSERT INTO `verification_token` VALUES (143, '2023-09-13 00:00:00', b'0', '789876', 38);
-INSERT INTO `verification_token` VALUES (144, '2023-09-13 00:00:00', b'0', '180197', 39);
-INSERT INTO `verification_token` VALUES (145, '2023-09-13 00:00:00', b'0', '934770', 40);
-INSERT INTO `verification_token` VALUES (146, '2023-09-13 00:00:00', b'0', '498104', 41);
-INSERT INTO `verification_token` VALUES (147, '2023-09-13 00:00:00', b'0', '756434', 42);
-INSERT INTO `verification_token` VALUES (148, '2023-09-13 00:00:00', b'0', '962479', 43);
-INSERT INTO `verification_token` VALUES (149, '2023-09-13 00:00:00', b'0', '516662', 44);
-INSERT INTO `verification_token` VALUES (150, '2023-09-13 00:00:00', b'1', '436033', 45);
-INSERT INTO `verification_token` VALUES (153, '2023-09-13 00:00:00', b'0', '728496', 46);
-INSERT INTO `verification_token` VALUES (155, '2023-09-12 00:00:00', b'0', '659960', 47);
-INSERT INTO `verification_token` VALUES (156, '2023-09-12 00:00:00', b'0', '415115', 48);
-INSERT INTO `verification_token` VALUES (157, '2023-09-12 00:00:00', b'0', '950606', 49);
-INSERT INTO `verification_token` VALUES (158, '2023-09-13 00:00:00', b'0', '122353', 50);
-INSERT INTO `verification_token` VALUES (159, '2023-09-13 00:00:00', b'0', '278946', 51);
-INSERT INTO `verification_token` VALUES (160, '2023-09-14 00:00:00', b'1', '740201', 52);
-INSERT INTO `verification_token` VALUES (161, '2023-11-06 00:00:00', b'0', '399392', 75);
-INSERT INTO `verification_token` VALUES (162, '2023-11-06 00:00:00', b'0', '373606', 76);
-INSERT INTO `verification_token` VALUES (163, '2023-09-14 00:00:00', b'0', '689610', 53);
-INSERT INTO `verification_token` VALUES (164, '2023-09-18 00:00:00', b'0', '440474', 54);
-INSERT INTO `verification_token` VALUES (178, '2023-09-21 00:00:00', b'1', '731344', 55);
-INSERT INTO `verification_token` VALUES (187, '2023-09-22 00:00:00', b'1', '948402', 56);
-INSERT INTO `verification_token` VALUES (190, '2023-09-22 00:00:00', b'1', '137598', 57);
-INSERT INTO `verification_token` VALUES (194, '2023-09-22 00:00:00', b'1', '635653', 58);
-INSERT INTO `verification_token` VALUES (269, '2023-09-25 00:00:00', b'0', '416227', 59);
-INSERT INTO `verification_token` VALUES (273, '2023-09-25 00:00:00', b'0', '352052', 60);
-INSERT INTO `verification_token` VALUES (281, '2023-09-25 00:00:00', b'1', '200097', 61);
-INSERT INTO `verification_token` VALUES (284, '2023-09-25 00:00:00', b'0', '752572', 62);
-INSERT INTO `verification_token` VALUES (291, '2023-09-27 00:00:00', b'0', '224085', 63);
-INSERT INTO `verification_token` VALUES (293, '2023-10-02 00:00:00', b'1', '129474', 64);
 
 SET FOREIGN_KEY_CHECKS = 1;
