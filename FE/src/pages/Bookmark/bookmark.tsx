@@ -3,38 +3,25 @@ import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import useAuth from "@/hooks/useAuth";
-import ClientServices from "@/services/client/client";
-import BlogPost from "@/types/blog";
+import { getBlogSaveByAuth } from "@/redux/blogSlice";
+import { RootState } from "@/redux/store";
 import { SlidersHorizontal } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Bookmark = () => {
   const { axiosJWT, accessToken } = useAuth();
-
-  const [loading, setLoading] = useState(false);
-  const [bookmark, setBookmark] = useState<BlogPost[]>();
-  const [removing, setRemoving] = useState(false);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
+  const blogBookmark = useSelector(
+    (state: RootState) => state.blog.blogBookmark
+  );
 
   useEffect(() => {
-    const fetchBookmark = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogSaveByAuth(
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBookmark(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
+    getBlogSaveByAuth(accessToken, axiosJWT, dispatch);
+  }, []);
 
-    fetchBookmark();
-  }, [removing]);
-
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -66,14 +53,10 @@ const Bookmark = () => {
               <SlidersHorizontal className="h-5 w-5" />
             </Button>
           </div>
-          <div className="mt-8">
-            {bookmark && bookmark.length > 0 ? (
-              bookmark.map((item) => (
-                <Card
-                  data={item}
-                  setRemoving={setRemoving}
-                  cardType="bookmark"
-                />
+          <div className="mt-8 space-y-5">
+            {blogBookmark && blogBookmark.length > 0 ? (
+              blogBookmark.map((item) => (
+                <Card key={item.id} data={item} cardType="bookmark" />
               ))
             ) : (
               <Nodata />
@@ -107,22 +90,6 @@ const Bookmark = () => {
               </div>
             </div>
             <div className="flex justify-between items-center p-4 border-t border-gray-300 text-gray-600"></div>
-          </div>
-          <div className="mt-5 bg-gray-700 w-80 rounded-xl hover:bg-gray-800 hover:scale-105 duration-700 p-5">
-            <figure className="w-10 h-10 p-2 bg-blue-800 rounded-md">
-              <svg width={24} height={24} fill="#FFFFFF">
-                <path d="M18.799 7.038c-.496-.535-.799-1.252-.799-2.038 0-1.656 1.344-3 3-3s3 1.344 3 3-1.344 3-3 3c-.146 0-.29-.01-.431-.031l-3.333 6.032c.475.53.764 1.231.764 1.999 0 1.656-1.344 3-3 3s-3-1.344-3-3c0-.583.167-1.127.455-1.587l-2.565-3.547c-.281.087-.58.134-.89.134l-.368-.022-3.355 6.069c.451.525.723 1.208.723 1.953 0 1.656-1.344 3-3 3s-3-1.344-3-3 1.344-3 3-3c.186 0 .367.017.543.049l3.298-5.967c-.52-.539-.841-1.273-.841-2.082 0-1.656 1.344-3 3-3s3 1.344 3 3c0 .617-.187 1.191-.507 1.669l2.527 3.495c.307-.106.637-.164.98-.164.164 0 .325.013.482.039l3.317-6.001zm-3.799 7.962c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm-6-8c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1z" />
-              </svg>
-            </figure>
-            <h4 className="py-2 text-white font-bold">Jesus Echeverria</h4>
-            <p className="text-base leading-7 text-white font-semibold space-y-4">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            </p>
-            <p className="text-sm leading-7 text-slate-300 space-y-4">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro
-              est numquam ipsa consequatur provident fugiat quaerat cupiditate
-              temporibus cum?
-            </p>
           </div>
         </div>
       </div>

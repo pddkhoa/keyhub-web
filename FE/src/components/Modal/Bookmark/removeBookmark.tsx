@@ -1,10 +1,8 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
+import { deleteSave, getBlogSaveByAuth } from "@/redux/blogSlice";
 import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
 import { useDispatch, useSelector } from "react-redux";
 
 type RemoveBookmarkProps = {
@@ -14,34 +12,22 @@ type RemoveBookmarkProps = {
     toggle: () => void;
   };
   id: number;
-  setRemoving: React.Dispatch<React.SetStateAction<boolean>>;
+  setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   setFlag,
   id,
-  setRemoving,
 }) => {
+  const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
+  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.blog.isSuccess);
 
   const handleDeleteSave = async (id: number) => {
-    try {
-      setRemoving(true);
-      const { body } = await ClientServices.deleteSave(
-        id,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        showToast("Remove  Thanh Cong", "success");
-        setFlag.off();
-        setRemoving(false);
-      } else {
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-        setRemoving(false);
-      }
-    } catch (error) {
-      console.log(error);
+    await deleteSave(id, accessToken, axiosJWT, dispatch);
+    if (isSuccess) {
+      getBlogSaveByAuth(accessToken, axiosJWT, dispatch);
+      setFlag.off();
     }
   };
 
@@ -82,12 +68,21 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteSave(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Confirm
-          </Button>
+          {isLoading ? (
+            <Button
+              disabled
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Please wait...
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleDeleteSave(id)}
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Confirm
+            </Button>
+          )}
         </div>
       </div>
     </div>

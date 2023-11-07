@@ -19,7 +19,7 @@ export const AboutMe: React.FC<AboutMeProps> = ({ user }) => {
               <div className="text-3xl text-indigo-500 text-left leading-tight h-3">
                 “
               </div>
-              <p className="text-md text-title-foreground text-center px-5">
+              <p className="text-md text-title-foreground text-center px-5 break-words">
                 {user.descriptions
                   ? user.descriptions
                   : " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam obcaecati laudantium recusandae, debitis eum voluptatem ad, illovoluptatibus temporibus odio provident."}

@@ -9,7 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { IconBookmark, IconHide, IconUnBookmark } from "../ui/icon";
+import {
+  IconBookmark,
+  IconDelete,
+  IconHide,
+  IconReport,
+  IconUnBookmark,
+} from "../ui/icon";
 import convertDate from "../FormatDate/formatDate";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
@@ -18,22 +24,31 @@ import ClientServices from "@/services/client/client";
 import { showToast } from "@/hooks/useToast";
 import { Button } from "../ui/button";
 import useAuth from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { ReportBlog } from "../Modal/Blog/reportBlog";
 
 interface CardDetailProps {
   post: BlogPost;
   ref?: any;
-  setIsHide: React.Dispatch<React.SetStateAction<boolean>>;
-  isHide: boolean;
+  setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
+  isHide?: boolean;
 }
 
 const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
-  ({ post, setIsHide, isHide }, ref) => {
+  ({ post, setIsHide }, ref) => {
     const { axiosJWT, accessToken } = useAuth();
 
     const [isLike, setIsLike] = useState(post.isLike);
     const [valueLike, setValueLike] = useState(post.likes);
     const [hiddenPosts, setHiddenPosts] = useState<any>({});
-    const isHidden = hiddenPosts[post.id];
+
+    // Lấy thông tin user đăng nhập
+    const user = useSelector((state: RootState) => state.user.detail.data);
+
+    // Kiểm tra điều kiện
+    const isOwner = post.users.id === user.id;
 
     const handleLike = async (id: number) => {
       if (!isLike) {
@@ -134,13 +149,36 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                 <DropdownMenuLabel>Option</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => handleHide(post.id)}
-                >
-                  <IconHide className="w-6 h-6 mr-2" />
-                  <span>Hide</span>
-                </DropdownMenuItem>
+                {isOwner ? (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setDisplayCreate.on(), setDisplayModal("DELETE");
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <IconDelete className="w-6 h-6 mr-2" />
+                    <span>Delete</span>
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => handleHide(post.id)}
+                    >
+                      <IconHide className="w-6 h-6 mr-2" />
+                      <span>Hide</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setDisplayCreate.on(), setDisplayModal("REPORT");
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <IconReport className="w-6 h-6 mr-2" />
+                      <span>Report</span>
+                    </DropdownMenuItem>
+                  </>
+                )}
                 <DropdownMenuItem className="cursor-pointer">
                   {post.isSave ? (
                     <>
@@ -205,7 +243,12 @@ group-hover:scale-100"
             <span className="text-lg text-title-foreground ">{valueLike}</span>
           </div>
           <div className="flex items-center gap-2 w-fit mt-1 pt-2 pl-5">
-            <span className="group relative transition ease-out duration-300  bg-input h-9 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
+            <span
+              onClick={() => {
+                setDisplayModal("PREVIEW"), setDisplayCreate.on();
+              }}
+              className="group relative transition ease-out duration-300  bg-input h-9 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 enable-background="new 0 0 24 24"
@@ -250,58 +293,63 @@ group-hover:scale-100"
                 Comment<span></span>
               </span>
             </span>
-            <span className="text-lg text-title-foreground ">100+</span>
+            <span className="text-lg text-title-foreground ">
+              {post.sumComment}
+            </span>
           </div>
           <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-            <Button
-              variant={"gradient"}
-              onClick={() => {
-                setDisplayModal("PREVIEW"), setDisplayCreate.on();
-              }}
-              className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
-            >
-              <span>Read Post</span>
-            </Button>
+            <Link to={`/blog/${post.id}`}>
+              <Button
+                variant={"gradient"}
+                className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
+              >
+                <span>Read Post</span>
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="flex w-full border-t border-border"></div>
-        <div className="relative flex gap-3 items-center w-full max-w-xl p-4 overflow-hidden text-gray-600 ">
-          <span className="flex justify-center">
-            <AlphabetAvatar size={45} />
-          </span>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-6">
-            <button
-              type="submit"
-              className="p-1 focus:outline-none focus:shadow-none hover:text-blue-500"
+        <div className="relative flex justify-between gap-3 items-center w-full max-w-3xl p-4 px-10 overflow-hidden text-gray-600 ">
+          <div className="flex gap-5 w-2/3 items-center">
+            <span className="flex justify-center">
+              <AlphabetAvatar size={45} />
+            </span>
+            <input
+              onClick={() => {
+                setDisplayModal("PREVIEW"), setDisplayCreate.on();
+              }}
+              className="w-full cursor-pointer py-2 px-4 text-sm bg-input border border-transparent appearance-none rounded-tg placeholder-gray-400  focus:outline-none focus:border-blue-500 hover:brightness-150"
+              style={{ borderRadius: 25 }}
+              placeholder="Post a comment..."
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6 text-gray-500"
+              fill="none"
+              id="view"
             >
-              <svg
-                className="w-6 h-6 transition ease-out duration-300 hover:text-blue-500 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-          </span>
-          <input
-            type="search"
-            className="w-full ml-4 py-2 pl-4 pr-10 text-sm bg-input border border-transparent appearance-none rounded-tg placeholder-gray-400  focus:outline-none focus:border-blue-500 hover:brightness-150"
-            style={{ borderRadius: 25 }}
-            placeholder="Post a comment..."
-            autoComplete="off"
-            disabled
-          />
+              <path
+                fill="currentColor"
+                fillRule="evenodd"
+                d="M3 12c1.515-3.532 4.974-6 9-6s7.485 2.468 9 6c-1.515 3.532-4.974 6-9 6s-7.485-2.468-9-6Zm13 0a4 4 0 1 1-2.221-3.584 2 2 0 0 0 2.213 3.321c.005.087.008.175.008.263Z"
+                clipRule="evenodd"
+              ></path>
+              <path fill="#000" d="M14 12a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path>
+            </svg>
+            <span className="text-title-foreground">{post.views}</span>
+          </div>
         </div>
         <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
           {displayModal === "PREVIEW" ? (
             <Preview setFlag={setDisplayCreate} data={post} />
+          ) : null}
+        </Modal>
+        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+          {displayModal === "REPORT" ? (
+            <ReportBlog setFlag={setDisplayCreate} data={post} />
           ) : null}
         </Modal>
       </>

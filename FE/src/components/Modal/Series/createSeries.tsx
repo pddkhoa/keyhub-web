@@ -3,14 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
-import { addSeries } from "@/redux/seriesSlice";
-import ClientServices from "@/services/client/client";
+import { createSeries } from "@/redux/seriesSlice";
+import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type CreateSeriesProps = {
@@ -34,8 +33,9 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     setBio(text);
     setCharCount(text.length);
   };
+  const isLoading = useSelector((state: RootState) => state.series.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
 
@@ -49,38 +49,14 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       setAdd(true);
       const report = {
         name: value.name,
         description: value.description,
       };
-
-      console.log(report);
-
-      try {
-        const { body } = await ClientServices.createSeries(
-          report,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setIsLoading(false);
-          setAdd(false);
-
-          showToast("Add new series Thanh cong nha!", "success");
-          setFlag.off();
-          dispatch(addSeries(body.result));
-        } else {
-          setIsLoading(false);
-          setAdd(false);
-
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setAdd(false);
-        setIsLoading(false);
-        console.log(error);
+      createSeries(report, accessToken, axiosJWT, dispatch);
+      if (isSuccess) {
+        setFlag.off();
       }
     },
   });

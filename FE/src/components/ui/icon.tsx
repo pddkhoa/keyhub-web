@@ -213,6 +213,37 @@ const IconHide = ({ className, ...props }: any) => (
 );
 IconHide.displayName = "IconHide";
 
+const IconReport = ({ className, ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      className={cn(className)}
+      id="analytics-report"
+    >
+      <defs>
+        <linearGradient
+          id="a"
+          x1="16"
+          x2="16"
+          y1="28.5"
+          y2="3.5"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stop-color="#12c2e9"></stop>
+          <stop offset="1" stop-color="#c471ed"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#a)"
+        d="M23.25 19.6V3.5h-20v22a3 3 0 0 0 3 3h19.5a3 3 0 0 0 3-3v-5.9ZM18 21.94H8v-2h10Zm.5-9.52h-.07l-1.8 2.44a1.67 1.67 0 0 1 .21.8 1.75 1.75 0 0 1-3.5 0 1.74 1.74 0 0 1 .1-.56l-1.82-2.48L10 14.83a1.7 1.7 0 0 1 .23.84 1.75 1.75 0 0 1-3.5 0 1.74 1.74 0 0 1 1.56-1.73l-.07-.06 1.94-2.64a1.67 1.67 0 0 1-.11-.59 1.75 1.75 0 1 1 3.24.9L15 13.79l1.87-2.55a1.62 1.62 0 0 1-.11-.58 1.75 1.75 0 1 1 1.75 1.75Zm8.25 13.08a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3.9h3Z"
+        data-name="chart 9"
+      ></path>
+    </svg>
+  </div>
+);
+IconReport.displayName = "IconReport";
+
 export {
   IconDelete,
   IconUnBookmark,
@@ -220,4 +251,5 @@ export {
   IconEdit,
   IconComment,
   IconHide,
+  IconReport,
 };

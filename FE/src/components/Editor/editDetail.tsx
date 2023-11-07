@@ -24,6 +24,7 @@ import useBoolean from "@/hooks/useBoolean";
 import { showToast } from "@/hooks/useToast";
 import seriesType from "@/types/series";
 import ClientServices from "@/services/client/client";
+import { getAllSeries } from "@/redux/seriesSlice";
 
 interface ReportType {
   title: string;
@@ -67,6 +68,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
   );
   const user = useSelector((state: RootState) => state.auth.login);
   const auth = useSelector((state: RootState) => state.auth.login);
+  const isSucces = useSelector((state: RootState) => state.series.isSuccess);
 
   const accessToken = auth?.data.token;
   const dispatch = useDispatch();
@@ -76,9 +78,9 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
 
   useEffect(() => {
     if (user?.data.token) {
-      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+      getAllSeries(user?.data.token, dispatch, axiosJWT);
     }
-  }, [adding]);
+  }, [isSucces]);
 
   const handleUploadAvatar = async (file: File) => {
     try {

@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IconDelete } from "@/components/ui/icon";
 import useBoolean from "@/hooks/useBoolean";
 
 import seriesType from "@/types/series";
@@ -86,7 +87,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
                 }}
                 className="cursor-pointer"
               >
-                <Trash2 className="w-5 h-5 mr-2" />
+                <IconDelete className="w-5 h-5 mr-2" />
                 <span>Delete</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

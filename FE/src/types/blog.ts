@@ -16,6 +16,7 @@ interface BlogPost {
   isLike?: boolean;
   isSave?: boolean;
   users: User;
+  sumComment?: number;
 }
 
 interface Category {

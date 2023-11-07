@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import { showToast } from "@/hooks/useToast";
-import { deleteBlogSuccess } from "@/redux/blogSlice";
-import ClientServices from "@/services/client/client";
-import { useDispatch } from "react-redux";
+import useAuth from "@/hooks/useAuth";
+import { deleteBlog, getDraftByAuth } from "@/redux/blogSlice";
+import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 type DeleteBlogsProps = {
   setFlag: {
@@ -14,26 +14,16 @@ type DeleteBlogsProps = {
   id: number;
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
-  setFlag,
-  id,
-  setRemoving,
-}) => {
+export const DeleteBlog: React.FC<DeleteBlogsProps> = ({ setFlag, id }) => {
+  const { axiosJWT, accessToken } = useAuth();
+
   const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
   const handleDeleteBlog = async (id: number) => {
     if (id) {
-      setRemoving(true);
-      const { body } = await ClientServices.deleteBlog(id);
-      if (body?.success) {
-        setRemoving(false);
-        dispatch(deleteBlogSuccess(id));
-        showToast("Delete  Thanh Cong", "success");
-        setFlag.off();
-      } else {
-        setRemoving(false);
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-      }
+      await deleteBlog(id, dispatch);
+
+      getDraftByAuth(accessToken, axiosJWT, dispatch);
     }
   };
 
@@ -74,12 +64,21 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteBlog(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Delete
-          </Button>
+          {isLoading ? (
+            <Button
+              disabled
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Please wait...
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleDeleteBlog(id)}
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </div>
     </div>

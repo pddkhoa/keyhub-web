@@ -29,21 +29,24 @@ import {
 import { UpdateAccount } from "@/components/Modal/Profile/updateAccount";
 import { RootState } from "@/redux/store";
 
-import { showToast } from "@/hooks/useToast";
 import {
   getUserSuccess,
-  uploadAvatarSuccess,
-  uploadBanerSuccess,
+  uploadAvatarUser,
+  uploadBannerUser,
 } from "@/redux/userSlice";
-import ClientServices from "@/services/client/client";
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import useAuth from "@/hooks/useAuth";
 
 const UpdateProfile = () => {
   const location = useLocation();
   const userData = useSelector((state: RootState) => state.user.detail.data);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+  const isLoadingUploadAvatar = useSelector(
+    (state: RootState) => state.user.isLoadingUploadAvatar
+  );
+  const isLoadingUploadBanner = useSelector(
+    (state: RootState) => state.user.isLoadingUploadBanner
+  );
+
   const dispatch = useDispatch();
 
   const { axiosJWT, accessToken } = useAuth();
@@ -60,48 +63,20 @@ const UpdateProfile = () => {
 
   const handleUploadAvatarUser = async (image_file: File) => {
     try {
-      setIsUploading(true);
       if (image_file) {
-        const { body } = await ClientServices.uploadAvatarUser(
-          image_file,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setIsUploading(false);
-          dispatch(uploadAvatarSuccess(body.result));
-          showToast("Upload Anh Thanh Cong", "success");
-        } else {
-          showToast(body?.message || "Error", "error");
-          setIsUploading(false);
-        }
+        uploadAvatarUser(image_file, accessToken, axiosJWT, dispatch);
       }
     } catch (error) {
       console.log(error);
-      setIsUploading(false);
     }
   };
   const handleUploadBannerUser = async (image_file: File) => {
     try {
-      setIsUploadingBanner(true);
       if (image_file) {
-        const { body } = await ClientServices.uploadBannerUser(
-          image_file,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setIsUploadingBanner(false);
-          dispatch(uploadBanerSuccess(body?.result));
-          showToast("Upload Anh Thanh Cong", "success");
-        } else {
-          showToast(body?.message || "Error", "error");
-          setIsUploadingBanner(false);
-        }
+        uploadBannerUser(image_file, accessToken, axiosJWT, dispatch);
       }
     } catch (error) {
       console.log(error);
-      setIsUploadingBanner(false);
     }
   };
 
@@ -132,7 +107,7 @@ const UpdateProfile = () => {
                 className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-36 h-36 rounded-full mt-6"
               >
                 <>
-                  {isUploading ? (
+                  {isLoadingUploadAvatar ? (
                     <div
                       className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status"
@@ -173,7 +148,7 @@ const UpdateProfile = () => {
                 htmlFor="fileBanner"
                 className="relative cursor-pointer bg-card flex justify-center items-center mx-auto group overflow-hidden hover:brightness-110 border hover:border-4 border-border w-2/3 h-56 rounded-md my-4"
               >
-                {isUploadingBanner ? (
+                {isLoadingUploadBanner ? (
                   <div
                     className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
                     role="status"

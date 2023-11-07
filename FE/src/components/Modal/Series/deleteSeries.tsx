@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
-import { deleteSeriesSuccess } from "@/redux/seriesSlice";
-import ClientServices from "@/services/client/client";
-import { useDispatch } from "react-redux";
+import { deleteSeries } from "@/redux/seriesSlice";
+import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 type DeleteSeriesProps = {
   setFlag: {
@@ -18,24 +17,12 @@ type DeleteSeriesProps = {
 export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
   const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
+  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const handleDeleteSeries = async (id: number) => {
-    try {
-      const { body } = await ClientServices.deleteSeries(
-        id,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        dispatch(deleteSeriesSuccess(id));
-        showToast("Delete  Thanh Cong", "success");
-        setFlag.off();
-      } else {
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-      }
-    } catch (error) {
-      console.log(error);
+    deleteSeries(id, accessToken, axiosJWT, dispatch);
+    if (isSuccess) {
+      setFlag.off();
     }
   };
 

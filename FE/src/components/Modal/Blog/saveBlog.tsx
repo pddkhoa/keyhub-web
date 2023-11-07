@@ -1,11 +1,8 @@
-import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
-import { isBookmark } from "@/redux/blogSlice";
-import ClientServices from "@/services/client/client";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { saveBlog } from "@/redux/blogSlice";
+import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 type SaveBlogsProps = {
   setFlag: {
@@ -19,37 +16,16 @@ type SaveBlogsProps = {
 export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
   const { axiosJWT, accessToken } = useAuth();
   const dispatch = useDispatch();
-
-  const [loading, setLoading] = useState(false);
+  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.blog.isSuccess);
 
   const handleSaveBlog = async (blog_id: number) => {
-    try {
-      setLoading(true);
-      const { body } = await ClientServices.saveBlog(
-        blog_id,
-        accessToken,
-        axiosJWT
-      );
-      console.log(body);
-      if (body?.success) {
-        showToast("save  Thanh Cong", "success");
-        dispatch(isBookmark(blog_id));
-        setFlag.off();
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+    saveBlog(blog_id, accessToken, axiosJWT, dispatch);
+    if (isSuccess) {
+      setFlag.off();
     }
   };
 
-  if (loading) {
-    return <Loading />;
-  }
   return (
     <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
       <div>
@@ -109,32 +85,59 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
           >
             Cancle
           </Button>
-          <button
-            onClick={() => {
-              handleSaveBlog(id);
-            }}
-            title="Save"
-            className="cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2"
-          >
-            <svg
-              viewBox="0 -0.5 25 25"
-              height="20px"
-              width="20px"
-              xmlns="http://www.w3.org/2000/svg"
+          {isLoading ? (
+            <Button
+              disabled
+              title="Save"
+              className="cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2"
             >
-              <path
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="1.5"
-                d="M18.507 19.853V6.034C18.5116 5.49905 18.3034 4.98422 17.9283 4.60277C17.5532 4.22131 17.042 4.00449 16.507 4H8.50705C7.9721 4.00449 7.46085 4.22131 7.08577 4.60277C6.7107 4.98422 6.50252 5.49905 6.50705 6.034V19.853C6.45951 20.252 6.65541 20.6407 7.00441 20.8399C7.35342 21.039 7.78773 21.0099 8.10705 20.766L11.907 17.485C12.2496 17.1758 12.7705 17.1758 13.113 17.485L16.9071 20.767C17.2265 21.0111 17.6611 21.0402 18.0102 20.8407C18.3593 20.6413 18.5551 20.2522 18.507 19.853Z"
-                clipRule="evenodd"
-                fillRule="evenodd"
-              />
-            </svg>
-            <span className="text-sm text-title-foreground font-bold pr-1">
-              Save Post
-            </span>
-          </button>
+              <svg
+                viewBox="0 -0.5 25 25"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="1.5"
+                  d="M18.507 19.853V6.034C18.5116 5.49905 18.3034 4.98422 17.9283 4.60277C17.5532 4.22131 17.042 4.00449 16.507 4H8.50705C7.9721 4.00449 7.46085 4.22131 7.08577 4.60277C6.7107 4.98422 6.50252 5.49905 6.50705 6.034V19.853C6.45951 20.252 6.65541 20.6407 7.00441 20.8399C7.35342 21.039 7.78773 21.0099 8.10705 20.766L11.907 17.485C12.2496 17.1758 12.7705 17.1758 13.113 17.485L16.9071 20.767C17.2265 21.0111 17.6611 21.0402 18.0102 20.8407C18.3593 20.6413 18.5551 20.2522 18.507 19.853Z"
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                />
+              </svg>
+              <span className="text-sm text-title-foreground font-bold pr-1">
+                Please wait...
+              </span>
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                handleSaveBlog(id);
+              }}
+              title="Save"
+              className="cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2"
+            >
+              <svg
+                viewBox="0 -0.5 25 25"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="1.5"
+                  d="M18.507 19.853V6.034C18.5116 5.49905 18.3034 4.98422 17.9283 4.60277C17.5532 4.22131 17.042 4.00449 16.507 4H8.50705C7.9721 4.00449 7.46085 4.22131 7.08577 4.60277C6.7107 4.98422 6.50252 5.49905 6.50705 6.034V19.853C6.45951 20.252 6.65541 20.6407 7.00441 20.8399C7.35342 21.039 7.78773 21.0099 8.10705 20.766L11.907 17.485C12.2496 17.1758 12.7705 17.1758 13.113 17.485L16.9071 20.767C17.2265 21.0111 17.6611 21.0402 18.0102 20.8407C18.3593 20.6413 18.5551 20.2522 18.507 19.853Z"
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                />
+              </svg>
+              <span className="text-sm text-title-foreground font-bold pr-1">
+                Save Post
+              </span>
+            </Button>
+          )}
         </div>
       </div>
     </div>

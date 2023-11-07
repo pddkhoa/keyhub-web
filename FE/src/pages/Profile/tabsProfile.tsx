@@ -1,35 +1,23 @@
 import { useEffect, useState } from "react";
-import { GridCard } from "../Card/CardBlog/listCard";
-import { Button } from "../ui/button";
+import { GridCard } from "../../components/Card/CardBlog/listCard";
+import { Button } from "../../components/ui/button";
 import useBoolean from "@/hooks/useBoolean";
-import Modal from "../Modal/modal";
-import { ModalFilters } from "../Modal/Profile/filterOptions";
-import {
-  ChevronRight,
-  PictureInPicture2,
-  Plus,
-  ScrollText,
-  SlidersHorizontal,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { DetailCard } from "../Card/CardBlog/detailCard";
+import Modal from "../../components/Modal/modal";
+import { ModalFilters } from "../../components/Modal/Profile/filterOptions";
+import { Plus, ScrollText, SlidersHorizontal } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import BlogPost from "@/types/blog";
-import { CardSeries } from "../Card/CardSeries/cardSeries";
-import { CardVideo } from "../Card/CardVideo/cardVideo";
-import { CreateSeries } from "../Modal/Series/createSeries";
+import { CardSeries } from "../../components/Card/CardSeries/cardSeries";
+import { CreateSeries } from "../../components/Modal/Series/createSeries";
 import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
 import { createAxios } from "@/api/createInstance";
 import { loginSuccess } from "@/redux/authSlice";
-import { Nodata } from "../ui/nodata";
+import { Nodata } from "../../components/ui/nodata";
 import { useParams } from "react-router";
+import { getAllSeries, getBlogBySeries } from "@/redux/seriesSlice";
+import { getAllBlogByAuth } from "@/redux/blogSlice";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
@@ -48,7 +36,6 @@ export const TabsProfile = () => {
   const { id } = useParams();
   const [isUser, setIsUser] = useState(false);
   const [blogUser, setBlogUser] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(false);
   const userId = Number(id);
   console.log(isUser);
 
@@ -59,12 +46,12 @@ export const TabsProfile = () => {
       const isUser = !userId || userData.id === Number(userId);
       setIsUser(isUser);
     }
-  });
+  }, [userId]);
 
   useEffect(() => {
     try {
-      ClientServices.getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
-      ClientServices.getAllSeries(user?.data.token, dispatch, axiosJWT);
+      getAllBlogByAuth(user?.data.token, dispatch, axiosJWT);
+      getAllSeries(user?.data.token, dispatch, axiosJWT);
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +60,6 @@ export const TabsProfile = () => {
   useEffect(() => {
     if (userId) {
       const fetchBlogUser = async () => {
-        setLoading(true);
         const { body } = await ClientServices.getBlogByUserId(
           userId,
           accessToken,
@@ -81,10 +67,8 @@ export const TabsProfile = () => {
         );
         if (body?.success) {
           setBlogUser(body?.result);
-          setLoading(false);
         } else {
           console.log(body?.message);
-          setLoading(false);
         }
       };
 
@@ -134,44 +118,7 @@ export const TabsProfile = () => {
                       Add New Video
                     </Button>
                   )
-                ) : (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="">
-                        <PictureInPicture2 className="text-title w-5 h-5 mr-2" />
-                        Option View
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56 mr-5  rounded-lg bg-card">
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setOption("LIST");
-                        }}
-                        className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
-                      >
-                        <span className="text-title-foreground whitespace-nowrap">
-                          List View
-                        </span>
-                        <div className="">
-                          <ChevronRight className="text-title-foreground" />
-                        </div>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setOption("CARD");
-                        }}
-                        className="flex justify-between p-2 rounded-lg cursor-pointer items-center w-full hover:bg-hover"
-                      >
-                        <span className="text-title-foreground whitespace-nowrap">
-                          Card View
-                        </span>
-                        <div className="">
-                          <ChevronRight className="text-title-foreground" />
-                        </div>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
@@ -218,12 +165,16 @@ export const TabContent: React.FC<TabsContentProps> = ({
   data,
   setActiveBlog,
 }) => {
-  const [expanded, setExpanded] = useState<number>();
+  const [expanded, setExpanded] = useState<number | undefined>();
   const dispatch = useDispatch();
 
   const auth = useSelector((state: RootState) => state.auth.login);
   const axiosJWT = createAxios(auth, dispatch, loginSuccess);
   const accessToken = auth?.data.token;
+
+  const blogBySeries = useSelector(
+    (state: RootState) => state.series.blogBySeries
+  );
   const [blogData, setBlogData] = useState<BlogPost[]>([]);
   const [seriesSelected, setSeriesSelected] = useState<seriesType>();
   const { id } = useParams();
@@ -260,27 +211,16 @@ export const TabContent: React.FC<TabsContentProps> = ({
       fetchSeriesByUser();
     }
   }, [userId]);
+
   const listSeries = useSelector(
     (state: RootState) => state.series.series.result
   );
 
   useEffect(() => {
     if (expanded) {
-      const fetchData = async () => {
-        const { body } = await ClientServices.getBlogBySeries(
-          expanded,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setBlogData(body?.result);
-        } else {
-          console.log(body?.message);
-        }
-      };
-
+      getBlogBySeries(expanded, accessToken, axiosJWT, dispatch);
       if (expanded) {
-        fetchData();
+        setBlogData(blogBySeries);
       }
     } else return;
   }, [expanded]);
@@ -290,45 +230,33 @@ export const TabContent: React.FC<TabsContentProps> = ({
       return (
         <div>
           <div className="grid grid-cols-4 gap-4">
-            {optionview === "LIST" ? (
-              <>
-                {data && data.length > 0 ? (
-                  data.map((item) => (
-                    <div key={item.id} className="col-span-2 h-full ">
-                      <GridCard data={item} setActiveBlog={setActiveBlog} />
-                    </div>
-                  ))
-                ) : (
-                  <div className="col-span-4">
-                    <Nodata />
-                  </div>
-                )}
-              </>
-            ) : data && data.length > 0 ? (
+            {data && data.length > 0 ? (
               data.map((item) => (
-                <div className="col-span-4 w-full">
-                  <DetailCard data={item} />
+                <div key={item.id} className="col-span-2 h-full ">
+                  <GridCard data={item} setActiveBlog={setActiveBlog} />
                 </div>
               ))
             ) : (
-              <Nodata />
+              <div className="col-span-4">
+                <Nodata />
+              </div>
             )}
           </div>
         </div>
       );
-    case "TAB_VIDEO":
-      return (
-        <div>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-2 h-full ">
-              <CardVideo />
-            </div>
-            <div className="col-span-2 h-full">
-              <CardVideo />
-            </div>
-          </div>
-        </div>
-      );
+    // case "TAB_VIDEO":
+    //   return (
+    //     <div>
+    //       <div className="grid grid-cols-4 gap-4">
+    //         <div className="col-span-2 h-full ">
+    //           <CardVideo />
+    //         </div>
+    //         <div className="col-span-2 h-full">
+    //           <CardVideo />
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
 
     case "TAB_SERIES":
       return (
@@ -356,7 +284,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
                       <div className="flex gap-5">
                         <Button
                           onClick={() => {
-                            setExpanded(null), setBlogData([]);
+                            setExpanded(undefined), setBlogData([]);
                           }}
                         >
                           Back
@@ -424,10 +352,10 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
     setTabs("TAB_BLOG");
   };
 
-  const handleVideoTabClick = () => {
-    setActiveTab("TAB_VIDEO");
-    setTabs("TAB_VIDEO");
-  };
+  // const handleVideoTabClick = () => {
+  //   setActiveTab("TAB_VIDEO");
+  //   setTabs("TAB_VIDEO");
+  // };
 
   const handleSeriesTabClick = () => {
     setActiveTab("TAB_SERIES");
@@ -461,7 +389,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
           </div>
         </li>
 
-        <li>
+        {/* <li>
           <div
             onClick={handleVideoTabClick}
             className={`flex justify-center cursor-pointer items-center border-b-2 hover:text-title-foreground hover:border-title hover:bg-card hover:rounded-tl-xl hover:rounded-tr-xl  ${
@@ -493,7 +421,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
             </svg>
             Video
           </div>
-        </li>
+        </li> */}
         <li>
           <div
             onClick={handleSeriesTabClick}

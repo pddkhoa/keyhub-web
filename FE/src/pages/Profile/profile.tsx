@@ -5,7 +5,7 @@ import { AboutMe } from "../../components/UserProfile/aboutMe";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
-import { TabsProfile } from "@/components/Tab/tabsProfile";
+import { TabsProfile } from "@/pages/Profile/tabsProfile";
 import { PenSquare, PlusCircle } from "lucide-react";
 
 import { RootState } from "@/redux/store";

@@ -17,9 +17,20 @@ import Modal from "@/components/Modal/modal";
 import { DeleteBlog } from "@/components/Modal/Blog/deleteBlog";
 import convertDate from "@/components/FormatDate/formatDate";
 import { SaveBlog } from "@/components/Modal/Blog/saveBlog";
-import { IconBookmark, IconDelete, IconUnBookmark } from "@/components/ui/icon";
+import {
+  IconBookmark,
+  IconDelete,
+  IconHide,
+  IconReport,
+  IconUnBookmark,
+} from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { RemoveBookmark } from "@/components/Modal/Bookmark/removeBookmark";
+import useAuth from "@/hooks/useAuth";
+import ClientServices from "@/services/client/client";
+import Preview from "@/components/Modal/Blog/preview";
+import { showToast } from "@/hooks/useToast";
 interface GridCardProps {
   data: BlogPost;
   setActiveBlog?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +42,52 @@ export const GridCard: React.FC<GridCardProps> = ({
   setActiveBlog,
   isUser,
 }) => {
+  const { axiosJWT, accessToken } = useAuth();
+
+  // Lấy thông tin user đăng nhập
+  const user = useSelector((state: RootState) => state.user.detail.data);
+
+  // Kiểm tra điều kiện
+  const isOwner = data.users.id === user.id;
+  const [isLike, setIsLike] = useState(data.isLike);
+  const [valueLike, setValueLike] = useState(data.likes);
+  const navigate = useNavigate();
+  const handleLike = async (id: number) => {
+    if (!isLike) {
+      // Nếu chưa follow, thực hiện follow
+      const { body } = await ClientServices.likeBlog(id, accessToken, axiosJWT);
+      if (body?.success) {
+        setIsLike(true);
+        setValueLike(body.result.like);
+      } else {
+        setIsLike(false);
+
+        console.log(body?.message);
+      }
+    } else {
+      // Nếu chưa follow, thực hiện follow
+      const { body } = await ClientServices.likeBlog(id, accessToken, axiosJWT);
+      if (body?.success) {
+        setIsLike(false);
+        setValueLike(body.result.like);
+      } else {
+        console.log(body?.message);
+      }
+    }
+  };
+  const handleHide = async (id: number) => {
+    // Nếu chưa follow, thực hiện follow
+    const { body } = await ClientServices.hideBlog(id, accessToken, axiosJWT);
+    if (body) {
+      if (body?.success) {
+        navigate(0);
+        showToast(body.message, "success");
+      } else {
+        showToast(body.message, "error");
+      }
+    }
+  };
+
   const formatDate = () => {
     const inputDate = data?.create_date;
     const formattedDate = inputDate && convertDate(inputDate);
@@ -48,7 +105,7 @@ export const GridCard: React.FC<GridCardProps> = ({
       <div className="flex justify-between">
         <div className="flex items-center">
           {!isUser ? (
-            <UserAvatar size={55} data={data.users.avatar} />
+            <UserAvatar size={55} data={data && data.users.avatar} />
           ) : (
             <AlphabetAvatar size={55} />
           )}
@@ -95,19 +152,37 @@ export const GridCard: React.FC<GridCardProps> = ({
           <DropdownMenuContent className="w-56 mr-2">
             <DropdownMenuLabel>Option</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                setDisplayCreate.on(), setDisplayModal("DELETE");
-              }}
-              className="cursor-pointer"
-            >
-              <IconDelete className="w-6 h-6 mr-2" />
-              <span>Delete</span>
-            </DropdownMenuItem>
+            {isOwner ? (
+              <DropdownMenuItem
+                onClick={() => {
+                  setDisplayCreate.on(), setDisplayModal("DELETE");
+                }}
+                className="cursor-pointer"
+              >
+                <IconDelete className="w-6 h-6 mr-2" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            ) : (
+              <>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handleHide(data.id)}
+                >
+                  <IconHide className="w-6 h-6 mr-2" />
+                  <span>Hide</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <IconReport className="w-6 h-6 mr-2" />
+                  <span>Report</span>
+                </DropdownMenuItem>
+              </>
+            )}
             <DropdownMenuItem
               onClick={() => {
                 setDisplayCreate.on(),
-                  setDisplayModal("BOOKMARK"),
+                  data.isSave
+                    ? setDisplayModal("UNBOOKMARK")
+                    : setDisplayModal("BOOKMARK"),
                   setActiveBlog(!active);
               }}
               className="cursor-pointer"
@@ -139,11 +214,16 @@ export const GridCard: React.FC<GridCardProps> = ({
       </p>
       <div className="border-border  border border-b-0 my-1" />
       <div className="text-gray-500 dark:text-gray-400 flex ">
-        <div className="flex items-center gap-2 w-fit mt-1 pt-2">
+        <div
+          onClick={() => handleLike(data.id)}
+          className="flex items-center gap-2 w-fit mt-1 pt-2"
+        >
           <span className="group relative transition ease-out duration-300  bg-input h-9 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
             <svg
-              className="h-5 w-5 text-title-foreground"
-              fill="none"
+              className={`h-5 w-5 ${
+                !isLike ? "text-title-foreground" : "text-red-500"
+              }  `}
+              fill={`${isLike ? "currentColor" : "none"}`}
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2}
@@ -156,17 +236,22 @@ export const GridCard: React.FC<GridCardProps> = ({
             </svg>
             <span
               className="absolute -top-10 left-[50%] -translate-x-[50%] 
-  z-20 origin-left scale-0 px-3 rounded-lg text-title-foreground
-   bg-card py-2 text-sm
-  shadow-md transition-all duration-300 ease-in-out 
-  group-hover:scale-100"
+z-20 origin-left scale-0 px-3 rounded-lg text-title-foreground
+bg-card py-2 text-sm
+shadow-md transition-all duration-300 ease-in-out 
+group-hover:scale-100"
             >
               Like<span></span>
             </span>
           </span>
-          <span className="text-lg text-title-foreground ">100+</span>
+          <span className="text-lg text-title-foreground ">{valueLike}</span>
         </div>
-        <div className="flex items-center gap-2 w-fit mt-1 pt-2 pl-5">
+        <div
+          onClick={() => {
+            setDisplayModal("PREVIEW"), setDisplayCreate.on();
+          }}
+          className="flex items-center gap-2 w-fit mt-1 pt-2 pl-5"
+        >
           <span className="group relative transition ease-out duration-300 ml-4 bg-input h-9 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -212,15 +297,14 @@ export const GridCard: React.FC<GridCardProps> = ({
               Comment<span></span>
             </span>
           </span>
-          <span className="text-lg text-title-foreground ">100+</span>
+          <span className="text-lg text-title-foreground ">
+            {data.sumComment}
+          </span>
         </div>
         <div className="flex justify-end w-full mt-1 pt-2 pr-2">
           <Link to={`/blog/${data.id}`}>
             <Button
               variant={"gradient"}
-              // onClick={() => {
-              //   setDisplayModal("PREVIEW"), setDisplayCreate.on();
-              // }}
               className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
             >
               <span>Read Post</span>
@@ -238,6 +322,13 @@ export const GridCard: React.FC<GridCardProps> = ({
         ) : null}
         {displayModal === "BOOKMARK" ? (
           <SaveBlog setFlag={setDisplayCreate} id={data.id} />
+        ) : null}
+
+        {displayModal === "UNBOOKMARK" ? (
+          <RemoveBookmark setFlag={setDisplayCreate} id={data.id} />
+        ) : null}
+        {displayModal === "PREVIEW" ? (
+          <Preview setFlag={setDisplayCreate} data={data} />
         ) : null}
       </Modal>
     </div>

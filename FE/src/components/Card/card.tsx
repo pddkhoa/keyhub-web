@@ -1,7 +1,6 @@
 import convertDate from "@/components/FormatDate/formatDate";
-import { BadgeCheck, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { UserAvatar } from "@/components/Avatar/avatar";
-import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal/modal";
 import useBoolean from "@/hooks/useBoolean";
 import { Link } from "react-router-dom";
@@ -15,21 +14,24 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { IconDelete, IconEdit, IconUnBookmark } from "../ui/icon";
 import { DeleteBlog } from "../Modal/Blog/deleteBlog";
+import { Button } from "../ui/button";
 
 interface CardProps {
   data: BlogPost;
   cardType: string;
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-// Shared Card component
 export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
   const formatDate = () => {
     const inputDate = data.create_date;
-    const formattedDate = convertDate(inputDate);
+    let formattedDate;
+    if (inputDate) {
+      formattedDate = convertDate(inputDate);
+    }
     return formattedDate;
   };
 
@@ -52,7 +54,7 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
             <span>{formatDate()}</span>
           </div>
           <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-            {cardType === "draft" ? "Draft" : "Superhost"}
+            {cardType === "draft" ? "Draft" : "Bookmark"}
           </div>
         </div>
 
@@ -74,15 +76,33 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
           <div className="flex justify-center items-center space-x-5">
             {cardType === "default" ? (
               <div className="flex justify-center items-center space-x-5">
-                <Heart className=" text-title  hover:text-title focus:outline-none focus:text-gray-700" />
-                <MessageCircle className=" text-title  hover:text-titlefocus:outline-none focus:text-gray-700" />
+                <Link to={`/blog/${data.id}`}>
+                  <Button
+                    variant={"gradient"}
+                    className="transition group relative ease-out duration-300 bg-input h-9 px-2 py-2 text-center rounded-lg text-gray-100 cursor-pointer hover:brightness-150 hover:scale-110"
+                  >
+                    <span>Read Post</span>
+                  </Button>
+                </Link>
               </div>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button>
-                    <MoreHorizontal className="w-5 h-5" />
-                  </Button>
+                  <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="w-5 h-5"
+                      id="menumeatballs"
+                    >
+                      <path
+                        fill="#ffff"
+                        d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                        className="color000000 svgShape"
+                      ></path>
+                    </svg>
+                  </button>
                 </DropdownMenuTrigger>
 
                 {cardType === "draft" ? (

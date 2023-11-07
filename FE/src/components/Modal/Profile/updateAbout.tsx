@@ -16,11 +16,10 @@ import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
 import { useFormik } from "formik";
 import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
-import { showToast } from "@/hooks/useToast";
-import { updateUserSuccess } from "@/redux/userSlice";
-import ClientServices from "@/services/client/client";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "@/redux/userSlice";
 import useAuth from "@/hooks/useAuth";
+import { RootState } from "@/redux/store";
 
 type UpdateAboutProps = {
   setFlag: {
@@ -36,9 +35,10 @@ export const UpdateAbout = () => {
 };
 
 export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.user.isSuccess);
 
   const formik = useFormik({
     initialValues: {
@@ -59,7 +59,6 @@ export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         email: data.email,
         name: value.name,
@@ -73,28 +72,9 @@ export const ChangeName: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
         school: data.school,
       };
 
-      console.log(report);
-
-      setIsLoading(true);
-      try {
-        const { body } = await ClientServices.updateProfile(
-          report,
-          accessToken,
-          axiosJWT
-        );
-        console.log(body);
-        if (body?.success) {
-          setIsLoading(false);
-          dispatch(updateUserSuccess(body.result));
-          // console.log("123123");
-          showToast("Update Thanh cong nha!", "success");
-          setFlag.off();
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
+      await updateProfile(report, accessToken, axiosJWT, dispatch);
+      if (isSuccess) {
+        setFlag.off();
       }
     },
   });
@@ -199,7 +179,8 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
     setBio(text);
     setCharCount(text.length);
   };
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.user.isSuccess);
   const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
 
@@ -221,7 +202,6 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         email: data.email,
         name: data.name,
@@ -235,27 +215,9 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
         school: data.school,
       };
 
-      console.log(report);
-
-      setIsLoading(true);
-      try {
-        const { body } = await ClientServices.updateProfile(
-          report,
-          accessToken,
-          axiosJWT
-        );
-        console.log(body);
-        if (body?.success) {
-          setIsLoading(false);
-          dispatch(updateUserSuccess(body.result));
-          showToast("Update Thanh cong nha!", "success");
-          setFlag.off();
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
+      await updateProfile(report, accessToken, axiosJWT, dispatch);
+      if (isSuccess) {
+        setFlag.off();
       }
     },
   });
@@ -296,7 +258,7 @@ export const UpdateBio: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
                     placeholder="Tell us a little bit about yourself"
                     maxLength={150}
                     onBlur={formik.handleBlur}
-                    value={formik.values.descriptions}
+                    value={formik.values.descriptions || "nothing"}
                     onChange={handleBioChange}
                   />
                   <div className="float-right text-sm text-title-foreground">
@@ -338,9 +300,10 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
   const [checkInput, setCheckInput] = useState("");
 
   const [genders, setGender] = useState("Male");
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { axiosJWT, accessToken } = useAuth();
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const isSuccess = useSelector((state: RootState) => state.user.isSuccess);
 
   const formik = useFormik({
     initialValues: {
@@ -363,7 +326,6 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         email: data.email,
         name: data.name,
@@ -377,25 +339,9 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
         school: value.school,
       };
 
-      setIsLoading(true);
-      try {
-        const { body } = await ClientServices.updateProfile(
-          report,
-          accessToken,
-          axiosJWT
-        );
-        console.log(body);
-        if (body?.success) {
-          setIsLoading(false);
-          dispatch(updateUserSuccess(body.result));
-          showToast("Update Thanh cong nha!", "success");
-          setFlag.off();
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
+      await updateProfile(report, accessToken, axiosJWT, dispatch);
+      if (isSuccess) {
+        setFlag.off();
       }
     },
   });
@@ -463,7 +409,7 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
                           name="address"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.address}
+                          value={formik.values.address || "nothing"}
                           placeholder={data.address || "nothing"}
                           disabled={checkInput === "ADDRESS" ? false : true}
                         />
@@ -492,7 +438,7 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
                           name="school"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.school}
+                          value={formik.values.school || "nothing"}
                           placeholder={data.school || "nothing"}
                           disabled={checkInput === "SCHOOL" ? false : true}
                         />
@@ -521,7 +467,7 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
                           name="company"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.company}
+                          value={formik.values.company || "nothing"}
                           placeholder={data.company || "nothing"}
                           disabled={checkInput === "COMPANY" ? false : true}
                         />
@@ -550,7 +496,7 @@ export const EditMore: React.FC<UpdateAboutProps> = ({ setFlag, data }) => {
                           name="country"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.country}
+                          value={formik.values.country || "nothing"}
                           placeholder={data.country || "nothing"}
                           disabled={checkInput === "COUNTRY" ? false : true}
                         />

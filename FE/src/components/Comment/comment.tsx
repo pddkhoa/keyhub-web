@@ -416,12 +416,8 @@ export const CommentForm: React.FC<CommentFormProps> = ({
           ></textarea>
         </span>
       </div>
-      <div className="flex flex-row gap-3 justify-between items-center p-3 px-4 border-t text-title-foreground">
-        <div className="flex gap-4">
-          <Image className="hover:brightness-110 cursor-pointer" />
-          <View className="hover:brightness-110 cursor-pointer" />
-        </div>
-        <div className="flex gap-5">
+      <div className="flex flex-row gap-3 justify-end items-center p-3 px-4 border-t text-title-foreground">
+        <div className="flex  gap-5">
           {parentId ? (
             <Button
               onClick={() => {

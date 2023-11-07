@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import User from "@/types/user";
 
 type AlphabetAvatarProps = {
   size: number;
@@ -47,7 +46,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
 
 type UserAvatarProps = {
   size: number;
-  data: string;
+  data: string | null;
 };
 export const UserAvatar: FC<UserAvatarProps> = ({ size, data }) => {
   const style = {
