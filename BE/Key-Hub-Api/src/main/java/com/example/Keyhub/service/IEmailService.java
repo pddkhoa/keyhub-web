@@ -6,4 +6,7 @@ public interface IEmailService {
     void sendVerifyEmail(String email, String token);
 
     void sendResetPassword(String email, String code);
+    void sendNoticationsEmail(String email);
+    void sendToWarningUser(String reason,String email);
+    void sendNotificationToBlockAccount(String reason ,String email);
 }

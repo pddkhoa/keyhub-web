@@ -8,7 +8,6 @@ import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.service.GeneralService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +25,16 @@ public class GeneralServiceImpl implements GeneralService {
     IBlogRepository blogRepository;
     final
     IFollowRepository iFollowRepository;
+    final
+    IReportUserRepository reportUserRepository;
 
-    public GeneralServiceImpl(IBlogComment blogComment, IBlogLikeRepository blogLikeRepository, IBlogSaveRepository blogSaveRepository, IBlogRepository blogRepository, IFollowRepository iFollowRepository) {
+    public GeneralServiceImpl(IBlogComment blogComment, IBlogLikeRepository blogLikeRepository, IBlogSaveRepository blogSaveRepository, IBlogRepository blogRepository, IFollowRepository iFollowRepository, IReportUserRepository reportUserRepository) {
         this.blogComment = blogComment;
         this.blogLikeRepository = blogLikeRepository;
         this.blogSaveRepository = blogSaveRepository;
         this.blogRepository = blogRepository;
         this.iFollowRepository = iFollowRepository;
+        this.reportUserRepository = reportUserRepository;
     }
 
     @Override
@@ -48,7 +50,8 @@ public class GeneralServiceImpl implements GeneralService {
             blogDTO.setSumComment(blogComment.countByBlog(blog));
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-            blogDTO.setUsers(blog.getUser());
+            blogDTO.setUsers(createUserResponse(blog.getUser()));
+
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
             categoryDTO.setName(blog.getCategory().getName());
@@ -56,20 +59,8 @@ public class GeneralServiceImpl implements GeneralService {
 
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
             BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,blog);
-            if (blogSave==null)
-            {
-                blogDTO.setIsSave(false);
-            }
-            else {
-                blogDTO.setIsSave(true);
-            }
-            if (blogLike==null)
-            {
-                blogDTO.setIsLike(false);
-            }
-            else {
-                blogDTO.setIsLike(true);
-            }
+            blogDTO.setIsSave(blogSave != null);
+            blogDTO.setIsLike(blogLike != null);
             List<TagDTO> tagDTOs = blog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                     .collect(Collectors.toList());

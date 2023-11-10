@@ -6,12 +6,16 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.chat.Chat;
 import com.example.Keyhub.data.repository.IChatRepository;
 import com.example.Keyhub.data.repository.IUserRepository;
+import com.example.Keyhub.security.jwt.JwtTokenFilter;
 import com.example.Keyhub.service.IChatService;
 import com.example.Keyhub.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -252,6 +256,48 @@ public class ChatServiceImpl implements IChatService {
                         .message("Not found chat")
                         .build()
                 );
+    }
+    public void removeFromGroupAdmin(Long chat_id, BigInteger user_id, Users user_request) {
+        Chat chat = chatRepository.findById(chat_id).orElse(null);
+        if (chat!=null) {
+            Set<Users> usersCheck = chat.getUsers();
+            boolean check = false;
+            for (Users userCheck : usersCheck) {
+                if (userCheck.getId().equals(user_id)) {
+                    check = true;
+                    break;
+                }
+            }
+            Users userToRemove = null;
+            if (user_id.equals(user_request.getId())){
+                for (Users userCheck : usersCheck) {
+                    if (userCheck.getId().equals(user_request.getId())) {
+                        userToRemove = userCheck;
+                        break;
+                    }
+                }
+                if (userToRemove != null) {
+                    chat.getUsers().remove(userToRemove);
+                    chatRepository.save(chat);
+                }}
+            Set<Users> admins = chat.getAdmins();
+            for (Users admin : admins){
+                if (admin.getId().equals(user_request.getId())) {
+                    for (Users userCheck : usersCheck) {
+                        if (userCheck.getId().equals(user_id)) {
+                            userToRemove = userCheck;
+                            break;
+                        }
+                    }
+                    chat.getUsers().remove(userToRemove);
+                    chatRepository.save(chat);
+                }}
+        }
+    }
+    @Transactional
+    public void deleteChat(Chat chat)
+    {
+        chatRepository.delete(chat);
     }
 
     @Override

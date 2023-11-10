@@ -1,14 +1,33 @@
 package com.example.Keyhub.service.impl;
 
+import com.example.Keyhub.data.dto.request.AdminDTO;
+import com.example.Keyhub.data.dto.response.ReportResponseDTO;
+import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
+import com.example.Keyhub.data.dto.response.StatusResopnes;
+import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.GenericResponse;
+import com.example.Keyhub.data.entity.ProdfileUser.Role;
+import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.report.ReportBlog;
+import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.repository.IBlogRepository;
+import com.example.Keyhub.data.repository.IReportRepository;
+import com.example.Keyhub.data.repository.IReportUserRepository;
+import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IAdminService;
+import com.example.Keyhub.service.IUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -17,15 +36,20 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AdminServiceImpl implements IAdminService {
     @Autowired
     IBlogRepository blogRepository;
+    @Autowired
+    IUserService userService;
+    @Autowired
+    ModelMapper mapper;
+    @Autowired
+    RoleServiceImpl roleService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public ResponseEntity<GenericResponse> circleChartAnalystArticle() {
@@ -67,7 +91,6 @@ public class AdminServiceImpl implements IAdminService {
             stats.put(dateFormat.format(start),count);
             start = nextDay(start);
         }
-
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -137,4 +160,6 @@ public class AdminServiceImpl implements IAdminService {
     public ResponseEntity<GenericResponse> chartPointUser() {
         return null;
     }
+
+
 }

@@ -19,6 +19,7 @@ import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
+import com.example.Keyhub.security.jwt.JwtTokenFilter;
 import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -356,6 +357,13 @@ public class UserServiceImpl implements IUserService {
         follow.setFollowing(following);
         iFollowRepository.save(follow);
         UserResponseDTO userResponseDTO = generalService.createUserResponse(follower);
+        if (reportUserRepository.existsByUserReportAndUserIdReported(follower,following))
+        {
+            userResponseDTO.setCheckReportUser(true);
+        }
+        else {
+            userResponseDTO.setCheckReportUser(false);
+        }
         userResponseDTO.setCheckStatusFollow(true);
         return userResponseDTO;
     }
@@ -371,6 +379,7 @@ public class UserServiceImpl implements IUserService {
         followCategory.setUser(users);
         iUserFollowCategory.save(followCategory);
         UserResponseDTO userResponseDTO= generalService.createUserResponse(users);
+        userResponseDTO.setCheckReportUser(false);
         userResponseDTO.setCheckFollowCategory(true);
         return userResponseDTO;
     }
@@ -384,6 +393,7 @@ public class UserServiceImpl implements IUserService {
         }
         UserResponseDTO userResponseDTO = generalService.createUserResponse(users);
         userResponseDTO.setCheckFollowCategory(false);
+        userResponseDTO.setCheckReportUser(false);
         return userResponseDTO;
     }
 
@@ -403,6 +413,7 @@ public class UserServiceImpl implements IUserService {
         iFollowRepository.delete(follows);
         UserResponseDTO responseDTO= generalService.createUserResponse(follower);
         responseDTO.setCheckStatusFollow(false);
+        responseDTO.setCheckReportUser(false);
         return responseDTO;
     }
     @Override
@@ -420,8 +431,15 @@ public class UserServiceImpl implements IUserService {
                 break;
             }
             else {
-                userResponseDTO.setCheckStatusFollow(true);
+                userResponseDTO.setCheckStatusFollow(false);
             }
+        }
+        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+        {
+            userResponseDTO.setCheckReportUser(true);
+        }
+        else {
+            userResponseDTO.setCheckReportUser(false);
         }
         return userResponseDTO;
     }
@@ -450,6 +468,13 @@ public class UserServiceImpl implements IUserService {
                         userResponseDTO.setCheckStatusFollow(true);
                     }
                     userResponseDTO.setCheckFollowCategory(false);
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     return userResponseDTO;
                 })
                 .collect(Collectors.toList());
@@ -477,6 +502,13 @@ public class UserServiceImpl implements IUserService {
                             .anyMatch(f -> f.getFollowing().equals(users));
                     userResponseDTO.setCheckStatusFollow(isFollowing);
                     userResponseDTO.setCheckFollowCategory(false);
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     return userResponseDTO;
                 })
                 .collect(Collectors.toList());
@@ -550,6 +582,13 @@ public class UserServiceImpl implements IUserService {
                     {
                         userResponseDTO.setCheckStatusFollow(false);
                     }
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -594,6 +633,13 @@ public class UserServiceImpl implements IUserService {
                     {
                         userResponseDTO.setCheckStatusFollow(false);
                     }
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -635,6 +681,13 @@ public class UserServiceImpl implements IUserService {
                         {
                             userResponseDTO.setCheckStatusFollow(false);
                         }
+                        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                        {
+                            userResponseDTO.setCheckReportUser(true);
+                        }
+                        else {
+                            userResponseDTO.setCheckReportUser(false);
+                        }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -652,10 +705,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ReportResponseDTO reportBlog(Users users, ReportDTO dto) {
+    public  ReportResponseDTO reportBlog(Users users, ReportDTO dto) {
         Blog blog = blogRepository.findById(dto.getBlog_id()).orElse(null);
-        if (blog==null)
-        {
+        if (reportRepository.existsByUserAndBlog(users,blog)){
             return null;
         }
         ReportBlog reportBlog = new ReportBlog();
@@ -667,8 +719,8 @@ public class UserServiceImpl implements IUserService {
         ReportResponseDTO responseDTO = new ReportResponseDTO();
         responseDTO.setId(reportBlog.getId());
         responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
-        responseDTO.setBlog_id(blog.getId());
-        responseDTO.setUser(generalService.createUserResponse(users));
+        responseDTO.setBlog(generalService.createBlogDTO(users,blog));
+        responseDTO.setUser_reported(generalService.createUserResponse(users));
         responseDTO.setReason(dto.getReason());
         return responseDTO;
     }
@@ -724,30 +776,52 @@ public class UserServiceImpl implements IUserService {
                         {
                             userResponseDTO.setCheckStatusFollow(false);
                         }
-
+                        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                        {
+                            userResponseDTO.setCheckReportUser(true);
+                        }
+                        else {
+                            userResponseDTO.setCheckReportUser(false);
+                        }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
                 .collect(Collectors.toList());
         return userResponseDTOs;
     }
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
     @Override
     public ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO) {
         Users user = userService.findByID(reportUserDTO.getUser_id());
-        if (user==null)
-        {
-            return null;
-        }
-        ReportUserResponseDTO responseDTO = new ReportUserResponseDTO();
         ReportUser reportUser = new ReportUser();
-        reportUser.setUser_report(users);
-        reportUser.setUser_id_reported(user);
-        reportUser.setCreateDate(new Timestamp(new Date().getTime()));
-        reportUser.setReason(reportUserDTO.getReason());
-        reportUserRepository.save(reportUser);
+        if (!reportUserRepository.existsByUserReportAndUserIdReported(users, user)){
+            reportUser.setUserReport(users);
+            reportUser.setUserIdReported(user);
+            reportUser.setCreateDate(new Timestamp(new Date().getTime()));
+            reportUser.setReason(reportUserDTO.getReason());
+            reportUserRepository.save(reportUser);
+        };
+        ReportUserResponseDTO responseDTO = new ReportUserResponseDTO();
         responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
-        responseDTO.setUser_blocked(generalService.createUserResponse(users));
-        responseDTO.setUser_is_blocked(generalService.createUserResponse(user));
+        UserResponseDTO userReported = generalService.createUserResponse(users);
+        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+        {
+            userReported.setCheckReportUser(true);
+        }
+        else {
+            userReported.setCheckReportUser(false);
+        }
+        responseDTO.setUser_report(userReported);
+        UserResponseDTO userIsReported = generalService.createUserResponse(user);
+        if (reportUserRepository.existsByUserReportAndUserIdReported(user,users))
+        {
+            userIsReported.setCheckReportUser(true);
+        }
+        else {
+            userIsReported.setCheckReportUser(false);
+
+        }
+        responseDTO.setUser_is_reported(generalService.createUserResponse(user));
         responseDTO.setReason(reportUser.getReason());
         responseDTO.setId(reportUser.getId());
         return responseDTO;
@@ -759,12 +833,63 @@ public class UserServiceImpl implements IUserService {
         {
             return false;
         }
+        if (blockRepository.existsByBlockerAndBlocked(users,usercheck))
+        {
+            Block block = blockRepository.findByBlockerAndBlocked(users,usercheck);
+            blockRepository.delete(block);
+            return  true;
+        }
         Block block = new Block();
         block.setBlocked(usercheck);
         block.setBlocker(users);
         blockRepository.save(block);
         return true;
     }
+
+    @Override
+    public List<UserResponseDTO> getAllUserIsBlockedByUserAuth(Users users) {
+        List<Block> blocks = blockRepository.findByBlocker(users);
+        List<Users> userISBlock = new ArrayList<>();
+        for (Block block : blocks)
+        {
+            Users users1 = block.getBlocked();
+            userISBlock.add(users1);
+        }
+        return userISBlock.stream()
+                .map(user -> {
+                    UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
+                    {
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
+                    }
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
+                    userResponseDTO.setCheckFollowCategory(false);
+                    return userResponseDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean exitBlock(Users users, BigInteger user_id) {
+        Users usercheck= userService.findByID(user_id);
+        if (blockRepository.existsByBlockerAndBlocked(users,usercheck))
+        {
+            return  true;
+        }
+        return false;
+    }
+
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {

@@ -29,8 +29,8 @@ public class UserResponseDTO {
     private int sumBLog;
     private boolean checkStatusFollow;
     private boolean checkFollowCategory;
+    private boolean checkReportUser;
     private String banner_url;
     private int totalFollowers;
     private int totalFollowing;
-
 }

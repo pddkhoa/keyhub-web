@@ -24,7 +24,7 @@ public class BlogDTO {
     private BigInteger likes;
     private CategoryDTO categories;
     private List<TagDTO> tags;
-    private Users users;
+    private UserResponseDTO users;
     private SeriesResponse series;
     private Boolean isLike;
     private Boolean isSave;

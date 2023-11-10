@@ -10,11 +10,9 @@ import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
-import com.example.Keyhub.service.IBLogService;
-import com.example.Keyhub.service.ICommentService;
-import com.example.Keyhub.service.IUserService;
-import com.example.Keyhub.service.UploadImageService;
+import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -39,6 +37,10 @@ import java.util.stream.Collectors;
 public class AccountBlog {
     final
     ISeriesImageRepository seriesImageRepository;
+    final
+    GeneralService generalService;
+    final
+    IReportUserRepository reportUserRepository;
     final
     IUserService userService;
     final
@@ -72,7 +74,7 @@ public class AccountBlog {
     final
     IBlogRepository blogRepository;
 
-    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment) {
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository) {
         this.blogLikeRepository = blogLikeRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.userService = userService;
@@ -92,6 +94,8 @@ public class AccountBlog {
         this.iUserService = iUserService;
         this.iBlogImange = iBlogImange;
         this.iBlogComment = iBlogComment;
+        this.generalService = generalService;
+        this.reportUserRepository = reportUserRepository;
     }
 
     private Users getUserFromAuthentication() {
@@ -320,7 +324,7 @@ public class AccountBlog {
         blogDTO.setId(newBlog.getId());
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsSave(false);
-        blogDTO.setUsers(getUserFromAuthentication());
+        blogDTO.setUsers(generalService.createUserResponse(getUserFromAuthentication()));
         blogDTO.setIsLike(false);
         blogDTO.setSumComment(0);
         blogDTO.setStatus_id(1);
@@ -406,7 +410,7 @@ public class AccountBlog {
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setId(newBlog.getId());
-        blogDTO.setUsers(newBlog.getUser());
+        blogDTO.setUsers(generalService.createUserResponse(newBlog.getUser()));
         blogDTO.setTitle(newBlog.getTitle());
         blogDTO.setIsLike(false);
         blogDTO.setSumComment(0);
@@ -726,7 +730,6 @@ public class AccountBlog {
                         .build()
                 );
     }
-
     @GetMapping("/{blog_id}")
     public ResponseEntity<GenericResponse> getBlogById( @PathVariable BigInteger blog_id) {
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
@@ -739,13 +742,20 @@ public class AccountBlog {
         blogDTO.setCreate_date(newBlog.getCreateDate());
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setStatus_id(newBlog.getStatus());
-        blogDTO.setUsers(newBlog.getUser());
+        blogDTO.setUsers(generalService.createUserResponse(newBlog.getUser()));
         blogDTO.setSumComment(iBlogComment.countByBlog(newBlog));
         blogDTO.setLikes(newBlog.getLikes());
         //IsSave - IsLike
         Users users = getUserFromAuthentication();
         BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
         BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,newBlog);
+        if (reportUserRepository.existsByUserReportAndUserIdReported(users,newBlog.getUser()))
+        {
+            blogDTO.getUsers().setCheckReportUser(true);
+        }
+        else {
+            blogDTO.getUsers().setCheckReportUser(false);
+        }
         blogDTO.setIsSave(blogSave != null);
         if (blogLike==null)
         {
@@ -1093,7 +1103,7 @@ public class AccountBlog {
                     .body(GenericResponse.builder()
                             .success(true)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .message("Not found blog")
+                            .message("You have been report this blog")
                             .build()
                     );
         }

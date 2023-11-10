@@ -17,6 +17,8 @@ public interface IUserRepository extends JpaRepository<Users, BigInteger> {
     Boolean existsByEmail(String email);
     Users  findByEmail(String email);
     Users findUsersById(BigInteger user_id);
+    @Query(value = "SELECT * FROM user WHERE username IS NOT NULL AND email IS NOT NULL;",nativeQuery = true)
+    List<Users> findByEmailAndUsernameIsNotNull();
 
     @Query("SELECT u FROM Users u WHERE u.id NOT IN :excludedIds AND u.status = :status")
     List<Users> findAllByIdNotInAndStatus(@Param("excludedIds") List<BigInteger> excludedIds, @Param("status") int status);

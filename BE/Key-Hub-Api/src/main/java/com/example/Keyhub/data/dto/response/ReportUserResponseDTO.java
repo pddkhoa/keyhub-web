@@ -14,8 +14,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ReportUserResponseDTO {
     private BigInteger id;
-    private UserResponseDTO user_blocked;
-    private UserResponseDTO user_is_blocked;
+    private UserResponseDTO user_report;
+    private UserResponseDTO user_is_reported;
     private String reason;
+    private boolean statusReport;
     private Timestamp create_at;
+    private int sumViolating;
 }

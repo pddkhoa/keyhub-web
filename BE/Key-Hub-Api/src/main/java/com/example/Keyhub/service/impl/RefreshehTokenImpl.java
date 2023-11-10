@@ -94,7 +94,7 @@ public class RefreshehTokenImpl implements IRefreshTokenService {
     }
 
     @Transactional
-    public int deleteByUserId(BigInteger userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+    public void deleteByUserId(BigInteger userId) {
+        refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
 }

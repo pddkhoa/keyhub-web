@@ -23,10 +23,10 @@ public class ReportUser {
     private BigInteger id;
     @ManyToOne
     @JoinColumn(name = "user_report")
-    private Users user_report;
+    private Users userReport;
     @ManyToOne
     @JoinColumn(name = "user_id_reported")
-    private Users user_id_reported;
+    private Users userIdReported;
     @Column
     private Timestamp createDate;
     @Column(name = "reason")

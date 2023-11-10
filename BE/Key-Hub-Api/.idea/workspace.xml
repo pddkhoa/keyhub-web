@@ -34,8 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -74,7 +74,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;,
@@ -102,9 +102,9 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.Keyhub.data.dto.request" />
       <recent name="com.example.Keyhub.data.dto.response" />
-      <recent name="com.example.Keyhub.data.entity.report" />
-      <recent name="com.example.Keyhub.data.entity.Blog" />
-      <recent name="com.example.Keyhub.data.payload.respone" />
+      <recent name="com.example.Keyhub.controller.Admin" />
+      <recent name="com.example.Keyhub.event" />
+      <recent name="com.example.Keyhub.service.impl" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -416,7 +416,19 @@
       <workItem from="1699250133374" duration="5537000" />
       <workItem from="1699278382227" duration="5809000" />
       <workItem from="1699348652623" duration="3900000" />
-      <workItem from="1699367561806" duration="8041000" />
+      <workItem from="1699367561806" duration="8235000" />
+      <workItem from="1699416337559" duration="1222000" />
+      <workItem from="1699417810923" duration="317000" />
+      <workItem from="1699418250973" duration="206000" />
+      <workItem from="1699426022268" duration="15027000" />
+      <workItem from="1699452425337" duration="1523000" />
+      <workItem from="1699453963528" duration="5829000" />
+      <workItem from="1699494928799" duration="5450000" />
+      <workItem from="1699511444612" duration="10327000" />
+      <workItem from="1699527817176" duration="4366000" />
+      <workItem from="1699538720723" duration="4524000" />
+      <workItem from="1699546283548" duration="2138000" />
+      <workItem from="1699581228839" duration="7540000" />
     </task>
     <servers />
   </component>

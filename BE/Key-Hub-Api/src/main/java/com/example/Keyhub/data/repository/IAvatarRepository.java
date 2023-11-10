@@ -9,8 +9,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface IAvatarRepository extends JpaRepository<AvatarUser, BigInteger> {
-    @Query("select i.urlImage from AvatarUser i where  i.users.id=?1")
-    List<String> findAvatarUserId(BigInteger user_id);
+    @Query("select i from AvatarUser i where  i.users.id=?1")
+    List<AvatarUser> findAvatarUserId(BigInteger user_id);
     boolean existsByUrlImage(String url) ;
     @Modifying
     @Query("DELETE FROM AvatarUser a WHERE a.users.id = ?1")

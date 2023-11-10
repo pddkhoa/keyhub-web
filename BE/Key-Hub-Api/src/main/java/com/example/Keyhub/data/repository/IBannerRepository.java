@@ -14,4 +14,5 @@ public interface IBannerRepository extends JpaRepository<BannerUser, BigInteger>
     @Query("DELETE FROM BannerUser a WHERE a.users.id = ?1")
     void deleteByUserId(BigInteger userId);
 
+
 }

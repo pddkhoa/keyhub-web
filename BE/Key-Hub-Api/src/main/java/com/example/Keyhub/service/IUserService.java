@@ -66,4 +66,7 @@ public interface IUserService {
     List<UserResponseDTO> findFriend(String keyWord, Users users);
     ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO);
     boolean blockUser(BigInteger user_id, Users users);
+    List<UserResponseDTO> getAllUserIsBlockedByUserAuth(Users users);
+
+    boolean exitBlock(Users users, BigInteger user_id);
 }

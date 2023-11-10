@@ -35,4 +35,5 @@ public class RegistrationListener implements
         service.createVerificationToken(user, token);
         emailService.sendVerifyEmail(user.getEmail(), token);
     }
+
 }

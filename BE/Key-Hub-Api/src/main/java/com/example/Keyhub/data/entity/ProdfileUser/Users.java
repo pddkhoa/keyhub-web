@@ -68,6 +68,8 @@ public class Users {
     private String School;
     @Column
     private String banner_url;
+    @Column
+    private int sumViolating;
 
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,

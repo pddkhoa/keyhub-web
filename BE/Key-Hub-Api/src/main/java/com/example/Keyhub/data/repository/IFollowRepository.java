@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IFollowRepository extends JpaRepository<Follow, BigInteger> {
+    void deleteByFollowing(Users users);
+    void deleteByUserFollower(Users users);
     boolean existsByUserFollowerAndFollowing(Users users, Users user);
     @Query("SELECT f FROM Follow f WHERE  f.userFollower = :userFollower")
     List<Follow> findAllByUserFollower( @Param("userFollower") Users userFollower);

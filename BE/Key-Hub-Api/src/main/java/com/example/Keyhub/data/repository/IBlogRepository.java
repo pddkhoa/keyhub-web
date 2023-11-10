@@ -43,6 +43,8 @@ public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findByCategoryAndStatusOrderByCreateDateDesc(Category category, int status_id);
     List<Blog> findByTagsAndStatusOrderByCreateDateDesc(Tag category,int status);
     List<Blog> findBySeriesAndStatusOrderByCreateDateDesc(Series series, int status);
+    List<Blog> findBySeries(Series series);
+
     List<Blog> findAllByUserAndStatusOrderByCreateDateDesc(Users users,int status);
     @Query("SELECT b FROM Blog b WHERE b.createDate  BETWEEN :startDate AND :endDate and b.status= 1 " +
             "ORDER BY (b.Views + b.likes) DESC , b.createDate DESC ")

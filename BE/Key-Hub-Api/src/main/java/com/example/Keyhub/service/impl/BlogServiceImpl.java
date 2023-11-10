@@ -6,6 +6,7 @@ import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.GeneralService;
@@ -38,6 +39,8 @@ public class BlogServiceImpl implements IBLogService {
     IBlockRepository blockRepository;
     @Autowired
     ISeriesImageRepository imageRepository;
+    @Autowired
+    IReportUserRepository reportUserRepository;
     @Autowired
     private IBlogSaveRepository blogSaveRepository;
     @Autowired
@@ -150,7 +153,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setDescription(blog.getDescription());
                 blogDTO.setCreate_date(blog.getCreateDate());
                 blogDTO.setAvatar(blog.getAvatar());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
                 blogDTO.setStatus_id(blog.getStatus());
@@ -222,7 +225,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
                 BlogLike blogLike = blogLikeRepository.findByUsersAndBlog(users, blog);
@@ -280,7 +283,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-            blogDTO.setUsers(blog.getUser());
+            blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
             blogDTO.setSumComment(blogComment.countByBlog(blog));
             blogDTO.setViews(blog.getViews());
             BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,blog);
@@ -327,7 +330,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setViews(blog.getViews());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 BlogLike blogLike = blogLikeRepository.findByUsersAndBlog(users, blog);
                 BlogSave blogSave = blogSaveRepository.findByUsersAndBlog(users, blog);
                 if (blogSave == null) {
@@ -389,7 +392,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 BlogLike blogLike = blogLikeRepository.findByUsersAndBlog(User, blog);
                 BlogSave blogSave = blogSaveRepository.findByUsersAndBlog(User, blog);
                 if (blogSave == null) {
@@ -449,7 +452,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
 
                 BlogLike blogLike = blogLikeRepository.findByUsersAndBlog(users, blog);
                 BlogSave blogSave = blogSaveRepository.findByUsersAndBlog(users, blog);
@@ -509,7 +512,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setId(blog.getCategory().getId());
                 categoryDTO.setName(blog.getCategory().getName());
@@ -629,7 +632,7 @@ public class BlogServiceImpl implements IBLogService {
             blogDTO.setAvatar(blog.getAvatar());
             blogDTO.setStatus_id(blog.getStatus());
             blogDTO.setLikes(blog.getLikes());
-            blogDTO.setUsers(blog.getUser());
+            blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
             if(blog.getCategory()!=null)
             {
                 CategoryDTO categoryDTO = new CategoryDTO();
@@ -720,7 +723,7 @@ public class BlogServiceImpl implements IBLogService {
         blogDTOss.setStatus_id(blog.getStatus());
         blogDTOss.setLikes(blog.getLikes());
         blogDTOss.setSumComment(blogComment.countByBlog(blog));
-        blogDTOss.setUsers(blog.getUser());
+        blogDTOss.setUsers(generalService.createUserResponse(blog.getUser()));
         if (blogDTO.getCategoryIds()!=null) {
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(blog.getCategory().getId());
@@ -807,6 +810,8 @@ public class BlogServiceImpl implements IBLogService {
     IBlogImange blogImange;
     @Autowired
     IBlogComment blogComment;
+    @Autowired
+    IReportRepository reportRepository;
     @Transactional
     @Override
     public void deleteBlogById(Blog blog) {
@@ -843,6 +848,15 @@ public class BlogServiceImpl implements IBLogService {
         {
             for (BlogComment comment:comments)
                 blogComment.delete(comment);
+        }
+        List<ReportBlog> reportBlogList = reportRepository.findByBlog(blog);
+        for(ReportBlog reportBlog: reportBlogList)
+        {
+            reportRepository.delete(reportBlog);
+        }
+        List<BlogHide> listBlogHide = blogHIdeRepository.findByBlog(blog);
+        for (BlogHide  blogHide: listBlogHide) {
+            blogHIdeRepository.delete(blogHide);
         }
         blogRepository.delete(blog);
     }
@@ -902,7 +916,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setId(blog.getCategory().getId());
                 categoryDTO.setName(blog.getCategory().getName());
@@ -974,7 +988,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
 
@@ -1067,7 +1081,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 blogDTO.setViews(blog.getViews());
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
 
@@ -1181,7 +1195,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setAvatar(blog.getAvatar());
                 blogDTO.setStatus_id(blog.getStatus());
                 blogDTO.setLikes(blog.getLikes());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
                 CategoryDTO categoryDTO = new CategoryDTO();
@@ -1258,7 +1272,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setLikes(blog.getLikes());
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setId(blog.getCategory().getId());
                 categoryDTO.setName(blog.getCategory().getName());
@@ -1334,7 +1348,7 @@ public class BlogServiceImpl implements IBLogService {
                 blogDTO.setLikes(blog.getLikes());
                 blogDTO.setSumComment(blogComment.countByBlog(blog));
                 blogDTO.setViews(blog.getViews());
-                blogDTO.setUsers(blog.getUser());
+                blogDTO.setUsers(generalService.createUserResponse(blog.getUser()));
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setId(blog.getCategory().getId());
                 categoryDTO.setName(blog.getCategory().getName());
@@ -1382,6 +1396,13 @@ public class BlogServiceImpl implements IBLogService {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blogDTO, users);
             if (blogHide == null) {
                 blogDTO1 = generalService.createBlogDTO(users, blogDTO);
+            }
+            if (reportUserRepository.existsByUserReportAndUserIdReported(users,users1))
+            {
+                blogDTO1.getUsers().setCheckReportUser(true);
+            }
+            else {
+                blogDTO1.getUsers().setCheckReportUser(false);
             }
             result.add(blogDTO1);
         }

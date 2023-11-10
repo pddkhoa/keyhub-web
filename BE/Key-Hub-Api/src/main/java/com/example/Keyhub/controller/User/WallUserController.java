@@ -85,7 +85,7 @@ public class WallUserController {
                         .success(true)
                         .result(list)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Blog by User")
+                        .message("Series by User")
                         .build()
                 );
     }
