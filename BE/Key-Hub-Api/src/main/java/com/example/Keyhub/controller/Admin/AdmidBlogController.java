@@ -8,14 +8,16 @@ import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IAdminBlogService;
 import com.example.Keyhub.service.IAdminUserService;
 import com.example.Keyhub.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,14 +25,21 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping(value = "/api/v1/admin/blog")
 public class AdmidBlogController {
-    @Autowired
+    final
     IAdminUserService adminUserService;
-    @Autowired
+    final
     IUserService userService;
-    @Autowired
+    final
     ApplicationEventPublisher applicationPushBuilder;
-    @Autowired
+    final
     IAdminBlogService adminBlogService;
+
+    public AdmidBlogController(IAdminUserService adminUserService, IUserService userService, ApplicationEventPublisher applicationPushBuilder, IAdminBlogService adminBlogService) {
+        this.adminUserService = adminUserService;
+        this.userService = userService;
+        this.applicationPushBuilder = applicationPushBuilder;
+        this.adminBlogService = adminBlogService;
+    }
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getPrincipal().getClass());
@@ -102,6 +111,7 @@ public class AdmidBlogController {
                         .statusCode(HttpStatus.OK.value())
                         .message("That is a size blog")
                         .build()
-                    );
-        }
+                );
+    }
+
 }

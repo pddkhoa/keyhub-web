@@ -1,6 +1,7 @@
 package com.example.Keyhub.data.dto.response;
 
 import com.example.Keyhub.config.ValidatorUtils;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

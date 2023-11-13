@@ -56,4 +56,8 @@ public class AdminController {
     public ResponseEntity<GenericResponse> getBlogChartByYear(@PathVariable Integer year) {
         return adminService.chartAriticleByYear(year);
     }
+    @GetMapping("/user-year")
+    public ResponseEntity<GenericResponse> getUserChartInYear() {
+        return adminService.chartPointUser();
+    }
 }

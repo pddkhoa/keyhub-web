@@ -13,12 +13,11 @@ public class RealtimeChat {
     public RealtimeChat(SimpMessagingTemplate simpMessagingTemplate) {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
-
     @MessageMapping("/message")
     @SendTo("/group/public")
     public Message reciveMessage(@Payload Message message)
     {
-        simpMessagingTemplate.convertAndSend("/group"+message.getChat().getId().toString(),message);
+        simpMessagingTemplate.convertAndSend("/group/"+message.getChat().getId().toString(),message);
         return message;
     }
 }

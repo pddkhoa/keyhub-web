@@ -3,18 +3,19 @@ package com.example.Keyhub.controller.User;
 import com.cloudinary.Cloudinary;
 import com.example.Keyhub.config.ValidatorUtils;
 import com.example.Keyhub.data.dto.request.*;
-import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.dto.response.CategoryDTO;
+import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.GenericResponse;
+import com.example.Keyhub.data.entity.Notification.Notification;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 public class AccountBlog {
     final
     ISeriesImageRepository seriesImageRepository;
+    private final INotificationService notificationService;
     final
     GeneralService generalService;
     final
@@ -74,7 +77,7 @@ public class AccountBlog {
     final
     IBlogRepository blogRepository;
 
-    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository) {
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository, INotificationService notificationService) {
         this.blogLikeRepository = blogLikeRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.userService = userService;
@@ -96,6 +99,7 @@ public class AccountBlog {
         this.iBlogComment = iBlogComment;
         this.generalService = generalService;
         this.reportUserRepository = reportUserRepository;
+        this.notificationService = notificationService;
     }
 
     private Users getUserFromAuthentication() {
@@ -177,7 +181,7 @@ public class AccountBlog {
     }
 
     @RequestMapping(value = "/upload-file", method = RequestMethod.POST)
-    public ResponseEntity uploadFile(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> uploadFile(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         if (!ValidatorUtils.validateMineFile(file))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -197,6 +201,7 @@ public class AccountBlog {
                             .success(false)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Request failed.")
+                            .build()
                     );
         }
         String currentImageUrls = null;
@@ -749,21 +754,9 @@ public class AccountBlog {
         Users users = getUserFromAuthentication();
         BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
         BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,newBlog);
-        if (reportUserRepository.existsByUserReportAndUserIdReported(users,newBlog.getUser()))
-        {
-            blogDTO.getUsers().setCheckReportUser(true);
-        }
-        else {
-            blogDTO.getUsers().setCheckReportUser(false);
-        }
+        blogDTO.getUsers().setCheckReportUser(reportUserRepository.existsByUserReportAndUserIdReported(users, newBlog.getUser()));
         blogDTO.setIsSave(blogSave != null);
-        if (blogLike==null)
-        {
-            blogDTO.setIsLike(false);
-        }
-        else {
-            blogDTO.setIsLike(true);
-        }
+        blogDTO.setIsLike(blogLike != null);
 
         //Views
         if (!Objects.equals(users.getId(), newBlog.getUser().getId()))
@@ -823,7 +816,7 @@ public class AccountBlog {
                     );
         }
         LikeReponse likeReponse = ibLogService.likeBlog(blog,user);
-        if (likeReponse.getStatus()==false)
+        if (!likeReponse.getStatus())
         {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -835,6 +828,14 @@ public class AccountBlog {
                     );
         }
         else {
+            Notification notification = new Notification();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            notification.setUserId(blog.getUser().getId()); // Người nhận thông báo là chủ nhân của blog
+            notification.setAction("LIKE");
+            notification.setCreatedAt(timestamp);
+            notification.setMessage(user.getName() + " đã thích bài viết của bạn.");
+            notification.setRelatedObjectId(blog.getId());
+            notificationService.sendNotification(notification);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -923,7 +924,7 @@ public class AccountBlog {
                 );
     }
     @GetMapping("/user")
-    public ResponseEntity getAllBlogByUser() {
+    public ResponseEntity<GenericResponse> getAllBlogByUser() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list = ibLogService.getAllBlogByUser(users);
         if (list==null)
@@ -947,7 +948,7 @@ public class AccountBlog {
                 );
     }
     @PatchMapping("/{blog_id}/edit")
-    public ResponseEntity editBlogByUser(  @RequestBody  BlogEditDTO blogDTO,@PathVariable  BigInteger blog_id) {
+    public ResponseEntity<GenericResponse> editBlogByUser(  @RequestBody  BlogEditDTO blogDTO,@PathVariable  BigInteger blog_id) {
        if (blogDTO.getStatus_id()==1)
        {
            List<String> errors = blogDTO.validateAndGetErrors();
@@ -1024,6 +1025,14 @@ public class AccountBlog {
                     );
         }
         Comment comment = commentService.addComment(users,blog,DTO);
+        Notification notification = new Notification();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        notification.setUserId(blog.getUser().getId()); // Người nhận thông báo là chủ nhân của blog
+        notification.setAction("Comment");
+        notification.setCreatedAt(timestamp);
+        notification.setMessage(getUserFromAuthentication().getName() + " đã bình luận bài viết của bạn.");
+        notification.setRelatedObjectId(blog.getId());
+        notificationService.sendNotification(notification);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -1095,7 +1104,7 @@ public class AccountBlog {
                 );
     }
     @PostMapping("/report-blog")
-    public ResponseEntity reportBlog(@RequestBody ReportDTO reportDTO) {
+    public ResponseEntity<GenericResponse> reportBlog(@RequestBody ReportDTO reportDTO) {
         ReportResponseDTO reportBlog = userService.reportBlog(getUserFromAuthentication(),reportDTO);
         if (reportBlog==null)
         {

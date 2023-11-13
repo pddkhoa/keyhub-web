@@ -13,7 +13,10 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.ICategoryService;
+import com.example.Keyhub.service.UploadImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -35,9 +38,11 @@ public class CategoryServiceImpl implements ICategoryService {
     final
     GeneralService generalService;
     final
+    UploadImageService uploadImageService;
+    final
     IBlogHIdeRepository blogHIdeRepository;
 
-    public CategoryServiceImpl(ICategoryRepository categoryRepository, IFollowRepository iFollowRepository, IBlogRepository blogRepository, IUserFollowCategory followCategoryRepository, IUserRepository userRepository, GeneralService generalService, IBlogHIdeRepository blogHIdeRepository) {
+    public CategoryServiceImpl(ICategoryRepository categoryRepository, IFollowRepository iFollowRepository, IBlogRepository blogRepository, IUserFollowCategory followCategoryRepository, IUserRepository userRepository, GeneralService generalService, IBlogHIdeRepository blogHIdeRepository, UploadImageService uploadImageService) {
         this.categoryRepository = categoryRepository;
         this.iFollowRepository = iFollowRepository;
         this.blogRepository = blogRepository;
@@ -45,6 +50,7 @@ public class CategoryServiceImpl implements ICategoryService {
         this.userRepository = userRepository;
         this.generalService = generalService;
         this.blogHIdeRepository = blogHIdeRepository;
+        this.uploadImageService = uploadImageService;
     }
 
     @Override
@@ -160,6 +166,14 @@ public class CategoryServiceImpl implements ICategoryService {
     public boolean isPresentCategory(Long categoryId) {
         boolean categoryExists = categoryRepository.existsById(categoryId);
         return categoryExists;
+    }
+
+    @Override
+    public boolean exitCategory(Long category_id) {
+        if (categoryRepository.existsById(category_id)){
+            return true;
+        }
+        return false;
     }
 
     @Override

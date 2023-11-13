@@ -7,6 +7,7 @@ import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.GenericResponse;
+import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Role;
 import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
@@ -15,6 +16,7 @@ import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.IReportRepository;
 import com.example.Keyhub.data.repository.IReportUserRepository;
+import com.example.Keyhub.data.repository.IUserRepository;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IAdminService;
 import com.example.Keyhub.service.IUserService;
@@ -34,9 +36,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements IAdminService {
@@ -50,6 +54,10 @@ public class AdminServiceImpl implements IAdminService {
     RoleServiceImpl roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    IUserRepository userRepository;
+    @Autowired
+    GeneralService generalService;
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     public ResponseEntity<GenericResponse> circleChartAnalystArticle() {
@@ -158,8 +166,41 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public ResponseEntity<GenericResponse> chartPointUser() {
-        return null;
-    }
+        LocalDateTime now = LocalDateTime.now();
 
+        // Đặt ngày bắt đầu và kết thúc cho năm hiện tại
+        LocalDateTime startOfYear = LocalDateTime.of(now.getYear(), 1, 1, 0, 0, 0);
+        LocalDateTime endOfYear = LocalDateTime.of(now.getYear(), 12, 31, 23, 59, 59);
+
+        // Chuyển đổi thành kiểu Timestamp
+        Timestamp startDate = Timestamp.valueOf(startOfYear);
+        Timestamp endDate = Timestamp.valueOf(endOfYear);
+        List<Users> list = userRepository.findByCreateDateBetween(startDate, endDate);
+
+        // Tạo một Map để lưu trữ số lượng người dùng theo từng tháng
+        Map<String, Integer> userCountByMonth = new LinkedHashMap<>();
+
+        // Khởi tạo Map với tất cả các tháng và giá trị mặc định là 0
+        for (int month = 1; month <= 12; month++) {
+            String monthKey = String.format("%04d-%02d", now.getYear(), month);
+            userCountByMonth.put(monthKey, 0);
+        }
+
+        // Tính toán số lượng người dùng theo từng tháng
+        for (Users user : list) {
+            LocalDateTime createDate = user.getCreateDate().toLocalDateTime();
+            String monthKey = DateTimeFormatter.ofPattern("yyyy-MM").format(createDate);
+            userCountByMonth.put(monthKey, userCountByMonth.get(monthKey) + 1);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(userCountByMonth)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("User count by month in year")
+                        .build()
+                );
+    }
 
 }

@@ -72,7 +72,7 @@ public class AccountRestController {
                 );
     }
     @RequestMapping(value = "/change-avatar", method = RequestMethod.PATCH)
-    public ResponseEntity changeAvatarUser (@RequestParam MultipartFile image_file) {
+    public ResponseEntity<GenericResponse> changeAvatarUser (@RequestParam MultipartFile image_file) {
         if (!ValidatorUtils.validateMineFile(image_file)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -94,7 +94,7 @@ public class AccountRestController {
                         .build());
     }
     @RequestMapping(value = "/change-banner", method = RequestMethod.PATCH)
-    public ResponseEntity changeBanner(@RequestParam MultipartFile image_file) {
+    public ResponseEntity<GenericResponse> changeBanner(@RequestParam MultipartFile image_file) {
         if (!ValidatorUtils.validateMineFile(image_file))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -115,7 +115,7 @@ public class AccountRestController {
                         .build());
     }
     @RequestMapping(value = "/remove-banner", method = RequestMethod.PATCH)
-    public ResponseEntity removeBannerUser() {
+    public ResponseEntity<GenericResponse> removeBannerUser() {
         Users users = getUserFromAuthentication();
         userService.removeBanner(users.getId());
         userService.removeBannerToStorage(users.getId());
@@ -127,7 +127,7 @@ public class AccountRestController {
                         .build());
     }
     @RequestMapping(value = "/remove-avatar", method = RequestMethod.PATCH)
-    public ResponseEntity removeAvatarUser() {
+    public ResponseEntity<GenericResponse> removeAvatarUser() {
         Users users = getUserFromAuthentication();
         userService.removeAvatar(users.getId());
         userService.removeAvatarToStorage(users.getId());
