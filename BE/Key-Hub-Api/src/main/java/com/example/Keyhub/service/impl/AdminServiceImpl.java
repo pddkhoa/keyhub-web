@@ -104,7 +104,7 @@ public class AdminServiceImpl implements IAdminService {
                         .success(true)
                         .result(stats)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Chart circle blog")
+                        .message("Chart blog by weak")
                         .build()
                 );
     }
@@ -129,7 +129,7 @@ public class AdminServiceImpl implements IAdminService {
                         .success(true)
                         .result(stats)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Chart circle blog")
+                        .message("Chart blog by month")
                         .build()
                 );
     }
@@ -159,7 +159,7 @@ public class AdminServiceImpl implements IAdminService {
                         .success(true)
                         .result(stats)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Chart circle blog last 10 years")
+                        .message("Chart blog by year")
                         .build()
                 );
     }

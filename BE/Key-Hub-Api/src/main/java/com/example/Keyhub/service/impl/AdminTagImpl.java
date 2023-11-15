@@ -100,6 +100,40 @@ public class AdminTagImpl implements IAdminTagService {
 
     @Override
     public boolean exitsTag(Long tag_id) {
-        return !tagRepository.existsById(tag_id);
+        return tagRepository.existsById(tag_id);
+    }
+
+    @Override
+    public boolean exitsTagByName(String name) {
+        return tagRepository.existsByName(name);
+    }
+
+    @Override
+    public TagDTO editTag(TagRequestDTO tagRequestDTO, Users users) {
+        Tag tag = tagRepository.findById(tagRequestDTO.getId()).orElse(null);
+        TagDTO tagDTO = new TagDTO();
+        if (tag!=null)
+        {
+            tag.setName(tagRequestDTO.getName());
+            List<Long> categoryIds = tagRequestDTO.getCategoryIds();
+            List<Category> categoryList = new ArrayList<>();
+            if (categoryIds!=null)
+            {
+                categoryList = categoryRepository.findAllById(categoryIds);
+            }
+            if (categoryList!=null)
+            {
+                tag.setCategories(new HashSet<>(categoryList));
+                for (Category category : categoryList) {
+                    category.getTags().add(tag);
+                }
+            }
+            tagRepository.save(tag);
+            tagDTO.setId(tag.getId());
+            tagDTO.setName(tag.getName());
+            return tagDTO;
+        }
+        tagDTO = null;
+        return tagDTO;
     }
 }

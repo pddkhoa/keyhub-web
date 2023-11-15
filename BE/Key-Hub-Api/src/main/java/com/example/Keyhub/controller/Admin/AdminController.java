@@ -29,12 +29,19 @@ import java.math.BigInteger;
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping(value = "/api/v1/admin")
 public class AdminController {
-    @Autowired
+    final
     IAdminService adminService;
-    @Autowired
+    final
     IUserService userService;
-    @Autowired
+    final
     ApplicationEventPublisher applicationPushBuilder;
+
+    public AdminController(IAdminService adminService, IUserService userService, ApplicationEventPublisher applicationPushBuilder) {
+        this.adminService = adminService;
+        this.userService = userService;
+        this.applicationPushBuilder = applicationPushBuilder;
+    }
+
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getPrincipal().getClass());

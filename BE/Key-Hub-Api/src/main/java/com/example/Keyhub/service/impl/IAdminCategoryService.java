@@ -19,6 +19,16 @@ public class IAdminCategoryService implements com.example.Keyhub.service.IAdminC
     @Autowired
     UploadImageService uploadImageService;
     @Override
+    public boolean checkExitsByName(String name)
+    {
+        if (categoryRepository.existsByName(name))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public CategoryResponseCardDTO addCategory(CategoryRequestDTO requestDTO) {
         Category category = new Category();
         category.setName(requestDTO.getName());

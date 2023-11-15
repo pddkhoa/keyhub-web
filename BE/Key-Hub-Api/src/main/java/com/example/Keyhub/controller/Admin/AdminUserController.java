@@ -2,7 +2,7 @@ package com.example.Keyhub.controller.Admin;
 
 import com.example.Keyhub.data.dto.request.AdminDTO;
 import com.example.Keyhub.data.dto.request.DeleteUserRequestDTO;
-import com.example.Keyhub.data.dto.request.EvaluteUserRequestDTO;
+import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
 import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.dto.response.UserRequestAdminDTO;
@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -96,7 +97,7 @@ public class AdminUserController {
                             .success(true)
                             .result(null)
                             .statusCode(HttpStatus.OK.value())
-                            .message("Don't have user violating")
+                            .message("That's all")
                             .build()
                     );
         }
@@ -105,7 +106,7 @@ public class AdminUserController {
                         .success(true)
                         .result(listUserViolating)
                         .statusCode(HttpStatus.OK.value())
-                        .message("That' all list user violating")
+                        .message("List user violating")
                         .build()
                 );
     }
@@ -122,17 +123,16 @@ public class AdminUserController {
                 );
     }
     @PostMapping("/evalute")
-    public ResponseEntity<GenericResponse> evaluteUser(@RequestBody EvaluteUserRequestDTO req)
+    public ResponseEntity<GenericResponse> evaluteUser(@RequestBody EvaluteRequestDTO req)
     {
         StatusResopnes statusResopnes = adminUserService.evaluteUser(getUserFromAuthentication(),req);
-        if (statusResopnes == null)
+        if (statusResopnes.getStatusCode()==3)
         {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(null)
-                            .statusCode(HttpStatus.OK.value())
-                            .message("Not found user")
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found report")
                             .build()
                     );
         }
@@ -183,6 +183,17 @@ public class AdminUserController {
     @PatchMapping("/edit")
     public ResponseEntity<GenericResponse> deleteUser(@RequestBody UserRequestAdminDTO deleteUserRequestDTO)
     {
+        if (!userService.exitUser(deleteUserRequestDTO.getId()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found User")
+                            .build()
+                    );
+        }
         adminUserService.editUser(deleteUserRequestDTO,getUserFromAuthentication());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
@@ -210,6 +221,56 @@ public class AdminUserController {
     public ResponseEntity<GenericResponse> getSizeAllUserExits()
     {
         int size = adminUserService.sizeAllUser();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(size)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("All user")
+                        .build()
+                );
+    }
+    @PatchMapping("{user_id}/unblock")
+    public ResponseEntity<GenericResponse> unblockUser(@PathVariable BigInteger user_id)
+    {
+        if (!userService.exitUser(user_id))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found User")
+                            .build()
+                    );
+        }
+        adminUserService.unblockUser(user_id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(null)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Unblock user success")
+                        .build()
+                );
+    }
+    @GetMapping("/{index}/block")
+    public ResponseEntity<GenericResponse> getAllUserBlock(@PathVariable int index)
+    {
+        List<UserResponseDTO> list = adminUserService.listAllUserIsBlock(index);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("All user")
+                        .build()
+                );
+    }
+    @GetMapping("/sizeBlock")
+    public ResponseEntity<GenericResponse> getSizeAllUserBlock()
+    {
+        int size = adminUserService.sizeAllUserBlock();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)

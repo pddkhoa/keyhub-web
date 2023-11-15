@@ -50,6 +50,17 @@ public class AdminCategoryController {
     @PostMapping("/add")
     ResponseEntity<GenericResponse> addCategory(@RequestBody CategoryRequestDTO requestDTO)
     {
+        if (adminCategoryService.checkExitsByName(requestDTO.getName()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Category has been exist")
+                            .build()
+                    );
+        }
         CategoryResponseCardDTO res = adminCategoryService.addCategory(requestDTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
@@ -63,13 +74,24 @@ public class AdminCategoryController {
     @PatchMapping("/edit")
     ResponseEntity<GenericResponse> editCategory(@RequestBody CategoryResponseCardDTO  requestDTO)
     {
-        if (!categoryService.exitCategory(requestDTO.getId()))
+        if (adminCategoryService.checkExitsByName(requestDTO.getName()))
         {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
                             .result(null)
-                            .statusCode(HttpStatus.OK.value())
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Category has been exist")
+                            .build()
+                    );
+        }
+        if (!categoryService.exitCategory(requestDTO.getId()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Not found category")
                             .build()
                     );

@@ -10,4 +10,6 @@ public interface IAdminTagService {
     void deleteTagToCategory(TagRequestDTO tagRequestDTO, Users users, Long tag_id);
     void deleteTag(Long tag_id, Users users);
     boolean exitsTag(Long tag_id);
+    boolean exitsTagByName(String name);
+    TagDTO editTag(TagRequestDTO tagRequestDTO , Users users);
 }

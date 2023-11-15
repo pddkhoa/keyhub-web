@@ -800,6 +800,17 @@ public class UserServiceImpl implements IUserService {
             reportUser.setCreateDate(new Timestamp(new Date().getTime()));
             reportUser.setReason(reportUserDTO.getReason());
             reportUserRepository.save(reportUser);
+            ReportUserResponseDTO responseDTO = new ReportUserResponseDTO();
+            responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
+            UserResponseDTO userReported = generalService.createUserResponse(users);
+            userReported.setCheckReportUser(false);
+            responseDTO.setUser_report(userReported);
+            UserResponseDTO userIsReported = generalService.createUserResponse(user);
+            userIsReported.setCheckReportUser(false);
+            responseDTO.setUser_is_reported(generalService.createUserResponse(user));
+            responseDTO.setReason(reportUser.getReason());
+            responseDTO.setId(reportUser.getId());
+            return responseDTO;
         };
         ReportUserResponseDTO responseDTO = new ReportUserResponseDTO();
         responseDTO.setCreate_at(new Timestamp(new Date().getTime()));

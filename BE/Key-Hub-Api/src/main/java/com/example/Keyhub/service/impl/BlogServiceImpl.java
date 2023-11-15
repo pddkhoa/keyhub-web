@@ -70,6 +70,7 @@ public class BlogServiceImpl implements IBLogService {
         newBlog.setContent(blogPostDTO.getContent());
         newBlog.setDescription(blogPostDTO.getDescription());
         newBlog.setUser(user);
+        newBlog.setSumViolating(0);
         newBlog.setViews(Long.valueOf(0));
         newBlog.setCreateDate(timestamp);
         newBlog.setStatus(1);

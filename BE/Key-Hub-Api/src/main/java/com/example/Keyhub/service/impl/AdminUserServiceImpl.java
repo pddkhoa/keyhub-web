@@ -2,7 +2,7 @@
 package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.AdminDTO;
-import com.example.Keyhub.data.dto.request.EvaluteUserRequestDTO;
+import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
 import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.dto.response.UserRequestAdminDTO;
@@ -177,10 +177,15 @@ public class AdminUserServiceImpl implements IAdminUserService {
             reportSample.setSumViolating(reportUser.getUserIdReported().getSumViolating());
             resultAll.add(reportSample);
         }
+
         List<ReportUserResponseDTO> result = new ArrayList<>();
         int endIndex = Math.min(startIndex + itemsPerPage, resultAll.size());
         for (int i = startIndex; i < endIndex; i++) {
             result.add(resultAll.get(i));
+        }
+        if (result.isEmpty())
+        {
+            return null;
         }
         return result;
     }
@@ -194,10 +199,14 @@ public class AdminUserServiceImpl implements IAdminUserService {
         return (Long) (long) (reportUserList.size() / 10 + (reportUserList.size() % 10 != 0 ? 1 : 0));
     }
     @Override
-    public StatusResopnes evaluteUser(Users user, EvaluteUserRequestDTO req) {
+    public StatusResopnes evaluteUser(Users user, EvaluteRequestDTO req) {
         StatusResopnes statusResopnes = new StatusResopnes();
         ReportUser reportUser = reportUserRepository.findById(req.getReport_id()).orElse(null);
-        assert reportUser != null;
+        if (reportUser==null)
+        {
+            statusResopnes.setStatusCode(3);
+            return statusResopnes;
+        }
         Users users = reportUser.getUserIdReported();
         int sumViolating = users.getSumViolating();
         if (req.isValue())
@@ -209,7 +218,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
                 statusResopnes.setStatusCode(0);
                 users.setSumViolating(sumViolating);
                 userRepository.save(user);
-                applicationEventPublisher.publishEvent(new OnEvaluteApproveEvent(users,req.getReason()));
+                applicationEventPublisher.publishEvent(new OnEvaluteApproveEvent(users,reportUser.getReason()));
                 return statusResopnes;
             }
             String reason = "Tài khoản đã vi phạm nhiều lần";
@@ -382,4 +391,38 @@ public class AdminUserServiceImpl implements IAdminUserService {
         List<Users> getAll = userRepository.findByEmailAndUsernameIsNotNull();
         return (getAll.size() / 10 + (getAll.size() % 10 != 0 ? 1 : 0));
     }
+
+    @Override
+    public void unblockUser(BigInteger user_id) {
+        Users users = userService.findByID(user_id);
+        users.setStatus(1);
+        userRepository.save(users);
+    }
+
+    @Override
+    public List<UserResponseDTO> listAllUserIsBlock(int index) {
+        int itemsPerPage = 10;
+        int startIndex = (index - 1) * itemsPerPage;
+        List<Users> getAll = userRepository.findByStatus(2);
+        getAll.sort(Comparator.comparing(Users::getCreateDate).reversed());
+        List<Users> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, getAll.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(getAll.get(i));
+        }
+        if (result.isEmpty())
+        {
+            return null;
+        }
+        return result.stream()
+                .map(generalService::createUserResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int sizeAllUserBlock() {
+        List<Users> getAll = userRepository.findByStatus(2);
+        return (getAll.size() / 10 + (getAll.size() % 10 != 0 ? 1 : 0));
+    }
+
 }

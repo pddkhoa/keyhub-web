@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 10/11/2023 11:05:06
+ Date: 15/11/2023 22:40:22
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ CREATE TABLE `block`  (
   INDEX `FK2xbkf5oyys1e9snvaeiu3sxrt`(`blocker_id` ASC) USING BTREE,
   CONSTRAINT `FK2xbkf5oyys1e9snvaeiu3sxrt` FOREIGN KEY (`blocker_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKhnrrhouh48pbxuiupjvgss192` FOREIGN KEY (`blocked_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 224 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of block
@@ -73,6 +73,7 @@ CREATE TABLE `blog`  (
   `status` int NULL DEFAULT NULL,
   `views` bigint NULL DEFAULT NULL,
   `create_date` datetime(6) NULL DEFAULT NULL,
+  `sum_violating` int NULL DEFAULT NULL,
   PRIMARY KEY (`blog_id`) USING BTREE,
   INDEX `FK_Own`(`user_id` ASC) USING BTREE,
   INDEX `FK7u8tmlwxnjvesb7um4mxsvsvc`(`series_id` ASC) USING BTREE,
@@ -81,74 +82,75 @@ CREATE TABLE `blog`  (
   CONSTRAINT `FK7u8tmlwxnjvesb7um4mxsvsvc` FOREIGN KEY (`series_id`) REFERENCES `series` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKpxk2jtysqn41oop7lvxcp6dqq` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKqyvjif1i2geaeuvkh3n1jrnn4` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 176 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog
 -- ----------------------------
-INSERT INTO `blog` VALUES (97, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 2, '2023-10-11 21:34:56.371000');
-INSERT INTO `blog` VALUES (100, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 13:41:26.684000');
-INSERT INTO `blog` VALUES (101, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 13:46:36.161000');
-INSERT INTO `blog` VALUES (102, 'Sssgsgsdgsdg', 'ok', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 13:47:28.806000');
-INSERT INTO `blog` VALUES (103, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 13:48:05.527000');
-INSERT INTO `blog` VALUES (104, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 3, 1, NULL, '2023-10-12 14:42:45.124000');
-INSERT INTO `blog` VALUES (105, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 2.00, 3, 0, NULL, '2023-10-12 14:58:51.337000');
-INSERT INTO `blog` VALUES (106, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 13:55:59.058000');
-INSERT INTO `blog` VALUES (108, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 14:13:41.067000');
-INSERT INTO `blog` VALUES (109, 'Sssgsgsdgsdg', NULL, 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 14:58:28.319000');
-INSERT INTO `blog` VALUES (111, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 0, '2023-10-12 22:02:46.965000');
-INSERT INTO `blog` VALUES (112, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 22:03:05.246000');
-INSERT INTO `blog` VALUES (113, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 22:03:10.391000');
-INSERT INTO `blog` VALUES (114, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, NULL, 0, NULL, '2023-10-12 22:03:17.668000');
-INSERT INTO `blog` VALUES (115, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 0, '2023-10-12 22:03:28.991000');
-INSERT INTO `blog` VALUES (116, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 0, '2023-10-12 22:03:34.852000');
-INSERT INTO `blog` VALUES (117, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, NULL, 0, NULL, '2023-10-12 22:25:36.799000');
-INSERT INTO `blog` VALUES (118, 'Sssgsgsdgsdg', NULL, 58, NULL, 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, NULL, 0, NULL, '2023-10-12 22:25:46.416000');
-INSERT INTO `blog` VALUES (119, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 0, NULL, '2023-10-12 22:44:03.370000');
-INSERT INTO `blog` VALUES (120, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:37:06.487000');
-INSERT INTO `blog` VALUES (121, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:45:49.701000');
-INSERT INTO `blog` VALUES (122, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:45:57.985000');
-INSERT INTO `blog` VALUES (123, 'Sssgsgsdgsdg', NULL, 58, NULL, 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, NULL, 0, NULL, '2023-10-12 22:44:58.395000');
-INSERT INTO `blog` VALUES (124, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 1.00, 1, 1, NULL, '2023-10-12 22:48:04.769000');
-INSERT INTO `blog` VALUES (125, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:48:26.048000');
-INSERT INTO `blog` VALUES (126, 'Sssgsgsdgsdg', NULL, 58, NULL, 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, NULL, 0, NULL, '2023-10-12 22:47:35.684000');
-INSERT INTO `blog` VALUES (127, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 65, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, 2, '2023-10-12 22:49:39.679000');
-INSERT INTO `blog` VALUES (128, 'Sssgsgsdgsdg', NULL, 58, NULL, 65, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, NULL, 0, NULL, '2023-10-12 22:48:56.701000');
-INSERT INTO `blog` VALUES (129, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 66, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:53:15.909000');
-INSERT INTO `blog` VALUES (130, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, 2, '2023-10-12 22:56:21.925000');
-INSERT INTO `blog` VALUES (132, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 67, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, NULL, '2023-10-12 23:03:58.657000');
-INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', 'a', 58, NULL, 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, NULL, 0, NULL, '2023-10-12 23:07:18.323000');
-INSERT INTO `blog` VALUES (135, '21312312312312', '<p>2131asdasda</p><p>sdasdas</p><p>asdasdas</p><p>asdasdasdas</p>', 65, 'adasdas', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1000.00, 1, 1, 1000, '2023-10-15 09:54:43.000000');
-INSERT INTO `blog` VALUES (136, 'Sssgsgsdgsdg', 'a', 58, NULL, 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, NULL, 0, NULL, '2023-10-15 21:47:12.465000');
-INSERT INTO `blog` VALUES (138, 'Sample Taitle 3', 'ok', 87, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 5, 1, 4, '2023-10-16 21:22:26.487000');
-INSERT INTO `blog` VALUES (139, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-16 21:22:49.152000');
-INSERT INTO `blog` VALUES (141, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 0, '2023-10-17 23:46:37.560000');
-INSERT INTO `blog` VALUES (142, 'Sample Taitle 3', 'ok', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 3, 1, 3, '2023-10-19 11:15:11.430000');
-INSERT INTO `blog` VALUES (148, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:35:55.988000');
-INSERT INTO `blog` VALUES (149, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:39.454000');
-INSERT INTO `blog` VALUES (150, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 70, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:42.200000');
-INSERT INTO `blog` VALUES (151, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 0, '2023-10-19 13:36:45.566000');
-INSERT INTO `blog` VALUES (152, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 2, '2023-10-19 13:36:51.473000');
-INSERT INTO `blog` VALUES (153, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:57.928000');
-INSERT INTO `blog` VALUES (156, 'Sample Taitle 3', 'ok', 65, 'Sample Description', 72, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 2, 1, 10, '2023-10-19 13:37:15.510000');
-INSERT INTO `blog` VALUES (157, 'Sample Taitle 3', 'ok', 67, 'Sample Description', 72, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1001.00, 2, 1, 1002, '2023-10-26 13:37:07.000000');
-INSERT INTO `blog` VALUES (158, 'Tiêu đề của bài viết', '<p>Nội dung bài viết</p>', 83, 'Mô tả', 73, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 86.00, NULL, 0, NULL, '2023-11-06 13:12:28.520000');
-INSERT INTO `blog` VALUES (160, 'Những Cuốn Sách Hay Nhất Mọi Thời Đại', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 83, 'Bài viết về những cuốn sách kinh điển', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 1, 1, 0, '2023-11-10 10:48:31.169000');
-INSERT INTO `blog` VALUES (161, 'Hiểu Rõ Về Tâm Lý Tư Duy và Hành Vi', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 83, 'Tìm hiểu về tâm lý học', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 2, 1, 0, '2023-11-10 10:48:53.688000');
-INSERT INTO `blog` VALUES (162, 'Nghệ Thuật Nhiếp Ảnh và Cách Tạo Nên Bức Ảnh Hoàn Hảo', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 44, 'Bí mật của nhiếp ảnh nghệ thuật', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 3, 1, 0, '2023-11-10 10:49:03.684000');
-INSERT INTO `blog` VALUES (163, 'Tranh Luận: Cái Gì Là Quan Trọng Nhất Trong Cuộc Sống?', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 44, 'Cuộc tranh luận về giá trị cuộc sống', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 4, 1, 0, '2023-11-10 10:49:12.103000');
-INSERT INTO `blog` VALUES (164, 'Hành Trình Sáng Tác: Tìm Kiếm Nguồn Cảm Hứng Vô Tận', 'Nói về hành trình sáng tạo và cách tìm kiếm nguồn cảm hứng không ngừng trong việc sáng tác nghệ thuật, văn học và sáng tạo.', 44, 'Khám phá hành trình sáng tạo', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 5, 1, 0, '2023-11-10 10:49:24.427000');
-INSERT INTO `blog` VALUES (165, 'Cuộc Sống Của Những Người Nghệ Sĩ', 'Khám phá cuộc sống sáng tạo và đầy màu sắc của những người nghệ sĩ, từ những người hội họa đến những người chụp ảnh và nghệ sĩ sáng tác.', 67, 'Điều gì tạo nên cuộc sống sáng tạo', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 1, 1, 0, '2023-11-10 10:49:31.358000');
-INSERT INTO `blog` VALUES (166, 'Hành Trình Tìm Hiểu Về Triết Học Đông Phương', 'Khám phá sâu sắc về triết lý và triết học của các văn hóa Đông Phương, từ đạo Phật đến những nguyên lý tư duy của Trung Quốc cổ đại.', 69, 'Sự phát triển của triết học Đông Phương', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 2, 1, 2, '2023-11-10 10:49:38.204000');
-INSERT INTO `blog` VALUES (167, 'Bí Quyết Nấu Ăn Dành Cho Người Bận Rộn', 'Những công thức nấu ăn nhanh gọn, ngon miệng dành cho những người có cuộc sống bận rộn, không có nhiều thời gian nấu nướng.', 69, 'Nấu ăn tiện lợi trong cuộc sống hiện đại', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 3, 1, 4, '2023-11-10 10:49:44.066000');
-INSERT INTO `blog` VALUES (168, 'Những Câu Chuyện Cuộc Sống Ở Thị Trấn Nhỏ', 'Khám phá cuộc sống tại những thị trấn nhỏ, nơi mà mọi người còn giữ được sự gần gũi và giản dị trong cuộc sống hàng ngày.', 47, 'Sự yên bình của cuộc sống ở thị trấn nhỏ', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 4, 1, 0, '2023-11-10 10:49:49.272000');
-INSERT INTO `blog` VALUES (169, 'Vũ Trụ và Những Bí Ẩn Của Nó', 'Đi sâu vào các bí ẩn của vũ trụ, từ những hố đen đến sự hình thành của các hệ sao.', 47, 'Khám phá vũ trụ lớn và nhỏ', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 5, 1, 0, '2023-11-10 10:50:09.760000');
-INSERT INTO `blog` VALUES (170, 'Nghệ Thuật Tự Chăm Sóc Bản Thân', 'Hướng dẫn cách chăm sóc bản thân mỗi ngày để duy trì sự cân bằng và hạnh phúc trong cuộc sống.', 47, 'Nghệ thuật chăm sóc bản thân và phát triển cá nhân', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 1, 1, 0, '2023-11-10 10:50:18.364000');
-INSERT INTO `blog` VALUES (171, 'Sân Bay và Những Câu Chuyện Kỳ Lạ', 'Những câu chuyện kỳ lạ và thú vị tại các sân bay trên thế giới, từ những sự kiện hài hước đến những phát hiện ngạc nhiên.', 33, 'Những điều bí ẩn tại sân bay', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 2, 1, 0, '2023-11-10 10:50:31.246000');
-INSERT INTO `blog` VALUES (172, 'Kỹ Năng Lãnh Đạo và Quản Lý Thời Đại Mới', 'Các chiến lược và kỹ năng lãnh đạo cần thiết để thành công trong môi trường kinh doanh thị trường hiện đại và biến đổi nhanh chóng.', 33, 'Lãnh đạo trong thời đại mới', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 3, 1, 4, '2023-11-10 10:50:38.260000');
-INSERT INTO `blog` VALUES (173, 'Kỹ Thuật Chụp Ảnh Nghệ Thuật Độc Đáo', 'Những kỹ thuật chụp ảnh nghệ thuật độc đáo để tạo ra những bức ảnh ấn tượng và sáng tạo.', 33, 'Khám phá nghệ thuật chụp ảnh độc đáo', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 4, 1, 0, '2023-11-10 10:50:45.293000');
-INSERT INTO `blog` VALUES (174, 'Nghệ Sĩ Gốc Việt Góp Mặt Trong Cộng Đồng Âm Nhạc Thế Giới', 'Giới thiệu về những nghệ sĩ gốc Việt thành công và đang góp mặt trong cộng đồng âm nhạc quốc tế.', 80, 'Nghệ sĩ gốc Việt và họa âm nhạc thế giới', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 5, 1, 2, '2023-11-10 10:50:51.590000');
-INSERT INTO `blog` VALUES (175, 'Văn học thời đại ', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 67, 'Bài viết hay', 73, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 1, 1, 0, '2023-11-10 11:00:46.576000');
+INSERT INTO `blog` VALUES (97, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 2, '2023-10-11 21:34:56.371000', 0);
+INSERT INTO `blog` VALUES (100, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 0, NULL, '2023-10-12 13:41:26.684000', 0);
+INSERT INTO `blog` VALUES (101, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 2, 0, NULL, '2023-10-12 13:46:36.161000', 0);
+INSERT INTO `blog` VALUES (102, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 5, 0, NULL, '2023-10-12 13:47:28.806000', 0);
+INSERT INTO `blog` VALUES (103, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 3, 0, NULL, '2023-10-12 13:48:05.527000', 0);
+INSERT INTO `blog` VALUES (104, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 3, 1, NULL, '2023-10-12 14:42:45.124000', 0);
+INSERT INTO `blog` VALUES (105, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 61, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 2.00, 3, 0, NULL, '2023-10-12 14:58:51.337000', 0);
+INSERT INTO `blog` VALUES (106, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 6, 0, NULL, '2023-10-12 13:55:59.058000', 0);
+INSERT INTO `blog` VALUES (108, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 6, 0, NULL, '2023-10-12 14:13:41.067000', 0);
+INSERT INTO `blog` VALUES (109, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, NULL, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 7, 0, NULL, '2023-10-12 14:58:28.319000', 0);
+INSERT INTO `blog` VALUES (111, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 5, 1, 0, '2023-10-12 22:02:46.965000', 0);
+INSERT INTO `blog` VALUES (112, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 5, 0, NULL, '2023-10-12 22:03:05.246000', 0);
+INSERT INTO `blog` VALUES (113, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 5, 0, NULL, '2023-10-12 22:03:10.391000', 0);
+INSERT INTO `blog` VALUES (114, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 2, 0, NULL, '2023-10-12 22:03:17.668000', 0);
+INSERT INTO `blog` VALUES (115, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 0, '2023-10-12 22:03:28.991000', 0);
+INSERT INTO `blog` VALUES (116, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 62, 'https://images.pexels.com/photos/6000145/pexels-photo-6000145.jpeg?auto=compress&cs=tinysrgb&w=600', 0.00, 1, 1, 0, '2023-10-12 22:03:34.852000', 0);
+INSERT INTO `blog` VALUES (117, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 0, NULL, '2023-10-12 22:25:36.799000', 0);
+INSERT INTO `blog` VALUES (118, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 2, 0, NULL, '2023-10-12 22:25:46.416000', 0);
+INSERT INTO `blog` VALUES (119, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 0, NULL, '2023-10-12 22:44:03.370000', 0);
+INSERT INTO `blog` VALUES (120, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 62, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:37:06.487000', 0);
+INSERT INTO `blog` VALUES (121, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:45:49.701000', 0);
+INSERT INTO `blog` VALUES (122, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:45:57.985000', 0);
+INSERT INTO `blog` VALUES (123, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 63, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 5, 0, NULL, '2023-10-12 22:44:58.395000', 0);
+INSERT INTO `blog` VALUES (124, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 1.00, 1, 1, NULL, '2023-10-12 22:48:04.769000', 0);
+INSERT INTO `blog` VALUES (125, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:48:26.048000', 0);
+INSERT INTO `blog` VALUES (126, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 64, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 5, 0, NULL, '2023-10-12 22:47:35.684000', 0);
+INSERT INTO `blog` VALUES (127, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 65, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, 2, '2023-10-12 22:49:39.679000', 0);
+INSERT INTO `blog` VALUES (128, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 65, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 6, 0, NULL, '2023-10-12 22:48:56.701000', 0);
+INSERT INTO `blog` VALUES (129, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 66, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, NULL, '2023-10-12 22:53:15.909000', 0);
+INSERT INTO `blog` VALUES (130, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 67, 'https://media.istockphoto.com/id/479155925/vi/anh/campelo-beaach-%E1%BB%9F-galicia-t%C3%A2y-ban-nha.jpg?b=1&s=612x612&w=0&k=20&c=dOZ9tsKChhUFzl2d_HPi_fFzdNs4iR3mGujBojlHaeI=', 0.00, 1, 1, 2, '2023-10-12 22:56:21.925000', 0);
+INSERT INTO `blog` VALUES (132, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 67, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, NULL, '2023-10-12 23:03:58.657000', 0);
+INSERT INTO `blog` VALUES (134, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 0, NULL, '2023-10-12 23:07:18.323000', 0);
+INSERT INTO `blog` VALUES (135, '21312312312312', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'adasdas', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1000.00, 1, 1, 1000, '2023-10-15 09:54:43.000000', 0);
+INSERT INTO `blog` VALUES (136, 'Sssgsgsdgsdg', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, NULL, 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 2, 0, NULL, '2023-10-15 21:47:12.465000', 0);
+INSERT INTO `blog` VALUES (138, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 87, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 5, 1, 5, '2023-10-16 21:22:26.487000', 0);
+INSERT INTO `blog` VALUES (139, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-16 21:22:49.152000', 0);
+INSERT INTO `blog` VALUES (141, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 0, '2023-10-17 23:46:37.560000', 0);
+INSERT INTO `blog` VALUES (142, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 58, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 3, 1, 3, '2023-10-19 11:15:11.430000', 0);
+INSERT INTO `blog` VALUES (148, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 63, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:35:55.988000', 0);
+INSERT INTO `blog` VALUES (149, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 70, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:39.454000', 0);
+INSERT INTO `blog` VALUES (150, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 70, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:42.200000', 0);
+INSERT INTO `blog` VALUES (151, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 0, '2023-10-19 13:36:45.566000', 0);
+INSERT INTO `blog` VALUES (152, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1.00, 1, 1, 2, '2023-10-19 13:36:51.473000', 0);
+INSERT INTO `blog` VALUES (153, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 71, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 1, 1, 0, '2023-10-19 13:36:57.928000', 0);
+INSERT INTO `blog` VALUES (156, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 65, 'Sample Description', 72, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 0.00, 2, 1, 10, '2023-10-19 13:37:15.510000', 0);
+INSERT INTO `blog` VALUES (157, 'Sample Taitle 3', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 67, 'Sample Description', 72, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 1001.00, 2, 1, 1002, '2023-10-26 13:37:07.000000', 0);
+INSERT INTO `blog` VALUES (158, 'Tiêu đề của bài viết', '<p>Nội dung bài viết</p>', 83, 'Mô tả', 73, 'https://www.pexels.com/vi-vn/anh/ng-i-dan-ong-m-c-ao-s-mi-nau-d-ng-tren-d-ng-s-t-g-n-hang-rao-d-a-1074531/', 86.00, 6, 0, NULL, '2023-11-06 13:12:28.520000', 0);
+INSERT INTO `blog` VALUES (160, 'Những Cuốn Sách Hay Nhất Mọi Thời Đại', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 83, 'Bài viết về những cuốn sách kinh điển', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 1, 1, 0, '2023-11-10 10:48:31.169000', 0);
+INSERT INTO `blog` VALUES (161, 'Hiểu Rõ Về Tâm Lý Tư Duy và Hành Vi', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 83, 'Tìm hiểu về tâm lý học', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 2, 1, 0, '2023-11-10 10:48:53.688000', 0);
+INSERT INTO `blog` VALUES (162, 'Nghệ Thuật Nhiếp Ảnh và Cách Tạo Nên Bức Ảnh Hoàn Hảo', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 44, 'Bí mật của nhiếp ảnh nghệ thuật', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 3, 1, 0, '2023-11-10 10:49:03.684000', 0);
+INSERT INTO `blog` VALUES (163, 'Tranh Luận: Cái Gì Là Quan Trọng Nhất Trong Cuộc Sống?', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 44, 'Cuộc tranh luận về giá trị cuộc sống', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 86.00, 4, 1, 0, '2023-11-10 10:49:12.103000', 0);
+INSERT INTO `blog` VALUES (164, 'Hành Trình Sáng Tác: Tìm Kiếm Nguồn Cảm Hứng Vô Tận', 'Nói về hành trình sáng tạo và cách tìm kiếm nguồn cảm hứng không ngừng trong việc sáng tác nghệ thuật, văn học và sáng tạo.', 44, 'Khám phá hành trình sáng tạo', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 5, 1, 0, '2023-11-10 10:49:24.427000', 0);
+INSERT INTO `blog` VALUES (165, 'Cuộc Sống Của Những Người Nghệ Sĩ', 'Khám phá cuộc sống sáng tạo và đầy màu sắc của những người nghệ sĩ, từ những người hội họa đến những người chụp ảnh và nghệ sĩ sáng tác.', 67, 'Điều gì tạo nên cuộc sống sáng tạo', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 1, 1, 0, '2023-11-10 10:49:31.358000', 0);
+INSERT INTO `blog` VALUES (166, 'Hành Trình Tìm Hiểu Về Triết Học Đông Phương', 'Khám phá sâu sắc về triết lý và triết học của các văn hóa Đông Phương, từ đạo Phật đến những nguyên lý tư duy của Trung Quốc cổ đại.', 69, 'Sự phát triển của triết học Đông Phương', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 2, 1, 2, '2023-11-10 10:49:38.204000', 0);
+INSERT INTO `blog` VALUES (167, 'Bí Quyết Nấu Ăn Dành Cho Người Bận Rộn', 'Những công thức nấu ăn nhanh gọn, ngon miệng dành cho những người có cuộc sống bận rộn, không có nhiều thời gian nấu nướng.', 69, 'Nấu ăn tiện lợi trong cuộc sống hiện đại', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 3, 1, 4, '2023-11-10 10:49:44.066000', 0);
+INSERT INTO `blog` VALUES (168, 'Những Câu Chuyện Cuộc Sống Ở Thị Trấn Nhỏ', 'Khám phá cuộc sống tại những thị trấn nhỏ, nơi mà mọi người còn giữ được sự gần gũi và giản dị trong cuộc sống hàng ngày.', 47, 'Sự yên bình của cuộc sống ở thị trấn nhỏ', NULL, 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 72.00, 4, 1, 4, '2023-11-10 10:49:49.272000', 0);
+INSERT INTO `blog` VALUES (169, 'Vũ Trụ và Những Bí Ẩn Của Nó', 'Đi sâu vào các bí ẩn của vũ trụ, từ những hố đen đến sự hình thành của các hệ sao.', 47, 'Khám phá vũ trụ lớn và nhỏ', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 5, 1, 0, '2023-11-10 10:50:09.760000', 0);
+INSERT INTO `blog` VALUES (170, 'Nghệ Thuật Tự Chăm Sóc Bản Thân', 'Hướng dẫn cách chăm sóc bản thân mỗi ngày để duy trì sự cân bằng và hạnh phúc trong cuộc sống.', 47, 'Nghệ thuật chăm sóc bản thân và phát triển cá nhân', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 1, 1, 0, '2023-11-10 10:50:18.364000', 0);
+INSERT INTO `blog` VALUES (171, 'Sân Bay và Những Câu Chuyện Kỳ Lạ', 'Những câu chuyện kỳ lạ và thú vị tại các sân bay trên thế giới, từ những sự kiện hài hước đến những phát hiện ngạc nhiên.', 33, 'Những điều bí ẩn tại sân bay', NULL, 'https://images.pexels.com/photos/5717640/pexels-photo-5717640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 30.00, 2, 1, 2, '2023-11-10 10:50:31.246000', 0);
+INSERT INTO `blog` VALUES (172, 'Kỹ Năng Lãnh Đạo và Quản Lý Thời Đại Mới', 'Các chiến lược và kỹ năng lãnh đạo cần thiết để thành công trong môi trường kinh doanh thị trường hiện đại và biến đổi nhanh chóng.', 33, 'Lãnh đạo trong thời đại mới', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 3, 1, 6, '2023-11-10 10:50:38.260000', 0);
+INSERT INTO `blog` VALUES (173, 'Kỹ Thuật Chụp Ảnh Nghệ Thuật Độc Đáo', 'Những kỹ thuật chụp ảnh nghệ thuật độc đáo để tạo ra những bức ảnh ấn tượng và sáng tạo.', 33, 'Khám phá nghệ thuật chụp ảnh độc đáo', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 4, 1, 2, '2023-11-10 10:50:45.293000', 0);
+INSERT INTO `blog` VALUES (174, 'Nghệ Sĩ Gốc Việt Góp Mặt Trong Cộng Đồng Âm Nhạc Thế Giới', 'Giới thiệu về những nghệ sĩ gốc Việt thành công và đang góp mặt trong cộng đồng âm nhạc quốc tế.', 80, 'Nghệ sĩ gốc Việt và họa âm nhạc thế giới', NULL, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 5, 1, 2, '2023-11-10 10:50:51.590000', 0);
+INSERT INTO `blog` VALUES (175, 'Văn học thời đại ', '<p>Trong bài viết này, chúng ta sẽ khám phá những cuốn sách được đánh giá cao và ảnh hưởng lớn nhất trong lịch sử văn hóa và văn học.</p>', 67, 'Bài viết hay', 73, 'https://images.pexels.com/photos/5717642/pexels-photo-5717642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 1, 1, 0, '2023-11-10 11:00:46.576000', 0);
+INSERT INTO `blog` VALUES (176, 'Nghệ Sĩ Gốc Việt Góp Mặt Trong Cộng Đồng Âm Nhạc Thế Giới', '<p>Giới thiệu về những nghệ sĩ gốc Việt thành công và đang góp mặt trong cộng đồng âm nhạc quốc tế.<p>', 67, 'Nghệ sĩ gốc Việt và họa âm nhạc thế giới', NULL, 'https://images.pexels.com/photos/15835031/pexels-photo-15835031/free-photo-of-tuy-t-thanh-ph-xe-h-i-d-ng.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 0.00, 5, 1, 0, '2023-11-15 11:34:51.901000', 0);
 
 -- ----------------------------
 -- Table structure for blog_comment
@@ -163,7 +165,7 @@ CREATE TABLE `blog_comment`  (
   INDEX `FKc4ysudanwhfrrhytio0272sx9`(`comment_id` ASC) USING BTREE,
   CONSTRAINT `FKb9cpog8ie2cyapsyyt7gikpbl` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKc4ysudanwhfrrhytio0272sx9` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_comment
@@ -183,7 +185,7 @@ CREATE TABLE `blog_hide`  (
   INDEX `FKklq94vv39wmdj5scjnxttr8nc`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKbd9rm144lc3t4e6w1wu2lal24` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKklq94vv39wmdj5scjnxttr8nc` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_hide
@@ -225,7 +227,7 @@ CREATE TABLE `blog_like`  (
   INDEX `FKppog2vdhbhoff9omlv805wjau`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKppog2vdhbhoff9omlv805wjau` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKstm0v9i88mcn2763ubwgd2qjj` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_like
@@ -251,7 +253,7 @@ CREATE TABLE `blog_save`  (
   INDEX `FK1enjt512o4e8alk33j9jnf6gj`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK1enjt512o4e8alk33j9jnf6gj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKskcq75s8y1lv8l4cyt20ihhug` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_save
@@ -383,6 +385,9 @@ INSERT INTO `blog_tag` VALUES (173, 3);
 INSERT INTO `blog_tag` VALUES (173, 4);
 INSERT INTO `blog_tag` VALUES (174, 1);
 INSERT INTO `blog_tag` VALUES (175, 1);
+INSERT INTO `blog_tag` VALUES (176, 1);
+INSERT INTO `blog_tag` VALUES (176, 4);
+INSERT INTO `blog_tag` VALUES (176, 5);
 
 -- ----------------------------
 -- Table structure for category
@@ -396,7 +401,7 @@ CREATE TABLE `category`  (
   `banner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of category
@@ -406,6 +411,10 @@ INSERT INTO `category` VALUES (2, 'TÂM LÝ HỌC', 'Nơi chia sẻ về những
 INSERT INTO `category` VALUES (3, 'NHIẾP ẢNH', 'Nơi chia sẻ những tác phẩm nghệ thuật', 'https://images.pexels.com/photos/1252983/pexels-photo-1252983.jpeg?auto=compress&cs=tinysrgb&w=600', 'https://images.pexels.com/photos/733853/pexels-photo-733853.jpeg?auto=compress&cs=tinysrgb&w=600');
 INSERT INTO `category` VALUES (4, 'QUAN ĐIỂM - TRANH LUẬN', 'Nơi chia sẻ những quan điểm cá nhân', 'https://images.pexels.com/photos/4049960/pexels-photo-4049960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/4861347/pexels-photo-4861347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 INSERT INTO `category` VALUES (5, 'SÁNG TÁC', 'Nơi cái nôi của nghệ thuật', 'https://images.pexels.com/photos/5118500/pexels-photo-5118500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'https://images.pexels.com/photos/5530229/pexels-photo-5530229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+INSERT INTO `category` VALUES (6, 'Tôn giáo', NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699628577/o2jzr9qumrx2npwjirlm.jpg', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699628586/le58teyeuvdo11ijosor.jpg');
+INSERT INTO `category` VALUES (7, 'Tôn giáo', 'Nơi các tín đồ tìm hiểu về tôn giáo', NULL, NULL);
+INSERT INTO `category` VALUES (12, 'Tôn giáo', 'Nơi các tín đồ tìm hiểu về tôn giáo', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1700039268/sos5oftyp52jsfgwbp4o.jpg', NULL);
+INSERT INTO `category` VALUES (13, 'Xã hội', 'Chia sẽ các vấn đề xã hội', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for category_tag
@@ -418,7 +427,7 @@ CREATE TABLE `category_tag`  (
   INDEX `FK7ajcceshl0yansk0i3kkiv53l`(`tag_id` ASC) USING BTREE,
   CONSTRAINT `FK7ajcceshl0yansk0i3kkiv53l` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKa87fb70v74ldqt14lmsm68j73` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of category_tag
@@ -426,6 +435,16 @@ CREATE TABLE `category_tag`  (
 INSERT INTO `category_tag` VALUES (1, 1);
 INSERT INTO `category_tag` VALUES (1, 2);
 INSERT INTO `category_tag` VALUES (1, 3);
+INSERT INTO `category_tag` VALUES (1, 4);
+INSERT INTO `category_tag` VALUES (4, 4);
+INSERT INTO `category_tag` VALUES (5, 4);
+INSERT INTO `category_tag` VALUES (1, 11);
+INSERT INTO `category_tag` VALUES (1, 12);
+INSERT INTO `category_tag` VALUES (4, 12);
+INSERT INTO `category_tag` VALUES (5, 12);
+INSERT INTO `category_tag` VALUES (1, 13);
+INSERT INTO `category_tag` VALUES (4, 13);
+INSERT INTO `category_tag` VALUES (5, 13);
 
 -- ----------------------------
 -- Table structure for chat
@@ -606,7 +625,7 @@ CREATE TABLE `follow`  (
   INDEX `FKl4cyiwx3lv8jf0xt3sr537308`(`user_follow` ASC) USING BTREE,
   CONSTRAINT `FK992xdy1dmmqlhwayassqk5c8q` FOREIGN KEY (`user_is_following`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKl4cyiwx3lv8jf0xt3sr537308` FOREIGN KEY (`user_follow`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follow
@@ -652,7 +671,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (225);
+INSERT INTO `hibernate_sequence` VALUES (244);
 
 -- ----------------------------
 -- Table structure for message
@@ -678,6 +697,29 @@ INSERT INTO `message` VALUES (7, 'Ngày mai đi nhậu', '2023-11-02 10:35:28.83
 INSERT INTO `message` VALUES (8, 'Ngày mai đi nhậu', '2023-11-02 10:35:30.885000', 10, 64);
 
 -- ----------------------------
+-- Table structure for notification
+-- ----------------------------
+DROP TABLE IF EXISTS `notification`;
+CREATE TABLE `notification`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `created_at` datetime(6) NULL DEFAULT NULL,
+  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `related_object_id` decimal(19, 2) NULL DEFAULT NULL,
+  `user_id` decimal(19, 2) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of notification
+-- ----------------------------
+INSERT INTO `notification` VALUES (1, 'LIKE', NULL, 'UserHaiTest đã thích bài viết của bạn.', 142.00, 58.00);
+INSERT INTO `notification` VALUES (2, 'LIKE', '2023-11-12 16:04:18.282000', 'AdminHai đã thích bài viết của bạn.', 175.00, 67.00);
+INSERT INTO `notification` VALUES (3, 'LIKE', '2023-11-12 18:51:31.000000', 'AdminHai đã thích bài viết của bạn.', 175.00, 67.00);
+INSERT INTO `notification` VALUES (4, 'LIKE', '2023-11-13 11:53:53.352000', 'Lê Trương Ngọc Hải đã thích bài viết của bạn.', 142.00, 58.00);
+INSERT INTO `notification` VALUES (5, 'LIKE', '2023-11-13 12:00:44.749000', 'Lê Trương Ngọc Hải đã thích bài viết của bạn.', 142.00, 58.00);
+
+-- ----------------------------
 -- Table structure for refreshtoken
 -- ----------------------------
 DROP TABLE IF EXISTS `refreshtoken`;
@@ -690,7 +732,7 @@ CREATE TABLE `refreshtoken`  (
   UNIQUE INDEX `UK_or156wbneyk8noo4jstv55ii3`(`token` ASC) USING BTREE,
   INDEX `FKfr75ge3iecdx26qe8afh1srf6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKfr75ge3iecdx26qe8afh1srf6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 213 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 240 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of refreshtoken
@@ -809,7 +851,6 @@ INSERT INTO `refreshtoken` VALUES (191, '2023-11-07 22:16:55.500000', '31e07743-
 INSERT INTO `refreshtoken` VALUES (192, '2023-11-08 17:10:43.164000', '977ea903-4a45-4631-afa7-91694882e87e', 67);
 INSERT INTO `refreshtoken` VALUES (198, '2023-11-08 22:24:01.827000', 'ff14a202-b8c6-47bd-9794-d79e85f3c0d2', 67);
 INSERT INTO `refreshtoken` VALUES (206, '2023-11-09 11:11:38.103000', '75494ef8-b3f7-43e4-a129-9a005f82985c', 67);
-INSERT INTO `refreshtoken` VALUES (207, '2023-11-09 11:27:03.187000', '33e74107-9b04-4667-a0e8-362970f6bb28', 67);
 INSERT INTO `refreshtoken` VALUES (208, '2023-11-09 11:31:08.495000', '13dc6a75-2225-4c01-915a-3adfcb9c3f75', 67);
 INSERT INTO `refreshtoken` VALUES (210, '2023-11-09 15:15:18.579000', 'c3b212ac-8a28-4b4e-8768-b8ab1568ef48', 67);
 INSERT INTO `refreshtoken` VALUES (212, '2023-11-09 17:08:12.396000', '4a037ba4-8eb7-47ab-8d4d-a433db79273e', 67);
@@ -820,6 +861,24 @@ INSERT INTO `refreshtoken` VALUES (219, '2023-11-11 09:45:24.784000', '0b927452-
 INSERT INTO `refreshtoken` VALUES (220, '2023-11-11 09:46:09.307000', '3209b759-eb10-456d-8dab-fc7b707ec659', 58);
 INSERT INTO `refreshtoken` VALUES (221, '2023-11-11 09:47:39.113000', 'c13bc791-9484-4cf5-9c56-650d958d7fee', 67);
 INSERT INTO `refreshtoken` VALUES (224, '2023-11-11 10:48:21.031000', 'd60af677-6148-47a6-81d7-2809e93d2242', 67);
+INSERT INTO `refreshtoken` VALUES (225, '2023-11-11 17:04:00.207000', '7f93d38a-e0df-43b4-b062-6da7c07c269c', 67);
+INSERT INTO `refreshtoken` VALUES (226, '2023-11-13 16:03:41.549000', '5bc4a364-bd30-4206-9c01-e08f37886f76', 52);
+INSERT INTO `refreshtoken` VALUES (227, '2023-11-14 11:03:06.269000', '52d72644-2b06-4a44-b0bd-f9ec70568dc1', 58);
+INSERT INTO `refreshtoken` VALUES (228, '2023-11-14 11:03:10.956000', 'c30939c1-8852-4d28-8267-8e862bfc6dd9', 58);
+INSERT INTO `refreshtoken` VALUES (229, '2023-11-14 11:03:11.325000', '773d5c2f-a104-4843-b52d-e7cb32c0835e', 58);
+INSERT INTO `refreshtoken` VALUES (230, '2023-11-14 11:03:11.475000', 'c325a6e6-f075-4118-818a-c341240ae895', 58);
+INSERT INTO `refreshtoken` VALUES (231, '2023-11-14 11:03:11.651000', '130aaa8e-1d3d-4402-9595-00f9f4a5095a', 58);
+INSERT INTO `refreshtoken` VALUES (232, '2023-11-14 11:03:11.820000', '4dd513af-86b1-4882-98a5-59151b1fe2ac', 58);
+INSERT INTO `refreshtoken` VALUES (233, '2023-11-14 11:03:11.982000', '10679415-1131-4915-8c59-9af2a09001ee', 58);
+INSERT INTO `refreshtoken` VALUES (234, '2023-11-14 11:03:12.141000', 'a1ab7111-4f50-41f8-9d53-668337249ff6', 58);
+INSERT INTO `refreshtoken` VALUES (235, '2023-11-14 11:03:12.317000', 'e7b5f694-59e9-4767-bae5-aec208d9e9d4', 58);
+INSERT INTO `refreshtoken` VALUES (236, '2023-11-14 11:04:43.823000', 'dd8aa069-88e4-4f00-80aa-bd7567460953', 58);
+INSERT INTO `refreshtoken` VALUES (237, '2023-11-14 11:13:27.698000', '909fa484-8163-40a4-a02d-e6c7142426da', 67);
+INSERT INTO `refreshtoken` VALUES (238, '2023-11-14 11:15:02.975000', 'ad345269-ad09-448b-9b4c-11d5df604785', 58);
+INSERT INTO `refreshtoken` VALUES (239, '2023-11-14 14:55:01.045000', 'f39952e5-9ac2-4282-ac69-2fac7680d9a3', 67);
+INSERT INTO `refreshtoken` VALUES (240, '2023-11-15 18:44:33.976000', '7a6fce36-ed5e-4275-b065-da1a44197d46', 58);
+INSERT INTO `refreshtoken` VALUES (242, '2023-11-16 11:33:21.774000', '8e66b2dc-d46d-4fe3-b095-8cd7ceb03780', 96);
+INSERT INTO `refreshtoken` VALUES (243, '2023-11-16 16:02:24.272000', '629ab23f-e916-4e3e-9a21-b1fa3f69bb96', 96);
 
 -- ----------------------------
 -- Table structure for report
@@ -836,7 +895,7 @@ CREATE TABLE `report`  (
   INDEX `FKj62onw73yx1qnmd57tcaa9q3a`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FKj62onw73yx1qnmd57tcaa9q3a` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKn9oor0wpm4bo44xqgfo06ux4m` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of report
@@ -858,7 +917,7 @@ CREATE TABLE `report_user`  (
   INDEX `FK4g8hfop8whx2anev9usvgy28g`(`user_report` ASC) USING BTREE,
   CONSTRAINT `FK4g8hfop8whx2anev9usvgy28g` FOREIGN KEY (`user_report`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FKenaen8kny03rg1ghdhej7ndu2` FOREIGN KEY (`user_id_reported`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of report_user
@@ -873,7 +932,7 @@ INSERT INTO `report_user` VALUES (29, 'Không phù hợp', 44, 67, '2023-11-08 2
 INSERT INTO `report_user` VALUES (30, 'Không phù hợp', 44, 67, '2023-11-08 22:03:14.018000');
 INSERT INTO `report_user` VALUES (45, 'Không phù hợp', 87, 67, '2023-11-09 23:24:15.107000');
 INSERT INTO `report_user` VALUES (46, 'Không phù hợp', 86, 67, '2023-11-09 23:31:25.328000');
-INSERT INTO `report_user` VALUES (47, 'Không phù hợp', NULL, 67, '2023-11-09 23:31:43.333000');
+INSERT INTO `report_user` VALUES (47, 'Không phù hợp', 61, 67, '2023-11-09 23:31:43.333000');
 INSERT INTO `report_user` VALUES (48, 'Không phù hợp', 84, 67, '2023-11-09 23:31:52.860000');
 INSERT INTO `report_user` VALUES (49, 'Không phù hợp', 83, 67, '2023-11-09 23:32:15.481000');
 INSERT INTO `report_user` VALUES (55, 'Không phù hợp', 80, 67, '2023-11-10 09:03:01.289000');
@@ -1009,7 +1068,7 @@ CREATE TABLE `tag`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   FULLTEXT INDEX `name`(`name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tag
@@ -1018,6 +1077,13 @@ INSERT INTO `tag` VALUES (1, 'Khoa học ');
 INSERT INTO `tag` VALUES (2, 'Công Nghệ');
 INSERT INTO `tag` VALUES (3, 'Giáo dục');
 INSERT INTO `tag` VALUES (4, 'Thể thao');
+INSERT INTO `tag` VALUES (5, 'Gây nghiện');
+INSERT INTO `tag` VALUES (6, 'Gây nghiện');
+INSERT INTO `tag` VALUES (7, 'Gây nghiện');
+INSERT INTO `tag` VALUES (10, 'Gây nghiện');
+INSERT INTO `tag` VALUES (11, 'Gây nghiện');
+INSERT INTO `tag` VALUES (12, 'Gây nghiện');
+INSERT INTO `tag` VALUES (13, 'Y tế');
 
 -- ----------------------------
 -- Table structure for user
@@ -1047,7 +1113,7 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `UKsb8bbouer5wak8vyiiy4pf2bx`(`username` ASC) USING BTREE,
   UNIQUE INDEX `UKob8kqyqqgmefl0aco34akdtpe`(`email` ASC) USING BTREE,
   FULLTEXT INDEX `name`(`name`, `descriptions`, `second_name`)
-) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -1083,9 +1149,9 @@ INSERT INTO `user` VALUES (52, 'Hải', 'ngoaaahai06122002@gmail.com', '$2a$10$f
 INSERT INTO `user` VALUES (53, 'afa', NULL, '$2a$10$A.YwzWGbBWFkx7xgD5YYJemKZnQPWFZ6SLHGkfaSFHZ/jB9laNkqe', NULL, '0814069391', '2023-09-13 09:37:15.845000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (54, 'Hải', 'bug@gmail.com', '$2a$10$d9Ru.EQIHbk1BvTMaZEzj.FVm8REBAD1Wtz3AApKyqxm8yRiMjPTq', 'nga0hcshai', '0814069391', '2023-09-17 15:01:25.932000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (55, 'Khoa', 'ngochg0ah6hs122002@gmail.com', '$2a$10$2expwu3ci8YfEQz4lytl2eXw/lLxR2pr1/YZz/u1wSRxU6tYjzqT6', 'nga0hchshai', '0814069391', '2023-09-20 10:49:44.823000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
-INSERT INTO `user` VALUES (56, 'Khoa', 'ngkkochai06122002@gmail.com', '$2a$10$QCHuqO.3fJEG.Ffv/x4kE.4brFQ6f2YcYwww0qy7Xf93lwUsGfaxu', 'admin', '0814069391', '2023-09-21 08:42:06.113000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 2, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
+INSERT INTO `user` VALUES (56, 'Khoa', 'ngkkochai06122002@gmail.com', '$2a$10$QCHuqO.3fJEG.Ffv/x4kE.4brFQ6f2YcYwww0qy7Xf93lwUsGfaxu', 'admin', '0814069391', '2023-09-21 08:42:06.113000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (57, 'Khoa', 'ngoqchai06122002@gmail.com', '$2a$10$5QazZwr6VcBai5jgMii9i.DCOKseNbHDI0wxM0N9y0zhTGL7bxvu2', 'admin1', '0814069391', '2023-09-21 08:45:05.254000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
-INSERT INTO `user` VALUES (58, 'Hải', 'ngocahai06122002aa@gmail.com', '$2a$10$MLEfTIPPOPF1Pusb.2uX3OT8ePVC8ndyomXMY09EZpg4.Frv0OODC', 'admin2', '0814069391', '2023-09-21 08:50:19.154000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
+INSERT INTO `user` VALUES (58, 'Hải', 'ngocahai06122002aa@gmail.com', '$2a$10$MLEfTIPPOPF1Pusb.2uX3OT8ePVC8ndyomXMY09EZpg4.Frv0OODC', 'admin2', '0814069391', '2023-09-21 08:50:19.154000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'Baboga', 2, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (59, 'baboga', NULL, '$2a$10$yxYrIeuNYk8tEwC0dseazeGTqK0hWEh9KXWdNzpQdBcDDCCdC.FoG', NULL, '0814069391', '2023-09-24 12:07:24.231000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (60, 'baboga', NULL, '$2a$10$zt.RjAj/3BRendfziHCxr.I.UTDIi.wjMK6SOiNXRjkZBNfbwUgcW', NULL, '0814069391', '2023-09-24 12:14:43.850000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'afa', 0, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (61, 'Đinh Anh Trâm', 'anhtram900@gmail.com', '$2a$10$3z9y4NYExDwteqFDTOwcJuJu/rQne7LaMLA6ApYaznV7S1S/qhRci', 'UserTram', '0814069391', '2023-09-24 16:54:38.887000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'AnhT', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
@@ -1094,7 +1160,7 @@ INSERT INTO `user` VALUES (63, 'Khoa', NULL, '$2a$10$spdBYEtIbK60nbnpn8Omp.Le7Ki
 INSERT INTO `user` VALUES (64, 'baboga', 'ng1ochai06122002@gmail.com', '$2a$10$8yqiRdp3uznrJPXUhKEV5.c.kolDlNGGWMBH13OTRLXd54z4y5wgy', 'UserTramaa', '0814069391', '2023-10-01 11:16:43.232000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', '1', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (65, 'Phan Dai Dang khoa ', 'khoadang88vn@gmail.com', '$2a$10$Qst3491pHdGxr/P0fU3j9ugndfwz53n7IOtHre1OaVgwB/DRPv2Ka', 'pddkhoa', '0973455342', '2023-10-15 09:50:30.000000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'Male', 'pddkhoa', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (66, 'Khoa', 'angaochai06122002@gmail.com', '$2a$10$EzGEX/zodEnpS3HXIoPfr.yR.BAm8TKwPWdRRjtghNkz7lAIxTnae', 'userHai', '0814069391', '2023-10-15 19:19:44.005000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
-INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$41r.vG66YnNCJyAngPPrFusdmBJcHrLFD7KJt4rHGMFaIU2HXaoiK', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-11-08 17:08:04', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244054/tcsbbzaygndoirs3jsjw.jpg', 'Male', 'Baboga', 1, 'Sinh viên UTE', 'UTE', 'Bà Rịa Vũng Tàu', '3FORCOM', 'Bà Rịa Vũng Tàu', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244095/acqamlycpxocfymy0i6w.jpg', 0);
+INSERT INTO `user` VALUES (67, 'Lê Trương Ngọc Hải', 'ngochai06122002@gmail.com', '$2a$10$41r.vG66YnNCJyAngPPrFusdmBJcHrLFD7KJt4rHGMFaIU2HXaoiK', 'UserHaiTest', '0814069391', '2023-10-16 18:17:28.197000', '2023-11-08 17:08:04', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1700016832/fl3qpdcljizks5aorutl.jpg', 'Male', 'Baboga', 1, 'Sinh viên UTE', 'UTE', 'Bà Rịa Vũng Tàu', '3FORCOM', 'Bà Rịa Vũng Tàu', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1700016836/aluhoc2ysmlpzenklp6n.jpg', 0);
 INSERT INTO `user` VALUES (68, 'Khoa', 'ngochai06122f002@gmail.com', '$2a$10$VBJ2ghn4UCc9jIcw/Mwqfe0V8zC/M622posRzIsrBOUaOdWjqEg2W', 'userHfai', '0814069391', '2023-10-16 18:18:38.253000', '2023-10-10 21:47:27', 'https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'nam', 'baboga', 1, 'Mô tả', 'UTE', 'Thủ Đức', '3FORCOM', 'Bà Rịa Vũng Tàu', 'https://www.pexels.com/vi-vn/anh/tac-ph-m-ngh-thu-t-mau-xam-va-den-2956376/', 0);
 INSERT INTO `user` VALUES (69, 'Đoàn Lê Hy Vọng', 'vongdoan9@gmail.com', '$2a$10$nUn53ERstsatM4wQoG/0fesmFC5.7vgwXVKcjLXLTTuTu7XZE/OSW', 'UserVong', '0814065693', '2023-11-05 13:51:39.133000', '2023-11-05 13:55:59', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg', 'Male', 'Panda', 1, 'Sinh viên Hutech\n', NULL, NULL, NULL, NULL, 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg', 0);
 INSERT INTO `user` VALUES (70, 'Khoa', NULL, '$2a$10$oL20gpi.ZPfoCIsmelNW1.txrVNjXMluFDXovjD63zS/Srvntap1C', NULL, '0814069391', '2023-11-05 14:17:54.666000', NULL, NULL, 'nam', 'baboga', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0);
@@ -1109,6 +1175,9 @@ INSERT INTO `user` VALUES (83, 'Khoa', 'ngochai06f2002@gmail.com', '$2a$10$JLviZ
 INSERT INTO `user` VALUES (84, 'Khoa', 'boboga0204@gmail.com', '$2a$10$UqPC3YfH5kaBWGfJ2cYmQ.EMTD/Gk8JGM7fnb9ZZe46TYKaSDSaTG', 'AdminHai2', '0814069391', '2023-11-08 15:24:22.340000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `user` VALUES (86, 'Khoa', 'baaboga0204@gmail.com', '$2a$10$2L2vhAmn.OqewRf5l6rr4.TrWro/XT6vWO13dQReHrlEPOoej9eCy', 'AdminHai4', '0814069391', '2023-11-08 17:49:58.944000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 INSERT INTO `user` VALUES (87, 'Hải', NULL, '$2a$10$YwheUcfx983sxT3OXyaYee.B.tl54Uem6g0Akb0wRplKw0U94fpCO', NULL, '0814069391', '2023-11-08 22:41:31.467000', '2023-11-09 19:13:16', NULL, 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'aata', NULL, 11);
+INSERT INTO `user` VALUES (91, 'Hải', 'baboga02204@gmail.com', '$2a$10$Lez5EjSCx5WwRuBaC6BhNObGZLNay4ae4anW/4EBD8BV9OLhpXz/6', 'AdminHai6', '0814069391', '2023-11-10 15:43:57.508000', '2023-11-15 10:12:49', NULL, 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'Bà Rịa Vũng Tàu', NULL, 0);
+INSERT INTO `user` VALUES (96, 'Ngọc Hải', '20110465@student.hcmute.edu.vn', '$2a$10$IYsjM5WLz2JSN3kZ6lNhHu05rEiwHyEBsj/IzxOWySt3jv9oQ94jG', 'UserNgocHai', '0814069391', '2023-11-15 11:32:35.663000', '2023-11-15 11:36:42', NULL, 'nam', 'Baboga', 1, NULL, 'baac', 'ydfka', 'acadafad', 'Bà Rịa Vũng Tàu', NULL, 11);
+INSERT INTO `user` VALUES (97, 'Đông', '2098728@student.hcmute.edu.vn', '$2a$10$4AvHwcHVIiM9HyqxdwwveeVRf8IAJFpUVO1WybxP0I7l5YuKtT4PW', 'AdminDong4', '0814069391', '2023-11-15 21:10:18.476000', NULL, NULL, 'nam', 'baboga', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for user_banner
@@ -1122,7 +1191,7 @@ CREATE TABLE `user_banner`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `user_banner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_banner
@@ -1138,6 +1207,7 @@ INSERT INTO `user_banner` VALUES (12, '2023-10-15 09:50:30.000000', 'http://res.
 INSERT INTO `user_banner` VALUES (13, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1697511633/elh5chkubmsdvxifhjql.jpg', 67);
 INSERT INTO `user_banner` VALUES (14, '2023-11-05 13:51:39.133000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167335/vdjvkjzecotg38ltthqu.jpg', 69);
 INSERT INTO `user_banner` VALUES (15, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244095/acqamlycpxocfymy0i6w.jpg', 67);
+INSERT INTO `user_banner` VALUES (16, '2023-10-16 18:17:28.197000', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1700016836/aluhoc2ysmlpzenklp6n.jpg', 67);
 
 -- ----------------------------
 -- Table structure for user_category
@@ -1204,7 +1274,7 @@ CREATE TABLE `user_images`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK2jg7uf46pq5ihgoj39y7phhy6`(`user_id` ASC) USING BTREE,
   CONSTRAINT `FK2jg7uf46pq5ihgoj39y7phhy6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_images
@@ -1250,6 +1320,7 @@ INSERT INTO `user_images` VALUES (45, 67, '2023-10-16 18:17:28', 'http://res.clo
 INSERT INTO `user_images` VALUES (46, 69, '2023-11-05 13:51:39', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699167308/nbio56fa2naydxzysfbx.jpg');
 INSERT INTO `user_images` VALUES (47, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244048/mqe1rsa5smusegtf94gd.jpg');
 INSERT INTO `user_images` VALUES (48, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1699244054/tcsbbzaygndoirs3jsjw.jpg');
+INSERT INTO `user_images` VALUES (49, 67, '2023-10-16 18:17:28', 'http://res.cloudinary.com/dmpru0wgq/image/upload/v1700016832/fl3qpdcljizks5aorutl.jpg');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -1272,6 +1343,8 @@ INSERT INTO `user_role` VALUES (82, 1);
 INSERT INTO `user_role` VALUES (84, 1);
 INSERT INTO `user_role` VALUES (86, 1);
 INSERT INTO `user_role` VALUES (87, 1);
+INSERT INTO `user_role` VALUES (91, 1);
+INSERT INTO `user_role` VALUES (97, 1);
 INSERT INTO `user_role` VALUES (24, 2);
 INSERT INTO `user_role` VALUES (25, 2);
 INSERT INTO `user_role` VALUES (26, 2);
@@ -1325,6 +1398,7 @@ INSERT INTO `user_role` VALUES (77, 2);
 INSERT INTO `user_role` VALUES (80, 2);
 INSERT INTO `user_role` VALUES (81, 2);
 INSERT INTO `user_role` VALUES (83, 2);
+INSERT INTO `user_role` VALUES (96, 2);
 
 -- ----------------------------
 -- Table structure for verification_token
@@ -1344,5 +1418,6 @@ CREATE TABLE `verification_token`  (
 -- ----------------------------
 -- Records of verification_token
 -- ----------------------------
+INSERT INTO `verification_token` VALUES (241, '2023-11-16 00:00:00', b'1', '961839', 96);
 
 SET FOREIGN_KEY_CHECKS = 1;

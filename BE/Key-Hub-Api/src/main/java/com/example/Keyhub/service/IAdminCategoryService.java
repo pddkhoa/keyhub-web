@@ -10,6 +10,6 @@ public interface IAdminCategoryService {
     CategoryResponseCardDTO editCategory(CategoryResponseCardDTO responseCardDTO);
     String uploadAvatar(Long category_id, MultipartFile imageFile);
     String uploadBanner(Long category_id, MultipartFile imageFile);
-
+    boolean checkExitsByName(String name);
 
 }

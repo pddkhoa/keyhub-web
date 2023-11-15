@@ -2,6 +2,7 @@ package com.example.Keyhub.controller.Admin;
 
 import com.example.Keyhub.data.dto.request.TagRequestDTO;
 import com.example.Keyhub.data.dto.response.TagDTO;
+import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -29,13 +30,24 @@ public class AdminTagController {
     @PostMapping("/add")
     ResponseEntity<GenericResponse> addCategory(@RequestBody TagRequestDTO TagRequestDTO)
     {
+        if (adminTagService.exitsTagByName(TagRequestDTO.getName()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Tag has been exits")
+                            .build()
+                    );
+        }
         TagDTO tag = adminTagService.addTag(TagRequestDTO,getUserFromAuthentication());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
                         .result(tag)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Add category success")
+                        .message("Add tag success")
                         .build()
                 );
     }
@@ -108,6 +120,30 @@ public class AdminTagController {
                         .result(null)
                         .statusCode(HttpStatus.OK.value())
                         .message("Delete tag success")
+                        .build()
+                );
+    }
+    @PatchMapping("/edit")
+    public ResponseEntity<GenericResponse> editTag(@RequestBody TagRequestDTO tagRequestDTO)
+    {
+        if (!adminTagService.exitsTag(tagRequestDTO.getId()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found tag")
+                            .build()
+                    );
+        }
+        TagDTO tagDTO = adminTagService.editTag(tagRequestDTO,getUserFromAuthentication());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(tagDTO)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Edit success")
                         .build()
                 );
     }

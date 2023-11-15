@@ -1,7 +1,9 @@
 package com.example.Keyhub.controller.Admin;
 
+import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
+import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -14,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -110,6 +109,40 @@ public class AdmidBlogController {
                         .result(adminBlogService.sizeAllBlog())
                         .statusCode(HttpStatus.OK.value())
                         .message("That is a size blog")
+                        .build()
+                );
+    }
+    @PostMapping("/evalute")
+    public ResponseEntity<GenericResponse> evaluteUser(@RequestBody EvaluteRequestDTO req)
+    {
+        StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req);
+        if (statusResopnes.getStatusCode()==3)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found report")
+                            .build()
+                    );
+        }
+        if (statusResopnes.getStatusCode()==1)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(statusResopnes)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Delete blog success")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(statusResopnes)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Evalute success")
                         .build()
                 );
     }

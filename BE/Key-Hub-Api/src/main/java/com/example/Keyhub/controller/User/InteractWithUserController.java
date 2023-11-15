@@ -150,17 +150,17 @@ public class InteractWithUserController {
                             .build()
                     );
         }
-        if (reportUserResponseDTOS.getUser_report().isCheckReportUser()){
-            {
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body(GenericResponse.builder()
-                                .success(true)
-                                .result(reportUserResponseDTOS)
-                                .statusCode(HttpStatus.OK.value())
-                                .message("You have been report this user")
-                                .build()
-                        );}
-        }
+            if (reportUserResponseDTOS.getUser_report().isCheckReportUser()){
+                {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(GenericResponse.builder()
+                                    .success(true)
+                                    .result(reportUserResponseDTOS)
+                                    .statusCode(HttpStatus.OK.value())
+                                    .message("You have been report this user")
+                                    .build()
+                            );}
+            }
             return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)

@@ -44,6 +44,8 @@ public class Blog {
     @Column
     private Date createDate;
     @Column
+    private int sumViolating;
+    @Column
     private int status;
     @Column
     private String avatar;

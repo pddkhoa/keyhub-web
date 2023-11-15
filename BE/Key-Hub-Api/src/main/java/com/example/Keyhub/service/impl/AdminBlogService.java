@@ -1,14 +1,22 @@
 package com.example.Keyhub.service.impl;
 
+import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
+import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.report.ReportBlog;
+import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.IReportRepository;
+import com.example.Keyhub.event.OnEvaluteApproveDeleteBlogEvent;
+import com.example.Keyhub.event.OnEvaluteApproveEvent;
+import com.example.Keyhub.event.OnEvaluteApproveLockUserEvent;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IAdminBlogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,12 +30,15 @@ public class AdminBlogService implements IAdminBlogService {
     IReportRepository reportRepository;
     final
     GeneralService generalService;
+    final
+    ApplicationEventPublisher applicationEventPublisher;
     final IBlogRepository blogRepository;
 
-    public AdminBlogService(IReportRepository reportRepository, GeneralService generalService, IBlogRepository blogRepository) {
+    public AdminBlogService(IReportRepository reportRepository, GeneralService generalService, IBlogRepository blogRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.reportRepository = reportRepository;
         this.generalService = generalService;
         this.blogRepository = blogRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -93,4 +104,27 @@ public class AdminBlogService implements IAdminBlogService {
         List<Blog> list = blogRepository.findAll();
         return (list.size() / 10 + (list.size() % 10 != 0 ? 1 : 0));
     }
+
+    @Override
+    public StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO) {
+        StatusResopnes statusResopnes = new StatusResopnes();
+        ReportBlog reportBlog = reportRepository.findById(evaluteRequestDTO.getReport_id()).orElse(null);
+        if (reportBlog==null)
+        {
+            statusResopnes.setStatusCode(3);
+            return statusResopnes;
+        }
+        Blog blog = reportBlog.getBlog();
+        int sumViolating = blog.getSumViolating();
+        if (evaluteRequestDTO.isValue())
+        {
+            applicationEventPublisher.publishEvent(new OnEvaluteApproveDeleteBlogEvent(blog));
+            reportRepository.delete(reportBlog);
+            blogRepository.delete(blog);
+            statusResopnes.setStatusCode(1);
+            return statusResopnes;
+        }
+        reportRepository.delete(reportBlog);
+        statusResopnes.setStatusCode(0);
+        return statusResopnes; }
 }
