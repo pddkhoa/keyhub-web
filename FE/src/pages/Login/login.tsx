@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
@@ -9,19 +8,15 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
-import { loginUser } from "@/redux/authSlice";
+import { loginUser } from "@/services/access/apiRequest";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 const Login = () => {
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
-
-  const navigate = useNavigate();
+  // const { isLoading, sendRequest } = useFetch();
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const dispatch = useDispatch();
-  const isFetching = useSelector(
-    (state: RootState) => state.auth.login.isFetching
-  );
-  // const { handleRequest } = useFetch();
+  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -39,6 +34,7 @@ const Login = () => {
         password: value.password,
       };
 
+      // sendRequest({ type: REQUEST_TYPE.LOGIN, data: report });
       loginUser(report, dispatch, navigate);
       // handleRequest("login", report);
     },
@@ -132,7 +128,7 @@ const Login = () => {
                     </div>
                   </div>
                   <div>
-                    {isFetching ? (
+                    {isLoading ? (
                       <Button disabled className="w-full">
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Please wait

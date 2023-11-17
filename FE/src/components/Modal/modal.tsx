@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProp> = ({
     <>
       {open ? (
         <div
-          className="fixed z-50 h-full top-0 left-0 bg-zinc-700/50 "
+          className="fixed z-50 h-full top-0 left-0 bg-black/20 "
           onClick={closeOutside ? closeModal : undefined}
         >
           <div

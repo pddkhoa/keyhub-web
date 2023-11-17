@@ -1,7 +1,7 @@
 import { showToast } from "@/hooks/useToast";
 import ClientServices from "@/services/client/client";
 import CommentType from "@/types/comment";
-import { ChevronUp, View, Image } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import AlphabetAvatar from "../Avatar/avatar";

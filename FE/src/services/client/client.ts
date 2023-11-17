@@ -561,6 +561,34 @@ class ClientServices {
     );
     return res;
   };
+  static reportUser = async (report: any, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: number;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/user-interactions/report`, report, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
+  static blockUser = async (id: any, accessToken: any, axiosJWT: any) => {
+    type body = {
+      success: boolean;
+      message: string;
+      result: number;
+      statusCode: number;
+    };
+    const res = await requestApiHelper<body>(
+      axiosJWT.post(`api/v1/user-interactions/${id}/block`, null, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    );
+    return res;
+  };
 }
 
 export default ClientServices;

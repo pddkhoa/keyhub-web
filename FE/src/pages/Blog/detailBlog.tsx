@@ -1,16 +1,14 @@
-import AlphabetAvatar from "@/components/Avatar/avatar";
 import BlogPost from "@/types/blog";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Output from "editorjs-blocks-react-renderer";
-import { format } from "date-fns";
 import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
 import { Loading } from "@/components/Loading/loading";
-import { Comments } from "@/components/Comment/comment";
 import "./detailBlog.css";
 import useAuth from "@/hooks/useAuth";
+import { Comment, Comments } from "@/components/Comment/comment";
 
 const DetailBlog = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
@@ -161,7 +159,7 @@ const DetailBlog = () => {
           <p className="text-xs text-center">Please wait ...</p>
         </div>
 
-        <div className="h-1.5 relative w-40 rounded bg-slate-200 dark:bg-gray-100">
+        <div className="h-1.5 relative w-40 rounded bg-slate-200 bg-gray-100">
           <div className="absolute h-full w-full">
             <Loading className="h-full before:bg-gradient-to-l before:from-indigo-500 before:via-purple-500 before:to-pink-500 before:rounded" />
           </div>
@@ -171,115 +169,107 @@ const DetailBlog = () => {
   }
 
   return (
-    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-transparent antialiased">
-      <div className="flex justify-between px-4 mx-auto">
-        <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-          <div className="mb-4 lg:mb-6 not-format">
-            <div className="pt-8 pb-8  bg-transparent antialiased">
-              <div className="flex justify-between mx-auto ">
-                <div className="mx-auto w-full max-w-6xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-                  <div className="mb-4 lg:mb-6 not-format">
-                    <div className="flex items-center justify-between mb-6 not-italic">
-                      <div className="inline-flex items-center mr-3 text-sm text-title ">
-                        <AlphabetAvatar size={110} />
-                        <div className="ml-4 mt-1">
-                          <a
-                            href="#"
-                            rel="author"
-                            className="text-3xl font-bold text-title "
-                          >
-                            {userData.name}
-                          </a>
-                          <p className="text-base text-title-foreground ">
-                            @{userData.second_name}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex flex-col mt-1 items-center space-x-3 ">
-                        <div className="flex gap-3 text-title text-xl">
-                          <div>{blogData?.categories.name}</div>
-                        </div>
-                        <p className="text-base text-title-foreground ">
-                          <div>{format(editorData.time, "MMM. d, yyyy")}</div>
-                        </p>
-                      </div>
-                    </div>
-                    <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 my-4">
-                      {blogData?.title}
-                    </h1>
-                    <div className="output">
-                      <Output
-                        data={editorData}
-                        config={{
-                          code: {
-                            className: "language-js py-4 text-white",
-                          },
-                          delimiter: {
-                            className: "border border-2 w-16 mx-auto",
-                          },
-                          embed: {
-                            className: "border-0",
-                          },
-                          header: {
-                            className:
-                              "text-2xl font-semibold  text-transparent text-white my-6",
-                          },
-                          image: {
-                            className:
-                              " flex flex-col h-[500px] w-[600px] justify-center items-center  mt-10 mx-auto bg-transparent",
-                          },
-                          list: {
-                            className: "text-title-foreground",
-                          },
-                          paragraph: {
-                            className:
-                              "text-lg text-opacity-90 text-title para ",
-                            actionsClassNames: {
-                              alignment: "text-{alignment}",
-                            },
-                          },
-                          quote: {
-                            className: "py-3 px-5 italic",
-                          },
-                        }}
-                      />
-                    </div>
-                  </div>
+    <div className="max-w-5xl px-6 py-20 mx-auto space-y-12">
+      <article className="space-y-8  text-gray-50">
+        <div className="space-y-6">
+          <h1 className="text-4xl font-bold md:tracki md:text-5xl">
+            {blogData?.title}
+          </h1>
 
-                  <div className="border-t-2 w-full mt-10 p-4">
-                    <div className="flex flex-col space-y-3">
-                      <div className="flex items-center space-x-3 text-title-foreground">
-                        <span className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100">
-                          Tags:
-                        </span>
-                        <div className="flex gap-3">
-                          {blogData?.tags && blogData.tags.length > 0 ? (
-                            blogData.tags.map((item) => (
-                              <span
-                                key={item.id}
-                                className="p-1.5 bg-input text-title-foreground text-sm rounded-md font-bold hover:brightness-125 cursor-pointer "
-                              >
-                                #{item.name}
-                              </span>
-                            ))
-                          ) : (
-                            <div>No Selected Tags</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center text-gray-400">
+            <div className="flex items-center md:space-x-2">
+              <p className="text-sm">
+                {blogData?.users.name} • July 19th, 2021
+              </p>
+            </div>
+            <p className="flex-shrink-0 mt-3 text-sm md:mt-0">
+              {blogData?.categories.name}
+            </p>
+          </div>
+          <img
+            src={blogData?.avatar}
+            alt=""
+            className="w-full h-96 rounded-lg bg-gray-500"
+          ></img>
+        </div>
+        <div className="output">
+          <Output
+            data={editorData}
+            config={{
+              code: {
+                className: "language-js py-4 text-white",
+              },
+              delimiter: {
+                className: "border border-2 w-16 mx-auto",
+              },
+              embed: {
+                className: "border-0",
+              },
+              header: {
+                className:
+                  "text-2xl font-semibold  text-transparent text-white my-6",
+              },
+              image: {
+                className:
+                  " flex flex-col h-[500px] w-[900px] justify-center items-center  mt-10 mx-auto bg-transparent",
+              },
+              list: {
+                className: "text-title-foreground",
+              },
+              paragraph: {
+                className: "text-lg text-opacity-90 text-title para ",
+                actionsClassNames: {
+                  alignment: "text-{alignment}",
+                },
+              },
+              quote: {
+                className: "py-3 px-5 italic",
+              },
+            }}
+          />
+        </div>
+      </article>
+      <div>
+        <div className="flex flex-wrap py-6 gap-2 border-t border-dashed border-gray-400">
+          {blogData?.tags && blogData.tags.length > 0
+            ? blogData.tags.map((item) => (
+                <Link
+                  rel="noopener noreferrer"
+                  // href="#"
+                  to={`tags/${item.id}`}
+                  className="px-3 py-1 rounded-sm hover:underline bg-violet-400 text-gray-900"
+                >
+                  #{item.name}
+                </Link>
+              ))
+            : null}
+        </div>
+        <div className="space-y-2">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
+            <img
+              src={blogData?.users.avatar}
+              alt=""
+              className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start bg-gray-500 border-gray-700"
+            />
+            <div className="flex flex-col mt-1">
+              <h4 className="text-lg text-white font-semibold">
+                {blogData?.users.name}
+              </h4>
+              <p className="text-gray-400">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
+                ullam incidunt in enim voluptates. Quas soluta necessitatibus
+                aperiam laborum maxime nesciunt autem sequi in cumque iste, rem
+                ea non officia.
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className=" w-full mt-10 p-4">
-            <Comments />
-          </div>
+        <div className="space-y-2 py-5">
+          <Comments />
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 export default DetailBlog;

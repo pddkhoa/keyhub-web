@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import useAuth from "@/hooks/useAuth";
-import { deleteBlog, getDraftByAuth } from "@/redux/blogSlice";
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 type DeleteBlogsProps = {
   setFlag: {
@@ -15,15 +13,15 @@ type DeleteBlogsProps = {
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const DeleteBlog: React.FC<DeleteBlogsProps> = ({ setFlag, id }) => {
-  const { axiosJWT, accessToken } = useAuth();
+  const { isLoading, sendRequest } = useFetch();
 
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
   const handleDeleteBlog = async (id: number) => {
+    const idString = id.toString();
     if (id) {
-      await deleteBlog(id, dispatch);
+      await sendRequest({ type: REQUEST_TYPE.DELETE_BLOG, slug: idString });
 
-      getDraftByAuth(accessToken, axiosJWT, dispatch);
+      sendRequest({ type: REQUEST_TYPE.LIST_BLOG_DRAFT });
+      sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
     }
   };
 

@@ -1,29 +1,38 @@
 import AlphabetAvatar, { UserAvatar } from "../../components/Avatar/avatar";
-import banner from "../../asset/__banner-default.jpg";
-import { AboutMe } from "../../components/UserProfile/aboutMe";
 
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { TabsProfile } from "@/pages/Profile/tabsProfile";
-import { PenSquare, PlusCircle } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 
 import { RootState } from "@/redux/store";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import User from "@/types/user";
-import ClientServices from "@/services/client/client";
-import useAuth from "@/hooks/useAuth";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import useBoolean from "@/hooks/useBoolean";
+import Modal from "@/components/Modal/modal";
+import { CreateSeries } from "@/components/Modal/Series/createSeries";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
+  console.log(userData);
   const { id } = useParams();
   const userId = Number(id);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const { sendRequest, isLoading } = useFetch();
   const [isUser, setIsUser] = useState(false);
-  const [user, setUser] = useState<User>();
-  const { axiosJWT, accessToken } = useAuth();
+  const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
     const isUser = !userId || userData.id === Number(userId);
@@ -33,99 +42,192 @@ const Profile = () => {
 
   useEffect(() => {
     if (userId) {
-      const fetchUser = async () => {
-        setLoading(true);
-        const { body } = await ClientServices.getUserById(
-          userId,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setUser(body?.result);
-          setLoading(false);
-        } else {
-          console.log(body?.message);
-          setLoading(false);
-        }
-      };
-      fetchUser();
+      sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
     }
   }, [userId]);
 
+  const [displayModal, setDisplayModal] = useState("");
+  const [displayCreate, setDisplayCreate] = useBoolean(false);
+
+  const [isFollowing, setIsFollowing] = useState(user.checkStatusFollow);
+  const handleFollow = async (id: number) => {
+    if (!isFollowing) {
+      // Nếu chưa follow, thực hiện follow
+      await sendRequest({
+        type: REQUEST_TYPE.FOLLOW_USER,
+        data: null,
+        slug: id.toString(),
+      });
+    } else {
+      await sendRequest({
+        type: REQUEST_TYPE.UNFOLLOW_USER,
+        data: null,
+        slug: id.toString(),
+      });
+    }
+    sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
+  };
+
   return (
-    <div className="container mx-auto min-h-0 px-4 py-6">
-      <header className="w-full">
-        <div className="relative  h-[350px] w-full rounded-xl">
-          <div className="w-full h-full">
-            {!isUser ? (
-              <img
-                src={user?.banner_url ? user.banner_url : banner}
-                alt="banner"
-                className="w-full h-full rounded-xl object-cover opacity-75"
-              />
-            ) : (
-              <img
-                src={userData.banner_url ? userData.banner_url : banner}
-                alt="banner"
-                className="w-full h-full rounded-xl object-cover opacity-75"
-              />
-            )}
-          </div>
-        </div>
-        <div className="relative p-4 mb-2 w-full">
-          <div className="absolute flex items-center justify-between w-[calc(100%-36px)] border-b-2 gap-5 pb-2 -top-[4.5rem]">
-            <div className="flex my-4">
-              {!isUser ? (
-                <UserAvatar size={150} data={user?.avatar} />
-              ) : (
-                <AlphabetAvatar size={150} />
-              )}
-              <div className="flex flex-col mt-16 mx-4">
-                <p className="text-3xl text-title font-bold">
+    <div className="container mx-auto min-h-0 px-4 py-16">
+      <header className="w-full p-4">
+        <div className="relative p-4  w-full">
+          <div className="flex items-center w-full   gap-5 pb-2">
+            <div className="grid grid-cols-12 my-4 px-8 w-full">
+              <div className="col-span-2">
+                {!isUser ? (
+                  <UserAvatar size={150} data={user?.avatar} />
+                ) : (
+                  <AlphabetAvatar size={150} />
+                )}
+              </div>
+              <div className="col-span-10 flex flex-col w-full   mt-4  px-8">
+                <p className="text-2xl text-title font-bold">
                   {!isUser ? user?.name : userData?.name}
                 </p>
-                <p className="text-xl  text-gray-600">
+                <p className="text-lg  text-blue-700">
                   @{!isUser ? user?.second_name : userData?.second_name}
                 </p>
+                <p className="text-md break-words text-gray-400">
+                  {!isUser ? user?.descriptions : userData.descriptions}
+                </p>
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-10 mt-4">
+                    <div className="flex flex-col ">
+                      <span className="text-gray-200 text-lg ">Posts</span>
+                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                        {!isUser ? user?.sumBLog : userData?.sumBLog || 0}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-gray-200 text-lg ">Following</span>
+                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                        {!isUser
+                          ? user?.totalFollowing
+                          : userData?.totalFollowing || 0}
+                      </span>
+                    </div>
+                    <div className="flex flex-col ">
+                      <span className="text-gray-200 text-lg ">Follower</span>
+                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                        {!isUser
+                          ? user?.totalFollowers
+                          : userData?.totalFollowers || 0}
+                      </span>
+                    </div>
+                  </div>
+                  {isUser ? (
+                    <div className="flex gap-5 mt-4">
+                      <Button
+                        onClick={() => navigate("/editor")}
+                        variant={"gradient"}
+                        size={"sm"}
+                      >
+                        Add New Post
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setDisplayCreate.on(),
+                            setDisplayModal("CREATE_SERIES");
+                        }}
+                        variant={"gradient"}
+                        size={"sm"}
+                      >
+                        Add New Series
+                      </Button>
+                      <Button variant={"gradient"} size={"sm"}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                className="w-5 h-5"
+                                id="menumeatballs"
+                              >
+                                <path
+                                  fill="#ffff"
+                                  d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                                  className="color000000 svgShape"
+                                ></path>
+                              </svg>
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-56 mr-2">
+                            <DropdownMenuLabel>Option</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setDisplayCreate.on(),
+                                  setDisplayModal("LIST_FOLLOWER");
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <span>List Follower</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setDisplayCreate.on(),
+                                  setDisplayModal("LIST_FOLLOWING");
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <span>List Following</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-5 mt-4">
+                      {!user.checkStatusFollow ? (
+                        <Button
+                          onClick={() => {
+                            handleFollow(userId);
+                          }}
+                          variant={"gradient"}
+                          size={"sm"}
+                        >
+                          Follow
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            handleFollow(userId);
+                          }}
+                          variant={"gradient"}
+                          size={"sm"}
+                        >
+                          UNFollow
+                        </Button>
+                      )}
+
+                      <Button variant={"gradient"} size={"sm"}>
+                        Message
+                      </Button>
+                      <Button variant={"gradient"} size={"sm"}>
+                        <MoreHorizontalIcon />
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            {isUser ? (
-              <div className="flex gap-5 mt-16">
-                <Button
-                  onClick={() => navigate("/editor")}
-                  variant={"gradient"}
-                  size={"lg"}
-                >
-                  <PlusCircle className="w-5 h-5 mr-2" />
-                  Add New Post
-                </Button>
-                <Button
-                  onClick={() =>
-                    navigate("/profile/update", { state: { userData } })
-                  }
-                  variant={"gradient"}
-                  size={"lg"}
-                >
-                  <PenSquare className="w-5 h-5 mr-2" />
-                  Edit Profile
-                </Button>
-              </div>
-            ) : null}
           </div>
         </div>
       </header>
-      <section className="grid grid-cols-4 gap-5 pt-24">
-        <div className="col-span-1 py-2">
-          {!isUser && user ? (
-            <AboutMe user={user} />
-          ) : (
-            <AboutMe user={userData} />
-          )}
-        </div>
-        <div className="col-span-3">
+      <section className="grid grid-cols-4 gap-5 ">
+        <div className="col-span-4">
           <TabsProfile />
         </div>
       </section>
+      <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+        {displayModal === "CREATE_SERIES" ? (
+          <CreateSeries setFlag={setDisplayCreate} />
+        ) : null}
+      </Modal>
     </div>
   );
 };

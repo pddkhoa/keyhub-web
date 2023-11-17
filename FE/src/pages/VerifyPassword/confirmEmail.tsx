@@ -1,20 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { checkOtp } from "@/redux/authSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ConfirmEmail = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const location = useLocation();
   const [email, setEmail] = useState<string>();
   const emailRegister = useSelector((state: RootState) => state.auth.email);
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
 
   useEffect(() => {
     if (!emailRegister) {
@@ -42,7 +43,12 @@ const ConfirmEmail = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    checkOtp(report, dispatch, navigate);
+    sendRequest({
+      type: REQUEST_TYPE.CHECK_OTP,
+      data: report,
+      // slug: report.email,
+    });
+    // checkOtp(report, dispatch, navigate);
   };
   return (
     <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">

@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import useAuth from "@/hooks/useAuth";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { createSeries } from "@/redux/seriesSlice";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type CreateSeriesProps = {
@@ -18,13 +18,12 @@ type CreateSeriesProps = {
     off: () => void;
     toggle: () => void;
   };
-  setAdd: React.Dispatch<React.SetStateAction<boolean>>;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CreateSeries: React.FC<CreateSeriesProps> = ({
-  setFlag,
-  setAdd,
-}) => {
+export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
+  const { isLoading, sendRequest } = useFetch();
+
   const [bio, setBio] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(bio.length);
   const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,11 +32,8 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     setBio(text);
     setCharCount(text.length);
   };
-  const isLoading = useSelector((state: RootState) => state.series.isLoading);
-  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
-  const dispatch = useDispatch();
-  const { axiosJWT, accessToken } = useAuth();
+  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const formik = useFormik({
     initialValues: {
@@ -49,19 +45,23 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setAdd(true);
       const report = {
         name: value.name,
         description: value.description,
       };
-      createSeries(report, accessToken, axiosJWT, dispatch);
-      if (isSuccess) {
-        setFlag.off();
+      try {
+        await sendRequest({ type: REQUEST_TYPE.ADD_SERIES, data: report });
+
+        if (isSuccess === true) {
+          setFlag.off();
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   });
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 overflow-y-scroll">
       <div className="h-full flex flex-col space-y-3">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <span className="text-lg grow text-title">Add New Series</span>

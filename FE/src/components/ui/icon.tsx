@@ -244,6 +244,273 @@ const IconReport = ({ className, ...props }: any) => (
 );
 IconReport.displayName = "IconReport";
 
+const IconReportUser = ({ className, ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      data-name="Layer 1"
+      className={cn(className)}
+      viewBox="0 0 512 512"
+      id="cancel-user"
+    >
+      <path
+        fill="#00efd1"
+        d="M211 223a90.4 90.4 0 1 0-90.4-90.4A90.5 90.5 0 0 0 211 223zm0-160.7a70.4 70.4 0 1 1-70.4 70.4A70.5 70.5 0 0 1 211 62.3zM361 449.7H71v-132a62.366 62.366 0 0 1 57.5-62.1 106.586 106.586 0 0 0 165 0A62.025 62.025 0 0 1 349.3 303l19.4-4.7a82.074 82.074 0 0 0-80-62.8h0a10 10 0 0 0-8.1 4.1 86.461 86.461 0 0 1-139.4 0 10 10 0 0 0-8.1-4.1h0a82.432 82.432 0 0 0-82.3 82.3v142a10.029 10.029 0 0 0 10 10h300a10.029 10.029 0 0 0 10-10v-.6h-10v-9.5z"
+      ></path>
+      <path
+        fill="#00acea"
+        d="M371,289.7a86.716,86.716,0,0,0-13.5,1A90.01,90.01,0,0,0,359.8,469a84.21,84.21,0,0,0,11.2.7,90,90,0,0,0,0-180Zm0,160a86.517,86.517,0,0,1-8.8-.5A70.065,70.065,0,0,1,301,379.7c0-34.3,25.6-64.1,59.4-69.2a74.518,74.518,0,0,1,10.6-.8,70,70,0,0,1,0,140Z"
+      ></path>
+      <path
+        fill="#00acea"
+        d="M403,347.9a9.959,9.959,0,0,0-14.1,0L371,365.7,353.3,348a9.97,9.97,0,0,0-14.1,14.1l17.7,17.7L339,397.7a9.959,9.959,0,0,0,0,14.1,9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9L371,394l17.7,17.7a9.82,9.82,0,0,0,7.1,2.9,10.243,10.243,0,0,0,7.1-2.9,9.959,9.959,0,0,0,0-14.1l-17.7-17.7L403,362A9.959,9.959,0,0,0,403,347.9Z"
+      ></path>
+    </svg>
+  </div>
+);
+IconReportUser.displayName = "IconReportUser";
+
+const IconBlock = ({ className, ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 48 48"
+      id="transaction"
+      className={cn(className)}
+    >
+      <defs>
+        <linearGradient id="a">
+          <stop offset="0" stop-color="#000092"></stop>
+          <stop offset="1" stop-color="#ff00f3"></stop>
+        </linearGradient>
+        <linearGradient
+          id="b"
+          x1="4.001"
+          x2="41.975"
+          y1="23.987"
+          y2="23.987"
+          gradientUnits="userSpaceOnUse"
+          xlinkHref="#a"
+        ></linearGradient>
+      </defs>
+      <path
+        fill="url(#b)"
+        d="M36.05 9.975c-2.05 0-4.1.776-5.65 2.326-3.1 3.1-3.1 8.199 0 11.299C31.9 25.2 34 26 36 26c2 0 4.1-.8 5.7-2.3 3.1-3.2 3.1-8.2 0-11.4a7.964 7.964 0 0 0-5.65-2.325zM36 12c1.2 0 2.4.4 3.5 1.1l-8.3 8.3c-1.7-2.3-1.5-5.5.6-7.6C33 12.6 34.5 12 36 12zm-26 2c-1.7 0-3 1.3-3 3v11.6l-1.3-1.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.2.2.4.3.7.3.3 0 .5-.1.7-.3l3-3c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0L9 28.6V17c0-.6.4-1 1-1h15c.6 0 1-.4 1-1s-.4-1-1-1H10zm30.8.5c1.7 2.4 1.5 5.6-.6 7.7-2.1 2.1-5.4 2.3-7.7.6l8.3-8.3zM36 28c-.6 0-1 .4-1 1v6c0 .6-.4 1-1 1H8c-.6 0-1 .4-1 1s.4 1 1 1h26c1.7 0 3-1.3 3-3v-6c0-.6-.4-1-1-1z"
+      ></path>
+    </svg>
+  </div>
+);
+IconBlock.displayName = "IconBlock";
+
+const IconSettingAccount = ({ ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      id="profile-setting"
+      // className={cn(className)}
+      className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
+    >
+      <defs>
+        <linearGradient
+          id="a"
+          x1="7.12"
+          x2="24.88"
+          y1="7.12"
+          y2="24.88"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stop-color="#00c6ff"></stop>
+          <stop offset="1" stop-color="#0072ff"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#a)"
+        d="M28.05,14.15h-2.1c-.26-1.38-.81-2.71-1.61-3.88l1.49-1.49c.2-.18,.2-.52,0-.7l-1.91-1.91c-.19-.2-.51-.2-.7,0l-1.49,1.49c-1.17-.8-2.5-1.35-3.88-1.61V3.95c0-.28-.22-.5-.5-.5h-2.7c-.28,0-.5,.22-.5,.5v2.1c-1.38,.26-2.71,.81-3.88,1.61l-1.49-1.49c-.19-.2-.51-.2-.7,0l-1.91,1.91c-.2,.18-.2,.52,0,.7l1.49,1.49c-.8,1.17-1.35,2.5-1.61,3.88H3.95c-.28,0-.5,.22-.5,.5v2.7c0,.28,.22,.5,.5,.5h2.1c.26,1.38,.81,2.71,1.61,3.88l-1.49,1.49c-.2,.18-.2,.52,0,.7l1.91,1.91c.19,.2,.51,.2,.7,0l1.49-1.49c1.17,.8,2.5,1.35,3.88,1.61v2.1c0,.28,.22,.5,.5,.5h2.7c.28,0,.5-.22,.5-.5v-2.1c1.38-.26,2.71-.81,3.88-1.61l1.49,1.49c.19,.2,.51,.2,.7,0l1.91-1.91c.2-.18,.2-.52,0-.7l-1.49-1.49c.8-1.17,1.35-2.5,1.61-3.88h2.1c.28,0,.5-.22,.5-.5v-2.7c0-.28-.22-.5-.5-.5Zm-12.05,8.31c-3.56,0-6.46-2.9-6.46-6.46,.33-8.56,12.59-8.56,12.92,0,0,3.56-2.9,6.46-6.46,6.46Zm0-10.78c.9,0,1.63,.78,1.63,1.75,.05,1.33-1.52,2.28-2.58,1.42-1.26-.9-.64-3.2,.95-3.17Zm3.26,7.36c-.04,.39,.19,1.27-.44,1.27h-5.64c-.63,0-.41-.89-.44-1.27,.13-4.31,6.39-4.33,6.53,0Z"
+      ></path>
+    </svg>
+  </div>
+);
+IconSettingAccount.displayName = "IconSettingAccount";
+
+const IconAddress = ({ ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      data-name="Layer 1"
+      viewBox="0 0 64 64"
+      id="home-location"
+      className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
+    >
+      <defs>
+        <linearGradient
+          id="a"
+          x1="53.914"
+          x2="17.962"
+          y1="9.563"
+          y2="71.833"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stop-color="#00aeef"></stop>
+          <stop offset=".57" stop-color="#5a4ef6"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#a)"
+        d="M42.228 19.42 40 17.689V14a2 2 0 0 0-4 0v.577l-2.772-2.156a2.004 2.004 0 0 0-2.456 0l-9 7A1.995 1.995 0 0 0 24 22.72V26a4.004 4.004 0 0 0 4 4h8a4.004 4.004 0 0 0 4-4v-3.298a1.986 1.986 0 0 0 2.228-3.281ZM34 26v-1a2 2 0 0 0-4 0v1h-2v-6.355l4-3.11 4 3.11V26ZM32 0a20.023 20.023 0 0 0-20 20c0 21.058 18.404 29.48 19.188 29.827a1.996 1.996 0 0 0 1.625 0C33.596 49.48 52 41.057 52 20A20.023 20.023 0 0 0 32 0Zm0 45.77C28.598 43.986 16 36.273 16 20a16 16 0 0 1 32 0c0 16.276-12.603 23.988-16 25.77ZM58 34h-5a2 2 0 0 0 0 4h5a2.002 2.002 0 0 1 2 2v3H47a2 2 0 0 0 0 4h13v4H40a2 2 0 0 0-1.505 3.317L43.467 60h-8.569l-7.403-8.33A2 2 0 0 0 26 51H4v-4h13a2 2 0 0 0 0-4H4v-3a2.002 2.002 0 0 1 2-2h5a2 2 0 0 0 0-4H6a6.007 6.007 0 0 0-6 6v18a6.007 6.007 0 0 0 6 6h52a6.007 6.007 0 0 0 6-6V40a6.007 6.007 0 0 0-6-6ZM4 58v-3h21.102l4.444 5H6a2.002 2.002 0 0 1-2-2Zm54 2h-9.27a2.006 2.006 0 0 0-.225-.317L44.408 55H60v3a2.002 2.002 0 0 1-2 2Z"
+      ></path>
+    </svg>
+  </div>
+);
+IconAddress.displayName = "IconAddress";
+
+const IconPassword = ({ ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      enable-background="new 0 0 24 24"
+      viewBox="0 0 24 24"
+      className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
+      id="security"
+    >
+      <path
+        fill="#3b65f5"
+        d="M17,9V5c0-1.7-1.3-3-3-3h-4C8.3,2,7,3.3,7,5v4c-1.7,0-3,1.3-3,3v7c0,1.7,1.3,3,3,3h10c1.7,0,3-1.3,3-3v-7C20,10.3,18.7,9,17,9z M9,5c0-0.6,0.4-1,1-1h4c0.6,0,1,0.4,1,1v4H9V5z M18,19c0,0.6-0.4,1-1,1H7c-0.6,0-1-0.4-1-1v-7c0-0.6,0.4-1,1-1h10c0.6,0,1,0.4,1,1V19z"
+      ></path>
+    </svg>
+  </div>
+);
+IconPassword.displayName = "IconPassword";
+
+const IconNotification = ({ ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+      className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
+      id="notification"
+    >
+      <path
+        fill="url(#paint0_linear_1_13239)"
+        d="M19.1832 7C19.1832 8.10457 18.2878 9 17.1832 9C16.0787 9 15.1832 8.10457 15.1832 7C15.1832 5.89543 16.0787 5 17.1832 5C18.2878 5 19.1832 5.89543 19.1832 7Z"
+      ></path>
+      <path
+        fill="url(#paint1_linear_1_13239)"
+        fillRule="evenodd"
+        d="M11.1 1.25C7.70442 1.25 5.07724 4.22603 5.49841 7.59536L5.57776 8.23021C5.69388 9.15916 5.35455 10.0871 4.66654 10.7219C3.24086 12.0375 2.84477 14.1315 3.69142 15.8769L3.79477 16.09C4.54092 17.6282 6.05598 18.6356 7.74728 18.7409L7.93556 19.0636C8.94835 20.7998 10.5264 21.75 12.1834 21.75C13.8404 21.75 15.4184 20.7998 16.4312 19.0636L16.6225 18.7358C18.0431 18.6235 19.3385 17.8513 20.1111 16.6373C21.2932 14.7799 20.9801 12.3432 19.3668 10.845L19.3229 10.8042C18.9565 10.4639 18.6824 10.0466 18.5145 9.59023C18.0699 9.85069 17.5524 10 17 10C15.3431 10 14 8.65685 14 7C14 5.34315 15.3431 4 17 4C17.2417 4 17.4768 4.02859 17.702 4.08258C16.7317 2.40121 14.9159 1.25 12.8029 1.25H11.1ZM12.1834 20.25C11.2623 20.25 10.2795 19.7877 9.52013 18.75H14.8467C14.0873 19.7877 13.1045 20.25 12.1834 20.25Z"
+        clipRule="evenodd"
+      ></path>
+      <defs>
+        <linearGradient
+          id="paint0_linear_1_13239"
+          x1="12.037"
+          x2="12.037"
+          y1="1.25"
+          y2="21.75"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#834D9B"></stop>
+          <stop offset="1" stop-color="#D04ED6"></stop>
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_1_13239"
+          x1="12.037"
+          x2="12.037"
+          y1="1.25"
+          y2="21.75"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#834D9B"></stop>
+          <stop offset="1" stop-color="#D04ED6"></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+);
+IconNotification.displayName = "IconNotification";
+
+const IconHelp = ({ ...props }: any) => (
+  <div {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+      className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
+      id="help"
+    >
+      <path
+        fill="url(#paint0_linear_2461_9463)"
+        d="M19.5816 18.5209C21.0889 16.7701 22 14.4915 22 12C22 9.50853 21.0889 7.22987 19.5816 5.47906L15.3089 9.75178C15.745 10.3925 16 11.1665 16 12C16 12.8335 15.745 13.6075 15.3089 14.2482L19.5816 18.5209Z"
+      ></path>
+      <path
+        fill="url(#paint1_linear_2461_9463)"
+        d="M18.5209 19.5816C16.7701 21.0889 14.4915 22 12 22C9.50853 22 7.22987 21.0889 5.47906 19.5816L9.75178 15.3089C10.3925 15.745 11.1665 16 12 16C12.8335 16 13.6075 15.745 14.2482 15.3089L18.5209 19.5816Z"
+      ></path>
+      <path
+        fill="url(#paint2_linear_2461_9463)"
+        d="M4.4184 18.5209L8.69112 14.2482C8.25495 13.6075 8 12.8335 8 12C8 11.1665 8.25495 10.3925 8.69112 9.75178L4.4184 5.47906C2.91114 7.22987 2 9.50853 2 12C2 14.4915 2.91114 16.7701 4.4184 18.5209Z"
+      ></path>
+      <path
+        fill="url(#paint3_linear_2461_9463)"
+        d="M12 8C11.1665 8 10.3925 8.25495 9.75178 8.69112L5.47906 4.4184C7.22987 2.91114 9.50853 2 12 2C14.4915 2 16.7701 2.91114 18.5209 4.4184L14.2482 8.69112C13.6075 8.25495 12.8335 8 12 8Z"
+      ></path>
+      <defs>
+        <linearGradient
+          id="paint0_linear_2461_9463"
+          x1="12"
+          x2="12"
+          y1="2"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#854D9C"></stop>
+          <stop offset="1" stop-color="#CD4ED3"></stop>
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_2461_9463"
+          x1="12"
+          x2="12"
+          y1="2"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#854D9C"></stop>
+          <stop offset="1" stop-color="#CD4ED3"></stop>
+        </linearGradient>
+        <linearGradient
+          id="paint2_linear_2461_9463"
+          x1="12"
+          x2="12"
+          y1="2"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#854D9C"></stop>
+          <stop offset="1" stop-color="#CD4ED3"></stop>
+        </linearGradient>
+        <linearGradient
+          id="paint3_linear_2461_9463"
+          x1="12"
+          x2="12"
+          y1="2"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#854D9C"></stop>
+          <stop offset="1" stop-color="#CD4ED3"></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+);
+IconHelp.displayName = "IconHelp";
+
 export {
   IconDelete,
   IconUnBookmark,
@@ -252,4 +519,11 @@ export {
   IconComment,
   IconHide,
   IconReport,
+  IconReportUser,
+  IconBlock,
+  IconSettingAccount,
+  IconPassword,
+  IconAddress,
+  IconNotification,
+  IconHelp,
 };

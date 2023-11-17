@@ -6,22 +6,24 @@ import {
 } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { resetPassword } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Check, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 const ResetPassword = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const location = useLocation();
   const [email, setEmail] = useState<string>();
   const emailRegister = useSelector((state: RootState) => state.auth.email);
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [requirementsMet, setRequirementsMet] = useState({
     length: false,
@@ -83,7 +85,8 @@ const ResetPassword = () => {
         old_pass: value.password,
         new_pass: value.confirmPass,
       };
-      resetPassword(report, dispatch, navigate, "/login");
+      // resetPassword(report, dispatch, navigate, "/login");
+      sendRequest({ type: REQUEST_TYPE.RESETPASSWORD, data: report });
     },
   });
 

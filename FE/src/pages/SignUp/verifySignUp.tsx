@@ -1,19 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { verifyAccount } from "@/redux/authSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const VerifySignUp = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
   const navigate = useNavigate();
   const location = useLocation();
-  const emailRegister = useSelector((state: RootState) => state.auth.email);
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
-  const dispatch = useDispatch();
+  const emailRegister = useSelector(
+    (state: RootState) => state.auth.updateRegister.email
+  );
 
   useEffect(() => {
     if (!emailRegister) {
@@ -44,7 +47,9 @@ const VerifySignUp = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    verifyAccount(combinedValue, dispatch, navigate);
+    sendRequest({ type: REQUEST_TYPE.VERIFY, data: null, slug: combinedValue });
+
+    // verifyAccount(combinedValue, dispatch, navigate);
   };
 
   return (

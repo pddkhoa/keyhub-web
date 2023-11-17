@@ -1,19 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { forgortPassword } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { isLoading, sendRequest } = useFetch();
 
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -27,7 +24,12 @@ const ForgotPassword = () => {
         email: value.email,
       };
 
-      forgortPassword(report.email, dispatch, navigate);
+      // forgortPassword(report.email, dispatch, navigate);
+      sendRequest({
+        type: REQUEST_TYPE.FORFOTPASSORD,
+        data: null,
+        slug: report.email,
+      });
     },
   });
   return (

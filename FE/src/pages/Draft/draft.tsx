@@ -2,24 +2,21 @@ import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
-import useAuth from "@/hooks/useAuth";
-import { getDraftByAuth } from "@/redux/blogSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { SlidersHorizontal } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const ListDraft = () => {
-  const { axiosJWT, accessToken } = useAuth();
-  const dispatch = useDispatch();
-  const blogDraft = useSelector((state: RootState) => state.blog.blogDraft);
-  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
+  const { isLoading, sendRequest } = useFetch();
 
-  const [removing, setRemoving] = useState(false);
+  const blogDraft = useSelector((state: RootState) => state.blog.blogDraft);
 
   useEffect(() => {
-    getDraftByAuth(accessToken, axiosJWT, dispatch);
-  }, [removing]);
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_DRAFT });
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -55,12 +52,7 @@ const ListDraft = () => {
           <div className="mt-8  space-y-5">
             {blogDraft && blogDraft.length > 0 ? (
               blogDraft.map((item) => (
-                <Card
-                  data={item}
-                  key={item.id}
-                  cardType="draft"
-                  setRemoving={setRemoving}
-                />
+                <Card data={item} key={item.id} cardType="draft" />
               ))
             ) : (
               <Nodata />

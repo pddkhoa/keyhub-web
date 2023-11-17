@@ -21,6 +21,7 @@ import { showToast } from "@/hooks/useToast";
 import { createBlogSuccess } from "@/redux/blogSlice";
 import ClientServices from "@/services/client/client";
 import { useLocation, useNavigate } from "react-router-dom";
+import useFetch from "@/hooks/useFetch";
 
 interface ReportType {
   title: string;
@@ -33,6 +34,7 @@ interface ReportType {
 }
 
 const Editor = () => {
+  const { sendRequest } = useFetch();
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 

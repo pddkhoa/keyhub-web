@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import useAuth from "@/hooks/useAuth";
-import { deleteSeries } from "@/redux/seriesSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { REQUEST_TYPE } from "@/types";
+import { useSelector } from "react-redux";
 
 type DeleteSeriesProps = {
   setFlag: {
@@ -15,12 +15,24 @@ type DeleteSeriesProps = {
 };
 
 export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
-  const dispatch = useDispatch();
-  const { axiosJWT, accessToken } = useAuth();
+  const { isLoading, sendRequest } = useFetch();
+
   const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const handleDeleteSeries = async (id: number) => {
-    deleteSeries(id, accessToken, axiosJWT, dispatch);
+    const idString = id.toString();
+    await sendRequest({
+      type: REQUEST_TYPE.DELETE_SERIES,
+      data: null,
+      slug: idString,
+    });
+
+    sendRequest({
+      type: REQUEST_TYPE.LIST_SERIES,
+    });
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG,
+    });
     if (isSuccess) {
       setFlag.off();
     }
@@ -63,12 +75,21 @@ export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteSeries(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Delete
-          </Button>
+          {isLoading ? (
+            <Button
+              disabled
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Please wait..
+            </Button>
+          ) : (
+            <Button
+              onClick={() => handleDeleteSeries(id)}
+              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </div>
     </div>

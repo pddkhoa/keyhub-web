@@ -36,6 +36,9 @@ const Users = lazy(() => import("../pages/Users/users"));
 const Message = lazy(() => import("../pages/Message/message"));
 const Home = lazy(() => import("../pages/Home/home"));
 const NotFound = lazy(() => import("../pages/NotFound/404"));
+// const Setting = lazy(() => import("../pages/Setting/main"));
+const SettingAccount = lazy(() => import("../pages/Setting/account"));
+// const SettingPassword = lazy(() => import("../pages/Setting/password"));
 
 const AppRouter = () => {
   return (
@@ -53,7 +56,11 @@ const AppRouter = () => {
 
         <Route path="/" element={<PrivateRouter />}>
           <Route element={<Layout />}>
-            <Route path="profile/update" element={<UpdateProfile />} />
+            {/* <Route path="setting" element={<Setting />} /> */}
+            <Route path="setting" element={<SettingAccount />} />
+            {/* <Route path="setting/password" element={<SettingPassword />} /> */}
+
+            {/* <Route path="profile/update" element={<UpdateProfile />} /> */}
             <Route path="profile" element={<Profile />} />
             <Route path="user/:id" element={<Profile />} />
 

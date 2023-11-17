@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Nodata } from "../ui/nodata";
 import useAuth from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 type ModalUserProps = {
   setFlag: {
@@ -25,6 +26,7 @@ export const ModalUser: React.FC<ModalUserProps> = ({
   setFollowing,
 }) => {
   const { axiosJWT, accessToken } = useAuth();
+  console.log(data.id);
 
   const [isFollowing, setIsFollowing] = useState(data.checkStatusFollow);
   const handleFollow = async (id: number) => {
@@ -52,18 +54,18 @@ export const ModalUser: React.FC<ModalUserProps> = ({
         axiosJWT
       );
       if (body?.success) {
-        showToast(body?.message, "success");
+        toast.success(body?.message);
         setIsFollowing(false);
         setFollowing(!isFollowing);
       } else {
         console.log(body?.message);
-        showToast("error", "error");
+        toast.error(body?.message);
       }
     }
   };
 
   return (
-    <div className="relative max-w-md mx-auto md:max-w-4xl  min-w-0 break-words bg-gradient-to-b from-gray-800  via-gray-800 to-slate-800 brightness-110  w-full mb-6 shadow-lg rounded-xl mt-16">
+    <div className=" max-w-md mx-auto md:max-w-4xl  min-w-0 break-words bg-gradient-to-b from-gray-800  via-gray-800 to-slate-800 brightness-110  w-full mb-6 shadow-lg rounded-xl mt-16">
       <div className="px-6">
         <div className="flex flex-wrap justify-center">
           <div className="w-full flex justify-center">

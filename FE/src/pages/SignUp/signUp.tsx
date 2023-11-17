@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,13 +19,12 @@ import {
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
 import { Check, Loader2, X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "@/redux/authSlice";
-import { RootState } from "@/redux/store";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { isLoading, sendRequest } = useFetch();
+
   const [genders, setGender] = useState("Male");
   const [requirementsMet, setRequirementsMet] = useState({
     length: false,
@@ -35,7 +34,6 @@ const SignUp = () => {
     specialChar: false,
     space: false,
   });
-  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
 
@@ -100,26 +98,10 @@ const SignUp = () => {
         roles: ["user"],
       };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const reportNew = {
-        ...report,
-        confirmPass: value.confirmPass,
-      };
 
-      registerUser(report, dispatch, navigate);
-      // try {
-      //   const { body } = await registerUser(report);
+      sendRequest({ type: REQUEST_TYPE.REGISTER, data: report });
 
-      //   if (body?.success) {
-      //     setIsLoading(false);
-      //     showToast("Verify Account nhen!", "success");
-      //     navigate("/verify", { state: { report } });
-      //   } else {
-      //     setIsLoading(false);
-      //     showToast(body?.message || "Erorr", "error");
-      //   }
-      // } catch (error) {
-      //   setIsLoading(false);
-      // }
+      // registerUser(report, dispatch, navigate);
     },
   });
   return (

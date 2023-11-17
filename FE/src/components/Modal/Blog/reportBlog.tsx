@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
 import { RULES } from "@/lib/rules";
 import ClientServices from "@/services/client/client";
 import BlogPost from "@/types/blog";
 import { useFormik } from "formik";
 import { Loader2, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 
 type ReportBlogProps = {
@@ -24,6 +25,51 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { axiosJWT, accessToken } = useAuth();
 
+  const ReasonReport = [
+    {
+      id: 1,
+      reason: "Ngôn từ gây thù ghét",
+    },
+    {
+      id: 2,
+      reason: "Thông tin sai sự thật",
+    },
+    {
+      id: 3,
+      reason: "Nội dung phản cảm",
+    },
+    {
+      id: 4,
+      reason: "Ảnh phản cảm",
+    },
+  ];
+
+  const [selectedReasons, setSelectedReasons] = useState([]);
+
+  const handleCheckboxChange = (id: any) => {
+    const index = selectedReasons.indexOf(id);
+
+    if (index === -1) {
+      // Nếu id không tồn tại trong mảng, thêm nó vào
+      setSelectedReasons([...selectedReasons, id]);
+    } else {
+      // Nếu id tồn tại trong mảng, loại bỏ nó
+      const newSelectedReasons = [...selectedReasons];
+      newSelectedReasons.splice(index, 1);
+      setSelectedReasons(newSelectedReasons);
+    }
+  };
+
+  useEffect(() => {
+    const selectedReasonsText = ReasonReport.filter((reason) =>
+      selectedReasons.includes(reason.id)
+    )
+      .map((reason) => reason.reason)
+      .join(", ");
+
+    formik.setFieldValue("reason", selectedReasonsText);
+  }, [selectedReasons]);
+
   const formik = useFormik({
     initialValues: {
       blog_id: "",
@@ -38,6 +84,7 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
         blog_id: data.id,
         reason: value.reason,
       };
+
       setIsLoading(true);
       try {
         const { body } = await ClientServices.reportBlog(
@@ -47,25 +94,21 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
         );
         if (body?.success) {
           setIsLoading(false);
-          showToast(body.message, "success");
+          toast.success(body.message);
           setFlag.off();
         } else {
           setIsLoading(false);
-          showToast(body?.message || "Error", "error");
+          toast.error(body?.message || "Error");
         }
       } catch (error) {
         console.log(error);
         setIsLoading(false);
       }
-      //   await updateProfile(report, accessToken, axiosJWT, dispatch);
-      //   if (isSuccess) {
-      //     setFlag.off();
-      //   }
     },
   });
 
   return (
-    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125">
+    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 ">
       <div className="h-full flex flex-col space-y-5">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Report</span>
@@ -88,16 +131,45 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-2">
                 <div className="relative px-2 py-2">
+                  <Label className="text-md text-title-foreground">
+                    Reason
+                  </Label>
+                  {ReasonReport.map((item: any) => (
+                    <div
+                      key={item.id}
+                      className="items-top flex space-x-2 mt-4"
+                    >
+                      <Checkbox
+                        id={item.id.toString()}
+                        onCheckedChange={() => handleCheckboxChange(item.id)}
+                        checked={selectedReasons.includes(item.id)}
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor={item.id.toString()}
+                          className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {item.reason}
+                        </label>
+                        <p className="text-sm text-muted-foreground">
+                          You may choice many reason
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="relative px-2 py-2">
                   <Label
                     htmlFor="reason"
                     className="text-md text-title-foreground"
                   >
-                    Reason
+                    Other
                   </Label>
                   <Textarea
+                    className="mt-2"
                     id="reason"
                     name="reason"
-                    placeholder="Tell us a little bit about yourself"
+                    placeholder="Tell us a reason report"
                     maxLength={150}
                     onBlur={formik.handleBlur}
                     value={formik.values.reason}

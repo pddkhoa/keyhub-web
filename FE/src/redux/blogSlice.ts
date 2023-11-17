@@ -101,6 +101,40 @@ const blogSlice = createSlice({
     getBlogPopularSuccess: (state, action) => {
       state.blogPopular = action.payload;
     },
+    likeBlogSuccess: (state, action) => {
+      const likedBlogId = action.payload;
+      const likedBlog = state.blog.result.find(
+        (post) => post.id === likedBlogId
+      );
+
+      if (likedBlog) {
+        likedBlog.likes! += 1;
+      }
+    },
+    hideBlogSuccess: (state, action: PayloadAction<number>) => {
+      const hiddenBlogId = action.payload;
+      state.blog.result = state.blog.result.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogFeed = state.blogFeed.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogBookmark = state.blogBookmark.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogLastest = state.blogLastest.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogMostLike = state.blogMostLike.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogMostView = state.blogMostView.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+      state.blogPopular = state.blogPopular.filter(
+        (post) => post.id !== hiddenBlogId
+      );
+    },
   },
 });
 
@@ -113,6 +147,12 @@ export const {
   createBlogSuccess,
   deleteBlogSuccess,
   isBookmark,
+  unBookmark,
+  likeBlogSuccess,
+  getBlogBookmarkSuccess,
+  getBlogDraftSuccess,
+  hideBlogSuccess,
+  getBlogFeedSuccess,
 } = blogSlice.actions;
 
 export default blogSlice.reducer;

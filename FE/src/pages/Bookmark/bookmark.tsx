@@ -2,23 +2,22 @@ import { Card } from "@/components/Card/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
-import useAuth from "@/hooks/useAuth";
-import { getBlogSaveByAuth } from "@/redux/blogSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { SlidersHorizontal } from "lucide-react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Bookmark = () => {
-  const { axiosJWT, accessToken } = useAuth();
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
+  const { isLoading, sendRequest } = useFetch();
+
   const blogBookmark = useSelector(
     (state: RootState) => state.blog.blogBookmark
   );
 
   useEffect(() => {
-    getBlogSaveByAuth(accessToken, axiosJWT, dispatch);
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
   }, []);
 
   if (isLoading) {

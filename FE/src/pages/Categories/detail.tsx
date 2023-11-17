@@ -1,4 +1,4 @@
-import { GridCard } from "@/components/Card/CardBlog/listCard";
+import { GridCard } from "@/components/Card/CardBlog/card";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import useAuth from "@/hooks/useAuth";

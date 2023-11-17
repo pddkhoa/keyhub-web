@@ -131,7 +131,7 @@ const Explore = () => {
       <div className="w-full h-full grid grid-cols-8">
         <div className="h-full w-full col-span-8 flex flex-col p-5 space-y-5 mx-auto overflow-x-hidden overflow-y-hidden ">
           <div className="w-full space-y-2">
-            <section className="px-5 py-10 bg-gray-800 text-gray-100">
+            <section className="px-5 py-10 bg-gray-900 text-gray-100">
               <div className="container grid grid-cols-12 mx-auto gap-y-6 md:gap-10">
                 <div className="flex flex-col justify-between col-span-12 py-2 space-y-8 md:space-y-16 md:col-span-3">
                   <div className="flex flex-col space-y-8 md:space-y-12">
@@ -379,7 +379,7 @@ const Explore = () => {
             </section>
           </div>
           <div className="w-full space-y-2">
-            <div className="max-w-screen-xl p-5 mx-auto bg-gray-800 text-gray-100">
+            <div className="max-w-screen-xl p-5 mx-auto bg-gray-900 text-gray-100">
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 sm:grid-cols-2">
                 <div
                   className="relative flex items-end justify-start w-full text-left bg-center bg-cover h-96 bg-gray-500"

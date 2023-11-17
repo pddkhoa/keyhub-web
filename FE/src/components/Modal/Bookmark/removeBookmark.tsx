@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import useAuth from "@/hooks/useAuth";
-import { deleteSave, getBlogSaveByAuth } from "@/redux/blogSlice";
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 type RemoveBookmarkProps = {
   setFlag: {
@@ -18,15 +16,19 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   setFlag,
   id,
 }) => {
-  const dispatch = useDispatch();
-  const { axiosJWT, accessToken } = useAuth();
-  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
-  const isSuccess = useSelector((state: RootState) => state.blog.isSuccess);
+  const { Modal, isLoading, sendRequest } = useFetch();
 
   const handleDeleteSave = async (id: number) => {
-    await deleteSave(id, accessToken, axiosJWT, dispatch);
-    if (isSuccess) {
-      getBlogSaveByAuth(accessToken, axiosJWT, dispatch);
+    const idString = id.toString();
+    await sendRequest({
+      type: REQUEST_TYPE.UNBOOKMARK_BLOG,
+      data: null,
+      slug: idString,
+    });
+
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
+
+    if (Modal) {
       setFlag.off();
     }
   };

@@ -1,60 +1,127 @@
-export const Dropdown = () => {
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import {
+  IconDelete,
+  IconHide,
+  IconReport,
+  IconUnBookmark,
+  IconBookmark,
+  IconBlock,
+} from "../ui/icon";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import BlogPost from "@/types/blog";
+
+interface DropdownProps {
+  data: BlogPost;
+  setDisplayModal: React.Dispatch<React.SetStateAction<string>>;
+  setDisplayCreate: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
+}
+
+export const Dropdown: React.FC<DropdownProps> = ({
+  setDisplayCreate,
+  setDisplayModal,
+  data,
+}) => {
+  // Lấy thông tin user đăng nhập
+  const user = useSelector((state: RootState) => state.user.detail.data);
+
+  // Kiểm tra điều kiện
+  const isOwner = data.users.id === user.id;
+
   return (
     <>
-      <div className="h-full w-full bg-white flex border border-gray-200 rounded items-center">
-        <label className="px-4 appearance-none outline-none text-gray-800 w-full">
-          Option
-        </label>
-        <button className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600">
-          <svg
-            className="w-4 h-4 mx-2 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="w-5 h-5"
+              id="menumeatballs"
+            >
+              <path
+                fill="#ffff"
+                d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                className="color000000 svgShape"
+              ></path>
+            </svg>
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 mr-2">
+          <DropdownMenuLabel>Option</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {isOwner ? (
+            <DropdownMenuItem
+              onClick={() => {
+                setDisplayCreate.on(), setDisplayModal("DELETE");
+              }}
+              className="cursor-pointer"
+            >
+              <IconDelete className="w-6 h-6 mr-2" />
+              <span>Delete</span>
+            </DropdownMenuItem>
+          ) : (
+            <>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  setDisplayCreate.on(), setDisplayModal("HIDE");
+                }}
+              >
+                <IconHide className="w-6 h-6 mr-2" />
+                <span>Hide</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setDisplayCreate.on(), setDisplayModal("REPORT");
+                }}
+                className="cursor-pointer"
+              >
+                <IconReport className="w-6 h-6 mr-2" />
+                <span>Report Blog</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <IconBlock className="w-6 h-6 mr-2" />
+                <span>Block User</span>
+              </DropdownMenuItem>
+            </>
+          )}
+          <DropdownMenuItem
+            onClick={() => {
+              setDisplayCreate.on(),
+                data.isSave
+                  ? setDisplayModal("UNBOOKMARK")
+                  : setDisplayModal("BOOKMARK");
+              // setActiveBlog(!active);
+            }}
+            className="cursor-pointer"
           >
-            <line x1={18} y1={6} x2={6} y2={18} />
-            <line x1={6} y1={6} x2={18} y2={18} />
-          </svg>
-        </button>
-        <label
-          htmlFor="show_more"
-          className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600"
-        >
-          <svg
-            className="w-4 h-4 mx-2 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
-        </label>
-      </div>
-      <input
-        type="checkbox"
-        name="show_more"
-        id="show_more"
-        className="hidden peer"
-      />
-      <div className="absolute rounded shadow z-50 bg-white overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200">
-        <div className="cursor-pointer group">
-          <div className="block p-2 border-transparent border-l-4 group-hover:border-black group-hover:bg-gray-100">
-            Python
-          </div>
-        </div>
-
-        <div className="cursor-pointer group border-t">
-          <div className="block p-2 border-transparent border-l-4 group-hover:border-black group-hover:bg-gray-100">
-            PHP
-          </div>
-        </div>
-      </div>
+            {data.isSave ? (
+              <>
+                <IconUnBookmark className="mr-2" />
+                <span>Unbookmark</span>
+              </>
+            ) : (
+              <>
+                <IconBookmark className="w-6 h-6 mr-2" />
+                <span>Bookmark</span>
+              </>
+            )}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 };

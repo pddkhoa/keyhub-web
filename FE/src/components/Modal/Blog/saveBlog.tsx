@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
-import useAuth from "@/hooks/useAuth";
-import { saveBlog } from "@/redux/blogSlice";
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 type SaveBlogsProps = {
   setFlag: {
@@ -14,16 +12,17 @@ type SaveBlogsProps = {
 };
 
 export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
-  const { axiosJWT, accessToken } = useAuth();
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.blog.isLoading);
-  const isSuccess = useSelector((state: RootState) => state.blog.isSuccess);
-
+  const { isLoading, sendRequest } = useFetch();
   const handleSaveBlog = async (blog_id: number) => {
-    saveBlog(blog_id, accessToken, axiosJWT, dispatch);
-    if (isSuccess) {
-      setFlag.off();
-    }
+    await sendRequest({
+      type: REQUEST_TYPE.BOOKMARK_BLOG,
+      data: null,
+      slug: blog_id.toString(),
+    });
+    setFlag.off();
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
+
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_FEED });
   };
 
   return (

@@ -36,6 +36,7 @@ import {
 } from "@/redux/userSlice";
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import useAuth from "@/hooks/useAuth";
+import React from "react";
 
 const UpdateProfile = () => {
   const location = useLocation();

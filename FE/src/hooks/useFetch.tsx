@@ -1,75 +1,101 @@
-import api from "@/api/axios";
-import { requestApiHelper } from "@/helpers/request";
+import axios from "axios";
 import { useState } from "react";
+import { useAppDispatch } from "./useAppDispatch";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { showToast } from "./useToast";
-import { loginFailed, loginStart, loginSuccess } from "@/redux/authSlice";
-import { TokenType } from "@/types/token";
-import { useDispatch } from "react-redux";
-import { AnyAction } from "@reduxjs/toolkit";
 
-const getApiRequest = (name: string) => {
-  switch (name) {
-    case "login":
-      return {
-        method: "post",
-        url: "api/auth/login",
-        typeResult: {} as TokenType,
-        dispatchStart: () => {
-          loginStart();
-        },
-        dispatchSuccess: (result: TokenType): AnyAction => {
-          return loginSuccess(result);
-        },
-        dispatchFailed: () => {
-          return loginFailed();
-        },
-      };
+import { SendRequestProps } from "@/types";
+import useAuth from "./useAuth";
+import { requestApiHelper } from "@/helpers/request";
+import { getRequestConfig } from "@/services/getRequest";
 
-    default:
-      return {
-        method: "",
-        url: "",
-        typeResult: {} as any,
-        dispatchStart: () => {},
-        dispatchSuccess: () => {},
-        dispatchFailed: () => {},
-      };
-  }
-};
-
-export const useFetch = () => {
+const useFetch = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { accessToken, axiosJWT } = useAuth();
+  const [Modal, setModal] = useState(false);
 
-  const handleRequest = async (name: string, report: any) => {
-    const { url, dispatchSuccess, dispatchFailed, typeResult } =
-      getApiRequest(name);
+  const sendRequest = async ({ type, data, slug }: SendRequestProps) => {
     type body = {
       success: boolean;
       message: string;
-      result: typeof typeResult;
+      result: any;
       statusCode: number;
     };
+
     try {
       setIsLoading(true);
-      const { body } = await requestApiHelper<body>(api.post(url, report));
-      if (body?.result) {
-        const a = dispatchSuccess(body.result);
-        if (a) dispatch(a);
-        showToast(body?.message || "Success", "success");
-        navigate("/profile");
+
+      const config = getRequestConfig(type, slug);
+      if (!config) throw Error("Invalid request type!");
+
+      const {
+        method,
+        url,
+        isToken,
+        isShowToast,
+        isDispatch,
+        showModal,
+        action,
+        redirect,
+        customAction,
+        formMutil,
+      } = config;
+
+      let response;
+
+      if (isToken) {
+        if (formMutil) {
+          response = await requestApiHelper<body>(
+            axiosJWT({
+              method,
+              url,
+              data,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "multipart/form-data",
+              },
+            })
+          );
+        } else {
+          response = await requestApiHelper<body>(
+            axiosJWT({
+              method,
+              url,
+              data,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            })
+          );
+        }
       } else {
-        dispatch(dispatchFailed() as AnyAction);
-        showToast(body?.message || "Error123", "error");
+        response = await requestApiHelper<body>(axios({ method, url, data }));
       }
-    } catch (err) {
-      dispatch(dispatchFailed() as AnyAction);
-      showToast("Error", "error");
-      console.log(err);
+
+      setIsLoading(false);
+
+      if (response.body?.success) {
+        if (isDispatch && action)
+          dispatch(action(!customAction ? response.body.result : slug));
+        if (showModal) setModal(true);
+        if (isShowToast) toast.success("Successfully!");
+        if (redirect?.success) navigate(redirect.success);
+      } else {
+        if (isShowToast) toast.error(response.body?.message || "Error");
+        if (redirect?.error) navigate(redirect.error);
+        setModal(false);
+        throw response;
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setModal(false);
+      console.log(error);
     }
   };
 
-  return { isLoading, handleRequest };
+  return { Modal, isLoading, sendRequest };
 };
+
+export default useFetch;

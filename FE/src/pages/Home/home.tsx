@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import BlogPost from "@/types/blog";
 import { Nodata } from "@/components/ui/nodata";
 import CardDetail from "@/components/Card/cardDetail";
-import ClientServices from "@/services/client/client";
 import useLoadingLazy from "@/hooks/useLoadingLazy";
 import { SkeletonPost } from "@/components/ui/skeleton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
 
 const Home = () => {
+  const useSuggest = useSelector((state: RootState) => state.user.userSuggest);
+  console.log(useSuggest);
   const [indexPage, setIndexPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isHide, setIsHide] = useState(false);
@@ -68,26 +72,127 @@ const Home = () => {
       );
     });
 
-  // useEffect(() => {
-  //   if (isHide) {
-  //     setIndexPage(1);
-  //     window.scroll(0, 0); // Cập nhật lại indexPage để tái tải từ trang đầu tiên
-  //   }
-  // }, [isHide]);
-
   return (
     <div className="container  min-h-0 px-4 py-16">
-      <div className="w-full h-full grid grid-cols-12  overflow-y-auto">
-        <div className="h-full w-full col-span-12 flex flex-col p-6 space-y-5 mx-auto overflow-x-hidden overflow-y-hidden ">
-          {/* This is Story
-          <StoryUser /> */}
-          {/* This is content */}
-          <div className="min-h-0  rounded-xl py-6">
+      <div className="w-full h-full grid grid-cols-12  overflow-y-auto py-4">
+        <div className="h-full w-full col-span-8 flex flex-col p-6 space-y-5 mx-auto overflow-x-hidden overflow-y-hidden ">
+          {/* <StoryUser /> */}
+          <div className="min-h-0 col rounded-xl py-6">
             <div className="w-full space-y-5">
-              <div className="mx-auto  flex flex-col   max-w-3xl p-4 space-y-5 gap-5">
+              <div className="mx-auto  flex flex-col  max-w-full p-4 gap-5">
                 {result && result.length > 0 ? content : <Nodata />}
                 {isLoadingMore && <SkeletonPost />}
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-4  flex flex-col p-2 space-y-5 mx-2 py-16">
+          <div className="bg-gray-900 rounded-xl shadow-sm p-5 px-6">
+            <div className="flex justify-between text-white">
+              <h3 className="font-bold text-base"> Trends for you </h3>
+              <button type="button">See All</button>
+            </div>
+            <div className="space-y-3.5 capitalize text-xs font-normal mt-5 mb-2 text-gray-600 dark:text-white/80">
+              <a href="#">
+                <div className="flex items-center gap-3 p">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 -mt-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
+                    />
+                  </svg>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-white text-sm">
+                      {" "}
+                      artificial intelligence{" "}
+                    </h4>
+                    <div className="mt-0.5"> 1,245,62 post </div>
+                  </div>
+                </div>
+              </a>
+              <a href="#" className="block">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 -mt-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
+                    />
+                  </svg>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-white text-sm">
+                      {" "}
+                      Web developers
+                    </h4>
+                    <div className="mt-0.5"> 1,624 post </div>
+                  </div>
+                </div>
+              </a>
+              <a href="#" className="block">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 -mt-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
+                    />
+                  </svg>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-white text-sm">
+                      {" "}
+                      Ui Designers
+                    </h4>
+                    <div className="mt-0.5"> 820 post </div>
+                  </div>
+                </div>
+              </a>
+              <a href="#" className="block">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 -mt-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
+                    />
+                  </svg>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-white text-sm">
+                      {" "}
+                      affiliate marketing{" "}
+                    </h4>
+                    <div className="mt-0.5"> 480 post </div>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>

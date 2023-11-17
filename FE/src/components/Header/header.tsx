@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { SearchBar } from "../Search/search";
 import { RootStateToken } from "../../types/token";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import AlphabetAvatar from "../Avatar/avatar";
 import {
@@ -13,24 +13,21 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { ModeToggle } from "../DarkMode/modeToggle";
-import { createAxios } from "@/api/createInstance";
 import { ButtonAddPost } from "../ui/buttonAddPost";
-import { logOut, logOutSuccess } from "@/redux/authSlice";
+import { REQUEST_TYPE } from "@/types";
+import useFetch from "@/hooks/useFetch";
 
 const Header = () => {
   const { data } = useSelector((state: RootStateToken) => state.auth.login);
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const user = useSelector((state: RootStateToken) => state.auth.login);
-  const accessToken = user?.data.token;
   const refreshToken = user?.data.refreshToken;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const axiosJWT = createAxios(user, dispatch, logOutSuccess);
+  const { sendRequest } = useFetch();
 
   const handleLogout = () => {
-    logOut(dispatch, refreshToken, navigate, accessToken, axiosJWT);
+    sendRequest({ type: REQUEST_TYPE.LOGOUT, slug: refreshToken, data: null });
   };
-
   return (
     <header className="bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-900-900 to-slate-950 w-full border-border border-b-2 fixed z-50">
       <div className="mx-auto max-w-screen-3xl px-8 py-2 ">
@@ -91,7 +88,7 @@ const Header = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => {
-                        navigate("/profile/update");
+                        navigate("/setting");
                       }}
                       className="cursor-pointer"
                     >
