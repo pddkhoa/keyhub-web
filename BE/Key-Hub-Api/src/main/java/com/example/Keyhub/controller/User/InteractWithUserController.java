@@ -8,8 +8,6 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IReportUserRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IUserService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,11 +23,9 @@ public class InteractWithUserController {
     private final IUserService userService;
     final
     IReportUserRepository reportUserRepository;
-    private final ModelMapper mapper;
 
-    public InteractWithUserController(IUserService userService, ModelMapper mapper, IReportUserRepository reportUserRepository) {
+    public InteractWithUserController(IUserService userService, IReportUserRepository reportUserRepository) {
         this.userService = userService;
-        this.mapper = mapper;
         this.reportUserRepository = reportUserRepository;
     }
 
@@ -40,7 +36,7 @@ public class InteractWithUserController {
     }
 
     @RequestMapping(value = "/{user_id}/follow", method = RequestMethod.POST)
-    public ResponseEntity followUser(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> followUser(@PathVariable BigInteger user_id) {
         if (!userService.exitUser(user_id)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -73,7 +69,8 @@ public class InteractWithUserController {
     }
 
     @GetMapping("/{user_id}")
-    public ResponseEntity getUserById(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> getUserById(@PathVariable BigInteger user_id) {
+
         UserResponseDTO users = userService.getWallUserByID(getUserFromAuthentication(), user_id);
         if (users == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -95,7 +92,7 @@ public class InteractWithUserController {
     }
 
     @GetMapping("/{user_id}/follower")
-    public ResponseEntity getListUserFollowerByUser(@PathVariable BigInteger user_id) {
+    public ResponseEntity<GenericResponse> getListUserFollowerByUser(@PathVariable BigInteger user_id) {
         List<UserResponseDTO> users = userService.getAllUserFollower(getUserFromAuthentication(), user_id);
         if (users == null) {
             return ResponseEntity.status(HttpStatus.OK)
@@ -138,7 +135,7 @@ public class InteractWithUserController {
     }
 
     @PostMapping("/report")
-    public ResponseEntity reportUser(@RequestBody ReportUserDTO reportUserDTO) {
+    public ResponseEntity<GenericResponse> reportUser(@RequestBody ReportUserDTO reportUserDTO) {
         ReportUserResponseDTO reportUserResponseDTOS = userService.reportUser(getUserFromAuthentication(), reportUserDTO);
         if (!userService.exitUser(reportUserDTO.getUser_id()))
         {

@@ -1,6 +1,5 @@
 package com.example.Keyhub.data.entity.ProdfileUser;
 
-import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,7 +69,9 @@ public class Users {
     private String banner_url;
     @Column
     private int sumViolating;
-
+    private int sumBlog;
+    private int totalFollowers;
+    private int totalFollowing;
     public Users(   @NotBlank
                     @Size(min = 3, max = 50) String name,
                     @NotBlank

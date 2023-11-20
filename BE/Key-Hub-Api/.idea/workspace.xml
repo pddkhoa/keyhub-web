@@ -10,6 +10,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -80,6 +83,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;f46a1d5c9737394b17b8f6003511f4da&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -128,13 +136,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Demo15Application (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="Key-Hub-Api.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.Keyhub.Demo15Application" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Demo15Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
       <module name="Key-Hub-Api.main" />
@@ -145,7 +146,6 @@
     </configuration>
     <list>
       <item itemvalue="Application.CloudinaryUtils" />
-      <item itemvalue="Spring Boot.Demo15Application (1)" />
       <item itemvalue="Spring Boot.Demo15Application" />
     </list>
     <recent_temporary>
@@ -447,7 +447,21 @@
       <workItem from="1699964476137" duration="1494000" />
       <workItem from="1700014569579" duration="6933000" />
       <workItem from="1700034213677" duration="5971000" />
-      <workItem from="1700055839491" duration="5563000" />
+      <workItem from="1700055839491" duration="5784000" />
+      <workItem from="1700141181476" duration="3633000" />
+      <workItem from="1700188106503" duration="7299000" />
+      <workItem from="1700208417807" duration="3952000" />
+      <workItem from="1700223515152" duration="841000" />
+      <workItem from="1700274629023" duration="15000" />
+      <workItem from="1700360404462" duration="2472000" />
+      <workItem from="1700381314660" duration="11000" />
+      <workItem from="1700391464534" duration="844000" />
+      <workItem from="1700392546936" duration="38000" />
+      <workItem from="1700397524065" duration="403000" />
+      <workItem from="1700445965152" duration="1833000" />
+      <workItem from="1700449063459" duration="586000" />
+      <workItem from="1700486331086" duration="757000" />
+      <workItem from="1700487165745" duration="1634000" />
     </task>
     <servers />
   </component>

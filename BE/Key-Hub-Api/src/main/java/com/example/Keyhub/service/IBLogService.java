@@ -34,6 +34,10 @@ public interface IBLogService {
     void deleteBlogById(Blog blog);
     LikeReponse likeBlog(Blog Blog, Users users);
     List<BlogDTO> getFiveBlogPopular(Users users);
+    BlogDTO getBlogMostInCategoryOne(Users users);
+    List<BlogDTO> getBlogMostInCategoryFourLeft(Users users);
+    List<BlogDTO> getBlogMostInCategoryFourRight(Users users);
+
 
     List<BlogDTO> getListPopularWithPagging(int index, Users users);
     List<BlogDTO> getAllInFeed(int index, Users users);

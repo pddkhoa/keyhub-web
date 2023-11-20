@@ -4,15 +4,11 @@ import com.example.Keyhub.config.ValidatorUtils;
 import com.example.Keyhub.data.dto.request.CategoryRequestDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.entity.GenericResponse;
-import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,11 +38,6 @@ public class AdminCategoryController {
         this.applicationPushBuilder = applicationPushBuilder;
     }
 
-    private Users getUserFromAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getPrincipal().getClass());
-        return ((CustomUserDetails) auth.getPrincipal()).getUsers();
-    }
     @PostMapping("/add")
     ResponseEntity<GenericResponse> addCategory(@RequestBody CategoryRequestDTO requestDTO)
     {

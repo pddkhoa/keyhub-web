@@ -7,14 +7,12 @@ import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.Blog.Comment;
 import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.entity.GenericResponse;
-import com.example.Keyhub.data.entity.Notification.Notification;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICategoryRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.ICommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,14 +29,22 @@ import java.util.stream.Collectors;
 
 public class BlogController {
 
-    @Autowired
+    final
     IBLogService ibLogService;
-    @Autowired
+    final
     IBlogRepository  blogRepository;
-    @Autowired
+    final
     ICommentService commentService;
-    @Autowired
+    final
     ICategoryRepository categoryRepository;
+
+    public BlogController(IBLogService ibLogService, IBlogRepository blogRepository, ICommentService commentService, ICategoryRepository categoryRepository) {
+        this.ibLogService = ibLogService;
+        this.blogRepository = blogRepository;
+        this.commentService = commentService;
+        this.categoryRepository = categoryRepository;
+    }
+
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
@@ -246,7 +251,7 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("No blog draft by user")
                             .build()
@@ -289,7 +294,7 @@ public class BlogController {
     @GetMapping("/five-popular")
     public ResponseEntity<GenericResponse> getBlogPoppular() {
         Users users = getUserFromAuthentication();
-        List<BlogDTO> list= ibLogService.getFiveBlogPopular(users);
+        List<BlogDTO> list= ibLogService.getBlogMostInCategoryFourRight(users);
         if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -313,7 +318,7 @@ public class BlogController {
     @GetMapping("/size")
     public ResponseEntity<GenericResponse> getPopularSize() {
         List<BlogDTO> list = ibLogService.getAllBlogPublis(getUserFromAuthentication());
-        int size = list.size() / 5 + (list.size() % 5 != 0 ? 1 : 0);
+        int size = list.size() / 5 ;
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
@@ -334,7 +339,7 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("No blog Popular")
                             .build()
@@ -394,7 +399,7 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("No blog New")
                             .build()
@@ -432,7 +437,7 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("No blog Like")
                             .build()
@@ -470,7 +475,7 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
-                            .result(list)
+                            .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("No blog Like")
                             .build()

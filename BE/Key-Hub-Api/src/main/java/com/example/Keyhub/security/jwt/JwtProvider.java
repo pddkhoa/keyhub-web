@@ -1,27 +1,34 @@
 package com.example.Keyhub.security.jwt;
 
 //import com.example.Keyhub.security.userpincal.UserPrinciple;
+
+import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.repository.IBlogRepository;
+import com.example.Keyhub.data.repository.IFollowRepository;
 import com.example.Keyhub.data.repository.IUserRepository;
 import com.example.Keyhub.data.repository.RefreshTokenRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
+
 @Component
 public class JwtProvider {
-    @Autowired
+    final
     IUserRepository iUserRepository;
-    @Autowired
+    final
     RefreshTokenRepository refreshTokenRepository;
+    final
+    IBlogRepository blogRepository;
+    final IFollowRepository iFollowRepository;
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     @Value("${api.app.jwtSerectKey}")
     private String jwtSecret;
@@ -30,11 +37,27 @@ public class JwtProvider {
 
     @Value("${api.app.jwtExpiration}")
     private int jwtExpiration;
+
+    public JwtProvider(IUserRepository iUserRepository, RefreshTokenRepository refreshTokenRepository, IBlogRepository blogRepository, IFollowRepository iFollowRepository) {
+        this.iUserRepository = iUserRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.blogRepository = blogRepository;
+        this.iFollowRepository = iFollowRepository;
+    }
+
     public String createToken(Authentication authentication){
         CustomUserDetails userPrinciple = (CustomUserDetails) authentication.getPrincipal();
+        userPrinciple.getUsers().setSumBlog( blogRepository.countBlogsByUserIdAndStatus(userPrinciple.getUsers().getId()));
+        List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(userPrinciple.getUsers());
+        int totalFollowers = UserFollow.size();
+        userPrinciple.getUsers().setTotalFollowers(totalFollowers);
+
+        List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(userPrinciple.getUsers());
+        int totalFollowing = UserFollowing.size();
+        userPrinciple.getUsers().setTotalFollowing(totalFollowing);
+
         Claims claims = Jwts.claims().setSubject(userPrinciple.getUsername());
         claims.put("userDetails", userPrinciple);
-
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
 

@@ -15,7 +15,6 @@ import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -830,10 +829,9 @@ public class AccountBlog {
         else {
             Notification notification = new Notification();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            notification.setUserId(blog.getUser().getId()); // Người nhận thông báo là chủ nhân của blog
+            notification.setUserId(blog.getUser().getId()); // User's Blog
             notification.setAction("LIKE");
             notification.setCreatedAt(timestamp);
-            notification.setMessage(user.getName() + " đã thích bài viết của bạn.");
             notification.setRelatedObjectId(blog.getId());
             notificationService.sendNotification(notification);
         return ResponseEntity.status(HttpStatus.OK)
@@ -1027,10 +1025,9 @@ public class AccountBlog {
         Comment comment = commentService.addComment(users,blog,DTO);
         Notification notification = new Notification();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        notification.setUserId(blog.getUser().getId()); // Người nhận thông báo là chủ nhân của blog
+        notification.setUserId(blog.getUser().getId()); //User ' Blog
         notification.setAction("Comment");
         notification.setCreatedAt(timestamp);
-        notification.setMessage(getUserFromAuthentication().getName() + " đã bình luận bài viết của bạn.");
         notification.setRelatedObjectId(blog.getId());
         notificationService.sendNotification(notification);
         return ResponseEntity.status(HttpStatus.OK)

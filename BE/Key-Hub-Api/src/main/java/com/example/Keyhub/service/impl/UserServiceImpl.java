@@ -3,22 +3,18 @@ package com.example.Keyhub.service.impl;
 import com.example.Keyhub.data.dto.request.ReportDTO;
 import com.example.Keyhub.data.dto.request.ReportUserDTO;
 import com.example.Keyhub.data.dto.request.SeriesDTO;
+import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
 import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
 import com.example.Keyhub.data.dto.response.SeriesResponse;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.Blog.*;
-import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
-import com.example.Keyhub.data.dto.request.UserDTO;
-import com.example.Keyhub.data.entity.ProdfileUser.ResetPassToken;
-import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
 import com.example.Keyhub.data.entity.report.Block;
 import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.repository.*;
-import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.security.jwt.JwtTokenFilter;
 import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
@@ -900,7 +896,6 @@ public class UserServiceImpl implements IUserService {
         }
         return false;
     }
-
     @Transactional
     @Override
     public void removeAvatar(BigInteger user_id) {

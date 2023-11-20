@@ -2,12 +2,10 @@ package com.example.Keyhub.controller.Admin;
 
 import com.example.Keyhub.data.dto.request.TagRequestDTO;
 import com.example.Keyhub.data.dto.response.TagDTO;
-import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
-import com.example.Keyhub.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Keyhub.service.IAdminTagService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping(value = "/api/v1/admin/tag")
 public class AdminTagController {
-    @Autowired
+    final
     IAdminTagService adminTagService;
+
+    public AdminTagController(IAdminTagService adminTagService) {
+        this.adminTagService = adminTagService;
+    }
 
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

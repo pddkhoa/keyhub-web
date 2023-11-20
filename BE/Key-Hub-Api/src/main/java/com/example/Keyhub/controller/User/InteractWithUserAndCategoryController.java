@@ -4,7 +4,6 @@ import com.example.Keyhub.data.dto.request.CategoryDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
@@ -17,23 +16,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1")
 public class InteractWithUserAndCategoryController {
-    @Autowired
+    final
     ICategoryService categoryService;
-    @Autowired
+    final
     IUserService userService;
+
+    public InteractWithUserAndCategoryController(ICategoryService categoryService, IUserService userService) {
+        this.categoryService = categoryService;
+        this.userService = userService;
+    }
+
     private Users getUserFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth.getPrincipal().getClass());
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
     @GetMapping("/categories")
-    public ResponseEntity getAllCategory() {
+    public ResponseEntity<GenericResponse> getAllCategory() {
         List<CategoryResponseCardDTO> cardDTO = categoryService.getAllCategoryCard(getUserFromAuthentication());
         if (cardDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -54,7 +58,7 @@ public class InteractWithUserAndCategoryController {
                 );
     }
     @RequestMapping(value = "/categories/{category_id}/follow", method = RequestMethod.POST)
-    public ResponseEntity followCategory(@PathVariable Long category_id) {
+    public ResponseEntity<GenericResponse> followCategory(@PathVariable Long category_id) {
         if (!categoryService.isPresentCategory(category_id))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -88,7 +92,7 @@ public class InteractWithUserAndCategoryController {
                 );
     }
     @RequestMapping(value = "/categories/{category_id}/unfollow", method = RequestMethod.POST)
-    public ResponseEntity unFollowCategory(@PathVariable Long category_id) {
+    public ResponseEntity<GenericResponse> unFollowCategory(@PathVariable Long category_id) {
         if (!categoryService.isPresentCategory(category_id))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -110,7 +114,7 @@ public class InteractWithUserAndCategoryController {
                 );
     }
     @GetMapping("/{category_id}/user/categories")
-    public ResponseEntity getAllUserFollowCategory(@PathVariable Long category_id) {
+    public ResponseEntity<GenericResponse> getAllUserFollowCategory(@PathVariable Long category_id) {
         if (!categoryService.isPresentCategory(category_id))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
