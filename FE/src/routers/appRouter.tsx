@@ -21,7 +21,6 @@ const ResetPassword = lazy(
 
 //Protect
 
-const UpdateProfile = lazy(() => import("../pages/Profile/updateProfile"));
 const Profile = lazy(() => import("../pages/Profile/profile"));
 const Categories = lazy(() => import("../pages/Categories/categories"));
 const Explore = lazy(() => import("../pages/Explore/explore"));

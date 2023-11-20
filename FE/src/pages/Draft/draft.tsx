@@ -1,4 +1,4 @@
-import { Card } from "@/components/Card/card";
+import { Card } from "@/components/Card/CardList/card";
 import { Loading } from "@/components/Loading/loading";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";

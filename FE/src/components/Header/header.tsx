@@ -36,7 +36,7 @@ const Header = () => {
             <span className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent">
               Rainbow Hover
             </span>
-            <SearchBar />
+            {/* <SearchBar /> */}
           </div>
           <div className="flex gap-5 items-center justify-end mx-4">
             {data.token ? (

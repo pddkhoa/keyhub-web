@@ -67,7 +67,7 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
             onClick={() => {
               setDisplayCreate.on(), setDisplayModal(true);
             }}
-            className="p-1 w-1/3  border h-fit rounded-lg hover:brightness-150"
+            className="p-1 w-1/3   border h-10 rounded-lg hover:brightness-150"
           >
             <div className="flex -space-x-3">
               {userFollowing && firstThreeUsers.length > 0
@@ -75,7 +75,7 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
                     <img
                       key={item.id}
                       className="w-8 h-8 border rounded-full dark:bg-gray-500 dark:border-gray-700 opacity-90"
-                      src={item.avatar}
+                      src={item.avatar?.toString()}
                     />
                   ))
                 : null}

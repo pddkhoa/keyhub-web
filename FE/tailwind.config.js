@@ -6,6 +6,7 @@ export const content = [
   "./app/**/*.{ts,tsx}",
   "./src/**/*.{ts,tsx}",
 ];
+
 export const theme = {
   container: {
     center: true,
@@ -14,6 +15,7 @@ export const theme = {
       "2xl": "1400px",
     },
   },
+
   extend: {
     colors: {
       border: "var(--border)",
@@ -123,4 +125,9 @@ export const theme = {
   },
 };
 // eslint-disable-next-line no-undef
-export const plugins = [require("tailwindcss-animate")];
+export const plugins = [
+  // eslint-disable-next-line no-undef
+  require("tailwindcss-animate"),
+  // eslint-disable-next-line no-undef
+  require("@tailwindcss/line-clamp"),
+];

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { IconDelete } from "@/components/ui/icon";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
 
@@ -11,12 +10,14 @@ type RemoveBookmarkProps = {
   };
   id: number;
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   setFlag,
   id,
+  setUnBookmark,
 }) => {
-  const { Modal, isLoading, sendRequest } = useFetch();
+  const { isLoading, sendRequest } = useFetch();
 
   const handleDeleteSave = async (id: number) => {
     const idString = id.toString();
@@ -26,11 +27,15 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
       slug: idString,
     });
 
-    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
-
-    if (Modal) {
-      setFlag.off();
+    if (setUnBookmark) {
+      setUnBookmark((prevUnBookmark) => !prevUnBookmark);
     }
+    setFlag.off();
+
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
+
+    setFlag.off();
   };
 
   return (
@@ -53,7 +58,6 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
         </div>
         {/*body*/}
         <div className="text-center p-5 flex-auto justify-center">
-          <IconDelete className="w-16 h-16 flex items-center  mx-auto" />
           <h2 className="text-xl font-bold py-4 text-title">Are you sure?</h2>
           <p className="text-sm text-gray-500 px-8">
             Do you really want to unbookmark your blog ? This process cannot be

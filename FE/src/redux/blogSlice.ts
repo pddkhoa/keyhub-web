@@ -16,6 +16,7 @@ const blogSlice = createSlice({
       isCreating: false,
       error: false,
     },
+    detailBlog: {} as BlogPost,
     isLoading: false,
     isSuccess: false,
     isFetching: false,
@@ -26,6 +27,7 @@ const blogSlice = createSlice({
     blogMostView: [] as BlogPost[],
     blogMostLike: [] as BlogPost[],
     blogFeed: [] as BlogPost[],
+    blogByUser: [] as BlogPost[],
   },
   reducers: {
     updateLoading(state, action) {
@@ -37,6 +39,9 @@ const blogSlice = createSlice({
     getBlogSuccess: (state, action) => {
       state.blog.isFetching = false;
       state.blog.result = action.payload;
+    },
+    getBlogByUserSuccess: (state, action) => {
+      state.blogByUser = action.payload;
     },
     getBlogFailed: (state) => {
       state.blog.isFetching = false;
@@ -135,6 +140,9 @@ const blogSlice = createSlice({
         (post) => post.id !== hiddenBlogId
       );
     },
+    detailBlogSuccess: (state, action) => {
+      state.detailBlog = action.payload;
+    },
   },
 });
 
@@ -153,6 +161,12 @@ export const {
   getBlogDraftSuccess,
   hideBlogSuccess,
   getBlogFeedSuccess,
+  detailBlogSuccess,
+  getBlogLastestSuccess,
+  getBlogMostLikeSuccess,
+  getBlogMostViewSuccess,
+  getBlogPopularSuccess,
+  getBlogByUserSuccess,
 } = blogSlice.actions;
 
 export default blogSlice.reducer;
@@ -285,101 +299,6 @@ export const deleteSave = async (
     }
   } catch (error) {
     dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    console.log(error);
-  }
-};
-export const getBlogSaveByAuth = async (
-  accessToken: any,
-  axiosJWT: any,
-  dispatch: any
-) => {
-  type body = {
-    success: boolean;
-    message: string;
-    result: BlogPost[];
-    statusCode: number;
-  };
-  dispatch(blogSlice.actions.updateLoading({ isLoading: true }));
-
-  try {
-    const { body } = await requestApiHelper<body>(
-      axiosJWT.get("api/v1/list/blog/save", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    );
-    if (body?.success) {
-      dispatch(blogSlice.actions.getBlogBookmarkSuccess(body.result));
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    } else {
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    }
-  } catch (error) {
-    dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    console.log(error);
-  }
-};
-
-export const getDraftByAuth = async (
-  accessToken: any,
-  axiosJWT: any,
-  dispatch: any
-) => {
-  type body = {
-    success: boolean;
-    message: string;
-    result: BlogPost[];
-    statusCode: number;
-  };
-  dispatch(blogSlice.actions.updateLoading({ isLoading: true }));
-
-  try {
-    const { body } = await requestApiHelper<body>(
-      axiosJWT.get("api/v1/list/blog/draft", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    );
-    if (body?.success) {
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-      dispatch(blogSlice.actions.getBlogDraftSuccess(body.result));
-    } else {
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    }
-  } catch (error) {
-    console.log(error);
-    dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-  }
-};
-
-export const getBlogPopular = async (
-  index: number,
-  accessToken: any,
-  axiosJWT: any,
-  dispatch: any
-) => {
-  type body = {
-    success: boolean;
-    message: string;
-    result: BlogPost[];
-    statusCode: number;
-  };
-  dispatch(blogSlice.actions.updateLoading({ isLoading: true }));
-
-  try {
-    const { body } = await requestApiHelper<body>(
-      axiosJWT.get(`api/v1/list/blog/${index}/popular`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    );
-    if (body?.success) {
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-
-      dispatch(blogSlice.actions.getBlogPopularSuccess(body.result));
-    } else {
-      dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-    }
-  } catch (error) {
-    dispatch(blogSlice.actions.updateLoading({ isLoading: false }));
-
     console.log(error);
   }
 };

@@ -10,21 +10,38 @@ type HideBlogProps = {
     toggle: () => void;
   };
   id: number;
+  setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const HideBlog: React.FC<HideBlogProps> = ({ setFlag, id }) => {
-  const { Modal, isLoading, sendRequest } = useFetch();
+export const HideBlog: React.FC<HideBlogProps> = ({
+  setFlag,
+  id,
+  setIsHide,
+}) => {
+  const { isLoading, sendRequest } = useFetch();
 
   const handleHide = async (id: number) => {
-    // Nếu chưa follow, thực hiện follow
-    await sendRequest({
-      type: REQUEST_TYPE.HIDE_BLOG,
-      data: null,
-      slug: id.toString(),
-    });
+    try {
+      // Show loading state
+      sendRequest({
+        type: REQUEST_TYPE.HIDE_BLOG,
+        data: null,
+        slug: id.toString(),
+      });
 
-    if (Modal) {
+      // Assuming the request is successful
+      // You might want to handle errors in a real-world scenario
+      setIsHide((prevVisibility: any) => ({
+        ...prevVisibility,
+        [id]: true,
+      }));
+
+      // Close the modal or perform any other necessary actions
       setFlag.off();
+    } catch (error) {
+      // Handle errors, show an error message, or log the error
+      console.error("Error hiding blog:", error);
+      // Optionally, you can reset the loading state here
     }
   };
 

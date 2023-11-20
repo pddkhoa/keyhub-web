@@ -33,20 +33,43 @@ export enum REQUEST_TYPE {
   ADD_SERIES = "add_series",
   LIST_SERIES = "list_series",
   DELETE_SERIES = "delete_series",
+  LIST_SERIES_USER = "list_series_user",
 
   // blog
   LIST_BLOG = "list_blog",
+  LIST_BLOG_BY_SERIES = "list_blog_by_user",
   DELETE_BLOG = "delete_blog",
   BOOKMARK_BLOG = "bookmark_blog",
   UNBOOKMARK_BLOG = "unbookmark_blog",
   LIST_BLOG_BOOKMARK = "list_blog_bookmark",
   LIST_BLOG_DRAFT = "list_blog_draft",
   LIST_BLOG_FEED = "list_blog_feed",
+  LIST_BLOG_LASTEST = "list_blog_lastest",
+  LIST_BLOG_MOSTLIKE = "list_blog_mostlike",
+  LIST_BLOG_MOSTVIEW = "list_blog_mostview",
+  LIST_BLOG_POPULAR = "list_blog_popular",
+
+  GET_BLOG_BY_USER = "get_blog_by_user",
+
+  GET_DETAIL = "get_detail",
 
   LIKE_BLOG = "like_blog",
   HIDE_BLOG = "hide_blog",
 
   // user
+
+  GET_LIST_USER_FOLLOWER = "get_list_user_follower",
+  GET_LIST_USER_FOLLOWING = "get_list_user_following",
+
+  // comment
+  GET_COMMENT = "get_commnet",
+  DELETE_COMMENT = "delete_comment",
+  ADD_COMMENT = "add_comment",
+  REPLY_COMMENT = "reply_comment",
+
+  // categories
+  GET_LIST_CATEGORIES = "get_list_categories",
+  GET_LIST_USER_FOLLOW_CATE = "get_list_user_follow_cate",
 }
 
 export type RequestConfig = {

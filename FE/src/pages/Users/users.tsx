@@ -1,6 +1,5 @@
 import { CardUser } from "@/components/Card/cardUser";
 import { SlideUser } from "@/components/Swipers/slideUser";
-import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import { SkeletonUser } from "@/components/ui/skeleton";
 import useAuth from "@/hooks/useAuth";
@@ -8,7 +7,6 @@ import useLoadingLazy from "@/hooks/useLoadingLazy";
 import ClientServices from "@/services/client/client";
 import User from "@/types/user";
 import { Label } from "@radix-ui/react-label";
-import { SlidersHorizontal } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const Users = () => {
@@ -180,9 +178,9 @@ const Users = () => {
                 className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
-            <Button variant={"gradient"}>
+            {/* <Button variant={"gradient"}>
               <SlidersHorizontal className="h-5 w-5" />
-            </Button>
+            </Button> */}
           </div>
 
           <div className="grid grid-cols-3 gap-5 mt-8 z-0">

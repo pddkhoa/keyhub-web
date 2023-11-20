@@ -4,7 +4,13 @@ import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const useLoadingLazy = <T>(pageNum = 1, fetchDataFunction: any) => {
+const useLoadingLazy = <T>(
+  pageNum = 1,
+  fetchDataFunction: any,
+  isHideBlog?: boolean,
+  isBookmark?: boolean,
+  unBookmark?: boolean
+) => {
   const [result, setResult] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -46,7 +52,7 @@ const useLoadingLazy = <T>(pageNum = 1, fetchDataFunction: any) => {
       }, 1000);
     };
     fetchData();
-  }, [pageNum, isFollowing]);
+  }, [pageNum, isFollowing, isHideBlog, isBookmark, unBookmark]); // Include isHide in the dependency array
 
   return { isLoading, result, isError, hasNextPage };
 };

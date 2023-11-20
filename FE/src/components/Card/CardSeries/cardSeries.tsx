@@ -11,9 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { IconDelete } from "@/components/ui/icon";
 import useBoolean from "@/hooks/useBoolean";
+import { RootState } from "@/redux/store";
 
 import seriesType from "@/types/series";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 interface CardSeriesProps {
   data: seriesType;
@@ -28,6 +31,18 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
   setExpanded,
   setSeriesSelected,
 }) => {
+  const { id } = useParams();
+  const [isUser, setIsUser] = useState(false);
+  const userData = useSelector((state: RootState) => state.user.detail?.data);
+
+  const userId = Number(id);
+  useEffect(() => {
+    if (!userId || userData.id !== Number(userId)) {
+      const isUser = !userId || userData.id === Number(userId);
+      setIsUser(isUser);
+    }
+  }, [userId]);
+
   const [displayModal, setDisplayModal] = useState(false);
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
@@ -53,38 +68,40 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
             </span>
           </div>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-                id="menumeatballs"
+        {isUser ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                  id="menumeatballs"
+                >
+                  <path
+                    fill="#ffff"
+                    d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
+                    className="color000000 svgShape"
+                  ></path>
+                </svg>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 mr-2">
+              <DropdownMenuLabel>Option</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  setDisplayCreate.on(), setDisplayModal(true);
+                }}
+                className="cursor-pointer"
               >
-                <path
-                  fill="#ffff"
-                  d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
-                  className="color000000 svgShape"
-                ></path>
-              </svg>
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 mr-2">
-            <DropdownMenuLabel>Option</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                setDisplayCreate.on(), setDisplayModal(true);
-              }}
-              className="cursor-pointer"
-            >
-              <IconDelete className="w-5 h-5 mr-2" />
-              <span>Delete</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                <IconDelete className="w-5 h-5 mr-2" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
       </div>
       <div className="space-y-4">
         <div className="space-y-2">

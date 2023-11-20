@@ -92,10 +92,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 <IconReport className="w-6 h-6 mr-2" />
                 <span>Report Blog</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <IconBlock className="w-6 h-6 mr-2" />
-                <span>Block User</span>
-              </DropdownMenuItem>
             </>
           )}
           <DropdownMenuItem

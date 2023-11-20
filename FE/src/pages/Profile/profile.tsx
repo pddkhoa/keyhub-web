@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { TabsProfile } from "@/pages/Profile/tabsProfile";
-import { MoreHorizontalIcon } from "lucide-react";
 
 import { RootState } from "@/redux/store";
 import { useNavigate, useParams } from "react-router";
@@ -23,14 +22,16 @@ import Modal from "@/components/Modal/modal";
 import { CreateSeries } from "@/components/Modal/Series/createSeries";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
+import { IconBlock, IconReportUser } from "@/components/ui/icon";
+import { ReportUser } from "@/components/Modal/User/report";
+import { BlockUser } from "@/components/Modal/User/block";
 
 const Profile = () => {
   const userData = useSelector((state: RootState) => state.user.detail?.data);
-  console.log(userData);
   const { id } = useParams();
   const userId = Number(id);
   const navigate = useNavigate();
-  const { sendRequest, isLoading } = useFetch();
+  const { sendRequest } = useFetch();
   const [isUser, setIsUser] = useState(false);
   const user = useSelector((state: RootState) => state.user.user);
 
@@ -44,12 +45,12 @@ const Profile = () => {
     if (userId) {
       sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
     }
-  }, [userId]);
+  }, [id]);
 
   const [displayModal, setDisplayModal] = useState("");
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
-  const [isFollowing, setIsFollowing] = useState(user.checkStatusFollow);
+  const isFollowing = useState(user.checkStatusFollow);
   const handleFollow = async (id: number) => {
     if (!isFollowing) {
       // Nếu chưa follow, thực hiện follow
@@ -135,6 +136,34 @@ const Profile = () => {
                       >
                         Add New Series
                       </Button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-5 mt-4">
+                      {!user.checkStatusFollow ? (
+                        <Button
+                          onClick={() => {
+                            handleFollow(userId);
+                          }}
+                          variant={"gradient"}
+                          size={"sm"}
+                        >
+                          Follow
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            handleFollow(userId);
+                          }}
+                          variant={"gradient"}
+                          size={"sm"}
+                        >
+                          Unfollow
+                        </Button>
+                      )}
+
+                      <Button variant={"gradient"} size={"sm"}>
+                        Message
+                      </Button>
                       <Button variant={"gradient"} size={"sm"}>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -161,54 +190,24 @@ const Profile = () => {
                             <DropdownMenuItem
                               onClick={() => {
                                 setDisplayCreate.on(),
-                                  setDisplayModal("LIST_FOLLOWER");
+                                  setDisplayModal("REPORT");
                               }}
                               className="cursor-pointer"
                             >
-                              <span>List Follower</span>
+                              <IconReportUser className="w-6 h-6 mr-2" />
+                              <span>Report User</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => {
-                                setDisplayCreate.on(),
-                                  setDisplayModal("LIST_FOLLOWING");
+                                setDisplayCreate.on(), setDisplayModal("BLOCK");
                               }}
                               className="cursor-pointer"
                             >
-                              <span>List Following</span>
+                              <IconBlock className="w-6 h-6 mr-2" />
+                              <span>Block User</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="flex gap-5 mt-4">
-                      {!user.checkStatusFollow ? (
-                        <Button
-                          onClick={() => {
-                            handleFollow(userId);
-                          }}
-                          variant={"gradient"}
-                          size={"sm"}
-                        >
-                          Follow
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            handleFollow(userId);
-                          }}
-                          variant={"gradient"}
-                          size={"sm"}
-                        >
-                          UNFollow
-                        </Button>
-                      )}
-
-                      <Button variant={"gradient"} size={"sm"}>
-                        Message
-                      </Button>
-                      <Button variant={"gradient"} size={"sm"}>
-                        <MoreHorizontalIcon />
                       </Button>
                     </div>
                   )}
@@ -226,6 +225,12 @@ const Profile = () => {
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "CREATE_SERIES" ? (
           <CreateSeries setFlag={setDisplayCreate} />
+        ) : null}
+        {displayModal === "REPORT" ? (
+          <ReportUser setFlag={setDisplayCreate} data={user} />
+        ) : null}
+        {displayModal === "BLOCK" ? (
+          <BlockUser setFlag={setDisplayCreate} data={user} />
         ) : null}
       </Modal>
     </div>

@@ -1,38 +1,39 @@
 import { useEffect, useState } from "react";
 import { GridCard } from "../../components/Card/CardBlog/card";
 import { Button } from "../../components/ui/button";
-import { ScrollText } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { Contact, ScrollText, UserPlus2 } from "lucide-react";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import BlogPost from "@/types/blog";
 import { CardSeries } from "../../components/Card/CardSeries/cardSeries";
-import ClientServices from "@/services/client/client";
 import seriesType from "@/types/series";
-import { createAxios } from "@/api/createInstance";
-import { loginSuccess } from "@/redux/authSlice";
 import { Nodata } from "../../components/ui/nodata";
 import { useParams } from "react-router";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
+import Modal from "@/components/Modal/modal";
+import { ModalListUser } from "@/components/Modal/modalUser";
+import useBoolean from "@/hooks/useBoolean";
 
 export const TabsProfile = () => {
   const [tabs, setTabs] = useState("TAB_BLOG");
   const blog = useSelector((state: RootState) => state.blog.blog.result);
-  const user = useSelector((state: RootState) => state.auth.login);
   const userData = useSelector((state: RootState) => state.user.detail?.data);
 
-  const { isLoading, sendRequest } = useFetch();
+  const [displayModal, setDisplayModal] = useState("");
+  const [displayCreate, setDisplayCreate] = useBoolean(false);
 
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(user, dispatch, loginSuccess);
+  const { sendRequest } = useFetch();
 
   const { id } = useParams();
   const [isUser, setIsUser] = useState(false);
-  const [blogUser, setBlogUser] = useState<BlogPost[]>([]);
-  const userId = Number(id);
-  console.log(isUser);
+  const blogUser = useSelector((state: RootState) => state.blog.blogByUser);
+  const seriesUser = useSelector(
+    (state: RootState) => state.series.seriesByUser
+  );
+  const series = useSelector((state: RootState) => state.series.series);
 
-  const accessToken = user?.data.token;
+  const userId = Number(id);
 
   useEffect(() => {
     if (!userId || userData.id !== Number(userId)) {
@@ -43,29 +44,21 @@ export const TabsProfile = () => {
 
   useEffect(() => {
     try {
-      sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
-      sendRequest({ type: REQUEST_TYPE.LIST_SERIES });
+      if (userId) {
+        sendRequest({
+          type: REQUEST_TYPE.GET_BLOG_BY_USER,
+          slug: userId.toString(),
+        });
+        sendRequest({
+          type: REQUEST_TYPE.LIST_SERIES_USER,
+          slug: userId.toString(),
+        });
+      } else {
+        sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
+        sendRequest({ type: REQUEST_TYPE.LIST_SERIES });
+      }
     } catch (error) {
       console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      const fetchBlogUser = async () => {
-        const { body } = await ClientServices.getBlogByUserId(
-          userId,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setBlogUser(body?.result);
-        } else {
-          console.log(body?.message);
-        }
-      };
-
-      fetchBlogUser();
     }
   }, [userId]);
 
@@ -75,43 +68,35 @@ export const TabsProfile = () => {
         <div className="flex flex-auto justify-between p-2">
           <div className="w-full ">
             <div className="relative right-0">
-              <TabsItems setTabs={setTabs} />
+              <TabsItems
+                setTabs={setTabs}
+                setDisplayModal={setDisplayModal}
+                setDisplayCreate={setDisplayCreate}
+              />
             </div>
           </div>
         </div>
       </div>
       <div className="w-full min-h-0  p-1.5 space-y-3">
-        <div className="w-full bg-card shadow-lg  rounded-lg overflow-hidden">
-          {/* <div className="py-2 px-6 flex justify-between items-center">
-            <span className="font-semibold text-title text-xl">{tabs}</span>
-            <div className="flex gap-5">
-              <div>
-                {tabs === "TAB_VIDEO" || tabs === "TAB_SERIES" ? (
-                  tabs === "TAB_SERIES" ? (
-                    <Button
-                      onClick={() => {
-                        setDisplayCreate.on(), setDisplayModal("CREATE_SERIES");
-                      }}
-                    >
-                      <Plus className="mr-2 p-1 h-6 w-6 rounded-full bg-blue-800" />
-                      Add New Series
-                    </Button>
-                  ) : (
-                    <Button>
-                      {" "}
-                      <Plus className="mr-2 p-1 h-6 w-6 rounded-full bg-blue-800" />
-                      Add New Video
-                    </Button>
-                  )
-                ) : null}
-              </div>
-            </div>
-          </div> */}
-        </div>
+        <div className="w-full bg-card shadow-lg  rounded-lg overflow-hidden"></div>
         {!isUser ? (
-          <TabContent tabName={tabs} data={blogUser} />
+          <TabContent
+            tabName={tabs}
+            data={blogUser}
+            series={seriesUser}
+            displayModal={displayModal}
+            displayCreate={displayCreate}
+            setDisplayCreate={setDisplayCreate}
+          />
         ) : (
-          <TabContent tabName={tabs} data={blog} />
+          <TabContent
+            tabName={tabs}
+            data={blog}
+            series={series}
+            displayModal={displayModal}
+            displayCreate={displayCreate}
+            setDisplayCreate={setDisplayCreate}
+          />
         )}
       </div>
     </div>
@@ -121,27 +106,42 @@ export const TabsProfile = () => {
 interface TabsContentProps {
   tabName: string;
   data: BlogPost[];
+  series: seriesType[];
+  displayModal: string;
+  displayCreate: boolean;
+  setDisplayCreate: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
 }
 
-export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
+export const TabContent: React.FC<TabsContentProps> = ({
+  tabName,
+  data,
+  series,
+  displayModal,
+  displayCreate,
+  setDisplayCreate,
+}) => {
   const [expanded, setExpanded] = useState<number | undefined>();
-  const dispatch = useDispatch();
-
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
 
   const blogBySeries = useSelector(
     (state: RootState) => state.series.blogBySeries
   );
-  const [blogData, setBlogData] = useState<BlogPost[]>([]);
   const [seriesSelected, setSeriesSelected] = useState<seriesType>();
   const { id } = useParams();
   const [isUser, setIsUser] = useState(false);
-  const [seriesData, setSeriesData] = useState<seriesType[]>([]);
   const userData = useSelector((state: RootState) => state.user.detail?.data);
+  const listFollowing = useSelector(
+    (state: RootState) => state.user.listFollowing
+  );
+  const listFollower = useSelector(
+    (state: RootState) => state.user.listFollower
+  );
 
-  const { isLoading, sendRequest } = useFetch();
+  const { sendRequest } = useFetch();
+  const [following, setFollowing] = useState(false);
 
   const userId = Number(id);
 
@@ -151,38 +151,50 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
   }, [userData, userId]);
 
   useEffect(() => {
-    if (userId) {
-      const fetchSeriesByUser = async () => {
-        const { body } = await ClientServices.getSeriesByUserId(
-          userId,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setSeriesData(body?.result);
-        } else {
-          console.log(body?.message);
-        }
-      };
-
-      fetchSeriesByUser();
-    }
-  }, [userId]);
-
-  const listSeries = useSelector(
-    (state: RootState) => state.series.series.result
-  );
-
-  useEffect(() => {
     if (expanded) {
-      sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
-      if (expanded) {
-        setBlogData(blogBySeries);
-      }
+      sendRequest({
+        type: REQUEST_TYPE.LIST_BLOG_BY_SERIES,
+        slug: seriesSelected?.id.toString(),
+      });
     } else return;
   }, [expanded]);
 
+  useEffect(() => {
+    sendRequest({
+      type: REQUEST_TYPE.GET_LIST_USER_FOLLOWING,
+      slug: !isUser ? userId.toString() : userData.id?.toString(),
+    });
+    sendRequest({
+      type: REQUEST_TYPE.GET_LIST_USER_FOLLOWER,
+      slug: !isUser ? userId.toString() : userData.id?.toString(),
+    });
+  }, [following]);
+
   switch (tabName) {
+    case "TAB_FOLLOWER":
+      return (
+        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+          {displayModal === "FOLLOWER" ? (
+            <ModalListUser
+              setFlag={setDisplayCreate}
+              data={listFollower}
+              setFollowing={setFollowing}
+            />
+          ) : null}
+        </Modal>
+      );
+    case "TAB_FOLLOWING":
+      return (
+        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+          {displayModal === "FOLLOWING" ? (
+            <ModalListUser
+              setFlag={setDisplayCreate}
+              data={listFollowing}
+              setFollowing={setFollowing}
+            />
+          ) : null}
+        </Modal>
+      );
     case "TAB_BLOG":
       return (
         <div>
@@ -228,7 +240,7 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
                       <div className="flex gap-5">
                         <Button
                           onClick={() => {
-                            setExpanded(undefined), setBlogData([]);
+                            setExpanded(undefined);
                           }}
                         >
                           Back
@@ -237,19 +249,20 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
                     </div>
                   </div>
                 </div>
-                {blogData && blogData.length > 0
-                  ? blogData.map((item) => (
+                {blogBySeries && blogBySeries.length > 0
+                  ? blogBySeries.map((item) => (
                       <div className="col-span-1 h-full ">
-                        <GridCard data={item} />
+                        <GridCard key={item.id} data={item} />
                       </div>
                     ))
                   : null}
               </>
             ) : isUser ? (
-              listSeries && listSeries.length > 0 ? (
-                listSeries.map((item) => (
+              series && series.length > 0 ? (
+                series.map((item) => (
                   <div className="col-span-1 h-full ">
                     <CardSeries
+                      key={item.id}
                       data={item}
                       setExpanded={setExpanded}
                       setSeriesSelected={setSeriesSelected}
@@ -261,10 +274,11 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
                   <Nodata />
                 </div>
               )
-            ) : seriesData && seriesData.length > 0 ? (
-              seriesData.map((item) => (
+            ) : series && series.length > 0 ? (
+              series.map((item) => (
                 <div className="col-span-1 h-full ">
                   <CardSeries
+                    key={item.id}
                     data={item}
                     setExpanded={setExpanded}
                     setSeriesSelected={setSeriesSelected}
@@ -286,9 +300,19 @@ export const TabContent: React.FC<TabsContentProps> = ({ tabName, data }) => {
 
 interface TabsItemsProps {
   setTabs: React.Dispatch<React.SetStateAction<string>>;
+  setDisplayCreate?: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
+  setDisplayModal?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
+export const TabsItems: React.FC<TabsItemsProps> = ({
+  setTabs,
+  setDisplayCreate,
+  setDisplayModal,
+}) => {
   const [activeTab, setActiveTab] = useState("TAB_BLOG");
 
   const handleBlogTabClick = () => {
@@ -299,6 +323,19 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
   const handleSeriesTabClick = () => {
     setActiveTab("TAB_SERIES");
     setTabs("TAB_SERIES");
+  };
+
+  const handleFollowingClick = () => {
+    setActiveTab("TAB_FOLLOWING");
+    setTabs("TAB_FOLLOWING");
+    setDisplayCreate?.on();
+    setDisplayModal("FOLLOWING");
+  };
+  const handleFollowerClick = () => {
+    setActiveTab("TAB_FOLLOWER");
+    setDisplayCreate?.on();
+    setDisplayModal("FOLLOWER");
+    setTabs("TAB_FOLLOWER");
   };
 
   return (
@@ -339,6 +376,32 @@ export const TabsItems: React.FC<TabsItemsProps> = ({ setTabs }) => {
           >
             <ScrollText className="mr-2" />
             Series
+          </div>
+        </li>
+        <li>
+          <div
+            onClick={handleFollowingClick}
+            className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white     ${
+              activeTab === "TAB_FOLLOWING"
+                ? "text-white border-t-2 border-white "
+                : ""
+            } py-4 font-semibold`}
+          >
+            <UserPlus2 className="mr-2 w-6 h-6" />
+            Following
+          </div>
+        </li>
+        <li>
+          <div
+            onClick={handleFollowerClick}
+            className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white     ${
+              activeTab === "TAB_FOLLOWER"
+                ? "text-white border-t-2 border-white "
+                : ""
+            } py-4 font-semibold`}
+          >
+            <Contact className="mr-2 w-6 h-6" />
+            Follower
           </div>
         </li>
       </ul>

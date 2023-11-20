@@ -4,6 +4,7 @@ import seriesReducer from "./seriesSlice";
 import userReducer from "./userSlice";
 import blogReducer from "./blogSlice";
 import commentReducer from "./commentSlice";
+import categoriesReducer from "./categoriesSlice";
 
 import {
   persistStore,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   blog: blogReducer,
   comment: commentReducer,
+  categories: categoriesReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

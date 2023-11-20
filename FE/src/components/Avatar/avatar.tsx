@@ -18,7 +18,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
   return (
     <div
       style={style}
-      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-110 border-2 border-border  rounded-full  "
+      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-105 border-2 border-border  rounded-full  "
     >
       {userData.avatar ? (
         <img
@@ -58,7 +58,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({ size, data }) => {
   return (
     <div
       style={style}
-      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-110 border-2 border-border  rounded-full  "
+      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-105 border-2 border-border  rounded-full  "
     >
       {data ? (
         <img

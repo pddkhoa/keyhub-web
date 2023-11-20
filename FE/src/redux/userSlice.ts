@@ -9,6 +9,8 @@ const userSlice = createSlice({
     },
     user: {} as User,
     userSuggest: [] as User[],
+    listFollower: [] as User[],
+    listFollowing: [] as User[],
     isLoadingUploadAvatar: false,
     isLoadingUploadBanner: false,
     isLoading: false,
@@ -55,6 +57,12 @@ const userSlice = createSlice({
     getUserSuggestSuccess: (state, action) => {
       state.userSuggest = action.payload;
     },
+    getListFollowingSuccess: (state, action) => {
+      state.listFollowing = action.payload;
+    },
+    getListFollowerSuccess: (state, action) => {
+      state.listFollower = action.payload;
+    },
   },
 });
 
@@ -68,6 +76,8 @@ export const {
   getUserByIdSuccess,
   followUserSuccess,
   unfollowUserSuccess,
+  getListFollowingSuccess,
+  getListFollowerSuccess,
 } = userSlice.actions;
 
 export default userSlice.reducer;

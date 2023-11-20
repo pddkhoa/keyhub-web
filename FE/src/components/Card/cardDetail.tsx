@@ -23,10 +23,12 @@ interface CardDetailProps {
   setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
   isHide?: boolean;
   isUser?: boolean;
+  setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
-  ({ post, isUser }, ref) => {
+  ({ post, isUser, setIsHide, setIsBookmark, setUnBookmark }, ref) => {
     const { axiosJWT, accessToken } = useAuth();
 
     const [isLike, setIsLike] = useState(post.isLike);
@@ -80,7 +82,10 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
       <>
         <div className="flex flex-col max-w-5xl  p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md  text-gray-100">
           <div className="flex justify-between space-x-4">
-            <div className="flex space-x-4">
+            <Link
+              to={`/user/${post.users.id}`}
+              className="flex space-x-4 hover:brightness-125"
+            >
               {!isUser ? (
                 <UserAvatar size={50} data={post && post.users.avatar} />
               ) : (
@@ -107,7 +112,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                   </>
                 )}
               </div>
-            </div>
+            </Link>
             <div className="">
               <Dropdown
                 data={post}
@@ -233,11 +238,19 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
             <DeleteBlog setFlag={setDisplayCreate} id={post.id} />
           ) : null}
           {displayModal === "BOOKMARK" ? (
-            <SaveBlog setFlag={setDisplayCreate} id={post.id} />
+            <SaveBlog
+              setFlag={setDisplayCreate}
+              id={post.id}
+              setIsBookmark={setIsBookmark}
+            />
           ) : null}
 
           {displayModal === "UNBOOKMARK" ? (
-            <RemoveBookmark setFlag={setDisplayCreate} id={post.id} />
+            <RemoveBookmark
+              setFlag={setDisplayCreate}
+              id={post.id}
+              setUnBookmark={setUnBookmark}
+            />
           ) : null}
           {displayModal === "PREVIEW" ? (
             <Preview setFlag={setDisplayCreate} data={post} />
@@ -246,7 +259,11 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
             <ReportBlog setFlag={setDisplayCreate} data={post} />
           ) : null}
           {displayModal === "HIDE" ? (
-            <HideBlog setFlag={setDisplayCreate} id={post.id} />
+            <HideBlog
+              setFlag={setDisplayCreate}
+              id={post.id}
+              setIsHide={setIsHide}
+            />
           ) : null}
         </Modal>
       </>

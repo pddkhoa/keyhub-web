@@ -7,27 +7,31 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const seriesSlice = createSlice({
   name: "series",
   initialState: {
-    series: {
-      result: [] as seriesType[],
-    },
+    series: [] as seriesType[],
+
+    seriesByUser: [] as seriesType[],
     isLoading: false,
     isSuccess: false,
     blogBySeries: [] as BlogPost[],
   },
   reducers: {
     getSeriesSuccess: (state, action) => {
-      state.series.result = action.payload;
+      state.series = action.payload;
+    },
+
+    getSeriesByUserSuccess: (state, action) => {
+      state.seriesByUser = action.payload;
     },
     getBlogBySeriesSuccess: (state, action) => {
       state.blogBySeries = action.payload;
     },
 
     addSeries(state, action) {
-      state.series.result.push(action.payload);
+      state.series.push(action.payload);
       state.isSuccess = true;
     },
     deleteSeriesSuccess(state, action: PayloadAction<number>) {
-      state.series.result = state.series.result.filter(
+      state.series = state.series.filter(
         (series) => series.id !== action.payload
       );
       state.isSuccess = true;
@@ -38,8 +42,13 @@ const seriesSlice = createSlice({
   },
 });
 
-export const { getSeriesSuccess, addSeries, deleteSeriesSuccess } =
-  seriesSlice.actions;
+export const {
+  getSeriesSuccess,
+  addSeries,
+  deleteSeriesSuccess,
+  getSeriesByUserSuccess,
+  getBlogBySeriesSuccess,
+} = seriesSlice.actions;
 
 export default seriesSlice.reducer;
 

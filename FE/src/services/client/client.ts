@@ -101,26 +101,6 @@ class ClientServices {
     return res;
   };
 
-  static getAllBlogByID = async (
-    blog_id: number,
-    accessToken: any,
-    axiosJWT: any
-  ) => {
-    type body = {
-      success: boolean;
-      message: string;
-      result: BlogPost;
-      statusCode: number;
-    };
-
-    const res = await requestApiHelper<body>(
-      axiosJWT.get(`api/v1/blog/${blog_id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    );
-    return res;
-  };
-
   static createBlogDaft = async (
     report: any,
     accessToken: string,

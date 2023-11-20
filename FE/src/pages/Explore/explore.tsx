@@ -1,117 +1,62 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import BlogPost from "@/types/blog";
-import ClientServices from "@/services/client/client";
 import { Nodata } from "@/components/ui/nodata";
 import Pagination from "@/components/Pagination/pagination";
-import { CardDefault } from "@/components/Card/card";
+import { CardDefault } from "@/components/Card/CardList/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import ClientServices from "@/services/client/client";
 import useAuth from "@/hooks/useAuth";
 
 const Explore = () => {
+  const { isLoading, sendRequest } = useFetch();
   const { axiosJWT, accessToken } = useAuth();
-
-  const [loading, setLoading] = useState(false);
-  const [blogPopular, setBlogPopular] = useState<BlogPost[]>();
-  const [blogLastest, setBlogLastest] = useState<BlogPost[]>();
-  const [blogMostLike, setBlogMostLike] = useState<BlogPost[]>();
-  const [blogMostView, setBlogMostView] = useState<BlogPost[]>();
-  const [maxPages, setMaxPages] = useState<number>();
-
   const [index, setIndex] = useState<number>(1);
 
-  useEffect(() => {
-    const fetchBlogPopular = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogPopular(
-        index,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBlogPopular(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
+  const blogPopular = useSelector((state: RootState) => state.blog.blogPopular);
+  const blogLastest = useSelector((state: RootState) => state.blog.blogLastest);
+  const blogMostLike = useSelector(
+    (state: RootState) => state.blog.blogMostLike
+  );
+  const blogMostView = useSelector(
+    (state: RootState) => state.blog.blogMostView
+  );
 
-    fetchBlogPopular();
-  }, [index]);
+  const [maxPages, setMaxPages] = useState<number>();
 
   useEffect(() => {
-    const fetchBlogLastest = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogLastest(
-        index,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBlogLastest(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG_LASTEST,
+      slug: index.toString(),
+    });
 
-    fetchBlogLastest();
-  }, [index]);
-
-  useEffect(() => {
-    const fetchBlogMostLike = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogMostLike(
-        index,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBlogMostLike(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
-
-    fetchBlogMostLike();
-  }, [index]);
-  useEffect(() => {
-    const fetchBlogMostView = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogMostViews(
-        index,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBlogMostView(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
-
-    fetchBlogMostView();
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG_MOSTLIKE,
+      slug: index.toString(),
+    });
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG_MOSTVIEW,
+      slug: index.toString(),
+    });
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG_POPULAR,
+      slug: index.toString(),
+    });
   }, [index]);
 
   useEffect(() => {
     const fetchSizeBlog = async () => {
-      setLoading(true);
       const { body } = await ClientServices.getSizeBlogExplore(
         accessToken,
         axiosJWT
       );
       if (body?.success) {
         setMaxPages(body?.result);
-        setLoading(false);
       } else {
         console.log(body?.message);
-        setLoading(false);
       }
     };
 
@@ -554,7 +499,7 @@ const Explore = () => {
                 <TabsContent value="Popular">
                   <div className="h-fit rounded-lg p-4 ">
                     <div className="grid-flow-row w-full space-y-5">
-                      {loading ? (
+                      {isLoading ? (
                         <>
                           <Skeleton />
                           <Skeleton />
@@ -578,9 +523,9 @@ const Explore = () => {
                   </div>
                 </TabsContent>
                 <TabsContent value="Latest">
-                  <div className="h-fit rounded-lg p-4 bg-card">
+                  <div className="h-fit rounded-lg p-4">
                     <div className="grid-flow-row w-full space-y-5">
-                      {loading ? (
+                      {isLoading ? (
                         <>
                           <Skeleton />
                           <Skeleton />
@@ -604,9 +549,9 @@ const Explore = () => {
                   </div>
                 </TabsContent>
                 <TabsContent value="mostLike">
-                  <div className="h-fit rounded-lg p-4 bg-card">
+                  <div className="h-fit rounded-lg p-4 ">
                     <div className="grid-flow-row w-full space-y-5">
-                      {loading ? (
+                      {isLoading ? (
                         <>
                           <Skeleton />
                           <Skeleton />
@@ -630,9 +575,9 @@ const Explore = () => {
                   </div>
                 </TabsContent>
                 <TabsContent value="mostView">
-                  <div className="h-fit rounded-lg p-4 bg-card">
+                  <div className="h-fit rounded-lg p-4 ">
                     <div className="grid-flow-row w-full space-y-5">
-                      {loading ? (
+                      {isLoading ? (
                         <>
                           <Skeleton />
                           <Skeleton />

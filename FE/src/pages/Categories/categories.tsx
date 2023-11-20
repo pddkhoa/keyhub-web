@@ -1,33 +1,19 @@
 import { CardCategories } from "@/components/Card/cardCategories";
 import { Nodata } from "@/components/ui/nodata";
-import useAuth from "@/hooks/useAuth";
-import ClientServices from "@/services/client/client";
-import CategoryType from "@/types/categories";
-import { useState, useEffect } from "react";
+import useFetch from "@/hooks/useFetch";
+import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Categories = () => {
-  const { axiosJWT, accessToken } = useAuth();
-
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const { sendRequest } = useFetch();
+  const categories = useSelector(
+    (state: RootState) => state.categories.listCategories
+  );
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getCategories(
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setCategories(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
+    sendRequest({ type: REQUEST_TYPE.GET_LIST_CATEGORIES });
   }, []);
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
@@ -113,7 +99,7 @@ const Categories = () => {
           <div className="absolute right-0  bottom-0 left-0  z-0  bg-gradient-to-b w-12 to-transparent  from-gray-900 via-gray-900 filter blur-2xl" />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-5 ">
+      <div className="grid grid-cols-3 gap-10 ">
         {categories && categories.length > 0 ? (
           categories.map((item) => <CardCategories key={item.id} data={item} />)
         ) : (

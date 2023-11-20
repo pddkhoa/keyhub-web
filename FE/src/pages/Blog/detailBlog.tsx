@@ -1,54 +1,24 @@
-import BlogPost from "@/types/blog";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Output from "editorjs-blocks-react-renderer";
 import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
 import { Loading } from "@/components/Loading/loading";
 import "./detailBlog.css";
-import useAuth from "@/hooks/useAuth";
-import { Comment, Comments } from "@/components/Comment/comment";
+import { Comments } from "@/components/Comment/comment";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 const DetailBlog = () => {
-  const userData = useSelector((state: RootState) => state.user.detail?.data);
   // const blog = useSelector((state: RootState) => state.blog.blog.result);
-  const { axiosJWT, accessToken } = useAuth();
-  const [blogData, setBlogData] = useState<BlogPost>();
-
-  const [loading, setLoading] = useState(false);
+  const blogData = useSelector((state: RootState) => state.blog.detailBlog);
+  const { isLoading, sendRequest } = useFetch();
 
   const { id } = useParams();
-  const blog_id = Number(id);
+  // const blog_id = Number(id);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const { body } = await ClientServices.getAllBlogByID(
-          blog_id,
-          accessToken,
-          axiosJWT
-        );
-
-        if (body?.success) {
-          setLoading(false);
-
-          setBlogData(body?.result);
-        } else {
-          // Xử lý khi có lỗi từ API
-          setLoading(false);
-
-          console.error(body?.message);
-        }
-      } catch (error) {
-        // Xử lý khi có lỗi trong quá trình gọi API
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    sendRequest({ type: REQUEST_TYPE.GET_DETAIL, slug: id });
   }, []);
 
   const blocks = [];
@@ -135,7 +105,7 @@ const DetailBlog = () => {
     blocks: blocks,
     version: "2.22.2", // Thay đổi phiên bản tùy ý
   };
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="mx-auto w-fit space-y-5">
         <div className="space-y-2">
@@ -189,7 +159,7 @@ const DetailBlog = () => {
           <img
             src={blogData?.avatar}
             alt=""
-            className="w-full h-96 rounded-lg bg-gray-500"
+            className="w-full h-96 object-cover rounded-lg bg-gray-500"
           ></img>
         </div>
         <div className="output">
@@ -211,7 +181,7 @@ const DetailBlog = () => {
               },
               image: {
                 className:
-                  " flex flex-col h-[500px] w-[900px] justify-center items-center  mt-10 mx-auto bg-transparent",
+                  " flex flex-col w-[900px] justify-center items-center  mt-10 mx-auto  py-5 rounded-xl",
               },
               list: {
                 className: "text-title-foreground",
@@ -236,7 +206,7 @@ const DetailBlog = () => {
                 <Link
                   rel="noopener noreferrer"
                   // href="#"
-                  to={`tags/${item.id}`}
+                  to={`/tags/${item.id}`}
                   className="px-3 py-1 rounded-sm hover:underline bg-violet-400 text-gray-900"
                 >
                   #{item.name}
@@ -247,7 +217,7 @@ const DetailBlog = () => {
         <div className="space-y-2">
           <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
             <img
-              src={blogData?.users.avatar}
+              src={blogData?.users.avatar?.toString()}
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start bg-gray-500 border-gray-700"
             />

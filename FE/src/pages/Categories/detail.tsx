@@ -28,9 +28,6 @@ const CategoriesDetail = () => {
     }
   }, [location.state]);
 
-  console.log(isFollowing);
-  console.log(categoriesDetail);
-
   const [blog, setBlog] = useState<BlogPost[]>([]);
 
   useEffect(() => {
@@ -111,7 +108,7 @@ const CategoriesDetail = () => {
                       onClick={() => handleFollow(categoriesDetail.id)}
                       className="w-1/5 mt-5 brightness-90"
                     >
-                      UnFollow
+                      Unfollow
                     </Button>
                   ) : (
                     <Button

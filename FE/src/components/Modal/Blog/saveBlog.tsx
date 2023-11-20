@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
+import { useParams } from "react-router-dom";
 
 type SaveBlogsProps = {
   setFlag: {
@@ -9,20 +10,34 @@ type SaveBlogsProps = {
     toggle: () => void;
   };
   id: number;
+  setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const SaveBlog: React.FC<SaveBlogsProps> = ({ setFlag, id }) => {
+export const SaveBlog: React.FC<SaveBlogsProps> = ({
+  setFlag,
+  id,
+  setIsBookmark,
+}) => {
   const { isLoading, sendRequest } = useFetch();
+
+  const { iduser } = useParams();
+  const userId = Number(iduser);
+
   const handleSaveBlog = async (blog_id: number) => {
     await sendRequest({
       type: REQUEST_TYPE.BOOKMARK_BLOG,
       data: null,
       slug: blog_id.toString(),
     });
+    if (setIsBookmark) {
+      setIsBookmark((prevIsBookmark) => !prevIsBookmark);
+    }
     setFlag.off();
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
     sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
+    sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
 
-    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_FEED });
+    // sendRequest({ type: REQUEST_TYPE.LIST_BLOG_FEED });
   };
 
   return (

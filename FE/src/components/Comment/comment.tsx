@@ -9,6 +9,7 @@ import convertDate from "../FormatDate/formatDate";
 import { Button } from "../ui/button";
 import { IconComment, IconDelete } from "../ui/icon";
 import useAuth from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
 interface CommentsProps {
   idBlog?: number;
@@ -149,11 +150,11 @@ export const Comment: React.FC<CommentProps> = ({
       if (body?.success) {
         setPosting(false);
 
-        showToast("Delete Success", "success");
+        toast.success(body.message);
       } else {
         console.log(body?.message);
         setPosting(false);
-        showToast("Delete Fail", "error");
+        toast.error(body?.message || "Error");
       }
     }
   };
@@ -166,14 +167,14 @@ export const Comment: React.FC<CommentProps> = ({
 
   return (
     <div>
-      <div className="flex flex-row bg-card rounded-xl mt-4 p-3">
+      <div className="flex flex-row bg-gray-900 rounded-xl mt-4 p-3">
         <div
           style={{ width: 45, height: 45 }}
           className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-110 border-2 border-border  rounded-full  "
         >
           {comment.users.avatar ? (
             <img
-              className="w-[100%] h-[100%] rounded-full object-cover"
+              className=" rounded-full object-cover"
               src={comment.users.avatar}
             />
           ) : (
@@ -348,11 +349,11 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       );
       if (body?.success) {
         setPosting(false);
-        showToast("Success", "success");
+        toast.success(body.message);
         setActiveComment(null);
       } else {
-        showToast("Error", "error");
         console.log(body?.message);
+        toast.error(body?.message || "Error");
         setPosting(false);
       }
     }
@@ -372,10 +373,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       );
       if (body?.success) {
         setPosting(false);
-        showToast("Success", "success");
+        toast.success(body.message);
       } else {
-        showToast("Error", "error");
         console.log(body?.message);
+        toast.error(body?.message || "Error");
         setPosting(false);
       }
     }

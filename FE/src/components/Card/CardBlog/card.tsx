@@ -50,7 +50,6 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
       });
       setIsLike(false);
       setValueLike(valueLike! - 1);
-
       sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
     }
   };
@@ -68,7 +67,10 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
   return (
     <div className="flex flex-col max-w-lg p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md bg-gray-900 text-gray-100">
       <div className="flex justify-between space-x-4">
-        <div className="flex space-x-4">
+        <Link
+          to={`${!isUser ? `/user/${data.id}` : "#"} `}
+          className="flex space-x-4 hover:brightness-125"
+        >
           {!isUser ? (
             <UserAvatar size={50} data={data && data.users.avatar} />
           ) : (
@@ -95,7 +97,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
               </>
             )}
           </div>
-        </div>
+        </Link>
         <div className="">
           <Dropdown
             data={data}
@@ -118,9 +120,10 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
             to={`/blog/${data.id}`}
             className="block text-gray-300 hover:brightness-150 hover:underline decoration-solid"
           >
-            <h3 className="text-xl font-semibold">{data.title}</h3>
+            <h3 className="text-xl font-semibold h-14  line-clamp-2 ">
+              {data.title}
+            </h3>
           </Link>
-          <p className="leadi dark:text-gray-400">{data.description}</p>
         </div>
       </div>
       <div className="flex flex-wrap justify-between">
