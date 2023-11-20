@@ -478,7 +478,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserResponseDTO> getAllUserFollowing( Users users,BigInteger users_id) {
+    public List<UserResponseDTO> getAllUserFollowing(Users users,BigInteger users_id) {
         Users users1 = userRepository.findById(users_id).orElse(null);
         List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(users1);
         List<Users> followingUsers = UserFollow.stream()
@@ -494,8 +494,8 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDTO> userResponseDTOs = beforeFilter.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
-                    boolean isFollowing = UserFollow.stream()
-                            .anyMatch(f -> f.getFollowing().equals(users));
+                    boolean isFollowing = isExistUserFollow(users,user.getId());
+
                     userResponseDTO.setCheckStatusFollow(isFollowing);
                     userResponseDTO.setCheckFollowCategory(false);
                     if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
