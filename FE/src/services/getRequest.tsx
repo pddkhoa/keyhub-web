@@ -23,6 +23,7 @@ import {
   getBlogByUserSuccess,
 } from "@/redux/blogSlice";
 import {
+  getBlogSearchSuccess,
   getListCateSuccess,
   getListUserFollowCateSuccess,
 } from "@/redux/categoriesSlice";
@@ -487,6 +488,16 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getListFollowerSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.SEARCH_BLOG_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/categories/search`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlogSearchSuccess,
         isToken: true,
       };
 

@@ -168,7 +168,7 @@ export const TabContent: React.FC<TabsContentProps> = ({
       type: REQUEST_TYPE.GET_LIST_USER_FOLLOWER,
       slug: !isUser ? userId.toString() : userData.id?.toString(),
     });
-  }, [following]);
+  }, [following, isUser, id]);
 
   switch (tabName) {
     case "TAB_FOLLOWER":

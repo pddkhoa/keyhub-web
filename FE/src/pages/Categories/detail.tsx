@@ -2,13 +2,18 @@ import { GridCard } from "@/components/Card/CardBlog/card";
 import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
+import useFetch from "@/hooks/useFetch";
 import ClientServices from "@/services/client/client";
+import { REQUEST_TYPE } from "@/types";
 import BlogPost from "@/types/blog";
 import CategoryType from "@/types/categories";
 import { SlidersHorizontal } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import toast from "react-hot-toast";
 import { useLocation, useParams } from "react-router";
+import { debounce } from "lodash";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const CategoriesDetail = () => {
   const { id } = useParams();
@@ -17,9 +22,14 @@ const CategoriesDetail = () => {
 
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const { sendRequest } = useFetch();
 
   const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
   const [isFollowing, setIsFollowing] = useState(false);
+
+  const blogFilter = useSelector(
+    (state: RootState) => state.categories.blogSearch
+  );
 
   useEffect(() => {
     if (location.state) {
@@ -29,6 +39,27 @@ const CategoriesDetail = () => {
   }, [location.state]);
 
   const [blog, setBlog] = useState<BlogPost[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Tạo debounced search function
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      const report = {
+        keyword: searchTerm,
+        category_id: id,
+      };
+      sendRequest({ type: REQUEST_TYPE.SEARCH_BLOG_CATEGORIES, data: report });
+    }, 500),
+    [searchTerm]
+  );
+
+  // useEffect(() => {
+  //   debouncedSearch(searchTerm);
+  // }, [searchTerm, debouncedSearch]);
+  function handleInputBlur() {
+    debouncedSearch(searchTerm);
+  }
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -59,12 +90,12 @@ const CategoriesDetail = () => {
         axiosJWT
       );
       if (body?.success) {
-        showToast(body?.message, "success");
+        toast.success(body?.message);
         setIsFollowing(true);
       } else {
         console.log(body?.message);
 
-        showToast("error", "error");
+        toast.error(body?.message || "Error");
       }
     } else {
       // Nếu đã follow, thực hiện unfollow (tương tự)
@@ -74,63 +105,73 @@ const CategoriesDetail = () => {
         axiosJWT
       );
       if (body?.success) {
-        showToast(body?.message, "success");
+        toast.success(body?.message);
         setIsFollowing(false);
       } else {
         console.log(body?.message);
-        showToast("error", "error");
+        toast.error(body?.message || "Error");
       }
     }
+    sendRequest({ type: REQUEST_TYPE.GET_LIST_CATEGORIES });
   };
 
   return (
     <div className="min-h-0 w-full">
       {categoriesDetail && (
         <>
-          <div className=" z-30 h-96 mt-10 relative items-center justify-center w-full overflow-hidden">
-            <div className="grid grid-cols-2 p-4 mx-28 py-10">
-              <div className="col-span-1">
-                <div className="flex flex-col gap-3">
-                  <span className="text-xl font-semibold  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-100">
-                    The security first platform
-                  </span>
-                  <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 ">
-                    Simplify your security with authentication services
-                  </span>
-                  <span className="text-xl font-thin text-title-foreground">
-                    Define access roles for the end-users, and extend your
-                    authorization capabilities to implement dynamic access
-                    control.
-                  </span>
+          <section className="py-16 text-gray-100">
+            <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
+              <div className="bg-gray-900 flex flex-col mx-auto lg:flex-row">
+                <div
+                  className="w-full lg:w-1/3"
+                  style={{
+                    backgroundImage: `url(${categoriesDetail.avatar})`,
+                    backgroundPosition: "center center",
+                    backgroundSize: "cover",
+                  }}
+                ></div>
+                <div className="flex flex-col w-full p-6 lg:w-2/3 md:p-8 lg:p-12">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-8 h-8 mb-8 text-violet-400"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  <h2 className="text-3xl font-semibold leadi">
+                    {categoriesDetail.name}
+                  </h2>
+                  <p className="mt-4 mb-8 text-sm">
+                    {categoriesDetail.description}
+                  </p>
                   {isFollowing ? (
                     <Button
                       variant={"gradient"}
-                      onClick={() => handleFollow(categoriesDetail.id)}
-                      className="w-1/5 mt-5 brightness-90"
+                      onClick={() => {
+                        handleFollow(categoriesDetail.id);
+                      }}
+                      className="self-start text-lg rounded-xl"
                     >
-                      Unfollow
+                      Follow
                     </Button>
                   ) : (
                     <Button
                       variant={"gradient"}
-                      onClick={() => handleFollow(categoriesDetail.id)}
-                      className="w-1/5 mt-5 brightness-90"
+                      onClick={() => {
+                        handleFollow(categoriesDetail.id);
+                      }}
+                      className="self-start text-lg rounded-xl"
                     >
-                      Follow
+                      Unfollow
                     </Button>
                   )}
                 </div>
               </div>
-              <div className="col-span-1">
-                <div>
-                  <img src="https://preview.cruip.com/stellar/images/feature-image-01.png" />
-                </div>
-              </div>
-            </div>
-            <div className="absolute right-0  bottom-0 left-0 z-0 h-full w-36 bg-gradient-to-tr to-transparent  from-gray-900 via-purple-950 filter blur-2xl" />
-          </div>
-          <div className="min-h-0 w-10/12 mx-auto py-10">
-            <div className="grid grid-cols-3 gap-5">
               <div className="col-span-3 flex items-center gap-5 mb-10">
                 {" "}
                 <div className="items-center h-10 rounded-xl border-2 flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
@@ -149,6 +190,9 @@ const CategoriesDetail = () => {
                   <input
                     placeholder="Search blog"
                     id="posts-search"
+                    value={searchTerm}
+                    onBlur={handleInputBlur}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
                   ></input>
                 </div>
@@ -156,17 +200,26 @@ const CategoriesDetail = () => {
                   <SlidersHorizontal className="h-5 w-5" />
                 </Button>
               </div>
-              {blog && blog.length > 0 ? (
-                blog.map((item) => <GridCard data={item} />)
-              ) : (
-                <Nodata />
-              )}
-              {/* <CardCategories />
-    <CardCategories />
-    <CardCategories />
-    <CardCategories /> */}
+              <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/**/}
+                {blogFilter && blogFilter.length > 0 ? (
+                  blogFilter.map((post) => <GridCard data={post} />)
+                ) : blog && blog.length > 0 ? (
+                  blog.map((item) => <GridCard data={item} />)
+                ) : (
+                  <Nodata />
+                )}
+              </div>
+              {/* <div className="flex justify-center">
+                <button
+                  type="button"
+                  className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-900 text-gray-400"
+                >
+                  Load more posts...
+                </button>
+              </div> */}
             </div>
-          </div>
+          </section>
         </>
       )}
     </div>

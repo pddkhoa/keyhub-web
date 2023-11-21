@@ -79,7 +79,7 @@ export function BerylliumLeftSidebarFixed() {
   }, [width]);
 
   return (
-    <aside className="fixed  overflow-y-scroll overflow-x-hidden start-0 top-0 z-50 hidden h-screen w-[88px] flex-col items-center gap-10 bg-gray-900 py-3.5 bg-gray-0 xl:flex">
+    <aside className="fixed border-r-2 overflow-y-hidden overflow-x-hidden start-0 top-0 z-50 hidden h-screen w-[88px] flex-col items-center gap-10 bg-gray-900 py-3.5 bg-gray-0 xl:flex">
       <ActionIcon
         aria-label="open sidebar"
         variant="text"
@@ -101,12 +101,12 @@ export function SidebarExpandable() {
   return (
     <div
       className={cn(
-        "fixed start-[104px] top-0 z-50 hidden h-full w-0  overflow-x-hidden duration-200 xl:flex",
+        "fixed start-[84px] top-0 z-50 hidden h-full w-0  overflow-x-hidden duration-200 xl:flex",
         !!expandedLeft && "w-[294px]"
       )}
     >
-      <SimpleBar className="h-screen py-20 border-r-2 p-2 min-w-[200px]">
-        <div className="items-center h-10 rounded-xl border-2 flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
+      <SimpleBar className="h-screen py-20 border-r-2 bg-gray-900 p-2 min-w-[200px]">
+        <div className="items-center h-10 rounded-xl bg-gray-800  flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -120,10 +120,30 @@ export function SidebarExpandable() {
             ></path>
           </svg>
           <input
-            placeholder="Search bookmarks"
+            placeholder="Search Users"
             id="posts-search"
-            className="flex-1 h-10 rounded-12 text-white hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+            className="flex-1 h-10 rounded-12  text-white hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
           ></input>
+        </div>
+        <div className="border-b mt-5" />
+        <div className="py-2 flex flex-col gap-5">
+          <div className="flex">
+            <div className="flex items-center space-x-2">
+              <img
+                src="https://source.unsplash.com/50x50/?portrait"
+                alt=""
+                className="object-cover object-center w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700"
+              />
+              <div className="-space-y-1">
+                <h2 className="text-sm text-white font-semibold leadi">
+                  leroy_jenkins72
+                </h2>
+                <span className="inline-block text-xs leadi text-gray-400">
+                  Somewhere
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </SimpleBar>
     </div>

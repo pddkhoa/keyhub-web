@@ -19,7 +19,7 @@ const DetailBlog = () => {
 
   useEffect(() => {
     sendRequest({ type: REQUEST_TYPE.GET_DETAIL, slug: id });
-  }, []);
+  }, [id]);
 
   const blocks = [];
 
@@ -204,6 +204,7 @@ const DetailBlog = () => {
           {blogData?.tags && blogData.tags.length > 0
             ? blogData.tags.map((item) => (
                 <Link
+                  key={item.id}
                   rel="noopener noreferrer"
                   // href="#"
                   to={`/tags/${item.id}`}

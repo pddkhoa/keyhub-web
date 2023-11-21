@@ -180,27 +180,21 @@ export const ModalListUser: React.FC<ModalListUserProps> = ({
   const [dataUser, setDataUser] = useState(initialData);
 
   const handleFollow = async (id: any) => {
-    const updatedDataUser = dataUser.map((user) => {
-      if (user.id === id) {
-        return { ...user, checkStatusFollow: !user.checkStatusFollow };
-      }
-      return user;
+    setDataUser((prev) =>
+      prev.map((user) => {
+        if (user.id === id) {
+          return { ...user, checkStatusFollow: !user.checkStatusFollow };
+        }
+        return user;
+      })
+    );
+
+    await sendRequest({
+      type: REQUEST_TYPE.FOLLOW_USER,
+      data: null,
+      slug: id.toString(),
     });
-    setDataUser(updatedDataUser);
-    if (!user?.checkStatusFollow) {
-      // Nếu chưa follow, thực hiện follow
-      await sendRequest({
-        type: REQUEST_TYPE.FOLLOW_USER,
-        data: null,
-        slug: id.toString(),
-      });
-    } else {
-      await sendRequest({
-        type: REQUEST_TYPE.UNFOLLOW_USER,
-        data: null,
-        slug: id.toString(),
-      });
-    }
+
     if (setFollowing) {
       setFollowing((prevFollowing) => !prevFollowing);
     }

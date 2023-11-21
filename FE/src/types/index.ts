@@ -70,6 +70,9 @@ export enum REQUEST_TYPE {
   // categories
   GET_LIST_CATEGORIES = "get_list_categories",
   GET_LIST_USER_FOLLOW_CATE = "get_list_user_follow_cate",
+  SEARCH_BLOG_CATEGORIES = "search_blog_categories",
+
+  //
 }
 
 export type RequestConfig = {

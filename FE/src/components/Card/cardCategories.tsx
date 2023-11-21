@@ -1,7 +1,6 @@
 import CategoryType from "@/types/categories";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { UserAvatar } from "../Avatar/avatar";
 import { useEffect, useState } from "react";
 import ClientServices from "@/services/client/client";
 import User from "@/types/user";
@@ -57,60 +56,51 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
   const userFollowingLength = userFollowing.length - 3;
 
   return (
-    <div className="card  text-gray-300 w-96 hover:brightness-90 transition-all cursor-pointer group bg-transparent shadow-xl border-2 rounded-2xl overflow-hidden relative">
-      <div className="px-8 py-6 flex flex-col text-left gap-3">
-        <div className="w-full flex justify-between items-center">
-          <div className="h-16 w-16 round-full">
-            <UserAvatar size={65} data={data.avatar} />
-          </div>
+    <div className="max-w-xs rounded-md shadow-md bg-gray-900 text-gray-100">
+      <img
+        src={data.avatar.toString()}
+        alt=""
+        className="object-cover object-center w-full rounded-t-md h-60 bg-gray-500"
+      />
+      <div className="flex flex-col justify-between p-6 space-y-5">
+        <div className="space-y-2 h-15">
           <div
             onClick={() => {
               setDisplayCreate.on(), setDisplayModal(true);
             }}
-            className="p-1 w-1/3   border h-10 rounded-lg hover:brightness-150"
+            className="flex  w-2/5 border h-12 rounded-lg hover:brightness-150  p-1.5   -space-x-3 cursor-pointer"
           >
-            <div className="flex -space-x-3">
-              {userFollowing && firstThreeUsers.length > 0
-                ? firstThreeUsers.map((item) => (
-                    <img
-                      key={item.id}
-                      className="w-8 h-8 border rounded-full dark:bg-gray-500 dark:border-gray-700 opacity-90"
-                      src={item.avatar?.toString()}
-                    />
-                  ))
-                : null}
+            {userFollowing && firstThreeUsers.length > 0
+              ? firstThreeUsers.map((item) => (
+                  <img
+                    key={item.id}
+                    className="w-8 h-8 border rounded-full dark:bg-gray-500 dark:border-gray-700 opacity-90"
+                    src={item.avatar?.toString()}
+                  />
+                ))
+              : null}
 
-              {userFollowingLength > 0 ? (
-                <span className="flex items-center justify-center w-8 h-8  font-semibold border-2 border-border brightness-200 rounded-full dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
-                  +{userFollowingLength}
-                </span>
-              ) : null}
-            </div>
+            {userFollowingLength > 0 ? (
+              <span className="flex items-center justify-center w-8 h-8  font-semibold border-2 border-border brightness-200 rounded-full dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
+                +{userFollowingLength}
+              </span>
+            ) : null}
           </div>
+          <p className="text-xl font-semibold tracki">{data.name}</p>
         </div>
-        <div className="uppercase font-bold text-xl">{data.name}</div>
-        <div className="text-gray-300 uppercase tracking-widest h-12">
-          {data.description}
-        </div>
-        <div className="flex justify-end w-full">
-          <Link
-            to={`/categories/${data.id}`}
-            state={{ data: data }}
-            className="w-full"
+        <Link
+          to={`/categories/${data.id}`}
+          state={{ data: data }}
+          className="w-full"
+        >
+          <Button
+            type="button"
+            variant={"gradient"}
+            className="rounded-sm w-full"
           >
-            <Button className="inline-flex w-full justify-center items-center whitespace-nowrap rounded-lg bg-transparent hover:bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-medium text-slate-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 transition-colors duration-150">
-              <svg
-                className="fill-slate-500 mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                width={16}
-                height={14}
-              >
-                <path d="M12.82 8.116A.5.5 0 0 0 12 8.5V10h-.185a3 3 0 0 1-2.258-1.025l-.4-.457-1.328 1.519.223.255A5 5 0 0 0 11.815 12H12v1.5a.5.5 0 0 0 .82.384l3-2.5a.5.5 0 0 0 0-.768l-3-2.5ZM12.82.116A.5.5 0 0 0 12 .5V2h-.185a5 5 0 0 0-3.763 1.708L3.443 8.975A3 3 0 0 1 1.185 10H1a1 1 0 1 0 0 2h.185a5 5 0 0 0 3.763-1.708l4.609-5.267A3 3 0 0 1 11.815 4H12v1.5a.5.5 0 0 0 .82.384l3-2.5a.5.5 0 0 0 0-.768l-3-2.5ZM1 4h.185a3 3 0 0 1 2.258 1.025l.4.457 1.328-1.52-.223-.254A5 5 0 0 0 1.185 2H1a1 1 0 0 0 0 2Z" />
-              </svg>
-              Join Squad
-            </Button>
-          </Link>
-        </div>
+            Read more
+          </Button>
+        </Link>
       </div>
 
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
@@ -122,8 +112,6 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
           />
         ) : null}
       </Modal>
-      <div className="h-2 w-full bg-gradient-to-l via-blue-500 group-hover:blur-xl blur-2xl m-auto rounded transition-all absolute bottom-0" />
-      <div className="h-0.5 group-hover:w-full bg-gradient-to-l  via-yellow-950 group-hover:via-blue-500 w-[70%] m-auto rounded transition-all" />
     </div>
   );
 };

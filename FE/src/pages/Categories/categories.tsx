@@ -99,7 +99,7 @@ const Categories = () => {
           <div className="absolute right-0  bottom-0 left-0  z-0  bg-gradient-to-b w-12 to-transparent  from-gray-900 via-gray-900 filter blur-2xl" />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-10 ">
+      <div className="grid grid-cols-3 gap-10 px-5">
         {categories && categories.length > 0 ? (
           categories.map((item) => <CardCategories key={item.id} data={item} />)
         ) : (
