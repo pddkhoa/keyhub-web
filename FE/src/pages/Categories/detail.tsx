@@ -5,7 +5,6 @@ import useAuth from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import ClientServices from "@/services/client/client";
 import { REQUEST_TYPE } from "@/types";
-import BlogPost from "@/types/blog";
 import CategoryType from "@/types/categories";
 import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
@@ -20,16 +19,15 @@ const CategoriesDetail = () => {
   const idCategories = Number(id);
   const { axiosJWT, accessToken } = useAuth();
 
-  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const { sendRequest } = useFetch();
 
   const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const blogFilter = useSelector(
-    (state: RootState) => state.categories.blogSearch
-  );
+  const [isBookmark, setIsBookmark] = useState(false);
+  const [unBookmark, setUnBookmark] = useState(false);
+  const [isHide, setIsHide] = useState(false);
 
   useEffect(() => {
     if (location.state) {
@@ -38,48 +36,42 @@ const CategoriesDetail = () => {
     }
   }, [location.state]);
 
-  const [blog, setBlog] = useState<BlogPost[]>([]);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   // Tạo debounced search function
   const debouncedSearch = useCallback(
-    debounce((value) => {
+    debounce(async (value) => {
       const report = {
         keyword: searchTerm,
         category_id: id,
       };
-      sendRequest({ type: REQUEST_TYPE.SEARCH_BLOG_CATEGORIES, data: report });
+      await sendRequest({
+        type: REQUEST_TYPE.SEARCH_BLOG_CATEGORIES,
+        data: report,
+      });
     }, 500),
     [searchTerm]
+  );
+  const blogFilter = useSelector(
+    (state: RootState) => state.categories.blogSearch
   );
 
   // useEffect(() => {
   //   debouncedSearch(searchTerm);
   // }, [searchTerm, debouncedSearch]);
+
   function handleInputBlur() {
     debouncedSearch(searchTerm);
   }
 
   useEffect(() => {
     const fetchBlog = async () => {
-      setLoading(true);
-      const { body } = await ClientServices.getBlogByCategories(
-        idCategories,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        setBlog(body?.result);
-        setLoading(false);
-      } else {
-        console.log(body?.message);
-        setLoading(false);
-      }
+      await sendRequest({ type: REQUEST_TYPE.GET_BLOG_CATEGORIES, slug: id });
     };
 
     fetchBlog();
-  }, []);
+  }, [id, isBookmark, unBookmark, isHide]);
+  const blog = useSelector((state: RootState) => state.categories.listBlog);
 
   const handleFollow = async (id: number) => {
     if (!isFollowing) {
@@ -203,9 +195,27 @@ const CategoriesDetail = () => {
               <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {/**/}
                 {blogFilter && blogFilter.length > 0 ? (
-                  blogFilter.map((post) => <GridCard data={post} />)
+                  blogFilter.map((post) => (
+                    <GridCard
+                      key={post.id}
+                      data={post}
+                      setIsBookmark={setIsBookmark}
+                      setUnBookmark={setUnBookmark}
+                      setIsHide={setIsHide}
+                      idCategories={id}
+                    />
+                  ))
                 ) : blog && blog.length > 0 ? (
-                  blog.map((item) => <GridCard data={item} />)
+                  blog.map((item) => (
+                    <GridCard
+                      key={item.id}
+                      data={item}
+                      idCategories={id}
+                      setIsBookmark={setIsBookmark}
+                      setUnBookmark={setUnBookmark}
+                      setIsHide={setIsHide}
+                    />
+                  ))
                 ) : (
                   <Nodata />
                 )}

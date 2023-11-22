@@ -8,6 +8,7 @@ const categoriesSlice = createSlice({
     listCategories: [] as CategoryType[],
     listUserFollowCate: [] as CategoryType[],
     blogSearch: [] as BlogPost[],
+    listBlog: [] as BlogPost[],
   },
   reducers: {
     getListCateSuccess(state, action) {
@@ -19,6 +20,9 @@ const categoriesSlice = createSlice({
     getBlogSearchSuccess(state, action) {
       state.blogSearch = action.payload;
     },
+    getBlogCategoriesSuccess(state, action) {
+      state.listBlog = action.payload;
+    },
   },
 });
 
@@ -26,6 +30,7 @@ export const {
   getListUserFollowCateSuccess,
   getListCateSuccess,
   getBlogSearchSuccess,
+  getBlogCategoriesSuccess,
 } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

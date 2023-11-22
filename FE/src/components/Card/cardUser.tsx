@@ -18,16 +18,16 @@ export const CardUser: React.FC<CardUserProps> = React.forwardRef(
     const [displayCreate, setDisplayCreate] = useBoolean(false);
 
     const card = (
-      <div className="flex flex-col max-w-md p-6 dark:bg-gray-900 dark:text-gray-100">
+      <div className="flex flex-col max-w-md p-6 bg-gray-900 text-gray-100">
         <img
-          src={data.avatar?.toString()}
+          src={data?.avatar?.toString()}
           alt=""
-          className="flex-shrink-0 object-cover rounded-sm sm:h-60 dark:bg-gray-500 aspect-square"
+          className="flex-shrink-0 object-cover rounded-sm sm:h-60 bg-gray-500/25 aspect-square"
         />
         <div>
           <div className="flex py-2 justify-between">
             <h2 className="text-xl w-11/12  font-semibold  text-white">
-              {data.name}
+              {data?.name}
             </h2>
 
             <a

@@ -11,17 +11,20 @@ type SaveBlogsProps = {
   };
   id: number;
   setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  idCategories?: string;
 };
 
 export const SaveBlog: React.FC<SaveBlogsProps> = ({
   setFlag,
   id,
   setIsBookmark,
+  idCategories,
 }) => {
   const { isLoading, sendRequest } = useFetch();
 
   const { iduser } = useParams();
   const userId = Number(iduser);
+  console.log(idCategories);
 
   const handleSaveBlog = async (blog_id: number) => {
     await sendRequest({
@@ -36,6 +39,8 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({
     sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
     sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
     sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
+
+    sendRequest({ type: REQUEST_TYPE.GET_BLOG_CATEGORIES, slug: idCategories });
 
     // sendRequest({ type: REQUEST_TYPE.LIST_BLOG_FEED });
   };

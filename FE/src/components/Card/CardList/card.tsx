@@ -51,7 +51,7 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
       <div className="flex h-56 flex-col justify-center flex-1 p-6 bg-gray-900 ">
         <span className="text-xs uppercase text-gray-400">{formatDate()}</span>
         <Link
-          to={`/blog/${data.users.id}`}
+          to={`/blog/${data.id}`}
           className="text-2xl font-bold text-white  hover:underline"
         >
           {data.title}

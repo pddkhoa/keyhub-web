@@ -20,9 +20,20 @@ interface GridCardProps {
   data: BlogPost;
   setActiveBlog?: React.Dispatch<React.SetStateAction<boolean>>;
   isUser?: boolean;
+  setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
+  idCategories?: any;
 }
 
-export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
+export const GridCard: React.FC<GridCardProps> = ({
+  data,
+  isUser,
+  setIsBookmark,
+  setUnBookmark,
+  setIsHide,
+  idCategories,
+}) => {
   const { sendRequest } = useFetch();
 
   const [isLike, setIsLike] = useState(data.isLike);
@@ -68,11 +79,11 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
     <div className="flex flex-col max-w-lg p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md bg-gray-900 text-gray-100">
       <div className="flex justify-between space-x-4">
         <Link
-          to={`${!isUser ? `/user/${data.id}` : "#"} `}
+          to={`${!isUser ? `/user/${data?.id}` : "#"} `}
           className="flex space-x-4 hover:brightness-125"
         >
           {!isUser ? (
-            <UserAvatar size={50} data={data && data.users.avatar} />
+            <UserAvatar size={50} data={data?.users?.avatar} />
           ) : (
             <AlphabetAvatar size={50} />
           )}
@@ -80,19 +91,19 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
             {!isUser ? (
               <>
                 <span className="text-md text-title-foreground font-bold block ">
-                  {data.users.name}
+                  {data?.users?.name}
                 </span>
                 <span className="text-sm text-blue-600 font-normal block">
-                  @{data.users.second_name}
+                  @{data?.users?.second_name}
                 </span>
               </>
             ) : (
               <>
                 <span className="text-md text-title-foreground font-bold block ">
-                  {userData.name}
+                  {userData?.name}
                 </span>
                 <span className="text-sm text-blue-600 font-normal block">
-                  @{userData.second_name}
+                  @{userData?.second_name}
                 </span>
               </>
             )}
@@ -117,11 +128,11 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
             <span>{formatDate()}</span>
           </div>
           <Link
-            to={`/blog/${data.id}`}
+            to={`/blog/${data?.id}`}
             className="block text-gray-300 hover:brightness-150 hover:underline decoration-solid"
           >
             <h3 className="text-xl font-semibold h-14  line-clamp-2 ">
-              {data.title}
+              {data?.title}
             </h3>
           </Link>
         </div>
@@ -129,7 +140,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
       <div className="flex flex-wrap justify-between">
         <div className="flex  text-sm dark:text-gray-400">
           <button
-            onClick={() => handleLike(data.id)}
+            onClick={() => handleLike(data?.id)}
             type="button"
             className="flex items-center p-1 space-x-1.5"
           >
@@ -213,7 +224,7 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
                 Comment<span></span>
               </span>
             </span>
-            <span className="text-lg text-title ">{data.sumComment}</span>
+            <span className="text-lg text-title ">{data?.sumComment}</span>
           </button>
         </div>
         <div className="space-x-2 flex justify-center items-center">
@@ -227,14 +238,24 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "DELETE" ? (
-          <DeleteBlog setFlag={setDisplayCreate} id={data.id} />
+          <DeleteBlog setFlag={setDisplayCreate} id={data?.id} />
         ) : null}
         {displayModal === "BOOKMARK" ? (
-          <SaveBlog setFlag={setDisplayCreate} id={data.id} />
+          <SaveBlog
+            setFlag={setDisplayCreate}
+            id={data?.id}
+            setIsBookmark={setIsBookmark}
+            idCategories={idCategories}
+          />
         ) : null}
 
         {displayModal === "UNBOOKMARK" ? (
-          <RemoveBookmark setFlag={setDisplayCreate} id={data.id} />
+          <RemoveBookmark
+            setFlag={setDisplayCreate}
+            id={data?.id}
+            setUnBookmark={setUnBookmark}
+            idCategories={idCategories}
+          />
         ) : null}
         {displayModal === "PREVIEW" ? (
           <Preview setFlag={setDisplayCreate} data={data} />
@@ -243,7 +264,11 @@ export const GridCard: React.FC<GridCardProps> = ({ data, isUser }) => {
           <ReportBlog setFlag={setDisplayCreate} data={data} />
         ) : null}
         {displayModal === "HIDE" ? (
-          <HideBlog setFlag={setDisplayCreate} id={data.id} />
+          <HideBlog
+            setFlag={setDisplayCreate}
+            id={data?.id}
+            setIsHide={setIsHide}
+          />
         ) : null}
       </Modal>
     </div>

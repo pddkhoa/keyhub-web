@@ -56,11 +56,11 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
   const userFollowingLength = userFollowing.length - 3;
 
   return (
-    <div className="max-w-xs rounded-md shadow-md bg-gray-900 text-gray-100">
+    <div className="max-w-md rounded-sm  shadow-md bg-gray-900 text-gray-100">
       <img
         src={data.avatar.toString()}
         alt=""
-        className="object-cover object-center w-full rounded-t-md h-60 bg-gray-500"
+        className="object-cover object-center w-full h-60 bg-gray-500"
       />
       <div className="flex flex-col justify-between p-6 space-y-5">
         <div className="space-y-2 h-15">
@@ -68,31 +68,29 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
             onClick={() => {
               setDisplayCreate.on(), setDisplayModal(true);
             }}
-            className="flex  w-2/5 border h-12 rounded-lg hover:brightness-150  p-1.5   -space-x-3 cursor-pointer"
+            className="flex  w-2/5 border h-12 rounded-lg hover:brightness-150  p-1.5   -space-x-1.5 cursor-pointer"
           >
             {userFollowing && firstThreeUsers.length > 0
               ? firstThreeUsers.map((item) => (
                   <img
                     key={item.id}
-                    className="w-8 h-8 border rounded-full dark:bg-gray-500 dark:border-gray-700 opacity-90"
+                    alt=""
+                    className="w-8 h-8 border rounded-full bg-gray-500 border-gray-700"
                     src={item.avatar?.toString()}
                   />
                 ))
               : null}
 
             {userFollowingLength > 0 ? (
-              <span className="flex items-center justify-center w-8 h-8  font-semibold border-2 border-border brightness-200 rounded-full dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700">
+              <span className="flex items-center justify-center w-8 h-8 font-semibold border rounded-full dark:bg-gray-900 text-gray-100 border-gray-700">
+                {" "}
                 +{userFollowingLength}
               </span>
             ) : null}
           </div>
           <p className="text-xl font-semibold tracki">{data.name}</p>
         </div>
-        <Link
-          to={`/categories/${data.id}`}
-          state={{ data: data }}
-          className="w-full"
-        >
+        <Link to={`/categories/${data.id}`} className="w-full">
           <Button
             type="button"
             variant={"gradient"}

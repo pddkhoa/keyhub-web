@@ -12,7 +12,6 @@ import {
   IconReport,
   IconUnBookmark,
   IconBookmark,
-  IconBlock,
 } from "../ui/icon";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -37,7 +36,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const user = useSelector((state: RootState) => state.user.detail.data);
 
   // Kiểm tra điều kiện
-  const isOwner = data.users.id === user.id;
+  const isOwner = data?.users?.id === user?.id;
 
   return (
     <>
@@ -104,7 +103,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             }}
             className="cursor-pointer"
           >
-            {data.isSave ? (
+            {data?.isSave ? (
               <>
                 <IconUnBookmark className="mr-2" />
                 <span>Unbookmark</span>

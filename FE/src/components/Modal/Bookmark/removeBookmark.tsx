@@ -11,11 +11,13 @@ type RemoveBookmarkProps = {
   id: number;
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
   setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  idCategories?: string;
 };
 export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   setFlag,
   id,
   setUnBookmark,
+  idCategories,
 }) => {
   const { isLoading, sendRequest } = useFetch();
 
@@ -34,8 +36,7 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
 
     sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
     sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
-
-    setFlag.off();
+    sendRequest({ type: REQUEST_TYPE.GET_BLOG_CATEGORIES, slug: idCategories });
   };
 
   return (

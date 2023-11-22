@@ -24,7 +24,7 @@ interface User {
   school: string | null;
   totalFollowers?: number;
   totalFollowing?: number;
-  sumBLog?: number;
+  sumBlog?: number;
   checkStatusFollow?: boolean;
   checkFollowCategory?: boolean;
 }

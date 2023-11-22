@@ -22,10 +22,7 @@ const blogSlice = createSlice({
     isFetching: false,
     blogBookmark: [] as BlogPost[],
     blogDraft: [] as BlogPost[],
-    blogPopular: [] as BlogPost[],
-    blogLastest: [] as BlogPost[],
-    blogMostView: [] as BlogPost[],
-    blogMostLike: [] as BlogPost[],
+
     blogFeed: [] as BlogPost[],
     blogByUser: [] as BlogPost[],
   },
@@ -94,18 +91,7 @@ const blogSlice = createSlice({
     getBlogFeedSuccess: (state, action) => {
       state.blogFeed = action.payload;
     },
-    getBlogLastestSuccess: (state, action) => {
-      state.blogLastest = action.payload;
-    },
-    getBlogMostLikeSuccess: (state, action) => {
-      state.blogMostLike = action.payload;
-    },
-    getBlogMostViewSuccess: (state, action) => {
-      state.blogMostView = action.payload;
-    },
-    getBlogPopularSuccess: (state, action) => {
-      state.blogPopular = action.payload;
-    },
+
     likeBlogSuccess: (state, action) => {
       const likedBlogId = action.payload;
       const likedBlog = state.blog.result.find(
@@ -162,10 +148,6 @@ export const {
   hideBlogSuccess,
   getBlogFeedSuccess,
   detailBlogSuccess,
-  getBlogLastestSuccess,
-  getBlogMostLikeSuccess,
-  getBlogMostViewSuccess,
-  getBlogPopularSuccess,
   getBlogByUserSuccess,
 } = blogSlice.actions;
 

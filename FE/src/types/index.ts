@@ -56,6 +56,11 @@ export enum REQUEST_TYPE {
   LIKE_BLOG = "like_blog",
   HIDE_BLOG = "hide_blog",
 
+  GET_ONE_BLOG = "get_one_blog",
+  GET_BLOG_RIGHT = "get_blog_right",
+  GET_BLOG_LEFT = "get_blog_left",
+  GET_5_BLOG = "get_5_blog",
+
   // user
 
   GET_LIST_USER_FOLLOWER = "get_list_user_follower",
@@ -71,6 +76,7 @@ export enum REQUEST_TYPE {
   GET_LIST_CATEGORIES = "get_list_categories",
   GET_LIST_USER_FOLLOW_CATE = "get_list_user_follow_cate",
   SEARCH_BLOG_CATEGORIES = "search_blog_categories",
+  GET_BLOG_CATEGORIES = "get_blog_categories",
 
   //
 }

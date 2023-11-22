@@ -3,8 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import PublicRouter from "./publicRouter";
 import PrivateRouter from "./privateRouter";
 import { Suspense, lazy } from "react";
-import Layout from "@/layout/layout";
+import Layout from "@/layout/layoutMain";
 import { Loading } from "@/components/Loading/loading";
+import LayoutAdmin from "@/layout/layoutAdmin";
 
 // Public
 const Introduction = lazy(() => import("../pages/Introduction/introduction"));
@@ -34,9 +35,13 @@ const CategoriesDetail = lazy(() => import("../pages/Categories/detail"));
 const Users = lazy(() => import("../pages/Users/users"));
 const Message = lazy(() => import("../pages/Message/message"));
 const Home = lazy(() => import("../pages/Home/home"));
+const Exclusives = lazy(() => import("../pages/Exclusives/index"));
+
 const NotFound = lazy(() => import("../pages/NotFound/404"));
 // const Setting = lazy(() => import("../pages/Setting/main"));
 const SettingAccount = lazy(() => import("../pages/Setting/account"));
+const AdminMain = lazy(() => import("../pages/Admin/main"));
+
 // const SettingPassword = lazy(() => import("../pages/Setting/password"));
 
 const AppRouter = () => {
@@ -61,6 +66,8 @@ const AppRouter = () => {
 
             {/* <Route path="profile/update" element={<UpdateProfile />} /> */}
             <Route path="profile" element={<Profile />} />
+            <Route path="exclusives" element={<Exclusives />} />
+
             <Route path="user/:id" element={<Profile />} />
 
             <Route path="categories" element={<Categories />} />
@@ -78,6 +85,9 @@ const AppRouter = () => {
             <Route path="user" element={<Users />} />
             <Route path="message" element={<Message />} />
           </Route>
+        </Route>
+        <Route element={<LayoutAdmin />}>
+          <Route path="admin" index element={<AdminMain />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

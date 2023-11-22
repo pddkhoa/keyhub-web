@@ -12,7 +12,7 @@ type PreviewProps = {
 
 export const Preview: React.FC<PreviewProps> = ({ setFlag, data }) => {
   return (
-    <div className="w-2/3 h-2/3 sm:x-0  rounded-xl shadow bg-card brightness-125 ">
+    <div className="w-2/4 h-2/3 sm:x-0  rounded-xl shadow bg-card brightness-125 ">
       <div className="h-full flex flex-col">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <h1 className="text-lg grow text-title">Comment</h1>
@@ -32,7 +32,7 @@ export const Preview: React.FC<PreviewProps> = ({ setFlag, data }) => {
         </div>
         <div className="w-full h-full pb-4 overflow-y-auto">
           <div className="border-t-2 p-2">
-            <div className="relative mx-4  flex flex-col bg-card rounded-xl space-y-5">
+            <div className="relative mx-4  flex flex-col  p-2  rounded-xl space-y-5">
               <Comments idBlog={data.id} />
             </div>
           </div>

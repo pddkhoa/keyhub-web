@@ -11,14 +11,23 @@ import { REQUEST_TYPE } from "@/types";
 
 const DetailBlog = () => {
   // const blog = useSelector((state: RootState) => state.blog.blog.result);
-  const blogData = useSelector((state: RootState) => state.blog.detailBlog);
   const { isLoading, sendRequest } = useFetch();
+  const blogData = useSelector((state: RootState) => state.blog.detailBlog);
 
   const { id } = useParams();
   // const blog_id = Number(id);
 
   useEffect(() => {
-    sendRequest({ type: REQUEST_TYPE.GET_DETAIL, slug: id });
+    const fetchData = async () => {
+      await sendRequest({
+        type: REQUEST_TYPE.GET_DETAIL,
+        slug: id,
+      });
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+    };
+
+    fetchData();
   }, [id]);
 
   const blocks = [];
@@ -149,11 +158,11 @@ const DetailBlog = () => {
           <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center text-gray-400">
             <div className="flex items-center md:space-x-2">
               <p className="text-sm">
-                {blogData?.users.name} • July 19th, 2021
+                {blogData?.users?.name} • July 19th, 2021
               </p>
             </div>
             <p className="flex-shrink-0 mt-3 text-sm md:mt-0">
-              {blogData?.categories.name}
+              {blogData?.categories?.name}
             </p>
           </div>
           <img
@@ -218,13 +227,13 @@ const DetailBlog = () => {
         <div className="space-y-2">
           <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
             <img
-              src={blogData?.users.avatar?.toString()}
+              src={blogData?.users?.avatar?.toString()}
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start bg-gray-500 border-gray-700"
             />
             <div className="flex flex-col mt-1">
               <h4 className="text-lg text-white font-semibold">
-                {blogData?.users.name}
+                {blogData?.users?.name}
               </h4>
               <p className="text-gray-400">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio

@@ -16,13 +16,10 @@ import {
   hideBlogSuccess,
   getBlogFeedSuccess,
   detailBlogSuccess,
-  getBlogLastestSuccess,
-  getBlogMostLikeSuccess,
-  getBlogMostViewSuccess,
-  getBlogPopularSuccess,
   getBlogByUserSuccess,
 } from "@/redux/blogSlice";
 import {
+  getBlogCategoriesSuccess,
   getBlogSearchSuccess,
   getListCateSuccess,
   getListUserFollowCateSuccess,
@@ -32,6 +29,16 @@ import {
   deleteComment,
   getCommentsSuccess,
 } from "@/redux/commentSlice";
+import {
+  getBlog4LeftSuccess,
+  getBlog4RightSuccess,
+  getBlog5PopularSuccess,
+  getBlogLastestSuccess,
+  getBlogMostLikeSuccess,
+  getBlogMostViewSuccess,
+  getBlogOnePopularSuccess,
+  getBlogPopularSuccess,
+} from "@/redux/exploreSlice";
 import {
   addSeries,
   deleteSeriesSuccess,
@@ -442,6 +449,43 @@ export const getRequestConfig = (
         isToken: true,
       };
 
+    case REQUEST_TYPE.GET_BLOG_LEFT:
+      return {
+        url: `${BASE_URL}/v1/list/blog/left`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlog4LeftSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.GET_BLOG_RIGHT:
+      return {
+        url: `${BASE_URL}/v1/list/blog/right`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlog4RightSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.GET_ONE_BLOG:
+      return {
+        url: `${BASE_URL}/v1/list/blog/one`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlogOnePopularSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.GET_5_BLOG:
+      return {
+        url: `${BASE_URL}/v1/list/blog/five-popular`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlog5PopularSuccess,
+        isToken: true,
+      };
+
     case REQUEST_TYPE.GET_BLOG_BY_USER:
       return {
         url: `${BASE_URL}/v1/wall/${slug}/blog`,
@@ -498,6 +542,15 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getBlogSearchSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.GET_BLOG_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/list/blog/category/${slug}`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlogCategoriesSuccess,
         isToken: true,
       };
 

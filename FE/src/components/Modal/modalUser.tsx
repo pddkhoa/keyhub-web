@@ -219,7 +219,7 @@ export const ModalListUser: React.FC<ModalListUserProps> = ({
             </svg>
           </button>
         </div>
-        <div className="px-8 grow overflow-y-auto py-6">
+        <div className="px-8 grow overflow-y-auto h-96 py-6">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
               {dataUser && dataUser.length > 0 ? (

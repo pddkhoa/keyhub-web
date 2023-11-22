@@ -90,14 +90,14 @@ const Profile = () => {
                   @{!isUser ? user?.second_name : userData?.second_name}
                 </p>
                 <p className="text-md break-words text-gray-400">
-                  {!isUser ? user?.descriptions : userData.descriptions}
+                  {!isUser ? user?.descriptions : userData?.descriptions}
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-10 mt-4">
                     <div className="flex flex-col ">
                       <span className="text-gray-200 text-lg ">Posts</span>
                       <span className="text-gray-400 text-xl font-extrabold text-center">
-                        {!isUser ? user?.sumBLog : userData?.sumBLog || 0}
+                        {!isUser ? user?.sumBLog : userData?.sumBlog || 0}
                       </span>
                     </div>
                     <div className="flex flex-col">
