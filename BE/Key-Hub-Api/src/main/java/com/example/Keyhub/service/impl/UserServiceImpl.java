@@ -229,12 +229,12 @@ public class UserServiceImpl implements IUserService {
                 seriesDTOList.add(seriesDTO);
             }
             else {
-            seriesDTO.setId(series.getId());
-            seriesDTO.setCreateday(series.getCreateday());
-            seriesDTO.setName(series.getName());
-            seriesDTO.setDescription(series.getDescription());
-            seriesDTO.setSumBlog(series.getSumBlog());
-            seriesDTOList.add(seriesDTO);
+                seriesDTO.setId(series.getId());
+                seriesDTO.setCreateday(series.getCreateday());
+                seriesDTO.setName(series.getName());
+                seriesDTO.setDescription(series.getDescription());
+                seriesDTO.setSumBlog(series.getSumBlog());
+                seriesDTOList.add(seriesDTO);
             }
         }
         return seriesDTOList;
@@ -243,20 +243,20 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public Users changeInfo(BigInteger user_id, ProfileInfor body) {
-            Users us = userRepository.findById(user_id).get();
-            if (us != null) {
-              us.setName(body.getName());
-                us.setPhone(body.getPhone());
-                us.setSecond_name(body.getSecond_name());
-                us.setGender(body.getGender());
-                us.setDescriptions(body.getDescriptions());
-                us.setUpdateDate(new Timestamp(new Date().getTime()));
-                us.setCompany(body.getCompany());
-                us.setCountry(body.getCountry());
-                us.setSchool(body.getSchool());
-                us.setAddress(body.getAddress());
-                //Update cho lần sau
-                //                List<String> addressList = body.getAddress();
+        Users us = userRepository.findById(user_id).get();
+        if (us != null) {
+            us.setName(body.getName());
+            us.setPhone(body.getPhone());
+            us.setSecond_name(body.getSecond_name());
+            us.setGender(body.getGender());
+            us.setDescriptions(body.getDescriptions());
+            us.setUpdateDate(new Timestamp(new Date().getTime()));
+            us.setCompany(body.getCompany());
+            us.setCountry(body.getCountry());
+            us.setSchool(body.getSchool());
+            us.setAddress(body.getAddress());
+            //Update cho lần sau
+            //                List<String> addressList = body.getAddress();
 //                List<Address> checkAddress = addressRepository.findAllByUsers(us);
 //                for (String address : addressList) {
 //                    for (Address addr : checkAddress) {
@@ -321,7 +321,7 @@ public class UserServiceImpl implements IUserService {
 //                    company.setCompany(addressDTO);
 //                    companyRepository.save(company);
 //                }
-            }
+        }
         return userRepository.save(us);
     }
 
@@ -595,8 +595,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<UserResponseDTO> getAllUsers(int index, Users users) {
         List<BigInteger> mostFollowedUsers = iFollowRepository.findUsersWithMostFollowers();
-        List<BigInteger> mostFollowedUserIds = mostFollowedUsers;
-        List<Users> usersList = userRepository.findAllByIdNotInAndStatus(mostFollowedUserIds, 1);
+        List<BigInteger> resultID = new ArrayList<>();
+        for(int i = 0 ; i <= 9 ; i++ )
+        {
+            resultID.add(mostFollowedUsers.get(i));
+        }
+        List<Users> usersList = userRepository.findAllByIdNotInAndStatus(resultID, 1);
         int itemsPerPage = 5;
         int startIndex = (index - 1) * itemsPerPage;
         usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
@@ -659,7 +663,7 @@ public class UserServiceImpl implements IUserService {
         List<Users> result = new ArrayList<>();
         int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
         for (int i = startIndex; i < endIndex; i++) {
-                result.add(beforeFilter.get(i));
+            result.add(beforeFilter.get(i));
         }
         if (result.isEmpty())
         {
@@ -668,22 +672,22 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDTO> userResponseDTOs = result.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
-                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
-                        if (follow!=null)
-                        {
-                            userResponseDTO.setCheckStatusFollow(true);
-                        }
-                        else
-                        {
-                            userResponseDTO.setCheckStatusFollow(false);
-                        }
-                        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
-                        {
-                            userResponseDTO.setCheckReportUser(true);
-                        }
-                        else {
-                            userResponseDTO.setCheckReportUser(false);
-                        }
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
+                    {
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
+                    }
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -737,7 +741,7 @@ public class UserServiceImpl implements IUserService {
     public boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback) {
         Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(usersFollow, usersFollowback);
         Follow followCheck = iFollowRepository.findAllByFollowingAndUserFollower(usersFollowback, usersFollow);
-        if (follow!= null && followCheck != null)
+        if (follow != null && followCheck != null)
         {
             return true;
         }
@@ -756,29 +760,29 @@ public class UserServiceImpl implements IUserService {
             if (userService.checkFollowAndFollowBack(users1, users))
             {
                 if (!blockRepository.existsByBlockerAndBlocked(users,users1) && !blockRepository.existsByBlockerAndBlocked(users1,users)  ){
-                checkUser.add(users1);
+                    checkUser.add(users1);
                 }
             }
         }
         List<UserResponseDTO> userResponseDTOs = checkUser.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
-                        Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
-                        if (follow!=null)
-                        {
-                            userResponseDTO.setCheckStatusFollow(true);
-                        }
-                        else
-                        {
-                            userResponseDTO.setCheckStatusFollow(false);
-                        }
-                        if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
-                        {
-                            userResponseDTO.setCheckReportUser(true);
-                        }
-                        else {
-                            userResponseDTO.setCheckReportUser(false);
-                        }
+                    Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);
+                    if (follow!=null)
+                    {
+                        userResponseDTO.setCheckStatusFollow(true);
+                    }
+                    else
+                    {
+                        userResponseDTO.setCheckStatusFollow(false);
+                    }
+                    if (reportUserRepository.existsByUserReportAndUserIdReported(users,user))
+                    {
+                        userResponseDTO.setCheckReportUser(true);
+                    }
+                    else {
+                        userResponseDTO.setCheckReportUser(false);
+                    }
                     userResponseDTO.setCheckFollowCategory(false);
                     return userResponseDTO;
                 })
@@ -924,7 +928,7 @@ public class UserServiceImpl implements IUserService {
         avatarUser.setUrlImage(users.getAvatar());
         avatarUser.setUploadDate(users.getCreateDate());
         avatarUser.setUsers(users);
-    return avatarRepository.save(avatarUser);
+        return avatarRepository.save(avatarUser);
     }
     @Transactional
     @Override
@@ -961,25 +965,25 @@ public class UserServiceImpl implements IUserService {
     public Series editSeries(BigInteger series_id,SeriesDTO seriesDTO, Users users) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Series series = seriesRepository.findById(series_id).orElse(null);
-      if (series!=null) {
-          series.setDescription(seriesDTO.getDescription());
-          series.setUser(users);
-          series.setName(seriesDTO.getName());
-          SeriesImage seriesImage = iSeriesImageRepository.findBySeries(series).orElse(null);
-          if (seriesImage==null)
-          {
-              SeriesImage seriesImage1 = new SeriesImage();
-              seriesImage1.setSeries(series);
-              seriesImage1.setUrlImage(seriesDTO.getAvatar());
-              seriesImage1.setUploadDate(timestamp);
-              imageRepository.save(seriesImage1);
-          }
-          seriesImage.setUrlImage(seriesDTO.getAvatar());
-          imageRepository.save(seriesImage);
-          return iSeriesRepository.save(series);
-      }
-      else {
-          return null;
-      }
+        if (series!=null) {
+            series.setDescription(seriesDTO.getDescription());
+            series.setUser(users);
+            series.setName(seriesDTO.getName());
+            SeriesImage seriesImage = iSeriesImageRepository.findBySeries(series).orElse(null);
+            if (seriesImage==null)
+            {
+                SeriesImage seriesImage1 = new SeriesImage();
+                seriesImage1.setSeries(series);
+                seriesImage1.setUrlImage(seriesDTO.getAvatar());
+                seriesImage1.setUploadDate(timestamp);
+                imageRepository.save(seriesImage1);
+            }
+            seriesImage.setUrlImage(seriesDTO.getAvatar());
+            imageRepository.save(seriesImage);
+            return iSeriesRepository.save(series);
+        }
+        else {
+            return null;
+        }
     }
 }

@@ -50,11 +50,11 @@ public class JwtProvider {
         userPrinciple.getUsers().setSumBlog( blogRepository.countBlogsByUserIdAndStatus(userPrinciple.getUsers().getId()));
         List<Follow> UserFollow = iFollowRepository.findAllByUserFollower(userPrinciple.getUsers());
         int totalFollowers = UserFollow.size();
-        userPrinciple.getUsers().setTotalFollowers(totalFollowers);
+        userPrinciple.getUsers().setTotalFollowing(totalFollowers);
 
         List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(userPrinciple.getUsers());
         int totalFollowing = UserFollowing.size();
-        userPrinciple.getUsers().setTotalFollowing(totalFollowing);
+        userPrinciple.getUsers().setTotalFollowers(totalFollowing);
 
         Claims claims = Jwts.claims().setSubject(userPrinciple.getUsername());
         claims.put("userDetails", userPrinciple);

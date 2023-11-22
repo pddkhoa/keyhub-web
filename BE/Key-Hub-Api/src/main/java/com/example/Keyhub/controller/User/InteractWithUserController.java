@@ -70,8 +70,19 @@ public class InteractWithUserController {
 
     @GetMapping("/{user_id}")
     public ResponseEntity<GenericResponse> getUserById(@PathVariable BigInteger user_id) {
-
-        UserResponseDTO users = userService.getWallUserByID(getUserFromAuthentication(), user_id);
+        Users users = userService.findByID(user_id);
+        if (userService.exitBlock(users,getUserFromAuthentication().getId()))
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("You have been blocked by user")
+                            .build()
+                    );
+        }
+        UserResponseDTO users1 = userService.getWallUserByID(getUserFromAuthentication(), user_id);
         if (users == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -84,7 +95,7 @@ public class InteractWithUserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
-                        .result(users)
+                        .result(users1)
                         .statusCode(HttpStatus.OK.value())
                         .message("Wall user")
                         .build()

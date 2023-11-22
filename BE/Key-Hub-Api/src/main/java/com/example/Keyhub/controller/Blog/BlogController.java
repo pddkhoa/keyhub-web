@@ -294,7 +294,7 @@ public class BlogController {
     @GetMapping("/five-popular")
     public ResponseEntity<GenericResponse> getBlogPoppular() {
         Users users = getUserFromAuthentication();
-        List<BlogDTO> list= ibLogService.getBlogMostInCategoryFourRight(users);
+        List<BlogDTO> list= ibLogService.getFiveBlogPopular(users);
         if (list.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -312,6 +312,78 @@ public class BlogController {
                         .result(list)
                         .statusCode(HttpStatus.OK.value())
                         .message("The Most Popular Blogs of the Week.")
+                        .build()
+                );
+    }
+    @GetMapping("/one")
+    public ResponseEntity<GenericResponse> getOneBlogByCategory() {
+        Users users = getUserFromAuthentication();
+        BlogDTO result= ibLogService.getBlogMostInCategoryOne(users);
+        if (result == null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(result)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(result)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Blog popular in category one")
+                        .build()
+                );
+    }
+    @GetMapping("/left")
+    public ResponseEntity<GenericResponse> getOneBlogByCategoryLeft() {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> result= ibLogService.getBlogMostInCategoryFourLeft(users);
+        if (result == null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(result)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Blog popular in category left")
+                        .build()
+                );
+    }
+    @GetMapping("/right")
+    public ResponseEntity<GenericResponse> getOneBlogByCategoryRight() {
+        Users users = getUserFromAuthentication();
+        List<BlogDTO> result= ibLogService.getBlogMostInCategoryFourRight(users);
+        if (result == null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("No blog Popular")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(result)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Blog popular in category right")
                         .build()
                 );
     }

@@ -1210,7 +1210,8 @@ public class BlogServiceImpl implements IBLogService {
         List<BlogDTO> blogDTOs = new ArrayList<>();
         for (Blog blog : result) {
             BlogHide blogHide = blogHIdeRepository.findByBlogAndUsers(blog, users);
-            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {                BlogDTO blogDTO = new BlogDTO();
+            if (blogHide == null && !blockRepository.existsByBlockerAndBlocked(users,blog.getUser()) && !blockRepository.existsByBlockerAndBlocked(blog.getUser(),users)) {
+                BlogDTO blogDTO = new BlogDTO();
                 blogDTO.setId(blog.getId());
                 blogDTO.setTitle(blog.getTitle());
                 blogDTO.setContent(blog.getContent());
