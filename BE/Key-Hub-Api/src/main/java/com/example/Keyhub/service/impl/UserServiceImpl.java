@@ -598,7 +598,7 @@ public class UserServiceImpl implements IUserService {
         {
             resultID.add(mostFollowedUsers.get(i));
         }
-        List<Users> usersList = userRepository.findAllByIdNotInAndStatus(resultID, 1);
+        List<Users> usersList = userRepository.findAllByIdNotInAndStatus(resultID, 1,"USER");
         int itemsPerPage = 5;
         int startIndex = (index - 1) * itemsPerPage;
         usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());

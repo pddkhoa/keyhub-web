@@ -95,6 +95,7 @@ public class GeneralServiceImpl implements GeneralService {
         response.setAddress(user.getAddress());
         response.setCompany(user.getCompany());
         response.setCountry(user.getCountry());
+        response.setRole(user.getRole());
         response.setSchool(user.getSchool());
         int sumBlog = blogRepository.countBlogsByUserIdAndStatus(user.getId());
         response.setSumBLog(sumBlog);

@@ -1,10 +1,7 @@
 package com.example.Keyhub.data.dto.response;
 
-import com.example.Keyhub.config.ValidatorUtils;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -34,4 +31,5 @@ public class UserResponseDTO {
     private String banner_url;
     private int totalFollowers;
     private int totalFollowing;
+    private String role;
 }
