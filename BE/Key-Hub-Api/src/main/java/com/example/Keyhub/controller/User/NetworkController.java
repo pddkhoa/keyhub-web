@@ -76,12 +76,9 @@ public class NetworkController {
                 );
     }
     @PostMapping("/search")
-    public ResponseEntity<GenericResponse> getAllUser(   @RequestParam(value = "index", required = false) Integer index,   @RequestParam(value = "text") String text) {
+    public ResponseEntity<GenericResponse> getAllUser( @RequestParam(value = "text") String text) {
         Users users = getUserFromAuthentication();
-        if (index == null || index <= 0) {
-            index = 1;
-        }
-        List<UserResponseDTO> list = userService.searchUser(index,text,users);
+        List<UserResponseDTO> list = userService.searchUser(text,users);
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.OK)

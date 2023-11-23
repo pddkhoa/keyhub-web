@@ -1,26 +1,12 @@
 package com.example.Keyhub.service.impl;
 
-import com.example.Keyhub.data.dto.request.AdminDTO;
-import com.example.Keyhub.data.dto.response.ReportResponseDTO;
-import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
-import com.example.Keyhub.data.dto.response.StatusResopnes;
-import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.GenericResponse;
-import com.example.Keyhub.data.entity.ProdfileUser.Follow;
-import com.example.Keyhub.data.entity.ProdfileUser.Role;
-import com.example.Keyhub.data.entity.ProdfileUser.RoleName;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.entity.report.ReportBlog;
-import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.repository.IBlogRepository;
-import com.example.Keyhub.data.repository.IReportRepository;
-import com.example.Keyhub.data.repository.IReportUserRepository;
 import com.example.Keyhub.data.repository.IUserRepository;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IAdminService;
 import com.example.Keyhub.service.IUserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -40,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements IAdminService {
@@ -50,8 +34,6 @@ public class AdminServiceImpl implements IAdminService {
     IUserService userService;
     @Autowired
     ModelMapper mapper;
-    @Autowired
-    RoleServiceImpl roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired

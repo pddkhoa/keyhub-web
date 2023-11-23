@@ -11,8 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,10 +35,12 @@ public class Users {
     @NotBlank
     @Size(min = 6,max = 100)
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//  More than 2 role
+//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    Set<Role> roles = new HashSet<>();
+    @Column
+    private String role;
     @Column
     private String phone;
     @Column

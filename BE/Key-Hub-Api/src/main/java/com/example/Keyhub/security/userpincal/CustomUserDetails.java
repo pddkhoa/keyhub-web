@@ -1,6 +1,5 @@
 package com.example.Keyhub.security.userpincal;
 
-import com.example.Keyhub.data.entity.ProdfileUser.Role;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +22,11 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : users.getRoles()) {
-            // Prefix roles with "ROLE_" as Spring Security expects it
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        }
-
+//        for (Role role : users.getRoles()) {
+//            // Prefix roles with "ROLE_" as Spring Security expects it
+//            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+//        }
+        authorities.add(new SimpleGrantedAuthority("ROLE_" +users.getRole()));
         return authorities;
     }
 

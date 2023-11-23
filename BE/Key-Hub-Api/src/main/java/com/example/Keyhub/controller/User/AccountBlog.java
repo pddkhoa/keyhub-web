@@ -75,8 +75,10 @@ public class AccountBlog {
     ITagRepository iTagRepository;
     final
     IBlogRepository blogRepository;
+    final
+    ICategoryService categoryService;
 
-    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository, INotificationService notificationService) {
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository, INotificationService notificationService, ICategoryService categoryService) {
         this.blogLikeRepository = blogLikeRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.userService = userService;
@@ -99,6 +101,7 @@ public class AccountBlog {
         this.generalService = generalService;
         this.reportUserRepository = reportUserRepository;
         this.notificationService = notificationService;
+        this.categoryService = categoryService;
     }
 
     private Users getUserFromAuthentication() {
@@ -1146,5 +1149,51 @@ public class AccountBlog {
                             .build()
                     );
     }
-}
+    @GetMapping("/{category_id}/category")
+    public ResponseEntity<GenericResponse> getCategoryById(@PathVariable Long category_id) {
+        CategoryResponseCardDTO res = categoryService.getCategoryByid(category_id,getUserFromAuthentication());
+        if (res==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found category")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(res)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Category by id")
+                        .build()
+                );
+    }
+    @GetMapping("/{tag_id}/tagID")
+    public ResponseEntity<GenericResponse> getTagById(@PathVariable Long tag_id) {
+        TagDTO res = categoryService.getTagByID(tag_id,getUserFromAuthentication());
+        if (res==null)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found tag")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(res)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Tag by id")
+                        .build()
+                );
+    }
+    }
 

@@ -3,11 +3,9 @@ package com.example.Keyhub.service.impl;
 import com.example.Keyhub.data.dto.request.CategoryDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
+import com.example.Keyhub.data.dto.response.TagDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.Blog.Blog;
-import com.example.Keyhub.data.entity.Blog.BlogHide;
-import com.example.Keyhub.data.entity.Blog.Category;
-import com.example.Keyhub.data.entity.Blog.FollowCategory;
+import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
@@ -16,7 +14,6 @@ import com.example.Keyhub.service.ICategoryService;
 import com.example.Keyhub.service.UploadImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -200,5 +197,44 @@ public class CategoryServiceImpl implements ICategoryService {
             result.add(blogDTO1);
         }
         return result;
+    }
+
+    @Override
+    public CategoryResponseCardDTO getCategoryByid(Long category_id, Users users) {
+        Category category = categoryRepository.findById(category_id).orElse(null);
+        if (category==null)
+        {
+            return null;
+        }
+        CategoryResponseCardDTO responseDTO = new CategoryResponseCardDTO();
+        responseDTO.setAvatar(category.getAvatar());
+        responseDTO.setId(category_id);
+        responseDTO.setName(category.getName());
+        responseDTO.setBanner(category.getBanner());
+        responseDTO.setDescription(category.getDescription());
+        if (followCategoryRepository.existsByCategoryAndUser(category,users))
+        {
+            responseDTO.setCheckFollowCategory(true);
+        }
+        else {
+            responseDTO.setCheckFollowCategory(false);
+        }
+        // Lấy số lượng người dùng theo dõi category
+        responseDTO.setSumUser(followCategoryRepository.countByCategory(category));
+        return responseDTO;
+    }
+    @Autowired
+    ITagRepository tagRepository;
+    @Override
+    public TagDTO getTagByID(Long tag_id, Users users) {
+        Tag tag = tagRepository.findById(tag_id).orElse(null);
+        if (tag == null)
+        {
+            return null;
+        }
+        TagDTO tagDTO = new TagDTO();
+        tagDTO.setId(tag.getId());
+        tagDTO.setName(tag.getName());
+        return tagDTO;
     }
 }

@@ -62,8 +62,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     ISeriesRepository iSeriesRepository;
     @Autowired
-    RoleServiceImpl roleService;
-    @Autowired
     IStoryService iStoryService;
     @Autowired
     IBlogHIdeRepository blogHIdeRepository;
@@ -179,23 +177,23 @@ public class UserServiceImpl implements IUserService {
         user.setPhone(dto.getPhone());
         user.setGender(dto.getGender());
         user.setSecond_name(dto.getSecond_name());
-        Set<String> strRoles = dto.getRoles();
-        Set<Role> roles = new HashSet<>();
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
-                    roles.add(adminRole);
-                    break;
-                case "user":
-                    Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    roles.add(userRole);
-                    break;
-                default:
-                    break;
-            }
-        });
-        user.setRoles(roles);
+        user.setRole("USER");
+//        Set<String> strRoles = dto.getRoles();
+//        Set<Role> roles = new HashSet<>();
+//        strRoles.forEach(role -> {
+//            switch (role) {
+//                case "admin":
+//                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
+//                    roles.add(adminRole);
+//                    break;
+//                case "user":
+//                    Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+//                    roles.add(userRole);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        });
         return userService.save(user);
     }
     @Override
@@ -648,10 +646,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserResponseDTO> searchUser(int index, String text, Users users) {
+    public List<UserResponseDTO> searchUser(String text, Users users) {
         List<Users> usersList = userRepository.searchUser(text);
-        int itemsPerPage = 5;
-        int startIndex = (index - 1) * itemsPerPage;
         usersList.sort(Comparator.comparing(Users::getCreateDate).reversed());
         List<Users> beforeFilter = new ArrayList<>();
         for (Users userCheck : usersList)
@@ -660,16 +656,7 @@ public class UserServiceImpl implements IUserService {
                 beforeFilter.add(userCheck);
             }
         }
-        List<Users> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, beforeFilter.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            result.add(beforeFilter.get(i));
-        }
-        if (result.isEmpty())
-        {
-            return null;
-        }
-        List<UserResponseDTO> userResponseDTOs = result.stream()
+        List<UserResponseDTO> userResponseDTOs = beforeFilter.stream()
                 .map(user -> {
                     UserResponseDTO userResponseDTO= generalService.createUserResponse(user);
                     Follow follow = iFollowRepository.findAllByFollowingAndUserFollower(users,user);

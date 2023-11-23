@@ -71,8 +71,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
     IVerificationTokenRepos verificationTokenRepos;
     final
     ApplicationEventPublisher applicationEventPublisher;
-    final
-    RoleServiceImpl roleService;
+
     final
     PasswordEncoder passwordEncoder;
     final
@@ -84,12 +83,11 @@ public class AdminUserServiceImpl implements IAdminUserService {
     final
     IReportRepository reportRepository;
 
-    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, RoleServiceImpl roleService, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository) {
+    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository) {
         this.blogRepository = blogRepository;
         this.userService = userService;
         this.mapper = mapper;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.reportUserRepository = reportUserRepository;
         this.generalService = generalService;
@@ -130,30 +128,31 @@ public class AdminUserServiceImpl implements IAdminUserService {
         user.setPhone(adminDTOs.getPhone());
         user.setGender(adminDTOs.getGender());
         user.setSecond_name(adminDTOs.getSecond_name());
-        final Set<Role> roles = getRoles(adminDTOs);
-        user.setRoles(roles);
+        user.setRole("ADMIN");
+//        final Set<Role> roles = getRoles(adminDTOs);
+//        user.setRoles(roles);
         return userService.save(user);
     }
 
-    private Set<Role> getRoles(AdminDTO adminDTOs) {
-        Set<String> strRoles = adminDTOs.getRoles();
-        Set<Role> roles = new HashSet<>();
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
-                    roles.add(adminRole);
-                    break;
-                case "user":
-                    Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
-                    roles.add(userRole);
-                    break;
-                default:
-                    break;
-            }
-        });
-        return roles;
-    }
+//    private Set<Role> getRoles(AdminDTO adminDTOs) {
+//        Set<String> strRoles = adminDTOs.getRoles();
+//        Set<Role> roles = new HashSet<>();
+//        strRoles.forEach(role -> {
+//            switch (role) {
+//                case "admin":
+//                    Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
+//                    roles.add(adminRole);
+//                    break;
+//                case "user":
+//                    Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role not found"));
+//                    roles.add(userRole);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        });
+//        return roles;
+//    }
 
     @Override
     public List<ReportUserResponseDTO> listUserViolating(Users user, int index) {

@@ -1,11 +1,11 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.request.CategoryDTO;
+import com.example.Keyhub.data.dto.response.BlogDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
+import com.example.Keyhub.data.dto.response.TagDTO;
 import com.example.Keyhub.data.dto.response.UserResponseDTO;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -18,5 +18,6 @@ public interface ICategoryService {
     boolean exitCategory(Long category_id);
     boolean isPresentCategoryAndUser(Long id, Users users);
     List<BlogDTO> searchByCategory(Users users, CategoryDTO categoryDTO);
-
+    CategoryResponseCardDTO getCategoryByid(Long category_id,Users users);
+    TagDTO getTagByID(Long tag_id, Users users);
 }
