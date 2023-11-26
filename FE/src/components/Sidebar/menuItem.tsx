@@ -4,12 +4,19 @@ import { IconType } from "react-icons/lib";
 import {
   PiBookOpenFill,
   PiChartLineBold,
+  PiCheckSquareOffsetFill,
+  PiGearFill,
+  PiHeadsetFill,
   PiHouseBold,
   PiLightning,
+  PiPaintBrushBroadFill,
   PiRocketLaunch,
   PiTagFill,
-  PiUserCircleGearBold,
+  PiUserCircleMinusFill,
+  PiUserListFill,
+  PiUserSwitchFill,
   PiUsersBold,
+  PiWarningOctagonFill,
 } from "react-icons/pi";
 import { atom } from "jotai";
 
@@ -71,31 +78,104 @@ export const berylliumMenuItemAtom = atom(berylliumMenuItems[0]);
 export const berylliumMenuItemsAdmin: MenuItemsType[] = [
   {
     id: "1",
-    name: "Dashboard",
+    name: "Home",
     title: "Dashboard",
-    icon: PiChartLineBold,
-    href: "/admin",
+    icon: PiHouseBold,
+    menuItems: [
+      {
+        name: "Analysis",
+        href: "/dashboard",
+        icon: PiChartLineBold,
+      },
+      {
+        name: "Logistics",
+        href: "/",
+        icon: PiChartLineBold,
+      },
+    ],
   },
   {
     id: "2",
-    name: "Users",
-    title: "Users",
-    icon: PiUserCircleGearBold,
-    href: "/admin/users",
+    name: "Manager",
+    title: "Management",
+    icon: PiPaintBrushBroadFill,
+    menuItems: [
+      {
+        name: "Blogs",
+        icon: PiCheckSquareOffsetFill,
+        href: "/admin/blogs",
+      },
+      {
+        name: "Accounts",
+        icon: PiUserListFill,
+        href: "/admin/users",
+      },
+      {
+        name: "Categories",
+        icon: PiBookOpenFill,
+        href: "/admin/categories",
+      },
+      {
+        name: "Tags",
+        icon: PiTagFill,
+        href: "/admin/tags",
+      },
+    ],
   },
   {
     id: "3",
-    name: "Tags",
-    title: "Tags",
-    icon: PiTagFill,
-    href: "/admin/tags",
+    name: "Support",
+    title: "Support",
+    icon: PiHeadsetFill,
+    menuItems: [
+      {
+        name: "Blogs Report",
+        icon: PiWarningOctagonFill,
+        href: "/admin/support/blog-report",
+      },
+      {
+        name: "Accounts Report",
+        icon: PiUserSwitchFill,
+        href: "/admin/support/account-report",
+      },
+      {
+        name: "Account Blocked",
+        icon: PiUserCircleMinusFill,
+        href: "/admin/support/account-blocked",
+      },
+    ],
   },
   {
     id: "4",
-    name: "Categories",
-    title: "Categories",
-    icon: PiBookOpenFill,
-    href: "/admin/categories",
+    name: "Setting",
+    title: "Setting",
+    icon: PiGearFill,
+    menuItems: [
+      {
+        name: "Blogs",
+        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+        icon: PiBookOpenFill,
+        href: "/",
+      },
+      {
+        name: "Accounts",
+        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+        icon: PiBookOpenFill,
+        href: "/",
+      },
+      {
+        name: "Categories",
+        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+        icon: PiBookOpenFill,
+        href: "/",
+      },
+      {
+        name: "Tags",
+        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+        icon: PiBookOpenFill,
+        href: "/",
+      },
+    ],
   },
 ];
 

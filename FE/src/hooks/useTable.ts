@@ -134,7 +134,6 @@ export function useTable<T extends AnyObject>(
 
   function applyFilters() {
     const searchTermLower = searchTerm.toLowerCase();
-
     return (
       sortedData
         ?.filter((item: any) => {

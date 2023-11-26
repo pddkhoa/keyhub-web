@@ -27,6 +27,7 @@ type ControlledTableProps = {
   filterOptions?: TableFilterProps;
   tableFooter?: React.ReactNode;
   className?: string;
+  paginatorOptions?: TablePaginationProps;
   paginatorClassName?: string;
 } & TableProps;
 
@@ -35,13 +36,14 @@ export function ControlledTable({
   filterElement,
   filterOptions,
   tableFooter,
+  paginatorOptions,
   showLoadingText,
   className,
   ...tableProps
 }: ControlledTableProps) {
   if (isLoading) {
     return (
-      <div className="grid h-full min-h-[128px] flex-grow place-content-center items-center justify-cente">
+      <div className="grid h-full min-h-[128px] flex-grow place-content-center items-center justify-center">
         {/* <Spinner size="xl" /> */}
         {showLoadingText ? (
           <Title as="h6" className="-me-2 mt-4 font-medium text-gray-500">
@@ -59,7 +61,7 @@ export function ControlledTable({
         <TableFilter {...filterOptions}>{filterElement}</TableFilter>
       )}
 
-      <div className="relative">
+      <div className="relative bg-gray-900">
         <Table
           scroll={{ x: 1000, y: 1000 }}
           rowKey={(record) => record.id}
@@ -70,12 +72,12 @@ export function ControlledTable({
         {tableFooter ? tableFooter : null}
       </div>
 
-      {/* {!isEmpty(paginatorOptions) && (
+      {!isEmpty(paginatorOptions) && (
         <TablePagination
-          paginatorClassName={paginatorClassName}
+          // paginatorClassName={paginatorClassName}
           {...paginatorOptions}
         />
-      )} */}
+      )}
     </>
   );
 }
@@ -125,8 +127,9 @@ export function TableFilter({
             value={searchTerm}
             onClear={onSearchClear}
             onChange={onSearchChange}
-            inputClassName="h-9"
+            inputClassName="h-12 text-white space-x-2 focus:outline-none ring-0"
             clearable={true}
+            className="focus:ring-0"
             prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
           />
         ) : null}
@@ -134,40 +137,9 @@ export function TableFilter({
         {showSearchOnTheRight && enableDrawerFilter ? (
           <>{menu ? menu : null}</>
         ) : null}
-
-        {children && (
-          <>
-            {isMediumScreen || enableDrawerFilter ? (
-              <FilterDrawerView
-                isOpen={openDrawer}
-                setOpenDrawer={setOpenDrawer}
-                drawerTitle={drawerTitle}
-                hasSearched={hasSearched}
-              >
-                {children}
-              </FilterDrawerView>
-            ) : (
-              <>{showFilters ? children : null}</>
-            )}
-          </>
-        )}
       </div>
 
-      <div className="ms-4 flex flex-shrink-0 items-center">
-        {showSearchOnTheRight ? (
-          <Input
-            type="search"
-            placeholder="Search by anything..."
-            value={searchTerm}
-            onClear={onSearchClear}
-            onChange={onSearchChange}
-            inputClassName="h-9"
-            clearable={true}
-            prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
-            className="me-2.5"
-          />
-        ) : null}
-
+      <div className="ms-4 flex flex-shrink-0 items-center text-white">
         {children ? (
           <Button
             {...(isMediumScreen || enableDrawerFilter
@@ -185,7 +157,10 @@ export function TableFilter({
                 "border-dashed border-gray-700"
             )}
           >
-            <PiFunnel className="me-1.5 h-[18px] w-[18px]" strokeWidth={1.7} />
+            <PiFunnel
+              className="me-1.5 text-white h-[18px] w-[18px]"
+              strokeWidth={1.7}
+            />
             {!(isMediumScreen || enableDrawerFilter) && showFilters
               ? "Hide Filters"
               : "Filters"}
@@ -220,7 +195,7 @@ export function ToggleColumns<T>({
     <div className="">
       <Popover
         content={() => (
-          <div className="px-0.5 pt-2 text-left rtl:text-right">
+          <div className=" text-left rtl:text-right">
             <Title as="h6" className="mb-1 px-0.5 text-sm font-semibold">
               Toggle Columns
             </Title>
@@ -246,7 +221,7 @@ export function ToggleColumns<T>({
         )}
         shadow="sm"
         placement="bottom-end"
-        className="dark:bg-gray-100 [&>svg]:dark:fill-gray-100"
+        className="bg-gray-100 [&>svg]:fill-gray-100"
       >
         <ActionIcon variant="outline" title={"Toggle Columns"}>
           <PiTextColumns strokeWidth={3} className=" h-6 w-6" />
@@ -256,56 +231,8 @@ export function ToggleColumns<T>({
   );
 }
 
-function FilterDrawerView({
-  isOpen,
-  drawerTitle,
-  setOpenDrawer,
-  children,
-}: React.PropsWithChildren<{
-  drawerTitle?: string;
-  hasSearched?: boolean;
-  setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-  isOpen?: boolean;
-}>) {
-  return (
-    <Drawer
-      size="sm"
-      isOpen={isOpen ?? false}
-      onClose={() => setOpenDrawer(false)}
-      overlayClassName="dark:bg-opacity-20 backdrop-blur-md"
-      containerClassName="dark:bg-gray-100"
-    >
-      <div className="flex h-full flex-col p-5">
-        <div className="-mx-5 mb-6 flex items-center justify-between border-b border-gray-200 px-5 pb-4">
-          <Title as="h5">{drawerTitle}</Title>
-          <ActionIcon
-            size="sm"
-            rounded="full"
-            variant="text"
-            title={"Close Filter"}
-            onClick={() => setOpenDrawer(false)}
-          >
-            <PiXBold className="h-4 w-4" />
-          </ActionIcon>
-        </div>
-        <div className="flex-grow">
-          <div className="grid grid-cols-1 gap-6 [&_.price-field>span.mr-2]:mb-1.5 [&_.price-field]:flex-col [&_.price-field]:items-start [&_.react-datepicker-wrapper]:w-full [&_.react-datepicker-wrapper_.w-72]:w-full [&_.text-gray-500]:text-gray-700 [&_button.h-9]:h-10 sm:[&_button.h-9]:h-11 [&_label>.h-9]:h-10 sm:[&_label>.h-9]:h-11 [&_label>.w-24.h-9]:w-full">
-            {children}
-          </div>
-        </div>
-        <Button
-          size="lg"
-          onClick={() => setOpenDrawer(false)}
-          className="mt-5 h-11 w-full text-sm"
-        >
-          Show Results
-        </Button>
-      </div>
-    </Drawer>
-  );
-}
-
 import React from "react";
+import TablePagination, { TablePaginationProps } from "./Pagination";
 
 // export type TablePaginationProps = {
 //   pageSize: number;

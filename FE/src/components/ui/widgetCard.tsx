@@ -4,7 +4,7 @@ import React from "react";
 import cn from "@/lib/class-names";
 
 const widgetCardClasses = {
-  base: "border border-gray-200 bg-gray-0 p-5 dark:bg-gray-50 lg:p-7",
+  base: "border border-gray-400 bg-gray-0 p-5 dark:bg-gray-50 lg:p-7",
   rounded: {
     sm: "rounded-sm",
     DEFAULT: "rounded-lg",
@@ -51,14 +51,17 @@ function WidgetCard(
     >
       <div
         className={cn(
-          action && "flex items-start justify-between",
+          action && "flex items-start justify-between ",
           headerClassName
         )}
       >
         <div>
           <Title
             as="h3"
-            className={cn("text-base font-semibold sm:text-lg", titleClassName)}
+            className={cn(
+              "text-base text-white font-semibold sm:text-lg py-5",
+              titleClassName
+            )}
           >
             {title}
           </Title>

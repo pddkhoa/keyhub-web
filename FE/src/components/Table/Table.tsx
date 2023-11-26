@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Button } from "rizzui";
 import { useTable } from "../../hooks/useTable";
 import { useColumn } from "../../hooks/useColumn";
 
@@ -31,9 +30,9 @@ type BasicTableWidgetProps = {
     onChecked,
     openModal,
   }: ColumnTypes) => any;
-  data: any[];
+  data?: any[];
   enablePagination?: boolean;
-  variant?: "modern" | "minimal" | "classic" | "elegant" | "retro";
+  variant?: "classic";
   enableSearch?: boolean;
   paginatorClassName?: string;
   searchPlaceholder?: string;
@@ -46,17 +45,13 @@ type BasicTableWidgetProps = {
 };
 
 export default function BasicTableWidget({
-  title,
   data = [],
   getColumns,
-  pageSize = 5,
-  variant = "modern",
-  noGutter,
+  pageSize = 10,
   sticky,
   scroll = { x: 1300 },
-  className,
-  enablePagination,
   setPageSize,
+  enablePagination,
 }: BasicTableWidgetProps) {
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -75,16 +70,16 @@ export default function BasicTableWidget({
     searchTerm,
     tableData,
     sortConfig,
-    totalItems,
-    currentPage,
     handleSort,
     handleDelete,
-    handlePaginate,
     handleSearch,
     selectedRowKeys,
     handleRowSelect,
     handleSelectAll,
     openModal,
+    handlePaginate,
+    totalItems,
+    currentPage,
   } = useTable(data, pageSize);
 
   const columns = React.useMemo(
@@ -116,64 +111,38 @@ export default function BasicTableWidget({
     useColumn(columns);
 
   return (
-    <WidgetCard
-      title={title}
-      className={cn("flex flex-col", className)}
-      headerClassName="widget-card-header  flex-col sm:flex-row [&>.ps-2]:ps-0 [&>.ps-2]:w-full sm:[&>.ps-2]:w-auto [&>.ps-2]:mt-3 sm:[&>.ps-2]:mt-0"
-    >
-      <div className="flex justify-end mb-4">
-        <Button
-          onClick={() => {
-            openModal({
-              view: <div>Hello Add User</div>,
-              customSize: "480px",
-            }),
-              console.log("open");
-          }}
-          variant="outline"
-          className="text-lg"
-        >
-          Add New
-        </Button>
-      </div>
-      <div
-        className={cn("table-wrapper flex-grow", noGutter && "-mx-5 lg:-mx-7")}
-      >
-        <ControlledTable
-          isLoading={isLoading}
-          data={tableData}
-          columns={visibleColumns}
-          scroll={scroll}
-          sticky={sticky}
-          variant={variant}
-          className="mt-4 "
-          filterOptions={{
-            searchTerm,
-            onSearchClear: () => {
-              handleSearch("");
-            },
-            onSearchChange: (event: any) => {
-              handleSearch(event.target.value);
-            },
-            hasSearched: isFiltered,
-            hideIndex: 1,
-            columns,
-            checkedColumns,
-            setCheckedColumns,
-            enableDrawerFilter: true,
-          }}
-          //   {...(enablePagination && {
-          //     paginatorOptions: {
-          //       pageSize,
-          //       ...(setPageSize && { setPageSize }),
-          //       total: totalItems,
-          //       current: currentPage,
-          //       onChange: (page: number) => handlePaginate(page),
-          //     },
-          //   })}
-        />
-      </div>
-    </WidgetCard>
+    <ControlledTable
+      isLoading={isLoading}
+      data={tableData}
+      columns={visibleColumns}
+      scroll={scroll}
+      sticky={sticky}
+      className="outline-none"
+      filterOptions={{
+        searchTerm,
+        onSearchClear: () => {
+          handleSearch("");
+        },
+        onSearchChange: (event: any) => {
+          handleSearch(event.target.value);
+        },
+        hasSearched: isFiltered,
+        hideIndex: 1,
+        columns,
+        checkedColumns,
+        setCheckedColumns,
+        enableDrawerFilter: true,
+      }}
+      {...(enablePagination && {
+        paginatorOptions: {
+          pageSize,
+          ...(setPageSize && { setPageSize }),
+          total: totalItems,
+          current: currentPage,
+          onChange: (page: number) => handlePaginate(page),
+        },
+      })}
+    />
   );
 }
 
@@ -182,32 +151,23 @@ import { Empty } from "rizzui";
 import RcTable from "rc-table";
 // import { AddUSer } from "../Form/AddUser";
 import { ControlledTable } from "./ControlledTable";
-import WidgetCard from "../ui/widgetCard";
 import cn from "@/lib/class-names";
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
 
 const classes = {
   table:
-    "[&_.rc-table-content]:overflow-x-auto [&_table]:w-full [&_.rc-table-row:hover]:bg-gray-50 [&_.rc-table-row-expand-icon-cell]:w-14",
+    "[&_.rc-table-content]:overflow-x-auto text-white   [&_td.rc-table-cell]:text-white [&_table]:w-full  [&_.rc-table-row:hover]:bg-gray-400/20 [&_.rc-table-row-expand-icon-cell]:w-14",
   thead:
-    "[&_thead]:text-left [&_thead]:rtl:text-right [&_th.rc-table-cell]:uppercase [&_th.rc-table-cell]:text-xs [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500 ",
+    "[&_thead]:text-left text-white  [&_thead]:rtl:text-right [&_th.rc-table-cell]:uppercase [&_th.rc-table-cell]:text-xs [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-white ",
   tCell:
-    "[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4",
+    "[&_.rc-table-cell]:px-3  [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4",
   variants: {
     classic:
-      "[&_thead]:bg-gray-100 [&_.rc-table-container]:border-x [&_.rc-table-container]:border-gray-200/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-gray-200/70 [&_thead]:border-y [&_thead]:border-gray-200/70",
-    modern:
-      "[&_thead_th]:bg-gray-100 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-gray-200/70 [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-100",
-    minimal:
-      "[&_thead_th]:bg-gray-100 [&_thead_th:first-child]:rounded-ss-lg [&_thead_th:first-child]:rounded-es-lg [&_thead_th:last-child]:rounded-se-lg [&_thead_th:last-child]:rounded-ee-lg [&_thead_.rc-table-row-expand-icon-cell]:bg-gray-100",
-    elegant:
-      "[&_thead]:border-y [&_thead]:border-gray-200/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-gray-200/70",
-    retro:
-      "[&_thead]:border-y [&_thead]:border-gray-200/70 [&_tbody_tr:last-child_td.rc-table-cell]:border-b [&_tbody_tr:last-child_td.rc-table-cell]:border-gray-200/70",
+      "[&_thead]:bg-gray-700 [&_thead]:h-12 [&_thead]:text-white [&_.rc-table-container]:border-x  [&_td.rc-table-cell]:border-b  [&_td.rc-table-cell]:text-white ",
   },
   striped:
-    "[&_.rc-table-row:nth-child(2n)_.rc-table-cell]:bg-gray-100/50 [&_.rc-table-row:hover]:bg-transparent",
+    "[&_.rc-table-row:nth-child(2n)_.rc-table-cell]:bg-white [&_.rc-table-row:hover]:bg-transparent",
 };
 
 type RCTableProps = ExtractProps<typeof RcTable>;
@@ -226,7 +186,7 @@ export interface TableProps
 
 export function Table({
   striped,
-  variant = "modern",
+  variant = "classic",
   emptyText,
   className,
   ...props

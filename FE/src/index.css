@@ -35,7 +35,6 @@
     --icon: #a8b3cf33;
 
     --input: #a8b3cf14;
-    --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
 
@@ -75,8 +74,6 @@
 
     --input: #aaaaaa;
     --hover: #a8b3cf1f;
-
-    --ring: 212.7 26.8% 83.9%;
   }
 }
 
@@ -84,6 +81,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground overflow-y-scroll;
   }
@@ -106,4 +104,15 @@
   body {
     font-family: "Fira Sans", sans-serif;
   }
+}
+
+/* profile card swiper pagination  */
+.profileModalCarousel .swiper-pagination .swiper-pagination-bullet,
+.profileCarousel .swiper-pagination .swiper-pagination-bullet {
+  @apply h-2 w-2 rounded-full bg-white opacity-60 transition-all;
+}
+
+.profileModalCarousel .swiper-pagination .swiper-pagination-bullet-active,
+.profileCarousel .swiper-pagination .swiper-pagination-bullet-active {
+  @apply w-4 rounded-xl bg-white opacity-100;
 }

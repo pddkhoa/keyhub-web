@@ -15,8 +15,8 @@ export default function GlobalModal() {
       isOpen={isOpen}
       onClose={closeModal}
       customSize={customSize}
-      overlayClassName="dark:bg-opacity-40 dark:backdrop-blur-lg"
-      containerClassName="dark:bg-gray-100"
+      overlayClassName="bg-opacity-20 backdrop-blur-sm"
+      containerClassName="bg-gray-100"
     >
       {view}
     </Modal>

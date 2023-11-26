@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 // import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import { getActiveMainMenuIndex } from "../hooks/beryllium-menu-utils";
 
 import SimpleBar from "simplebar-react";
@@ -15,6 +15,11 @@ import {
 import cn from "@/lib/class-names";
 import { Search } from "lucide-react";
 import { useBerylliumSidebars } from "@/hooks/useSidebar";
+import useFetch from "@/hooks/useFetch";
+import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
+import { useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 function MenuItem({ menu }: { menu: MenuItemsType }) {
   //   const { expandedLeft, setExpandedLeft } = useBerylliumSidebars();
@@ -79,7 +84,7 @@ export function BerylliumLeftSidebarFixed() {
   }, [width]);
 
   return (
-    <aside className="fixed  overflow-y-hidden overflow-x-hidden start-0 top-0 z-50 hidden h-screen w-[88px] flex-col items-center gap-10 bg-gray-900 py-3.5 bg-gray-0 xl:flex">
+    <aside className="fixed  overflow-y-hidden overflow-x-hidden start-0 top-0 z-50 hidden h-screen w-[90px] flex-col items-center gap-10 bg-gray-900 py-3.5 bg-gray-0 xl:flex">
       <ActionIcon
         aria-label="open sidebar"
         variant="text"
@@ -96,17 +101,41 @@ export function BerylliumLeftSidebarFixed() {
 
 export function SidebarExpandable() {
   const { expandedLeft } = useBerylliumSidebars();
-  const selectedMenu = useAtomValue(berylliumMenuItemAtom);
+  // const selectedMenu = useAtomValue(berylliumMenuItemAtom);
+
+  const { isLoading, sendRequest } = useFetch();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  // Tạo debounced search function
+  const debouncedSearch = useCallback(
+    debounce(async (value) => {
+      await sendRequest({
+        type: REQUEST_TYPE.GET_LIST_USER_SEARCH,
+        data: null,
+        slug: searchTerm,
+      });
+    }, 500),
+    [searchTerm]
+  );
+  const userFilter = useSelector(
+    (state: RootState) => state.user.listUserSearch
+  );
+
+  function handleInputBlur() {
+    debouncedSearch(searchTerm);
+  }
 
   return (
     <div
       className={cn(
-        "fixed start-[84px] top-0 z-50 hidden h-full w-0 border-l overflow-x-hidden overflow-y-hidden duration-200 xl:flex",
+        "fixed start-[90px] top-0 z-50 hidden h-full w-0 border-l overflow-x-hidden overflow-y-hidden duration-200 xl:flex",
         !!expandedLeft && "w-[294px]"
       )}
     >
       <SimpleBar className="h-screen py-20  bg-gray-900 p-2 min-w-[200px]">
-        <div className="items-center h-10 rounded-xl bg-gray-800  flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
+        <div className="outline-none items-center h-10 rounded-xl bg-gray-800  flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -120,29 +149,50 @@ export function SidebarExpandable() {
             ></path>
           </svg>
           <input
+            value={searchTerm}
+            onBlur={handleInputBlur}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search Users"
             id="posts-search"
-            className="flex-1 h-10 rounded-12  text-white hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+            className="flex-1 outline-none ring-0 border-0 focus:ring-0 h-10 rounded-12  text-white hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
           ></input>
         </div>
         <div className="border-b mt-5" />
         <div className="py-2 flex flex-col gap-5">
-          <div className="flex">
-            <div className="flex items-center space-x-2">
-              <img
-                src="https://source.unsplash.com/50x50/?portrait"
-                alt=""
-                className="object-cover object-center w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700"
-              />
-              <div className="-space-y-1">
-                <h2 className="text-sm text-white font-semibold leadi">
-                  leroy_jenkins72
-                </h2>
-                <span className="inline-block text-xs leadi text-gray-400">
-                  Somewhere
-                </span>
+          <div className="flex flex-col">
+            {isLoading ? (
+              <div className="flex p-4 space-x-4 sm:px-8">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-700"></div>
+                <div className="flex-1 py-2 space-y-4">
+                  <div className="w-full h-3 rounded bg-gray-700"></div>
+                  <div className="w-5/6 h-3 rounded bg-gray-700"></div>
+                </div>
               </div>
-            </div>
+            ) : userFilter && userFilter.length > 0 ? (
+              userFilter.map((user) => (
+                <div
+                  onClick={() => {
+                    navigate(`/user/${user.id}`);
+                  }}
+                  key={user?.id}
+                  className="flex items-center space-x-2 w-full hover:bg-gray-700/75 p-2 rounded-md cursor-pointer"
+                >
+                  <img
+                    src={user?.avatar?.toString()}
+                    alt=""
+                    className="object-cover object-center w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700"
+                  />
+                  <div className="-space-y-1">
+                    <h2 className="text-sm text-white font-semibold leadi">
+                      {user?.name}
+                    </h2>
+                    <span className="inline-block text-xs leadi text-blue-600">
+                      @{user?.second_name}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : null}
           </div>
         </div>
       </SimpleBar>

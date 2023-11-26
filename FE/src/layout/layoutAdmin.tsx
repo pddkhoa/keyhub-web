@@ -10,6 +10,7 @@ import {
   SidebarExpandableAdmin,
 } from "@/components/Sidebar/Admin";
 import { useBerylliumSidebars } from "@/hooks/useSidebar";
+import HeaderAdmin from "@/components/Header/Admin/header";
 // import { Footer } from "@/components/Footer/footer";
 
 export default function LayoutAdmin() {
@@ -18,13 +19,13 @@ export default function LayoutAdmin() {
   return (
     <main className={cn("flex min-h-screen flex-grow")}>
       <BerylliumLeftSidebarFixedAdmin />
-      {/* <SidebarExpandableAdmin /> */}
+      <SidebarExpandableAdmin />
       <div className="flex w-full flex-col ">
-        <Header />
+        <HeaderAdmin />
         <div
           className={cn(
             "flex flex-grow flex-col gap-4 px-4 pb-6 duration-200 @container md:px-5 lg:pb-8  xl:pe-8 ",
-            expandedLeft ? "xl:ps-[400px]" : "xl:px-[62px]"
+            expandedLeft ? "xl:pl-[280px]" : "xl:ps-[62px]"
           )}
         >
           <div className="grow xl:mt-4 bg-orange-lighter">

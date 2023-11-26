@@ -1,9 +1,9 @@
-import AlphabetAvatar, { UserAvatar } from "../../components/Avatar/avatar";
+import AlphabetAvatar, { UserAvatar } from "../../../components/Avatar/avatar";
 
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
-import { TabsProfile } from "@/pages/Profile/tabsProfile";
+import { TabsProfile } from "@/pages/Client/Profile/tabsProfile";
 
 import { RootState } from "@/redux/store";
 import { useNavigate, useParams } from "react-router";

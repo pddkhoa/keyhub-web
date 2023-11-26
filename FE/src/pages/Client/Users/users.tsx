@@ -3,11 +3,16 @@ import { SlideUser } from "@/components/Swipers/slideUser";
 import { Nodata } from "@/components/ui/nodata";
 import { SkeletonUser } from "@/components/ui/skeleton";
 import useAuth from "@/hooks/useAuth";
+import useFetch from "@/hooks/useFetch";
 import useLoadingLazy from "@/hooks/useLoadingLazy";
+import { RootState } from "@/redux/store";
 import ClientServices from "@/services/client/client";
+import { REQUEST_TYPE } from "@/types";
 import User from "@/types/user";
 import { Label } from "@radix-ui/react-label";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 const Users = () => {
   const [indexPage, setIndexPage] = useState<number>(1);
@@ -67,6 +72,38 @@ const Users = () => {
       return <CardUser key={data.id} data={data} setFollowing={setFollowing} />;
     });
 
+  const { sendRequest } = useFetch();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Tạo debounced search function
+  const debouncedSearch = useCallback(
+    debounce(async (value) => {
+      await sendRequest({
+        type: REQUEST_TYPE.GET_LIST_USER_SEARCH,
+        data: null,
+        slug: searchTerm,
+      });
+    }, 500),
+    [searchTerm]
+  );
+  const userFilter = useSelector(
+    (state: RootState) => state.user.listUserSearch
+  );
+
+  function handleInputBlur() {
+    debouncedSearch(searchTerm);
+  }
+
+  useEffect(() => {
+    if (searchTerm.trim() === "")
+      sendRequest({
+        type: REQUEST_TYPE.GET_LIST_USER_SEARCH,
+        data: null,
+        slug: searchTerm,
+      });
+  }, []);
+
   useEffect(() => {
     setIsLoadingUserMost(true);
     const fetchData = async () => {
@@ -83,12 +120,14 @@ const Users = () => {
     };
     fetchData();
   }, [following]);
+
   useEffect(() => {
     if (following) {
       setIndexPage(1); // Cập nhật lại indexPage để tái tải từ trang đầu tiên
     }
   }, [following]);
 
+  const isSearchLoading = isLoadingMore && searchTerm.trim() === "";
   return (
     <div className="container  min-h-0 mx-auto w-10/12 py-20">
       <div className="flex flex-col gap-5">
@@ -173,9 +212,12 @@ const Users = () => {
                 ></path>
               </svg>
               <input
+                value={searchTerm}
+                onBlur={handleInputBlur}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search users"
                 id="datas-search"
-                className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+                className="flex-1 h-10 ring-0 border-0 focus:ring-0 text-white rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
             {/* <Button variant={"gradient"}>
@@ -184,14 +226,17 @@ const Users = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-5 mt-8 z-0">
-            {result && result.length > 0 ? (
+            {userFilter && userFilter?.length > 0 ? (
+              userFilter.map((user) => <CardUser key={user.id} data={user} />)
+            ) : result && result?.length > 0 ? (
               content
             ) : (
               <div className="col-span-3">
                 <Nodata />
               </div>
             )}
-            {isLoadingMore && (
+            {/* {isLoadingMore && <SkeletonUser />} */}
+            {isSearchLoading && (
               <>
                 <SkeletonUser />
               </>

@@ -9,7 +9,7 @@ import { ModalUser } from "../Modal/modalUser";
 interface CardUserProps {
   data: User;
   ref?: any;
-  setFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  setFollowing?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CardUser: React.FC<CardUserProps> = React.forwardRef(

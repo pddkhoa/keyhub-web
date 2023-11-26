@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
-import { Checkbox, Tooltip, ActionIcon, Badge, AvatarProps, cn } from "rizzui";
+import {
+  Checkbox,
+  Tooltip,
+  ActionIcon,
+  Badge,
+  AvatarProps,
+  cn,
+  Avatar,
+} from "rizzui";
 import { HeaderCell } from "./Table";
 import DeletePopover from "../Popover/delete";
 import { formatDate } from "@/lib/formate-date";
+import { EditUser } from "../Form/editUser";
 // import { EditUser } from "../Form/EditUser";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -44,24 +53,26 @@ export const getColumns = ({
   {
     title: <HeaderCell title="Customer" />,
     dataIndex: "customer",
-    key: "customer",
+    key: "username",
     width: 250,
-    hidden: "customer",
+    hidden: "username",
 
     render: (_: string, row: any) => (
-      <AvatarCard
-        src={row.avatar}
-        name={row.userName}
-        description={`HPT-${row.id}`}
-      />
+      <>
+        <AvatarCard
+          src={row.avatar}
+          name={row.username}
+          // description={`HPT-${row.id}`}
+        />
+      </>
     ),
   },
   {
-    title: <HeaderCell title="price" />,
-    dataIndex: "price",
-    key: "price",
+    title: <HeaderCell title="Email" />,
+    dataIndex: "email",
+    key: "email",
     width: 250,
-    render: (email: string) => email.toLowerCase(),
+    render: (email: string) => email.toLocaleLowerCase(),
   },
   {
     title: (
@@ -69,40 +80,46 @@ export const getColumns = ({
         title="Created"
         sortable
         ascending={
-          sortConfig?.direction === "asc" && sortConfig?.key === "createdAt"
+          sortConfig?.direction === "asc" && sortConfig?.key === "createDate"
         }
       />
     ),
-    onHeaderCell: () => onHeaderCellClick("createdAt"),
-    dataIndex: "createdAt",
-    key: "createdAt",
+    onHeaderCell: () => onHeaderCellClick("createDate"),
+    dataIndex: "createDate",
+    key: "createDate",
     width: 200,
     render: (value: Date) => <DateCell date={value} />,
   },
   {
     title: (
-      // <HeaderCell
-      //   title="Modified"
-      //   sortable
-      //   ascending={
-      //     sortConfig?.direction === "asc" && sortConfig?.key === "modifiedAt"
-      //   }
-      // />
-      <HeaderCell title="Modified" />
+      <HeaderCell
+        title="Modified"
+        sortable
+        ascending={
+          sortConfig?.direction === "asc" && sortConfig?.key === "updateDate"
+        }
+      />
     ),
-    onHeaderCell: () => onHeaderCellClick("modifiedAt"),
-    dataIndex: "modifiedAt",
-    key: "modifiedAt",
+    onHeaderCell: () => onHeaderCellClick("updateDate"),
+    dataIndex: "updateDate",
+    key: "updateDate",
     width: 200,
     render: (value: Date) => <DateCell date={value} />,
   },
 
   {
-    title: <HeaderCell title="Status" />,
-    dataIndex: "status",
-    key: "status",
+    title: <HeaderCell title="Name" />,
+    dataIndex: "name",
+    key: "name",
     width: 120,
-    render: (value: string) => getStatusBadge(value),
+    render: (name: string) => name,
+  },
+  {
+    title: <HeaderCell title="Username" />,
+    dataIndex: "username",
+    key: "username",
+    width: 120,
+    render: (username: string) => username.toLocaleLowerCase(),
   },
   {
     title: <></>,
@@ -115,12 +132,13 @@ export const getColumns = ({
           size="sm"
           content={() => "Edit Invoice"}
           placement="top"
+          className="bg-gray-200 [&>svg]:fill-gray-100 "
           color="invert"
         >
           <ActionIcon
             onClick={() => {
               openModal({
-                view: <div>Hello</div>,
+                view: <EditUser />,
                 customSize: "480px",
               }),
                 console.log(data),
@@ -129,7 +147,7 @@ export const getColumns = ({
             tag="span"
             size="sm"
             variant="outline"
-            className="hover:!border-gray-900 hover:text-gray-700 cursor-pointer"
+            className="hover:brightness-150 cursor-pointer"
           >
             <PencilIcon />
           </ActionIcon>
@@ -138,18 +156,20 @@ export const getColumns = ({
           size="sm"
           content={() => "View Invoice"}
           placement="top"
+          className="bg-gray-200 [&>svg]:fill-gray-100 "
           color="invert"
         >
-          <Link to={`/users/${row.id}`}>
-            <ActionIcon
-              tag="span"
-              size="sm"
-              variant="outline"
-              className="hover:!border-gray-900 hover:text-gray-700"
-            >
-              <EyeIcon className="h-4 w-4" />
-            </ActionIcon>
-          </Link>
+          <ActionIcon
+            onClick={() => {
+              console.log(data);
+            }}
+            tag="span"
+            size="sm"
+            variant="outline"
+            className="hover:brightness-150"
+          >
+            <EyeIcon className="h-4 w-4" />
+          </ActionIcon>
         </Tooltip>
         <DeletePopover
           title={`Delete the invoice`}
@@ -161,38 +181,38 @@ export const getColumns = ({
   },
 ];
 
-function getStatusBadge(status: string) {
-  switch (status.toLocaleLowerCase()) {
-    case "okela":
-      return (
-        <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <div className="ms-2 font-medium text-orange-dark">{status}</div>
-        </div>
-      );
-    case "paid":
-      return (
-        <div className="flex items-center">
-          <Badge color="success" renderAsDot />
-          <div className="ms-2 font-medium text-green-dark">{status}</div>
-        </div>
-      );
-    case "overdue":
-      return (
-        <div className="flex items-center">
-          <Badge color="danger" renderAsDot />
-          <div className="ms-2 font-medium div-red-dark">{status}</div>
-        </div>
-      );
-    default:
-      return (
-        <div className="flex items-center">
-          <Badge renderAsDot className="bg-gray-400" />
-          <div className="ms-2 font-medium text-gray-600">{status}</div>
-        </div>
-      );
-  }
-}
+// function getStatusBadge(status: string) {
+//   switch (status.toLocaleLowerCase()) {
+//     case "okela":
+//       return (
+//         <div className="flex items-center">
+//           <Badge color="warning" renderAsDot />
+//           <div className="ms-2 font-medium text-orange-dark">{status}</div>
+//         </div>
+//       );
+//     case "paid":
+//       return (
+//         <div className="flex items-center">
+//           <Badge color="success" renderAsDot />
+//           <div className="ms-2 font-medium text-green-dark">{status}</div>
+//         </div>
+//       );
+//     case "overdue":
+//       return (
+//         <div className="flex items-center">
+//           <Badge color="danger" renderAsDot />
+//           <div className="ms-2 font-medium div-red-dark">{status}</div>
+//         </div>
+//       );
+//     default:
+//       return (
+//         <div className="flex items-center">
+//           <Badge renderAsDot className="bg-gray-400" />
+//           <div className="ms-2 font-medium text-gray-600">{status}</div>
+//         </div>
+//       );
+//   }
+// }
 
 interface DateCellProps {
   date: Date;
@@ -215,13 +235,13 @@ export function DateCell({
     <div className={cn(className, "grid gap-1")}>
       <time
         dateTime={formatDate(date, "YYYY-MM-DD")}
-        className={cn("font-medium text-gray-700", dateClassName)}
+        className={cn("font-medium text-white", dateClassName)}
       >
         {formatDate(date, dateFormat)}
       </time>
       <time
         dateTime={formatDate(date, "HH:mm:ss")}
-        className={cn("text-[13px] text-gray-500", timeClassName)}
+        className={cn("text-[13px] text-gray-400", timeClassName)}
       >
         {formatDate(date, timeFormat)}
       </time>
@@ -246,18 +266,9 @@ export function AvatarCard({
 }: AvatarCardProps) {
   return (
     <figure className={cn("flex items-center gap-3", className)}>
-      <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">JL</span>
-      </div>
-
-      {/* <Avatar name={name} src={src} {...avatarProps} /> */}
-      <figcaption className="grid gap-0.5">
-        <div className="font-lexend text-sm font-medium text-gray-900 dark:text-gray-700">
-          {name}
-        </div>
-        {description && (
-          <div className="text-[13px] text-gray-500">{description}</div>
-        )}
+      <figcaption className=" gap-5 items-center  flex">
+        <Avatar name={name} src={src} {...avatarProps} />
+        <div className="font-lexend text-sm font-medium text-white">{name}</div>
       </figcaption>
     </figure>
   );

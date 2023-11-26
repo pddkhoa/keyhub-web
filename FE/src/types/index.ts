@@ -65,6 +65,7 @@ export enum REQUEST_TYPE {
 
   GET_LIST_USER_FOLLOWER = "get_list_user_follower",
   GET_LIST_USER_FOLLOWING = "get_list_user_following",
+  GET_LIST_USER_SEARCH = "get_list_user_search",
 
   // comment
   GET_COMMENT = "get_commnet",
@@ -78,7 +79,20 @@ export enum REQUEST_TYPE {
   SEARCH_BLOG_CATEGORIES = "search_blog_categories",
   GET_BLOG_CATEGORIES = "get_blog_categories",
 
-  //
+  //Admin
+  ADMIN_GET_ALLBLOG = "admin_get_allblog",
+  ADMIN_GET_SIZE_ALLBLOG = "admin_get_size_allblog",
+
+  ADMIN_GET_ALLUSER = "admin_get_alluser",
+  ADMIN_GET_SIZE_ALLUSER = "admin_get_size_alluser",
+  ADMIN_GET_CATEGORIES = "admin_get_categories",
+  ADMIN_GET_TAGS = "admin_get_tags",
+
+  ADMIN_GET_BLOG_REPORT = "admin_get_blog_report",
+  ADMIN_GET_SIZE_BLOG_REPORT = "admin_get_size_blog_report",
+
+  ADMIN_GET_USER_REPORT = "admin_get_user_report",
+  ADMIN_GET_SIZE_USER_REPORT = "admin_get_size_user_report",
 }
 
 export type RequestConfig = {

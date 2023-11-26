@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { GridCard } from "../../components/Card/CardBlog/card";
-import { Button } from "../../components/ui/button";
+import { GridCard } from "../../../components/Card/CardBlog/card";
+import { Button } from "../../../components/ui/button";
 import { Contact, ScrollText, UserPlus2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import BlogPost from "@/types/blog";
-import { CardSeries } from "../../components/Card/CardSeries/cardSeries";
+import { CardSeries } from "../../../components/Card/CardSeries/cardSeries";
 import seriesType from "@/types/series";
-import { Nodata } from "../../components/ui/nodata";
+import { Nodata } from "../../../components/ui/nodata";
 import { useParams } from "react-router";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";

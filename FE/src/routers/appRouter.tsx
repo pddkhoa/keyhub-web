@@ -6,9 +6,9 @@ import { Suspense, lazy } from "react";
 import Layout from "@/layout/layoutMain";
 import { Loading } from "@/components/Loading/loading";
 import LayoutAdmin from "@/layout/layoutAdmin";
+import AdminRouter from "./adminRouter";
 
 // Public
-const Introduction = lazy(() => import("../pages/Introduction/introduction"));
 const Login = lazy(() => import("../pages/Login/login"));
 const SignUp = lazy(() => import("../pages/SignUp/signUp"));
 const VerifySignUp = lazy(() => import("../pages/SignUp/verifySignUp"));
@@ -22,40 +22,77 @@ const ResetPassword = lazy(
 
 //Protect
 
-const Profile = lazy(() => import("../pages/Profile/profile"));
-const Categories = lazy(() => import("../pages/Categories/categories"));
-const Explore = lazy(() => import("../pages/Explore/explore"));
+const Profile = lazy(() => import("../pages/Client/Profile/profile"));
+const Categories = lazy(() => import("../pages/Client/Categories/categories"));
+const Explore = lazy(() => import("../pages/Client/Explore/explore"));
 const Editor = lazy(() => import("../components/Editor/editor"));
 const EditBlog = lazy(() => import("../components/Editor/editBlog"));
 
-const DetailBlog = lazy(() => import("../pages/Blog/detailBlog"));
-const Bookmark = lazy(() => import("../pages/Bookmark/bookmark"));
-const ListDraft = lazy(() => import("../pages/Draft/draft"));
-const CategoriesDetail = lazy(() => import("../pages/Categories/detail"));
-const Users = lazy(() => import("../pages/Users/users"));
-const Message = lazy(() => import("../pages/Message/message"));
-const Home = lazy(() => import("../pages/Home/home"));
-const Exclusives = lazy(() => import("../pages/Exclusives/index"));
+const DetailBlog = lazy(() => import("../pages/Client/Blog/detailBlog"));
+const Bookmark = lazy(() => import("../pages/Client/Bookmark/bookmark"));
+const ListDraft = lazy(() => import("../pages/Client/Draft/draft"));
+const CategoriesDetail = lazy(
+  () => import("../pages/Client/Categories/detail")
+);
+const Users = lazy(() => import("../pages/Client/Users/users"));
+const Message = lazy(() => import("../pages/Client/Message/message"));
+const Home = lazy(() => import("../pages/Client/Home/home"));
+const Exclusives = lazy(() => import("../pages/Client/Exclusives/index"));
 
 const NotFound = lazy(() => import("../pages/NotFound/404"));
 // const Setting = lazy(() => import("../pages/Setting/main"));
-const SettingAccount = lazy(() => import("../pages/Setting/account"));
+const SettingAccount = lazy(() => import("../pages/Client/Setting/account"));
+
+//Admin
+
 const AdminMain = lazy(() => import("../pages/Admin/main"));
+const Dashboard = lazy(() => import("../pages/Admin/Dashboard/dashboard"));
+const AdminBlog = lazy(() => import("../pages/Admin/Blogs/main"));
+const AdminUsers = lazy(() => import("../pages/Admin/Users/main"));
+const AdminCategories = lazy(() => import("../pages/Admin/Categories/main"));
+const AdminTags = lazy(() => import("../pages/Admin/Tags/main"));
+const AdminBlogReport = lazy(
+  () => import("../pages/Admin/Support/BlogsReport/main")
+);
+const AdminUserReport = lazy(
+  () => import("../pages/Admin/Support/AccountReport/main")
+);
 
 // const SettingPassword = lazy(() => import("../pages/Setting/password"));
+
+//
 
 const AppRouter = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route element={<PublicRouter />}>
-          <Route path="intro" element={<Introduction />} />
+          {/* <Route path="intro" element={<Introduction />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<SignUp />} />
           <Route path="verify" element={<VerifySignUp />} />
           <Route path="forgotpassword" element={<ForgotPassword />} />
           <Route path="confirmmail" element={<ConfirmEmail />} />
           <Route path="resetpassword" element={<ResetPassword />} />
+        </Route>
+
+        <Route path="/" element={<AdminRouter />}>
+          <Route element={<LayoutAdmin />}>
+            <Route path="/admin" index element={<AdminMain />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/blogs" element={<AdminBlog />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/tags" element={<AdminTags />} />
+            <Route
+              path="/admin/support/blog-report"
+              element={<AdminBlogReport />}
+            />
+            <Route
+              path="/admin/support/account-report"
+              element={<AdminUserReport />}
+            />
+          </Route>
         </Route>
 
         <Route path="/" element={<PrivateRouter />}>
@@ -85,9 +122,6 @@ const AppRouter = () => {
             <Route path="user" element={<Users />} />
             <Route path="message" element={<Message />} />
           </Route>
-        </Route>
-        <Route element={<LayoutAdmin />}>
-          <Route path="admin" index element={<AdminMain />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

@@ -1,4 +1,16 @@
 import {
+  getListAllBlogSuccess,
+  getListAllCategoriesSuccess,
+  getListAllTagsSuccess,
+  getListAllUserSuccess,
+  getListBlogReportSuccess,
+  getListUserReportSuccess,
+  getSizeAllBlogSuccess,
+  getSizeAllUserSuccess,
+  getSizeBlogReporttSuccess,
+  getSizeUserReportSuccess,
+} from "@/redux/adminSlice";
+import {
   loginSuccess,
   logOutSuccess,
   updateRegister,
@@ -56,6 +68,7 @@ import {
   unfollowUserSuccess,
   getListFollowingSuccess,
   getListFollowerSuccess,
+  getListUserSearchSuccess,
 } from "@/redux/userSlice";
 import { REQUEST_TYPE, RequestConfig, REQUEST_METHOD } from "@/types";
 
@@ -551,6 +564,112 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getBlogCategoriesSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.GET_LIST_USER_SEARCH:
+      return {
+        url: `${BASE_URL}/v1/network/search?text=${slug}`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListUserSearchSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_ALLBLOG:
+      return {
+        url: `${BASE_URL}/v1/admin/blog/${slug}/all`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListAllBlogSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_GET_SIZE_ALLBLOG:
+      return {
+        url: `${BASE_URL}/v1/admin/blog/size/all`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getSizeAllBlogSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_ALLUSER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/${slug}/all`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListAllUserSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_GET_SIZE_ALLUSER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/size`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getSizeAllUserSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_GET_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/categories`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListAllCategoriesSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_GET_TAGS:
+      return {
+        url: `${BASE_URL}/v1/blog/tags/list`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListAllTagsSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_BLOG_REPORT:
+      return {
+        url: `${BASE_URL}/v1/admin/blog/${slug}/blog-violating`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListBlogReportSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_SIZE_BLOG_REPORT:
+      return {
+        url: `${BASE_URL}/v1/admin/blog/size/blog-violating`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getSizeBlogReporttSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_USER_REPORT:
+      return {
+        url: `${BASE_URL}/v1/admin/user/${slug}/user-violating`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListUserReportSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_SIZE_USER_REPORT:
+      return {
+        url: `${BASE_URL}/v1/admin/user/size/user-violating`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getSizeUserReportSuccess,
         isToken: true,
       };
 

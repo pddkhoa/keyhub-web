@@ -1,4 +1,3 @@
-import GlobalModal from "@/components/Modal/GlobalModal";
 import BasicTableWidget from "@/components/Table/Table";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -1096,24 +1095,28 @@ export const orderData = [
 ];
 
 const MainAdmin = () => {
-  const listBlog = useSelector((state: RootState) => state.blog.blog.result);
+  const listBlog = useSelector((state: RootState) => state.user.listFollower);
   return (
     <>
-      <div className="grid grid-cols-1 gap-6  3xl:gap-8 shadow-2xl py-16 px-24">
+      <div className="grid grid-cols-1 gap-6 pl-16 h-screen 3xl:gap-8 shadow-2xl py-16 ">
         {listBlog ? (
           <BasicTableWidget
             variant="classic"
             title="Classic Table"
             className="opacity-90 shadow-2xl bg-gray-800"
-            data={orderData}
+            data={listBlog}
             enableSearch
             getColumns={getOrderColumns}
           />
         ) : (
           <div>Loading ...</div>
         )}
+        <div className="grid grid-cols-1 gap-6 @container lg:grid-cols-12 2xl:gap-8 ">
+          <div className="col-span-full flex flex-col gap-6 @5xl:col-span-8 2xl:gap-8 3xl:col-span-9">
+            RecentFiles
+          </div>
+        </div>
       </div>
-      <GlobalModal />
     </>
   );
 };
