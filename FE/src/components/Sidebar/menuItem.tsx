@@ -145,38 +145,38 @@ export const berylliumMenuItemsAdmin: MenuItemsType[] = [
       },
     ],
   },
-  {
-    id: "4",
-    name: "Setting",
-    title: "Setting",
-    icon: PiGearFill,
-    menuItems: [
-      {
-        name: "Blogs",
-        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
-        icon: PiBookOpenFill,
-        href: "/",
-      },
-      {
-        name: "Accounts",
-        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
-        icon: PiBookOpenFill,
-        href: "/",
-      },
-      {
-        name: "Categories",
-        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
-        icon: PiBookOpenFill,
-        href: "/",
-      },
-      {
-        name: "Tags",
-        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
-        icon: PiBookOpenFill,
-        href: "/",
-      },
-    ],
-  },
+  // {
+  //   id: "4",
+  //   name: "Setting",
+  //   title: "Setting",
+  //   icon: PiGearFill,
+  //   menuItems: [
+  //     {
+  //       name: "Blogs",
+  //       description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+  //       icon: PiBookOpenFill,
+  //       href: "/",
+  //     },
+  //     {
+  //       name: "Accounts",
+  //       description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+  //       icon: PiBookOpenFill,
+  //       href: "/",
+  //     },
+  //     {
+  //       name: "Categories",
+  //       description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+  //       icon: PiBookOpenFill,
+  //       href: "/",
+  //     },
+  //     {
+  //       name: "Tags",
+  //       description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
+  //       icon: PiBookOpenFill,
+  //       href: "/",
+  //     },
+  //   ],
+  // },
 ];
 
 export const berylliumMenuItemAtomAdmin = atom(berylliumMenuItemsAdmin[0]);

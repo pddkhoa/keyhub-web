@@ -12,7 +12,7 @@ export const EditAccount: React.FC<EditAccountProps> = ({ data }) => {
   const isLoading = false;
   return (
     <div>
-      <div className="grid w-full items-center gap-4">
+      <div className="p-8 grid w-full items-center gap-4">
         <div className="flex flex-col space-y-2 py-4">
           <div className="relative px-2">
             <Label htmlFor="email" className="text-md text-title-foreground">
@@ -36,7 +36,7 @@ export const EditAccount: React.FC<EditAccountProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="px-5 py-2 border-t flex justify-end items-center gap-2">
+      {/* <div className="px-5 py-2 border-t flex justify-end items-center gap-2">
         <button
           type="button"
           className="px-5 py-1.5  float-right text-base font-medium rounded text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
@@ -56,7 +56,7 @@ export const EditAccount: React.FC<EditAccountProps> = ({ data }) => {
             Save
           </Button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -19,6 +19,10 @@ const Main = () => {
     (state: RootState) => state.admin.sizeAllUser
   );
 
+  const isUpdate = useSelector(
+    (state: RootState) => state.admin.isLoadingUpdate
+  );
+
   const [index, setIndex] = useState<number>(1);
 
   useEffect(() => {
@@ -26,7 +30,7 @@ const Main = () => {
       type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
       slug: index.toString(),
     });
-  }, [index]);
+  }, [index, isUpdate]);
 
   useEffect(() => {
     sendRequest({
@@ -49,6 +53,7 @@ const Main = () => {
         className="opacity-90 shadow-2xl bg-gray-800 outline-none"
         data={listAllUser}
         enableSearch
+        index={index}
         getColumns={getColumnsUsers}
       />
       <div className="flex justify-end">

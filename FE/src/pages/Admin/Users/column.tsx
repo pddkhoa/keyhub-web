@@ -2,7 +2,20 @@ import { EditUser } from "@/components/Form/editUser";
 import DeletePopover from "@/components/Popover/delete";
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
+import { useNavigate } from "react-router-dom";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar, Badge } from "rizzui";
+
+type Columns = {
+  data: any[];
+  sortConfig?: any;
+  handleSelectAll: any;
+  checkedItems: string[];
+  onDeleteItem: (report: any) => void;
+  onHeaderCellClick: (value: string) => void;
+  onChecked?: (id: string) => void;
+  openModal: any;
+  index?: number;
+};
 
 export const getColumnsUsers = ({
   data,
@@ -13,6 +26,7 @@ export const getColumnsUsers = ({
   handleSelectAll,
   onChecked,
   openModal,
+  index,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -91,51 +105,31 @@ export const getColumnsUsers = ({
       <div className="flex items-center justify-start gap-3 pe-3">
         <Tooltip
           size="sm"
-          content={() => "Edit Invoice"}
-          placement="top"
-          className="bg-gray-200 [&>svg]:fill-gray-100 "
-          color="invert"
-        >
-          <ActionIcon
-            onClick={() => {
-              openModal({
-                view: <EditUser />,
-                customSize: "480px",
-              }),
-                console.log(data),
-                console.log("open");
-            }}
-            tag="span"
-            size="sm"
-            variant="outline"
-            className="hover:brightness-150 cursor-pointer"
-          >
-            <PencilIcon />
-          </ActionIcon>
-        </Tooltip>
-        <Tooltip
-          size="sm"
           content={() => "View Invoice"}
           placement="top"
           className="bg-gray-200 [&>svg]:fill-gray-100 "
           color="invert"
         >
           <ActionIcon
-            onClick={() => {
-              console.log(data);
-            }}
             tag="span"
             size="sm"
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <EyeIcon className="h-4 w-4" />
+            <EyeIcon
+              className="h-4 w-4"
+              data={row}
+              index={index}
+              // onClick={() => {
+              //   console.log(index);
+              // }}
+            />
           </ActionIcon>
         </Tooltip>
         <DeletePopover
           title={`Delete the invoice`}
           description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteItem(row.id)}
+          onDelete={() => onDeleteItem({ user_id: row.id, value: 1 })}
         />
       </div>
     ),
@@ -234,21 +228,27 @@ export function AvatarCard({
   );
 }
 
-type Columns = {
-  data: any[];
-  sortConfig?: any;
-  handleSelectAll: any;
-  checkedItems: string[];
-  onDeleteItem: (id: string) => void;
-  onHeaderCellClick: (value: string) => void;
-  onChecked?: (id: string) => void;
-  openModal: any;
-};
-
 export function EyeIcon({
   strokeWidth,
+  onClick,
+  data,
+  index,
   ...props
-}: React.SVGProps<SVGSVGElement>) {
+}: React.SVGProps<SVGSVGElement> & {
+  onClick?: () => void;
+  data?: any;
+  index?: number;
+}) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Navigate to the desired page when the icon is clicked
+      navigate(`${data.id}`, { state: { rowData: data, indexPage: index } });
+    }
+  };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -256,6 +256,7 @@ export function EyeIcon({
       viewBox="0 0 24 24"
       strokeWidth={strokeWidth ?? 1.5}
       stroke="currentColor"
+      onClick={handleClick}
       {...props}
     >
       <path

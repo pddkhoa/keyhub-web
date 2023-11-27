@@ -17,6 +17,9 @@ const adminSlice = createSlice({
     sizeBlogReport: 0 as number,
     listUserReport: [] as any[],
     sizeUserReport: 0 as number,
+    listUserBlock: [] as any[],
+    sizeUserBlock: 0 as number,
+    isLoadingUpdate: false,
   },
   reducers: {
     getListAllBlogSuccess: (state, action) => {
@@ -49,6 +52,26 @@ const adminSlice = createSlice({
     getSizeUserReportSuccess: (state, action) => {
       state.sizeUserReport = action.payload;
     },
+    getListUserBlockSuccess: (state, action) => {
+      state.listUserBlock = action.payload;
+    },
+    getSizeUserBlockSuccess: (state, action) => {
+      state.sizeUserBlock = action.payload;
+    },
+
+    updateUserAdminSuccess: (state, action) => {
+      const updatedUser = action.payload;
+      state.listAllUser = state.listAllUser.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user
+      );
+      state.isLoadingUpdate = true;
+    },
+    deleteUserSuccess: (state, action) => {
+      const deletedUserId = action.payload;
+      state.listAllUser = state.listAllUser.filter(
+        (user) => user.id !== deletedUserId
+      );
+    },
   },
 });
 
@@ -63,6 +86,10 @@ export const {
   getSizeBlogReporttSuccess,
   getListUserReportSuccess,
   getSizeUserReportSuccess,
+  updateUserAdminSuccess,
+  deleteUserSuccess,
+  getListUserBlockSuccess,
+  getSizeUserBlockSuccess,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

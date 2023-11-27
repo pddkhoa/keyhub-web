@@ -93,6 +93,12 @@ export enum REQUEST_TYPE {
 
   ADMIN_GET_USER_REPORT = "admin_get_user_report",
   ADMIN_GET_SIZE_USER_REPORT = "admin_get_size_user_report",
+
+  ADMIN_GET_USER_BLOCK = "admin_get_user_block",
+  ADMIN_GET_SIZE_USER_BLOCK = "admin_get_size_user_block",
+
+  ADMIN_UPDATE_USER = "admin_update_user",
+  ADMIN_DELETE_USER = "admin_delete_user",
 }
 
 export type RequestConfig = {

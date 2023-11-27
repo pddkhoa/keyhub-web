@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { isString } from "lodash";
 import { useModal } from "./useModal";
+import useFetch from "./useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 interface AnyObject {
   [key: string]: any;
@@ -100,11 +102,10 @@ export function useTable<T extends AnyObject>(
    * Handle delete
    */
 
-  async function handleDelete(id: string | string[]) {
-    // if (id) {
-    //   sendRequest({ type: REQUEST_TYPE.DELETE_USER, slug: id });
-    // }
-    console.log("delete");
+  const { sendRequest } = useFetch();
+
+  async function handleDelete(report: any) {
+    await sendRequest({ type: REQUEST_TYPE.ADMIN_DELETE_USER, data: report });
   }
 
   const { openModal } = useModal();

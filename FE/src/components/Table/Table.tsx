@@ -12,6 +12,7 @@ type ColumnTypes = {
   onHeaderCellClick?: (value: string) => void;
   onChecked?: (id: string) => void;
   openModal?: any;
+  index?: number;
 };
 
 type BasicTableWidgetProps = {
@@ -42,6 +43,7 @@ type BasicTableWidgetProps = {
     y?: number;
   };
   sticky?: boolean;
+  index?: number;
 };
 
 export default function BasicTableWidget({
@@ -52,6 +54,7 @@ export default function BasicTableWidget({
   scroll = { x: 1300 },
   setPageSize,
   enablePagination,
+  index,
 }: BasicTableWidgetProps) {
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -60,8 +63,8 @@ export default function BasicTableWidget({
     },
   });
 
-  const onDeleteItem = async (id: string) => {
-    await handleDelete(id);
+  const onDeleteItem = async (report: any) => {
+    await handleDelete(report);
   };
 
   const {
@@ -93,6 +96,7 @@ export default function BasicTableWidget({
         onChecked: handleRowSelect,
         handleSelectAll,
         openModal,
+        index,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -103,6 +107,7 @@ export default function BasicTableWidget({
       onDeleteItem,
       handleRowSelect,
       handleSelectAll,
+      index,
     ]
   );
 

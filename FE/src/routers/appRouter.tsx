@@ -57,6 +57,8 @@ const AdminBlogReport = lazy(
 const AdminUserReport = lazy(
   () => import("../pages/Admin/Support/AccountReport/main")
 );
+const AdminMainProfile = lazy(() => import("../pages/Admin/Profile/main"));
+const AdminUserBlock = lazy(() => import("../pages/Admin/Users/listUserBlock"));
 
 // const SettingPassword = lazy(() => import("../pages/Setting/password"));
 
@@ -82,8 +84,12 @@ const AppRouter = () => {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/blogs" element={<AdminBlog />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/users/:id" element={<AdminMainProfile />} />
+
             <Route path="/admin/categories" element={<AdminCategories />} />
             <Route path="/admin/tags" element={<AdminTags />} />
+            <Route path="/admin/profile" element={<AdminMainProfile />} />
+
             <Route
               path="/admin/support/blog-report"
               element={<AdminBlogReport />}
@@ -92,16 +98,18 @@ const AppRouter = () => {
               path="/admin/support/account-report"
               element={<AdminUserReport />}
             />
+            <Route
+              path="/admin/support/account-blocked"
+              element={<AdminUserBlock />}
+            />
           </Route>
         </Route>
 
         <Route path="/" element={<PrivateRouter />}>
           <Route element={<Layout />}>
             {/* <Route path="setting" element={<Setting />} /> */}
+            <Route path="/" index element={<Home />} />
             <Route path="setting" element={<SettingAccount />} />
-            {/* <Route path="setting/password" element={<SettingPassword />} /> */}
-
-            {/* <Route path="profile/update" element={<UpdateProfile />} /> */}
             <Route path="profile" element={<Profile />} />
             <Route path="exclusives" element={<Exclusives />} />
 
@@ -111,7 +119,6 @@ const AppRouter = () => {
 
             <Route path="explore" element={<Explore />} />
             <Route path="editor" element={<Editor />} />
-            <Route path="/" index element={<Home />} />
             <Route path="editor/:id" element={<EditBlog />} />
 
             <Route path="blog/:id" element={<DetailBlog />} />

@@ -1,14 +1,18 @@
 import {
+  deleteUserSuccess,
   getListAllBlogSuccess,
   getListAllCategoriesSuccess,
   getListAllTagsSuccess,
   getListAllUserSuccess,
   getListBlogReportSuccess,
+  getListUserBlockSuccess,
   getListUserReportSuccess,
   getSizeAllBlogSuccess,
   getSizeAllUserSuccess,
   getSizeBlogReporttSuccess,
+  getSizeUserBlockSuccess,
   getSizeUserReportSuccess,
+  updateUserAdminSuccess,
 } from "@/redux/adminSlice";
 import {
   loginSuccess,
@@ -670,6 +674,47 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getSizeUserReportSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_UPDATE_USER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/edit`,
+        method: REQUEST_METHOD.PATCH,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: updateUserAdminSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_DELETE_USER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/delete`,
+        method: REQUEST_METHOD.DELETE,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: deleteUserSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_GET_USER_BLOCK:
+      return {
+        url: `${BASE_URL}/v1/admin/user/${slug}/block`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListUserBlockSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_GET_SIZE_USER_BLOCK:
+      return {
+        url: `${BASE_URL}/v1/admin/user/sizeBlock`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getSizeUserBlockSuccess,
         isToken: true,
       };
 
