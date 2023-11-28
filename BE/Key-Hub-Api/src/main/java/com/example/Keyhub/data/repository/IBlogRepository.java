@@ -17,6 +17,8 @@ import java.util.List;
 
 public interface IBlogRepository extends JpaRepository<Blog, BigInteger> {
     List<Blog> findByUser(Users users);
+    List<Blog> findByTags(Tag tag);
+    List<Blog> findAllByCategory(Category category);
     int countByStatus(int status);
     @Query("SELECT COUNT(b) FROM Blog b WHERE b.user.id = ?1 AND b.status = 1")
     int countBlogsByUserIdAndStatus(BigInteger userId);

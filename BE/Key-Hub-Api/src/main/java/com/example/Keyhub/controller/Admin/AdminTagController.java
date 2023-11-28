@@ -6,6 +6,7 @@ import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
 import com.example.Keyhub.service.IAdminTagService;
+import com.example.Keyhub.service.ICategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class AdminTagController {
     final
     IAdminTagService adminTagService;
+    final
+    ICategoryService categoryService;
 
-    public AdminTagController(IAdminTagService adminTagService) {
+    public AdminTagController(IAdminTagService adminTagService, ICategoryService categoryService) {
         this.adminTagService = adminTagService;
+        this.categoryService = categoryService;
     }
 
     private Users getUserFromAuthentication() {
@@ -40,6 +44,17 @@ public class AdminTagController {
                             .result(null)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Tag has been exits")
+                            .build()
+                    );
+        }
+        if (!categoryService.exitCategory(TagRequestDTO.getCategoryIds()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found category")
                             .build()
                     );
         }
@@ -80,11 +95,11 @@ public class AdminTagController {
     @DeleteMapping("/{tag_id}/delete")
     ResponseEntity<GenericResponse> deleteTag(@PathVariable Long tag_id)
     {
-        if (adminTagService.exitsTag(tag_id))
+        if (!adminTagService.exitsTag(tag_id))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
-                            .success(true)
+                            .success(false)
                             .result(null)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .message("Not found tag")
@@ -104,7 +119,7 @@ public class AdminTagController {
     @DeleteMapping("/{tag_id}/remove")
     ResponseEntity<GenericResponse> removeTagFromCategory(@PathVariable Long tag_id, @RequestBody TagRequestDTO tagRequestDTO)
     {
-        if (adminTagService.exitsTag(tag_id))
+        if (!adminTagService.exitsTag(tag_id))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -121,13 +136,24 @@ public class AdminTagController {
                         .success(true)
                         .result(null)
                         .statusCode(HttpStatus.OK.value())
-                        .message("Delete tag success")
+                        .message("Delete tag from category success")
                         .build()
                 );
     }
     @PatchMapping("/edit")
     public ResponseEntity<GenericResponse> editTag(@RequestBody TagRequestDTO tagRequestDTO)
     {
+        if (!categoryService.exitCategory(tagRequestDTO.getCategoryIds()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found category")
+                            .build()
+                    );
+        }
         if (!adminTagService.exitsTag(tagRequestDTO.getId()))
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

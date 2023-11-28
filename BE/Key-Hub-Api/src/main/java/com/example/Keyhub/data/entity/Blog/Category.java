@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,11 +27,6 @@ public class Category {
     private String avatar;
     @Column
     private String banner;
-    @ManyToMany
-    @JoinTable(
-            name = "category_tag",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @OneToMany(mappedBy = "category")
     private Set<Tag> tags = new HashSet<>();
 }

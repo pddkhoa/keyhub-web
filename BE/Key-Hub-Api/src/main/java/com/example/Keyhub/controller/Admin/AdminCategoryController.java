@@ -39,10 +39,8 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<GenericResponse> addCategory(@RequestBody CategoryRequestDTO requestDTO)
-    {
-        if (adminCategoryService.checkExitsByName(requestDTO.getName()))
-        {
+    ResponseEntity<GenericResponse> addCategory(@RequestBody CategoryRequestDTO requestDTO) {
+        if (adminCategoryService.checkExitsByName(requestDTO.getName())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -62,11 +60,10 @@ public class AdminCategoryController {
                         .build()
                 );
     }
+
     @PatchMapping("/edit")
-    ResponseEntity<GenericResponse> editCategory(@RequestBody CategoryResponseCardDTO  requestDTO)
-    {
-        if (adminCategoryService.checkExitsByName(requestDTO.getName()))
-        {
+    ResponseEntity<GenericResponse> editCategory(@RequestBody CategoryResponseCardDTO requestDTO) {
+        if (adminCategoryService.checkExitsByName(requestDTO.getName())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -76,8 +73,7 @@ public class AdminCategoryController {
                             .build()
                     );
         }
-        if (!categoryService.exitCategory(requestDTO.getId()))
-        {
+        if (!categoryService.exitCategory(requestDTO.getId())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -97,6 +93,7 @@ public class AdminCategoryController {
                         .build()
                 );
     }
+
     @RequestMapping(value = "/{cateogy_id}/upload-avatar", method = RequestMethod.PATCH)
     public ResponseEntity<GenericResponse> uploadAvatar(@RequestParam MultipartFile file, @PathVariable Long cateogy_id) {
         if (!ValidatorUtils.validateMineFile(file))
@@ -107,7 +104,7 @@ public class AdminCategoryController {
                             .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp, tiff, webp, svg+xml, pdf, doc, docx, xls, xls. Please validate the file again.")
                             .build()
                     );
-        String url = adminCategoryService.uploadAvatar(cateogy_id,file);
+        String url = adminCategoryService.uploadAvatar(cateogy_id, file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -117,6 +114,7 @@ public class AdminCategoryController {
                         .build()
                 );
     }
+
     @RequestMapping(value = "/{cateogy_id}/upload-banner", method = RequestMethod.PATCH)
     public ResponseEntity<GenericResponse> uploadBannerCategory(@RequestParam MultipartFile file, @PathVariable Long cateogy_id) {
         if (!ValidatorUtils.validateMineFile(file))
@@ -127,7 +125,7 @@ public class AdminCategoryController {
                             .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp, tiff, webp, svg+xml, pdf, doc, docx, xls, xls. Please validate the file again.")
                             .build()
                     );
-        String url = adminCategoryService.uploadBanner(cateogy_id,file);
+        String url = adminCategoryService.uploadBanner(cateogy_id, file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -136,5 +134,27 @@ public class AdminCategoryController {
                         .message("Upload banner was successful")
                         .build()
                 );
+    }
+
+    @DeleteMapping(value = "/{category_id}/delete")
+    public ResponseEntity<GenericResponse> deleteCategory(@PathVariable Long category_id) {
+        if (!categoryService.exitCategory(category_id)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found category")
+                            .build()
+                    );
+        }
+        adminCategoryService.deleteCategory(category_id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(null)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Delete category success")
+                        .build());
     }
 }

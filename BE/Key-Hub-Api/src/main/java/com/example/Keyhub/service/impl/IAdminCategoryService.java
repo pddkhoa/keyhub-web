@@ -2,13 +2,19 @@ package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.CategoryRequestDTO;
 import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
+import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.Category;
+import com.example.Keyhub.data.entity.Blog.FollowCategory;
+import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICategoryRepository;
 import com.example.Keyhub.data.repository.IUserFollowCategory;
+import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.UploadImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 public class IAdminCategoryService implements com.example.Keyhub.service.IAdminCategoryService {
@@ -18,6 +24,10 @@ public class IAdminCategoryService implements com.example.Keyhub.service.IAdminC
     IUserFollowCategory userFollowCategory;
     @Autowired
     UploadImageService uploadImageService;
+    @Autowired
+    IBlogRepository blogRepository;
+    @Autowired
+    IBLogService ibLogService;
     @Override
     public boolean checkExitsByName(String name)
     {
@@ -26,6 +36,19 @@ public class IAdminCategoryService implements com.example.Keyhub.service.IAdminC
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void deleteCategory(Long category) {
+        Category category1 = categoryRepository.findById(category).orElseThrow(null);
+        List<Blog> blogList = blogRepository.findAllByCategory(category1);
+        for (Blog blog : blogList)
+        {
+            ibLogService.deleteBlogById(blog);
+        }
+        List<FollowCategory> list = userFollowCategory.findByCategory(category1);
+        userFollowCategory.deleteAll(list);
+        categoryRepository.delete(category1);
     }
 
     @Override

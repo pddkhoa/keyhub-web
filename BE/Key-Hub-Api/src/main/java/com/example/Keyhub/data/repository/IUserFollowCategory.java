@@ -1,7 +1,5 @@
 package com.example.Keyhub.data.repository;
 
-import com.example.Keyhub.data.entity.Blog.Blog;
-import com.example.Keyhub.data.entity.Blog.BlogImage;
 import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;

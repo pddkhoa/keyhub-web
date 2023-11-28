@@ -11,9 +11,14 @@ import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogHide;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
 import com.example.Keyhub.data.entity.Blog.Series;
-import com.example.Keyhub.data.entity.ProdfileUser.*;
+import com.example.Keyhub.data.entity.ProdfileUser.RefreshToken;
+import com.example.Keyhub.data.entity.ProdfileUser.ResetPassToken;
+import com.example.Keyhub.data.entity.ProdfileUser.Users;
+import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
 import com.example.Keyhub.data.entity.chat.Chat;
 import com.example.Keyhub.data.entity.chat.Message;
+import com.example.Keyhub.data.entity.report.Block;
+import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.event.OnEvaluteApproveEvent;
@@ -23,6 +28,7 @@ import com.example.Keyhub.service.IAdminUserService;
 import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.IUserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +36,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +67,8 @@ public class AdminUserServiceImpl implements IAdminUserService {
     final
     RefreshehTokenImpl refreshehToken;
     final
+    RefreshTokenRepository refreshTokenRepository;
+    final
     ISeriesRepository seriesRepository;
     final
     ISeriesImageRepository seriesImageRepository;
@@ -83,7 +94,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
     final
     IReportRepository reportRepository;
 
-    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository) {
+    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository, RefreshTokenRepository refreshTokenRepository) {
         this.blogRepository = blogRepository;
         this.userService = userService;
         this.mapper = mapper;
@@ -107,6 +118,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
         this.seriesRepository = seriesRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.blogHIdeRepository = blogHIdeRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -230,10 +242,23 @@ public class AdminUserServiceImpl implements IAdminUserService {
         statusResopnes.setStatusCode(0);
         return statusResopnes;
     }
+    @Autowired
+    IReportRepository iReportRepository;
+    @Autowired
+    IBlockRepository blockRepository;
     @Transactional
     @Override
     public void deleteUser(BigInteger user_id, Users users) {
         Users users1 = userService.findByID(user_id);
+        List<Block> block = blockRepository.findByBlocker(users1);
+        blockRepository.deleteAll(block);
+        List<Block> blockList = blockRepository.findByBlocked(users1);
+        blockRepository.deleteAll(blockList);
+        List<ReportBlog> reportBlogList = iReportRepository.findByUser(users1);
+        if (!reportBlogList.isEmpty())
+        {
+            iReportRepository.deleteAllByUser(users1);
+        }
         List<Blog> listBlog = blogRepository.findByUser(users1);
         for (Blog blog : listBlog)
         {
@@ -266,10 +291,15 @@ public class AdminUserServiceImpl implements IAdminUserService {
         userFollowCategory.deleteAll(listFollowCategory);
         messageRepository.deleteAll(messages);
         List<ResetPassToken> resetPassTokens = resetPassTokenRepo.findByUser(users1);
-        resetPassTokenRepo.deleteAll(resetPassTokens);
+        if (!resetPassTokens.isEmpty()){
+            resetPassTokenRepo.deleteAll(resetPassTokens);}
         List<VerificationToken> listVerifytoken = verificationTokenRepos.findByUser(users1);
-        verificationTokenRepos.deleteAll(listVerifytoken);
-        refreshehToken.deleteByUserId(users1.getId());
+        if (!listVerifytoken.isEmpty()){
+            verificationTokenRepos.deleteAll(listVerifytoken);
+        }
+        List<RefreshToken> tokenList = refreshTokenRepository.findByUser(users1);
+        if (!tokenList.isEmpty()){
+        refreshehToken.deleteByUserId(users1.getId());}
         userRepository.delete(users1);
     }
 
@@ -364,6 +394,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
         Users users = userService.findByID(user_id);
         users.setUsername(null);
         users.setEmail(null);
+        userRepository.save(users);
     }
 
     @Override

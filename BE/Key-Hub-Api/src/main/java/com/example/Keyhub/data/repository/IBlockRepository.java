@@ -9,5 +9,6 @@ import java.util.List;
 public interface IBlockRepository extends JpaRepository<Block, Long> {
     boolean existsByBlockerAndBlocked(Users users_blocked , Users user_is_blocked);
     List<Block> findByBlocker(Users users);
+    List<Block> findByBlocked(Users users);
     Block findByBlockerAndBlocked(Users blocker, Users blocked);
 }

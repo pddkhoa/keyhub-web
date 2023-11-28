@@ -159,6 +159,17 @@ public class AdminUserController {
     @DeleteMapping("/delete")
     public ResponseEntity<GenericResponse> deleteUser(@RequestBody DeleteUserRequestDTO deleteUserRequestDTO)
     {
+        if(!userService.exitUser(deleteUserRequestDTO.getUser_id()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found user")
+                            .build()
+                    );
+        }
         if (deleteUserRequestDTO.getValue()==1) {
             adminUserService.deleteUser(deleteUserRequestDTO.getUser_id(), getUserFromAuthentication());
             return ResponseEntity.status(HttpStatus.OK)
