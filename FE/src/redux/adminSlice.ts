@@ -20,6 +20,8 @@ const adminSlice = createSlice({
     listUserBlock: [] as any[],
     sizeUserBlock: 0 as number,
     isLoadingUpdate: false,
+
+    categoriesById: {} as CategoryType,
   },
   reducers: {
     getListAllBlogSuccess: (state, action) => {
@@ -72,6 +74,49 @@ const adminSlice = createSlice({
         (user) => user.id !== deletedUserId
       );
     },
+    getCategoriesByIdSuccess: (state, action) => {
+      state.categoriesById = action.payload;
+    },
+    updateCategoriesByIdSuccess: (state, action) => {
+      state.categoriesById = action.payload;
+    },
+    uploadAvatarCategoriesSuccess: (state, action) => {
+      state.categoriesById.avatar = action.payload;
+    },
+    uploadAvatarCategoriesFail: (state) => {
+      state.categoriesById.avatar = "";
+    },
+    addNewCategorySuccess: (state, action) => {
+      const newCategory = action.payload;
+      state.listAllCategories.push(newCategory);
+    },
+    addNewTagSuccess: (state, action) => {
+      const newTag = action.payload;
+      state.listAllTags.push(newTag);
+    },
+    deleteTagSuccess: (state, action) => {
+      const deletedTagId = action.payload;
+      state.listAllTags = state.listAllTags.filter(
+        (tag) => tag.id !== deletedTagId
+      );
+    },
+    evaluteUserSuccess: (state, action) => {
+      const { report_id } = action.payload;
+
+      state.listUserReport = state.listUserReport.map((report) =>
+        report.id === report_id ? { ...report, statusReport: true } : report
+      );
+
+      state.listUserReport = state.listUserReport.filter(
+        (report) => report.id !== report_id
+      );
+    },
+    deleteCategoriesSuccess: (state, action) => {
+      const categoriesId = action.payload;
+      state.listAllCategories = state.listAllCategories.filter(
+        (cate) => cate.id !== categoriesId
+      );
+    },
   },
 });
 
@@ -90,6 +135,15 @@ export const {
   deleteUserSuccess,
   getListUserBlockSuccess,
   getSizeUserBlockSuccess,
+  getCategoriesByIdSuccess,
+  updateCategoriesByIdSuccess,
+  uploadAvatarCategoriesSuccess,
+  uploadAvatarCategoriesFail,
+  addNewCategorySuccess,
+  addNewTagSuccess,
+  deleteTagSuccess,
+  evaluteUserSuccess,
+  deleteCategoriesSuccess,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

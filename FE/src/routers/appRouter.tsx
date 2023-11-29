@@ -7,6 +7,7 @@ import Layout from "@/layout/layoutMain";
 import { Loading } from "@/components/Loading/loading";
 import LayoutAdmin from "@/layout/layoutAdmin";
 import AdminRouter from "./adminRouter";
+import Introduction from "@/pages/Introduction/introduction";
 
 // Public
 const Login = lazy(() => import("../pages/Login/login"));
@@ -59,6 +60,9 @@ const AdminUserReport = lazy(
 );
 const AdminMainProfile = lazy(() => import("../pages/Admin/Profile/main"));
 const AdminUserBlock = lazy(() => import("../pages/Admin/Users/listUserBlock"));
+const AdminCategoriesDetail = lazy(
+  () => import("../pages/Admin/Categories/detail")
+);
 
 // const SettingPassword = lazy(() => import("../pages/Setting/password"));
 
@@ -69,7 +73,6 @@ const AppRouter = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route element={<PublicRouter />}>
-          {/* <Route path="intro" element={<Introduction />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<SignUp />} />
           <Route path="verify" element={<VerifySignUp />} />
@@ -87,6 +90,11 @@ const AppRouter = () => {
             <Route path="/admin/users/:id" element={<AdminMainProfile />} />
 
             <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route
+              path="/admin/categories/:id"
+              element={<AdminCategoriesDetail />}
+            />
+
             <Route path="/admin/tags" element={<AdminTags />} />
             <Route path="/admin/profile" element={<AdminMainProfile />} />
 

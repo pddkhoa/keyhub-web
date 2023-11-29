@@ -11,6 +11,7 @@ import { Loading } from "@/components/Loading/loading";
 const Main = () => {
   const { isLoading, sendRequest } = useFetch();
 
+  const [isDelete, setIsDelete] = useState(false);
   const listAllUser = useSelector(
     (state: RootState) => state.admin.listAllUser
   );
@@ -30,13 +31,13 @@ const Main = () => {
       type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
       slug: index.toString(),
     });
-  }, [index, isUpdate]);
+  }, [index, isUpdate, isDelete]);
 
   useEffect(() => {
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_SIZE_ALLUSER,
     });
-  }, []);
+  }, [isDelete]);
 
   const handlePageChange = (pageIndex: number) => {
     setIndex(pageIndex);
@@ -45,6 +46,7 @@ const Main = () => {
   if (isLoading) {
     return <Loading />;
   }
+  console.log(isDelete);
 
   return (
     <div className="grid grid-cols-1 gap-6 pl-16 h-full 3xl:gap-8 shadow-2xl py-16 ">
@@ -54,6 +56,7 @@ const Main = () => {
         data={listAllUser}
         enableSearch
         index={index}
+        setIsDelete={setIsDelete}
         getColumns={getColumnsUsers}
       />
       <div className="flex justify-end">

@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 import { isString } from "lodash";
-import { useModal } from "./useModal";
 import useFetch from "./useFetch";
 import { REQUEST_TYPE } from "@/types";
 
@@ -36,7 +35,7 @@ export function useTable<T extends AnyObject>(
     }
   };
   const handleSelectAll = () => {
-    if (selectedRowKeys.length === data.length) {
+    if (selectedRowKeys?.length === data?.length) {
       setSelectedRowKeys([]);
     } else {
       setSelectedRowKeys(data.map((record) => record.id));
@@ -90,7 +89,7 @@ export function useTable<T extends AnyObject>(
     const start = (currentPage - 1) * countPerPage;
     const end = start + countPerPage;
 
-    if (data.length > start) return data.slice(start, end);
+    if (data?.length > start) return data.slice(start, end);
     return data;
   }
 
@@ -104,11 +103,32 @@ export function useTable<T extends AnyObject>(
 
   const { sendRequest } = useFetch();
 
-  async function handleDelete(report: any) {
-    await sendRequest({ type: REQUEST_TYPE.ADMIN_DELETE_USER, data: report });
+  async function handleDelete(id?: any, report?: any, requestType?: any) {
+    switch (requestType) {
+      case REQUEST_TYPE.ADMIN_DELETE_TAG:
+        await sendRequest({
+          type: REQUEST_TYPE.ADMIN_DELETE_TAG,
+          slug: id.toString(),
+        });
+        break;
+      case REQUEST_TYPE.ADMIN_DELETE_USER:
+        await sendRequest({
+          type: REQUEST_TYPE.ADMIN_DELETE_USER,
+          data: report,
+        });
+        break;
+      case REQUEST_TYPE.DELETE_CATEGORIES:
+        await sendRequest({
+          type: REQUEST_TYPE.DELETE_CATEGORIES,
+          slug: id,
+        });
+        break;
+      // Thêm các case khác nếu cần
+      default:
+        // Xử lý mặc định hoặc throw một exception nếu loại request không được hỗ trợ
+        throw new Error(`Unsupported request type: ${requestType}`);
+    }
   }
-
-  const { openModal } = useModal();
 
   /*
    * Handle Filters and searching
@@ -224,10 +244,10 @@ export function useTable<T extends AnyObject>(
   /*
    * Set isFiltered and final filtered data
    */
-  const isFiltered = applyFilters()!.length > 0;
+  const isFiltered = applyFilters()?.length > 0;
   function calculateTotalItems() {
     if (isFiltered) {
-      return applyFilters()!.length;
+      return applyFilters()?.length;
     }
     if (searchTerm) {
       return searchedData()?.length;
@@ -270,6 +290,5 @@ export function useTable<T extends AnyObject>(
     applyFilters,
     handleDelete,
     handleReset,
-    openModal,
   };
 }

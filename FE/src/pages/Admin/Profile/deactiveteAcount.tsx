@@ -1,15 +1,36 @@
 import { Label } from "@/components/ui/label";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
+import User from "@/types/user";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "rizzui";
-
-export const DeactiveteAcount = () => {
+interface DeactivateProps {
+  data: User;
+  index: number;
+}
+export const DeactiveteAcount: React.FC<DeactivateProps> = ({
+  data,
+  index,
+}) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const navigate = useNavigate();
 
   const handleCheckboxChange = () => {
     setIsCheckboxChecked(!isCheckboxChecked);
   };
+  const { isLoading, sendRequest } = useFetch();
+
+  const handleDeactiveAccount = async (report: any) => {
+    await sendRequest({ type: REQUEST_TYPE.ADMIN_DELETE_USER, data: report });
+    navigate(0);
+    sendRequest({
+      type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
+      slug: index?.toString(),
+    });
+  };
   return (
-    <div className="p-8 mb-12">
+    <div className="p-8 mb-12  flex justify-center text-center">
       <div className="flex flex-col gap-8">
         <Label className="text-white text-2xl font-bold">
           Deactivate Account
@@ -33,15 +54,27 @@ export const DeactiveteAcount = () => {
             .
           </label>
         </div>
-
-        <Button
-          className={`bg-red-700 text-white w-1/3 ${
-            !isCheckboxChecked ? "opacity-50 cursor-not-allowed" : ""
+        {isLoading ? (
+          <Button
+            className={`bg-red-700 text-white w-full opacity-50 cursor-not-allowed
           }`}
-          disabled={!isCheckboxChecked}
-        >
-          Deactivate Account
-        </Button>
+            disabled
+          >
+            Please wait...
+          </Button>
+        ) : (
+          <Button
+            className={`bg-red-700 text-white w-full ${
+              !isCheckboxChecked ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!isCheckboxChecked}
+            onClick={() => {
+              handleDeactiveAccount({ user_id: data?.id, value: 2 });
+            }}
+          >
+            Deactivate Account
+          </Button>
+        )}
       </div>
     </div>
   );

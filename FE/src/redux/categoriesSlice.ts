@@ -15,7 +15,7 @@ const categoriesSlice = createSlice({
       state.listCategories = action.payload;
     },
     getListUserFollowCateSuccess(state, action) {
-      state.listCategories = action.payload;
+      state.listUserFollowCate = action.payload;
     },
     getBlogSearchSuccess(state, action) {
       state.blogSearch = action.payload;

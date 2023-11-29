@@ -1,15 +1,25 @@
-import { EditUser } from "@/components/Form/editUser";
 import DeletePopover from "@/components/Popover/delete";
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
+import { useNavigate } from "react-router-dom";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
+
+type Columns = {
+  data: any[];
+  sortConfig?: any;
+  handleSelectAll?: any;
+  checkedItems?: string[];
+  onHeaderCellClick?: (value: string) => void;
+  onChecked?: (id: string) => void;
+  onDeleteCategories: (id: any) => Promise<void>;
+};
 
 export const getColumnsCategories = ({
   data,
   sortConfig,
   onDeleteItem,
   onHeaderCellClick,
-  openModal,
+  onDeleteCategories,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -42,37 +52,6 @@ export const getColumnsCategories = ({
     ),
   },
 
-  //   {
-  //     title: (
-  //       <HeaderCell
-  //         title="Created"
-  //         sortable
-  //         ascending={
-  //           sortConfig?.direction === "asc" && sortConfig?.key === "create_date"
-  //         }
-  //       />
-  //     ),
-  //     onHeaderCell: () => onHeaderCellClick("create_date"),
-  //     dataIndex: "create_date",
-  //     key: "create_date",
-  //     width: 100,
-  //     render: (value: Date) => <DateCell date={value} />,
-  //   },
-
-  // {
-  //   title: <HeaderCell title="Name" />,
-  //   dataIndex: "name",
-  //   key: "name",
-  //   width: 120,
-  //   render: (name: string) => name,
-  // },
-  //   {
-  //     title: <HeaderCell title="Username" />,
-  //     dataIndex: "username",
-  //     key: "username",
-  //     width: 120,
-  //     render: (username: string) => username.toLocaleLowerCase(),
-  //   },
   {
     title: <HeaderCell align="center" title="Action" />,
     dataIndex: "action",
@@ -82,51 +61,24 @@ export const getColumnsCategories = ({
       <div className="flex items-center justify-center gap-3 ">
         <Tooltip
           size="sm"
-          content={() => "Edit Invoice"}
-          placement="top"
-          className="bg-gray-200 [&>svg]:fill-gray-100 "
-          color="invert"
-        >
-          <ActionIcon
-            onClick={() => {
-              openModal({
-                view: <EditUser />,
-                customSize: "480px",
-              }),
-                console.log(data),
-                console.log("open");
-            }}
-            tag="span"
-            size="sm"
-            variant="outline"
-            className="hover:brightness-150 cursor-pointer"
-          >
-            <PencilIcon />
-          </ActionIcon>
-        </Tooltip>
-        <Tooltip
-          size="sm"
           content={() => "View Invoice"}
           placement="top"
           className="bg-gray-200 [&>svg]:fill-gray-100 "
           color="invert"
         >
           <ActionIcon
-            onClick={() => {
-              console.log(data);
-            }}
             tag="span"
             size="sm"
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <EyeIcon className="h-4 w-4" />
+            <EyeIcon data={row} className="h-4 w-4" />
           </ActionIcon>
         </Tooltip>
         <DeletePopover
           title={`Delete the invoice`}
           description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteItem(row.id)}
+          onDelete={() => onDeleteCategories(row.id)}
         />
       </div>
     ),
@@ -193,21 +145,24 @@ export function AvatarCard({
   );
 }
 
-type Columns = {
-  data: any[];
-  sortConfig?: any;
-  handleSelectAll?: any;
-  checkedItems?: string[];
-  onDeleteItem?: (id: string) => void;
-  onHeaderCellClick?: (value: string) => void;
-  onChecked?: (id: string) => void;
-  openModal?: any;
-};
-
 export function EyeIcon({
   strokeWidth,
+  onClick,
+  data,
   ...props
-}: React.SVGProps<SVGSVGElement>) {
+}: React.SVGProps<SVGSVGElement> & {
+  onClick?: () => void;
+  data?: any;
+}) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate(`${data.id}`);
+    }
+  };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -215,6 +170,7 @@ export function EyeIcon({
       viewBox="0 0 24 24"
       strokeWidth={strokeWidth ?? 1.5}
       stroke="currentColor"
+      onClick={handleClick}
       {...props}
     >
       <path
@@ -226,28 +182,6 @@ export function EyeIcon({
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-    </svg>
-  );
-}
-
-export function PencilIcon({
-  strokeWidth,
-  ...props
-}: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={strokeWidth ?? 1.5}
-      stroke="currentColor"
-      {...props}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
       />
     </svg>
   );

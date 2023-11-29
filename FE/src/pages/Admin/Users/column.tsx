@@ -13,6 +13,7 @@ type Columns = {
   onDeleteItem: (report: any) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
+  onDeleteUser?: (report: any) => void;
   openModal: any;
   index?: number;
 };
@@ -23,6 +24,7 @@ export const getColumnsUsers = ({
   checkedItems,
   onDeleteItem,
   onHeaderCellClick,
+  onDeleteUser,
   handleSelectAll,
   onChecked,
   openModal,
@@ -92,17 +94,17 @@ export const getColumnsUsers = ({
     onHeaderCell: () => onHeaderCellClick("createDate"),
     dataIndex: "createDate",
     key: "createDate",
-    width: 100,
+    width: 200,
     render: (value: Date) => <DateCell date={value} />,
   },
 
   {
-    title: <>Action</>,
+    title: <HeaderCell align="center" title="Action" />,
     dataIndex: "action",
     key: "action",
-    width: 140,
+    width: 200,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-start gap-3 pe-3">
+      <div className="flex items-center justify-center gap-3 ">
         <Tooltip
           size="sm"
           content={() => "View Invoice"}
@@ -129,7 +131,7 @@ export const getColumnsUsers = ({
         <DeletePopover
           title={`Delete the invoice`}
           description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteItem({ user_id: row.id, value: 1 })}
+          onDelete={() => onDeleteUser({ user_id: row.id, value: 1 })}
         />
       </div>
     ),

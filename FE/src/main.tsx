@@ -9,7 +9,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "./hooks/theme-provider";
 import { Toaster } from "react-hot-toast";
-import GlobalModal from "./components/Modal/GlobalModal";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -27,7 +26,6 @@ root.render(
               containerStyle={{ inset: 20 }}
               toastOptions={{ duration: 3000 }}
             />
-            <GlobalModal />
           </BrowserRouter>
         </PersistGate>
       </Provider>

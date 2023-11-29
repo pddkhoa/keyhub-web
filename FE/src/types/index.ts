@@ -78,6 +78,11 @@ export enum REQUEST_TYPE {
   GET_LIST_USER_FOLLOW_CATE = "get_list_user_follow_cate",
   SEARCH_BLOG_CATEGORIES = "search_blog_categories",
   GET_BLOG_CATEGORIES = "get_blog_categories",
+  GET_BLOG_CATEGORIES_BY_ID = "get_blog_categories_by_id",
+  UPDATE_CATEGORIES = "update_categories",
+  UPLOAD_AVATAR_CATEGORIES = "upload_avatar_categories",
+  ADD_NEW_CATEGORIES = "add_new_categories",
+  DELETE_CATEGORIES = "delete_categories",
 
   //Admin
   ADMIN_GET_ALLBLOG = "admin_get_allblog",
@@ -99,6 +104,11 @@ export enum REQUEST_TYPE {
 
   ADMIN_UPDATE_USER = "admin_update_user",
   ADMIN_DELETE_USER = "admin_delete_user",
+
+  ADMIN_ADD_TAG = "admin_add_tag",
+  ADMIN_DELETE_TAG = "admin_delete_tag",
+
+  ADMIN_EVALUTE_USER = "admin_evalute_user",
 }
 
 export type RequestConfig = {

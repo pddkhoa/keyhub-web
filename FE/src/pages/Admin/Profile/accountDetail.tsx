@@ -25,8 +25,6 @@ interface SettingUserProps {
 export const SettingUser: React.FC<SettingUserProps> = ({ data, index }) => {
   const [tabs, setTabs] = useState("ACCOUNT");
 
-  console.log(data);
-
   const renderContent = () => {
     switch (tabs) {
       case "ACCOUNT":
@@ -35,7 +33,7 @@ export const SettingUser: React.FC<SettingUserProps> = ({ data, index }) => {
       case "PROFILE":
         return <AccountDetail data={data} index={index} />;
       case "DELETE_ACCOUNT":
-        return <DeactiveteAcount />;
+        return <DeactiveteAcount data={data} index={index} />;
       default:
         return null;
     }

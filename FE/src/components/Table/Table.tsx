@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useTable } from "../../hooks/useTable";
 import { useColumn } from "../../hooks/useColumn";
@@ -11,7 +11,6 @@ type ColumnTypes = {
   onDeleteItem?: (id: string) => void;
   onHeaderCellClick?: (value: string) => void;
   onChecked?: (id: string) => void;
-  openModal?: any;
   index?: number;
 };
 
@@ -29,7 +28,6 @@ type BasicTableWidgetProps = {
     onDeleteItem,
     onHeaderCellClick,
     onChecked,
-    openModal,
   }: ColumnTypes) => any;
   data?: any[];
   enablePagination?: boolean;
@@ -43,7 +41,9 @@ type BasicTableWidgetProps = {
     y?: number;
   };
   sticky?: boolean;
-  index?: number;
+  index?: any;
+  setIsDelete?: React.Dispatch<React.SetStateAction<boolean>>;
+  setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function BasicTableWidget({
@@ -55,6 +55,8 @@ export default function BasicTableWidget({
   setPageSize,
   enablePagination,
   index,
+  setIsDelete,
+  setEvalute,
 }: BasicTableWidgetProps) {
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -63,9 +65,38 @@ export default function BasicTableWidget({
     },
   });
 
-  const onDeleteItem = async (report: any) => {
-    await handleDelete(report);
+  const { sendRequest } = useFetch();
+
+  const [dataUserReport, setDataUserReport] = useState();
+  const [dataTag, setTag] = useState();
+
+  const onDeleteItemTag = async (id: any) => {
+    setIsDelete(false);
+
+    await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_TAG);
+    setIsDelete(true);
   };
+
+  const onDeleteCategories = async (id: any) => {
+    setIsDelete(false);
+
+    await handleDelete(id, null, REQUEST_TYPE.DELETE_CATEGORIES);
+    setIsDelete(true);
+  };
+
+  const onDeleteUser = async (report: any) => {
+    setIsDelete(false);
+
+    await handleDelete(null, report, REQUEST_TYPE.ADMIN_DELETE_USER);
+    sendRequest({
+      type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
+      slug: index?.toString(),
+    });
+    setIsDelete(true);
+  };
+
+  const [displayModal, setDisplayModal] = useState("");
+  const [displayCreate, setDisplayCreate] = useBoolean(false);
 
   const {
     isLoading,
@@ -79,7 +110,6 @@ export default function BasicTableWidget({
     selectedRowKeys,
     handleRowSelect,
     handleSelectAll,
-    openModal,
     handlePaginate,
     totalItems,
     currentPage,
@@ -91,12 +121,17 @@ export default function BasicTableWidget({
         data,
         sortConfig,
         onHeaderCellClick,
-        onDeleteItem,
+        onDeleteItemTag,
+        onDeleteUser,
         checkedItems: selectedRowKeys,
         onChecked: handleRowSelect,
         handleSelectAll,
-        openModal,
         index,
+        setDisplayModal,
+        setDisplayCreate,
+        setDataUserReport,
+        setTag,
+        onDeleteCategories,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -104,10 +139,16 @@ export default function BasicTableWidget({
       onHeaderCellClick,
       sortConfig.key,
       sortConfig.direction,
-      onDeleteItem,
+      onDeleteItemTag,
+      onDeleteUser,
       handleRowSelect,
       handleSelectAll,
       index,
+      setDisplayModal,
+      setDisplayCreate,
+      setDataUserReport,
+      setTag,
+      onDeleteCategories,
     ]
   );
 
@@ -116,38 +157,53 @@ export default function BasicTableWidget({
     useColumn(columns);
 
   return (
-    <ControlledTable
-      isLoading={isLoading}
-      data={tableData}
-      columns={visibleColumns}
-      scroll={scroll}
-      sticky={sticky}
-      className="outline-none"
-      filterOptions={{
-        searchTerm,
-        onSearchClear: () => {
-          handleSearch("");
-        },
-        onSearchChange: (event: any) => {
-          handleSearch(event.target.value);
-        },
-        hasSearched: isFiltered,
-        hideIndex: 1,
-        columns,
-        checkedColumns,
-        setCheckedColumns,
-        enableDrawerFilter: true,
-      }}
-      {...(enablePagination && {
-        paginatorOptions: {
-          pageSize,
-          ...(setPageSize && { setPageSize }),
-          total: totalItems,
-          current: currentPage,
-          onChange: (page: number) => handlePaginate(page),
-        },
-      })}
-    />
+    <>
+      <ControlledTable
+        isLoading={isLoading}
+        data={tableData}
+        columns={visibleColumns}
+        scroll={scroll}
+        sticky={sticky}
+        className="outline-none"
+        filterOptions={{
+          searchTerm,
+          onSearchClear: () => {
+            handleSearch("");
+          },
+          onSearchChange: (event: any) => {
+            handleSearch(event.target.value);
+          },
+          hasSearched: isFiltered,
+          hideIndex: 1,
+          columns,
+          checkedColumns,
+          setCheckedColumns,
+          enableDrawerFilter: true,
+        }}
+        {...(enablePagination && {
+          paginatorOptions: {
+            pageSize,
+            ...(setPageSize && { setPageSize }),
+            total: totalItems,
+            current: currentPage,
+            onChange: (page: number) => handlePaginate(page),
+          },
+        })}
+      />
+      <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+        {displayModal === "USER_REPORT" ? (
+          <ConfirmReport
+            setFlag={setDisplayCreate}
+            dataUserReport={dataUserReport}
+            setEvalute={setEvalute}
+            index={index}
+          />
+        ) : null}
+        {displayModal === "EDIT_TAG" ? (
+          <FormEditTag setFlag={setDisplayCreate} data={dataTag} />
+        ) : null}
+      </Modal>
+    </>
   );
 }
 
@@ -157,6 +213,12 @@ import RcTable from "rc-table";
 // import { AddUSer } from "../Form/AddUser";
 import { ControlledTable } from "./ControlledTable";
 import cn from "@/lib/class-names";
+import { REQUEST_TYPE } from "@/types";
+import useFetch from "@/hooks/useFetch";
+import useBoolean from "@/hooks/useBoolean";
+import Modal from "../Modal/modal";
+import { ConfirmReport } from "@/pages/Admin/Support/AccountReport/ConfirmReport";
+import { FormEditTag } from "@/pages/Admin/Tags/formEdit";
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
 

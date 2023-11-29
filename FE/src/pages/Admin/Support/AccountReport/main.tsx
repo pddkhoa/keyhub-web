@@ -19,21 +19,20 @@ const Main = () => {
   );
 
   const [index, setIndex] = useState<number>(1);
+  const [evalute, setEvalute] = useState(false);
 
   useEffect(() => {
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_USER_REPORT,
       slug: index.toString(),
     });
-  }, [index]);
-
-  console.log(listUserReport);
+  }, [index, evalute]);
 
   useEffect(() => {
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_SIZE_USER_REPORT,
     });
-  }, []);
+  }, [evalute]);
 
   const handlePageChange = (pageIndex: number) => {
     setIndex(pageIndex);
@@ -50,9 +49,10 @@ const Main = () => {
           <BasicTableWidget
             variant="classic"
             className="opacity-90 text-white shadow-2xl"
-            data={listUserReport && listUserReport}
+            data={listUserReport}
             enableSearch
             getColumns={getColumnsUserReport}
+            setEvalute={setEvalute}
           />
           <div className="flex justify-end">
             <Pagination

@@ -1,6 +1,6 @@
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
-import User from "@/types/user";
+import { useNavigate } from "react-router-dom";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
 
 type Columns = {
@@ -8,26 +8,23 @@ type Columns = {
   sortConfig?: any;
   handleSelectAll: any;
   checkedItems: string[];
-  onDeleteItem: (id: string) => void;
+  onDeleteItem: (report: any) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
-  setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setDisplayCreate: {
-    on: () => void;
-    off: () => void;
-    toggle: () => void;
-  };
-  setDataUserReport?: any;
+  openModal: any;
+  index?: number;
 };
 
-export const getColumnsUserReport = ({
+export const getColumnsUsersFollowCate = ({
   data,
   sortConfig,
+  checkedItems,
   onDeleteItem,
-  setDisplayModal,
-  setDisplayCreate,
   onHeaderCellClick,
-  setDataUserReport,
+  handleSelectAll,
+  onChecked,
+  openModal,
+  index,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -39,38 +36,36 @@ export const getColumnsUserReport = ({
   },
 
   {
-    title: <HeaderCell title="Account Report" />,
-    dataIndex: "user_report",
-    key: "user_report",
+    title: <HeaderCell title="Author" />,
+    dataIndex: "users",
+    key: "users",
     width: 150,
-    render: (users: User) => (
-      <AvatarCard
-        src={users?.avatar?.toString()}
-        name={users?.name}
-        description={`@-${users?.second_name}`}
-      />
+    render: (_: string, row: any) => (
+      <>
+        <AvatarCard
+          src={row.avatar}
+          name={row.name}
+          description={`@-${row.username}`}
+        />
+      </>
     ),
   },
   {
-    title: <HeaderCell title="Account is Report" />,
-    dataIndex: "user_is_reported",
-    key: "user_is_reported",
-    width: 150,
-    render: (users: User) => (
-      <AvatarCard
-        src={users?.avatar?.toString()}
-        name={users?.name}
-        description={`@-${users?.second_name}`}
-      />
-    ),
-  },
-  {
-    title: <HeaderCell title="Reason" />,
-    dataIndex: "reason",
-    key: "reason",
-    width: 250,
+    title: <HeaderCell title="Email" />,
+    dataIndex: "email",
+    key: "email",
+    width: 100,
 
-    render: (reason: any) => reason,
+    render: (email: any) => email,
+  },
+
+  {
+    title: <HeaderCell title="Phone" />,
+    dataIndex: "phone",
+    key: "phone",
+    width: 100,
+
+    render: (phone: any) => phone,
   },
 
   {
@@ -79,14 +74,14 @@ export const getColumnsUserReport = ({
         title="Created"
         sortable
         ascending={
-          sortConfig?.direction === "asc" && sortConfig?.key === "create_at"
+          sortConfig?.direction === "asc" && sortConfig?.key === "createDate"
         }
       />
     ),
-    onHeaderCell: () => onHeaderCellClick("create_at"),
-    dataIndex: "create_at",
-    key: "create_at",
-    width: 100,
+    onHeaderCell: () => onHeaderCellClick("createDate"),
+    dataIndex: "createDate",
+    key: "createDate",
+    width: 200,
     render: (value: Date) => <DateCell date={value} />,
   },
 
@@ -96,10 +91,10 @@ export const getColumnsUserReport = ({
     key: "action",
     width: 200,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-3 ">
         <Tooltip
           size="sm"
-          content={() => "Edit Invoice"}
+          content={() => "View Invoice"}
           placement="top"
           className="bg-gray-200 [&>svg]:fill-gray-100 "
           color="invert"
@@ -110,12 +105,13 @@ export const getColumnsUserReport = ({
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <PencilIcon
-              onClick={() => {
-                setDisplayCreate.on();
-                setDisplayModal("USER_REPORT");
-                setDataUserReport(row);
-              }}
+            <EyeIcon
+              className="h-4 w-4"
+              data={row}
+              index={index}
+              // onClick={() => {
+              //   console.log(index);
+              // }}
             />
           </ActionIcon>
         </Tooltip>
@@ -189,10 +185,29 @@ export function AvatarCard({
   );
 }
 
-export function PencilIcon({
+export function EyeIcon({
   strokeWidth,
+  onClick,
+  data,
+  index,
   ...props
-}: React.SVGProps<SVGSVGElement>) {
+}: React.SVGProps<SVGSVGElement> & {
+  onClick?: () => void;
+  data?: any;
+  index?: number;
+}) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Navigate to the desired page when the icon is clicked
+      navigate(`/admin/users/${data.id}`, {
+        state: { rowData: data, indexPage: index },
+      });
+    }
+  };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -200,12 +215,18 @@ export function PencilIcon({
       viewBox="0 0 24 24"
       strokeWidth={strokeWidth ?? 1.5}
       stroke="currentColor"
+      onClick={handleClick}
       {...props}
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
       />
     </svg>
   );

@@ -4,12 +4,33 @@ import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
 import { Tooltip, ActionIcon, cn } from "rizzui";
 
+type Columns = {
+  data: any[];
+  sortConfig?: any;
+  handleSelectAll?: any;
+  checkedItems?: string[];
+  onDeleteItem?: (id: string) => void;
+  onDeleteItemTag: (id: any) => void;
+  onHeaderCellClick?: (value: string) => void;
+  onChecked?: (id: string) => void;
+  setDisplayModal: React.Dispatch<React.SetStateAction<string>>;
+  setDisplayCreate: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
+  setTag: any;
+};
+
 export const getColumnsTags = ({
   data,
   sortConfig,
   onDeleteItem,
+  onDeleteItemTag,
   onHeaderCellClick,
-  openModal,
+  setDisplayModal,
+  setDisplayCreate,
+  setTag,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -43,45 +64,24 @@ export const getColumnsTags = ({
           color="invert"
         >
           <ActionIcon
-            onClick={() => {
-              openModal({
-                view: <EditUser />,
-                customSize: "480px",
-              }),
-                console.log(data),
-                console.log("open");
-            }}
             tag="span"
             size="sm"
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
+            onClick={() => {
+              setDisplayCreate.on();
+              setDisplayModal("EDIT_TAG");
+              setTag(row);
+            }}
           >
             <PencilIcon />
           </ActionIcon>
         </Tooltip>
-        <Tooltip
-          size="sm"
-          content={() => "View Invoice"}
-          placement="top"
-          className="bg-gray-200 [&>svg]:fill-gray-100 "
-          color="invert"
-        >
-          <ActionIcon
-            onClick={() => {
-              console.log(data);
-            }}
-            tag="span"
-            size="sm"
-            variant="outline"
-            className="hover:brightness-150 cursor-pointer"
-          >
-            <EyeIcon className="h-4 w-4" />
-          </ActionIcon>
-        </Tooltip>
+
         <DeletePopover
           title={`Delete the invoice`}
           description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteItem(row.id)}
+          onDelete={() => onDeleteItemTag(row?.id)}
         />
       </div>
     ),
@@ -122,17 +122,6 @@ export function DateCell({
     </div>
   );
 }
-
-type Columns = {
-  data: any[];
-  sortConfig?: any;
-  handleSelectAll?: any;
-  checkedItems?: string[];
-  onDeleteItem?: (id: string) => void;
-  onHeaderCellClick?: (value: string) => void;
-  onChecked?: (id: string) => void;
-  openModal?: any;
-};
 
 export function EyeIcon({
   strokeWidth,

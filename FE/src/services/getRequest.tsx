@@ -1,5 +1,11 @@
 import {
+  addNewCategorySuccess,
+  addNewTagSuccess,
+  deleteCategoriesSuccess,
+  deleteTagSuccess,
   deleteUserSuccess,
+  evaluteUserSuccess,
+  getCategoriesByIdSuccess,
   getListAllBlogSuccess,
   getListAllCategoriesSuccess,
   getListAllTagsSuccess,
@@ -12,7 +18,9 @@ import {
   getSizeBlogReporttSuccess,
   getSizeUserBlockSuccess,
   getSizeUserReportSuccess,
+  updateCategoriesByIdSuccess,
   updateUserAdminSuccess,
+  uploadAvatarCategoriesSuccess,
 } from "@/redux/adminSlice";
 import {
   loginSuccess,
@@ -715,6 +723,87 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getSizeUserBlockSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.UPDATE_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/admin/category/edit`,
+        method: REQUEST_METHOD.PATCH,
+        isShowToast: true,
+        isDispatch: true,
+        action: updateCategoriesByIdSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.DELETE_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/admin/category/${slug}/delete`,
+        method: REQUEST_METHOD.DELETE,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: deleteCategoriesSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.UPLOAD_AVATAR_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/admin/category/${slug}/upload-avatar`,
+        method: REQUEST_METHOD.PATCH,
+        isShowToast: true,
+        isDispatch: true,
+        action: uploadAvatarCategoriesSuccess,
+        isToken: true,
+        formMutil: true,
+      };
+    case REQUEST_TYPE.ADD_NEW_CATEGORIES:
+      return {
+        url: `${BASE_URL}/v1/admin/category/add`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: true,
+        isDispatch: true,
+        action: addNewCategorySuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.GET_BLOG_CATEGORIES_BY_ID:
+      return {
+        url: `${BASE_URL}/v1/blog/${slug}/category`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getCategoriesByIdSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_ADD_TAG:
+      return {
+        url: `${BASE_URL}/v1/admin/tag/add`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: true,
+        isDispatch: true,
+        action: addNewTagSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_DELETE_TAG:
+      return {
+        url: `${BASE_URL}/v1/admin/tag/${slug}/delete`,
+        method: REQUEST_METHOD.DELETE,
+        isShowToast: true,
+        isDispatch: true,
+        action: deleteTagSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_EVALUTE_USER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/evalute`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: evaluteUserSuccess,
         isToken: true,
       };
 
