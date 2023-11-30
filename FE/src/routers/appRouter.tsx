@@ -7,7 +7,6 @@ import Layout from "@/layout/layoutMain";
 import { Loading } from "@/components/Loading/loading";
 import LayoutAdmin from "@/layout/layoutAdmin";
 import AdminRouter from "./adminRouter";
-import Introduction from "@/pages/Introduction/introduction";
 
 // Public
 const Login = lazy(() => import("../pages/Login/login"));
@@ -59,7 +58,9 @@ const AdminUserReport = lazy(
   () => import("../pages/Admin/Support/AccountReport/main")
 );
 const AdminMainProfile = lazy(() => import("../pages/Admin/Profile/main"));
-const AdminUserBlock = lazy(() => import("../pages/Admin/Users/listUserBlock"));
+const AdminUserBlock = lazy(
+  () => import("../pages/Admin/Support/AccountBlocked/listUserBlock")
+);
 const AdminCategoriesDetail = lazy(
   () => import("../pages/Admin/Categories/detail")
 );
@@ -83,13 +84,18 @@ const AppRouter = () => {
 
         <Route path="/" element={<AdminRouter />}>
           <Route element={<LayoutAdmin />}>
+            <Route index path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin" index element={<AdminMain />} />
-            <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/blogs" element={<AdminBlog />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+
+            <Route path="/admin/editor/:id" element={<EditBlog />} />
+
             <Route path="/admin/users/:id" element={<AdminMainProfile />} />
 
             <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/blogs/:id" element={<DetailBlog />} />
+
             <Route
               path="/admin/categories/:id"
               element={<AdminCategoriesDetail />}

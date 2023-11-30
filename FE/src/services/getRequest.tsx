@@ -1,11 +1,14 @@
 import {
   addNewCategorySuccess,
   addNewTagSuccess,
+  deleteAdminBlogSuccess,
   deleteCategoriesSuccess,
   deleteTagSuccess,
   deleteUserSuccess,
+  evaluteBlogSuccess,
   evaluteUserSuccess,
   getCategoriesByIdSuccess,
+  getDataChartCircleSuccess,
   getListAllBlogSuccess,
   getListAllCategoriesSuccess,
   getListAllTagsSuccess,
@@ -18,6 +21,7 @@ import {
   getSizeBlogReporttSuccess,
   getSizeUserBlockSuccess,
   getSizeUserReportSuccess,
+  unBlockSuccess,
   updateCategoriesByIdSuccess,
   updateUserAdminSuccess,
   uploadAvatarCategoriesSuccess,
@@ -591,7 +595,7 @@ export const getRequestConfig = (
 
     case REQUEST_TYPE.ADMIN_GET_ALLBLOG:
       return {
-        url: `${BASE_URL}/v1/admin/blog/${slug}/all`,
+        url: `${BASE_URL}/v1/admin/blog/all`,
         method: REQUEST_METHOD.GET,
         isShowToast: false,
         isDispatch: true,
@@ -610,7 +614,7 @@ export const getRequestConfig = (
 
     case REQUEST_TYPE.ADMIN_GET_ALLUSER:
       return {
-        url: `${BASE_URL}/v1/admin/user/${slug}/all`,
+        url: `${BASE_URL}/v1/admin/user/all`,
         method: REQUEST_METHOD.GET,
         isShowToast: false,
         isDispatch: true,
@@ -647,7 +651,7 @@ export const getRequestConfig = (
 
     case REQUEST_TYPE.ADMIN_GET_BLOG_REPORT:
       return {
-        url: `${BASE_URL}/v1/admin/blog/${slug}/blog-violating`,
+        url: `${BASE_URL}/v1/admin/blog/blog-violating`,
         method: REQUEST_METHOD.GET,
         isShowToast: false,
         isDispatch: true,
@@ -667,7 +671,7 @@ export const getRequestConfig = (
 
     case REQUEST_TYPE.ADMIN_GET_USER_REPORT:
       return {
-        url: `${BASE_URL}/v1/admin/user/${slug}/user-violating`,
+        url: `${BASE_URL}/v1/admin/user/user-violating`,
         method: REQUEST_METHOD.GET,
         isShowToast: false,
         isDispatch: true,
@@ -709,7 +713,7 @@ export const getRequestConfig = (
 
     case REQUEST_TYPE.ADMIN_GET_USER_BLOCK:
       return {
-        url: `${BASE_URL}/v1/admin/user/${slug}/block`,
+        url: `${BASE_URL}/v1/admin/user/block`,
         method: REQUEST_METHOD.GET,
         isShowToast: false,
         isDispatch: true,
@@ -804,6 +808,48 @@ export const getRequestConfig = (
         isDispatch: true,
         customAction: true,
         action: evaluteUserSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_DELETE_BLOG:
+      return {
+        url: `${BASE_URL}/v1/blog/${slug}/delete`,
+        method: REQUEST_METHOD.DELETE,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: deleteAdminBlogSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_EVALUTE_BLOG:
+      return {
+        url: `${BASE_URL}/v1/admin/blog/evalute`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: evaluteBlogSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.UNBLOCK_USER:
+      return {
+        url: `${BASE_URL}/v1/admin/user/${slug}/unblock`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: unBlockSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.ADMIN_CHART_CIRCLE:
+      return {
+        url: `${BASE_URL}/v1/admin/article-statistics`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getDataChartCircleSuccess,
         isToken: true,
       };
 

@@ -16,7 +16,7 @@ const blogSlice = createSlice({
       isCreating: false,
       error: false,
     },
-    detailBlog: {} as any,
+    detailBlog: {} as BlogPost,
     isLoading: false,
     isSuccess: false,
     isFetching: false,

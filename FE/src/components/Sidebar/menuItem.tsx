@@ -84,7 +84,7 @@ export const berylliumMenuItemsAdmin: MenuItemsType[] = [
     menuItems: [
       {
         name: "Analysis",
-        href: "/dashboard",
+        href: "/admin/dashboard",
         icon: PiChartLineBold,
       },
       {

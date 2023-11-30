@@ -10,19 +10,14 @@ interface ReportType {
 interface EditorOutputProps {
   report: ReportType;
 }
-import { RootState } from "@/redux/store";
 import CategoryType from "@/types/categories";
 import TagType from "@/types/tags";
-import { useSelector } from "react-redux";
 import Output from "editorjs-blocks-react-renderer";
 
 import "./output.css";
-import { format } from "date-fns";
-import AlphabetAvatar from "../Avatar/avatar";
+import { Link } from "react-router-dom";
 
 export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
-  const userData = useSelector((state: RootState) => state.user.detail?.data);
-
   // Tạo một mảng chứa các khối Editor.js tương ứng
   const blocks = [];
 
@@ -109,102 +104,81 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
   };
   return (
     <>
-      <div className="pt-8 pb-8  bg-background dark:bg-gray-900 antialiased">
-        <div className="flex justify-between mx-auto ">
-          <div className="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-            <div className="mb-4 lg:mb-6 not-format">
-              <address className="flex items-center mb-6 not-italic">
-                <div className="inline-flex items-center mr-3 text-sm text-title ">
-                  <AlphabetAvatar size={85} />
-                  <div className="ml-4 mt-2">
-                    <a
-                      href="#"
-                      rel="author"
-                      className="text-xl font-bold text-title "
-                    >
-                      {userData.name}
-                    </a>
-                    <p className="text-base text-title-foreground ">
-                      {userData.second_name}
-                    </p>
-                    <p className="text-base text-title-foreground ">
-                      <div>{format(editorData.time, "MMM. d, yyyy")}</div>
-                    </p>
-                  </div>
-                </div>
-              </address>
-              <h1 className="mb-4 text-3xl font-extrabold leading-tight text-title">
-                {report.title ? report.title : <div>No Title</div>}
-              </h1>
-              <div className="output">
-                <Output
-                  data={editorData}
-                  config={{
-                    code: {
-                      className: "language-js",
-                    },
-                    delimiter: {
-                      className: "border border-2 w-16 mx-auto",
-                    },
-                    embed: {
-                      className: "border-0",
-                    },
-                    header: {
-                      className: "font-bold text-lg",
-                    },
-                    image: {
-                      className:
-                        " flex flex-col h-[400px] w-full justify-center items-center  mt-10 mx-auto bg-transparent",
-                    },
-                    list: {
-                      className: "text-title-foreground",
-                    },
-                    paragraph: {
-                      className:
-                        "text-base text-opacity-75 text-title-foreground para",
-                      actionsClassNames: {
-                        alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                      },
-                    },
-                    quote: {
-                      className: "py-3 px-5 italic",
-                    },
-                  }}
-                />
-              </div>
-            </div>
+      <div className="max-w-5xl px-6 py-10 mx-auto space-y-12">
+        <article className="space-y-8  text-gray-50">
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold md:tracki md:text-5xl">
+              {report?.title}
+            </h1>
 
-            <div className="border-t-2 w-full mt-10 p-4">
-              <div className="flex flex-col space-y-3">
-                <div className="flex items-center space-x-3 text-title-foreground">
-                  <span>Category:</span>
-                  {report.categoryIds ? (
-                    <div>{report.categoryIds.name}</div>
-                  ) : (
-                    <div>No Selected Categories</div>
-                  )}
-                </div>
-                <div className="flex items-center space-x-3 text-title-foreground">
-                  <span>Tags:</span>
-                  <div className="flex gap-3">
-                    <div>
-                      {report.tagIds && report.tagIds.length > 0 ? (
-                        report.tagIds.map((item) => (
-                          <span
-                            key={item.id}
-                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                          >
-                            {item.name}
-                          </span>
-                        ))
-                      ) : (
-                        <div>No Selected Tags</div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+            <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center text-gray-400">
+              <div className="flex items-center md:space-x-2">
+                {/* <p className="text-sm">
+                  {report?.users?.name} • {formatDate(report?.create_date)}
+                </p> */}
               </div>
+              <p className="flex-shrink-0 mt-3 text-sm md:mt-0">
+                {report?.categoryIds?.name}
+              </p>
             </div>
+            <img
+              src={report?.avatar}
+              alt=""
+              className="w-full h-96 object-cover rounded-lg bg-gray-500"
+            ></img>
+          </div>
+          <div className="output">
+            <Output
+              data={editorData}
+              config={{
+                code: {
+                  className: "language-js py-4 text-white",
+                },
+                delimiter: {
+                  className: "border border-2 w-16 mx-auto",
+                },
+                embed: {
+                  className: "border-0",
+                },
+                header: {
+                  className:
+                    "text-2xl font-semibold  text-transparent text-white my-6",
+                },
+                image: {
+                  className:
+                    " flex flex-col w-[900px] justify-center items-center  mt-10 mx-auto  py-5 rounded-xl",
+                },
+                list: {
+                  className: "text-title-foreground",
+                },
+                paragraph: {
+                  className: "text-lg text-opacity-90 text-title para ",
+                  actionsClassNames: {
+                    alignment: "text-{alignment}",
+                  },
+                },
+                quote: {
+                  className: "py-3 px-5 italic",
+                },
+              }}
+            />
+          </div>
+        </article>
+        <div>
+          <div className="flex flex-wrap py-6 gap-2 border-t border-dashed border-gray-400">
+            {report?.tagIds && report.tagIds.length > 0
+              ? report.tagIds.map((item) => (
+                  <Link
+                    key={item.id}
+                    rel="noopener noreferrer"
+                    // href="#"
+                    to={`/tags/${item.id}`}
+                    className="px-3 py-1 rounded-sm hover:underline bg-violet-400 text-gray-900"
+                  >
+                    #{item.name}
+                  </Link>
+                ))
+              : null}
           </div>
         </div>
       </div>

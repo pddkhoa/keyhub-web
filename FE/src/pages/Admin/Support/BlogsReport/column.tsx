@@ -1,17 +1,32 @@
-import { EditUser } from "@/components/Form/editUser";
-import DeletePopover from "@/components/Popover/delete";
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
 import BlogPost from "@/types/blog";
 import User from "@/types/user";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
 
+type Columns = {
+  data: any[];
+  sortConfig?: any;
+  handleSelectAll: any;
+  checkedItems: string[];
+  onHeaderCellClick: (value: string) => void;
+  onChecked?: (id: string) => void;
+  setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisplayCreate: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
+  setDataBlog?: any;
+};
+
 export const getColumnsBlogsReport = ({
   data,
   sortConfig,
-  onDeleteItem,
   onHeaderCellClick,
-  openModal,
+  setDisplayCreate,
+  setDisplayModal,
+  setDataBlog,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -70,31 +85,17 @@ export const getColumnsBlogsReport = ({
     onHeaderCell: () => onHeaderCellClick("create_at"),
     dataIndex: "create_at",
     key: "create_at",
-    width: 100,
+    width: 150,
     render: (value: Date) => <DateCell date={value} />,
   },
 
-  // {
-  //   title: <HeaderCell title="Name" />,
-  //   dataIndex: "name",
-  //   key: "name",
-  //   width: 120,
-  //   render: (name: string) => name,
-  // },
-  //   {
-  //     title: <HeaderCell title="Username" />,
-  //     dataIndex: "username",
-  //     key: "username",
-  //     width: 120,
-  //     render: (username: string) => username.toLocaleLowerCase(),
-  //   },
   {
     title: <HeaderCell align="center" title="Action" />,
     dataIndex: "action",
     key: "action",
     width: 200,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-center gap-3 pe-3">
+      <div className="flex items-center justify-center gap-3 ">
         <Tooltip
           size="sm"
           content={() => "Edit Invoice"}
@@ -103,83 +104,24 @@ export const getColumnsBlogsReport = ({
           color="invert"
         >
           <ActionIcon
-            onClick={() => {
-              openModal({
-                view: <EditUser />,
-                customSize: "480px",
-              }),
-                console.log(data),
-                console.log("open");
-            }}
             tag="span"
             size="sm"
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <PencilIcon />
+            <PencilIcon
+              onClick={() => {
+                setDisplayCreate.on();
+                setDisplayModal("BLOG_REPORT");
+                setDataBlog(row);
+              }}
+            />
           </ActionIcon>
         </Tooltip>
-        <Tooltip
-          size="sm"
-          content={() => "View Invoice"}
-          placement="top"
-          className="bg-gray-200 [&>svg]:fill-gray-100 "
-          color="invert"
-        >
-          <ActionIcon
-            onClick={() => {
-              console.log(data);
-            }}
-            tag="span"
-            size="sm"
-            variant="outline"
-            className="hover:brightness-150 cursor-pointer"
-          >
-            <EyeIcon className="h-4 w-4" />
-          </ActionIcon>
-        </Tooltip>
-        <DeletePopover
-          title={`Delete the invoice`}
-          description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteItem(row.id)}
-        />
       </div>
     ),
   },
 ];
-
-// function getStatusBadge(status: string) {
-//   switch (status.toLocaleLowerCase()) {
-//     case "okela":
-//       return (
-//         <div className="flex items-center">
-//           <Badge color="warning" renderAsDot />
-//           <div className="ms-2 font-medium text-orange-dark">{status}</div>
-//         </div>
-//       );
-//     case "paid":
-//       return (
-//         <div className="flex items-center">
-//           <Badge color="success" renderAsDot />
-//           <div className="ms-2 font-medium text-green-dark">{status}</div>
-//         </div>
-//       );
-//     case "overdue":
-//       return (
-//         <div className="flex items-center">
-//           <Badge color="danger" renderAsDot />
-//           <div className="ms-2 font-medium div-red-dark">{status}</div>
-//         </div>
-//       );
-//     default:
-//       return (
-//         <div className="flex items-center">
-//           <Badge renderAsDot className="bg-gray-400" />
-//           <div className="ms-2 font-medium text-gray-600">{status}</div>
-//         </div>
-//       );
-//   }
-// }
 
 interface DateCellProps {
   date: Date;
@@ -245,17 +187,6 @@ export function AvatarCard({
     </figure>
   );
 }
-
-type Columns = {
-  data: any[];
-  sortConfig?: any;
-  handleSelectAll: any;
-  checkedItems: string[];
-  onDeleteItem: (id: string) => void;
-  onHeaderCellClick: (value: string) => void;
-  onChecked?: (id: string) => void;
-  openModal: any;
-};
 
 export function EyeIcon({
   strokeWidth,

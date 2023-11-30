@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { cn, Input, InputProps } from "rizzui";
-import { PiCalendarBlank, PiCaretDownBold } from "react-icons/pi";
-import ReactDatePicker, { type ReactDatePickerProps } from "react-datepicker";
+import ReactDatePicker from "react-datepicker";
+import type { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { CalendarIcon, ChevronDownIcon } from "lucide-react";
 
 const calendarContainerClasses = {
   base: "[&.react-datepicker]:shadow-lg [&.react-datepicker]:border-gray-100 [&.react-datepicker]:rounded-md",
@@ -43,7 +44,7 @@ export interface DatePickerProps<selectsRange extends boolean | undefined>
   inputProps?: InputProps;
 }
 
-export const DatePicker = ({
+const DatePicker = ({
   customInput,
   showPopperArrow = false,
   dateFormat = "d MMMM yyyy",
@@ -58,43 +59,44 @@ export const DatePicker = ({
   const handleCalenderOpen = () => setIsCalenderOpen(true);
   const handleCalenderClose = () => setIsCalenderOpen(false);
   return (
-    <div className={cn("[&_.react-datepicker-wrapper]:w-full")}>
-      <ReactDatePicker
-        customInput={
-          customInput || (
-            <Input
-              prefix={<PiCalendarBlank className="h-5 w-5 text-gray-500" />}
-              suffix={
-                <PiCaretDownBold
-                  className={cn(
-                    "h-4 w-4 text-gray-500 transition",
-                    isCalenderOpen && "rotate-180"
-                  )}
-                />
-              }
-              {...inputProps}
-            />
-          )
-        }
-        showPopperArrow={showPopperArrow}
-        dateFormat={dateFormat}
-        selectsRange={selectsRange}
-        onCalendarOpen={onCalendarOpen || handleCalenderOpen}
-        onCalendarClose={onCalendarClose || handleCalenderClose}
-        calendarClassName={cn(
-          calendarContainerClasses.base,
-          calendarContainerClasses.monthContainer.padding,
-          prevNextButtonClasses.base,
-          prevNextButtonClasses.border,
-          prevNextButtonClasses.size,
-          prevNextButtonClasses.children.position,
-          prevNextButtonClasses.children.border,
-          prevNextButtonClasses.children.size,
-          timeOnlyClasses.base,
-          calendarClassName
-        )}
-        {...props}
-      />
-    </div>
+    <ReactDatePicker
+      customInput={
+        customInput || (
+          <Input
+            prefix={<CalendarIcon className="w-5 h-5 text-gray-500" />}
+            suffix={
+              <ChevronDownIcon
+                className={cn(
+                  "h-4 w-4 text-gray-500 transition",
+                  isCalenderOpen && "rotate-180"
+                )}
+              />
+            }
+            {...inputProps}
+          />
+        )
+      }
+      showPopperArrow={showPopperArrow}
+      dateFormat={dateFormat}
+      selectsRange={selectsRange}
+      onCalendarOpen={onCalendarOpen || handleCalenderOpen}
+      onCalendarClose={onCalendarClose || handleCalenderClose}
+      calendarClassName={cn(
+        calendarContainerClasses.base,
+        calendarContainerClasses.monthContainer.padding,
+        prevNextButtonClasses.base,
+        prevNextButtonClasses.border,
+        prevNextButtonClasses.size,
+        prevNextButtonClasses.children.position,
+        prevNextButtonClasses.children.border,
+        prevNextButtonClasses.children.size,
+        timeOnlyClasses.base,
+        calendarClassName
+      )}
+      {...props}
+    />
   );
 };
+
+DatePicker.displayName = "DatePicker";
+export default DatePicker;

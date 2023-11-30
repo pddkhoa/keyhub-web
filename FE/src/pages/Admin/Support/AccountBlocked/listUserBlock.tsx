@@ -5,39 +5,25 @@ import { RootState } from "@/redux/store";
 import { REQUEST_TYPE } from "@/types";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getColumnsTags } from "../Tags/column";
-import { getColumnsUsers } from "./column";
-import Pagination from "@/components/Pagination/pagination";
+import { getColumnsUsersBlock } from "./column";
 
 const ListUserBlock = () => {
   const { isLoading, sendRequest } = useFetch();
+
+  const [unblock, setUnBlock] = useState(false);
 
   const listUserBlock = useSelector(
     (state: RootState) => state.admin.listUserBlock
   );
 
-  const sizeUserBlock = useSelector(
-    (state: RootState) => state.admin.sizeUserBlock
-  );
-
-  const [index, setIndex] = useState<number>(1);
-
   useEffect(() => {
+    setUnBlock(false);
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_USER_BLOCK,
-      slug: index.toString(),
     });
-  }, [index]);
+  }, [unblock]);
 
-  useEffect(() => {
-    sendRequest({
-      type: REQUEST_TYPE.ADMIN_GET_SIZE_USER_BLOCK,
-    });
-  }, []);
-
-  const handlePageChange = (pageIndex: number) => {
-    setIndex(pageIndex);
-  };
+  console.log(unblock);
 
   if (isLoading) {
     return <Loading />;
@@ -52,15 +38,9 @@ const ListUserBlock = () => {
           data={listUserBlock}
           enableSearch
           enablePagination
-          getColumns={getColumnsUsers}
+          setUnBlock={setUnBlock}
+          getColumns={getColumnsUsersBlock}
         />
-        <div className="flex justify-end">
-          <Pagination
-            page={index}
-            setPage={handlePageChange}
-            maxPage={sizeUserBlock ? sizeUserBlock : 0}
-          />
-        </div>
       </>
     </div>
   );

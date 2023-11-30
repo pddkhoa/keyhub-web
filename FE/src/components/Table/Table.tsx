@@ -42,8 +42,9 @@ type BasicTableWidgetProps = {
   };
   sticky?: boolean;
   index?: any;
-  setIsDelete?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
   setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBlock: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function BasicTableWidget({
@@ -57,6 +58,7 @@ export default function BasicTableWidget({
   index,
   setIsDelete,
   setEvalute,
+  setUnBlock,
 }: BasicTableWidgetProps) {
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -67,8 +69,20 @@ export default function BasicTableWidget({
 
   const { sendRequest } = useFetch();
 
+  const [dataBlog, setDataBlog] = useState();
+
   const [dataUserReport, setDataUserReport] = useState();
   const [dataTag, setTag] = useState();
+  const [dataUserBlock, setDataUserBlock] = useState();
+
+  const onDeleteBlog = async (id: any) => {
+    setIsDelete(false);
+    await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_BLOG);
+    sendRequest({
+      type: REQUEST_TYPE.ADMIN_GET_ALLBLOG,
+    });
+    setIsDelete(true);
+  };
 
   const onDeleteItemTag = async (id: any) => {
     setIsDelete(false);
@@ -86,11 +100,9 @@ export default function BasicTableWidget({
 
   const onDeleteUser = async (report: any) => {
     setIsDelete(false);
-
     await handleDelete(null, report, REQUEST_TYPE.ADMIN_DELETE_USER);
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
-      slug: index?.toString(),
     });
     setIsDelete(true);
   };
@@ -132,6 +144,9 @@ export default function BasicTableWidget({
         setDataUserReport,
         setTag,
         onDeleteCategories,
+        onDeleteBlog,
+        setDataBlog,
+        setDataUserBlock,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -149,6 +164,9 @@ export default function BasicTableWidget({
       setDataUserReport,
       setTag,
       onDeleteCategories,
+      onDeleteBlog,
+      setDataBlog,
+      setDataUserBlock,
     ]
   );
 
@@ -196,7 +214,20 @@ export default function BasicTableWidget({
             setFlag={setDisplayCreate}
             dataUserReport={dataUserReport}
             setEvalute={setEvalute}
-            index={index}
+          />
+        ) : null}
+        {displayModal === "USER_BLOCK" ? (
+          <FormUserBlock
+            setFlag={setDisplayCreate}
+            setUnBlock={setUnBlock}
+            dataUserBlock={dataUserBlock}
+          />
+        ) : null}
+        {displayModal === "BLOG_REPORT" ? (
+          <FormEvaluteBlog
+            setFlag={setDisplayCreate}
+            data={dataBlog}
+            setEvalute={setEvalute}
           />
         ) : null}
         {displayModal === "EDIT_TAG" ? (
@@ -219,6 +250,8 @@ import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ConfirmReport } from "@/pages/Admin/Support/AccountReport/ConfirmReport";
 import { FormEditTag } from "@/pages/Admin/Tags/formEdit";
+import { FormEvaluteBlog } from "@/pages/Admin/Support/BlogsReport/formEvalute";
+import { FormUserBlock } from "@/pages/Admin/Support/AccountBlocked/formUserBlock";
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
 

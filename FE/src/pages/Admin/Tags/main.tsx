@@ -21,6 +21,7 @@ const Main = () => {
   const listTags = useSelector((state: RootState) => state.admin.listAllTags);
 
   useEffect(() => {
+    setIsDelete(false);
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_TAGS,
     });

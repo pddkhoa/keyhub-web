@@ -114,12 +114,19 @@ export function useTable<T extends AnyObject>(
       case REQUEST_TYPE.ADMIN_DELETE_USER:
         await sendRequest({
           type: REQUEST_TYPE.ADMIN_DELETE_USER,
+          slug: report.user_id,
           data: report,
         });
         break;
       case REQUEST_TYPE.DELETE_CATEGORIES:
         await sendRequest({
           type: REQUEST_TYPE.DELETE_CATEGORIES,
+          slug: id,
+        });
+        break;
+      case REQUEST_TYPE.ADMIN_DELETE_BLOG:
+        await sendRequest({
+          type: REQUEST_TYPE.ADMIN_DELETE_BLOG,
           slug: id,
         });
         break;

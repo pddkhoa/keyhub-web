@@ -1,21 +1,20 @@
 import { Loading } from "@/components/Loading/loading";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
-import React from "react";
 
-interface ConfirmReportProps {
+interface FormEvaluteProps {
   setFlag: {
     on: () => void;
     off: () => void;
     toggle: () => void;
   };
-  dataUserReport: any;
+  data: any;
   setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ConfirmReport: React.FC<ConfirmReportProps> = ({
+export const FormEvaluteBlog: React.FC<FormEvaluteProps> = ({
   setFlag,
-  dataUserReport,
+  data,
   setEvalute,
 }) => {
   const { isLoading, sendRequest } = useFetch();
@@ -26,8 +25,8 @@ export const ConfirmReport: React.FC<ConfirmReportProps> = ({
     try {
       // Assuming sendRequest returns a promise
       const response = await sendRequest({
-        type: REQUEST_TYPE.ADMIN_EVALUTE_USER,
-        slug: report,
+        type: REQUEST_TYPE.ADMIN_EVALUTE_BLOG,
+        slug: report.report_id,
         data: report,
       });
 
@@ -83,7 +82,7 @@ export const ConfirmReport: React.FC<ConfirmReportProps> = ({
               <button
                 onClick={() => {
                   handleEvalute({
-                    report_id: dataUserReport?.id,
+                    report_id: data?.id,
                     value: false,
                   });
                 }}
@@ -94,7 +93,7 @@ export const ConfirmReport: React.FC<ConfirmReportProps> = ({
               </button>
               <button
                 onClick={() => {
-                  handleEvalute({ report_id: dataUserReport?.id, value: true });
+                  handleEvalute({ report_id: data?.id, value: true });
                 }}
                 disabled={isLoading ? true : false}
                 className="px-6 py-2 rounded-sm shadow-sm bg-violet-400 hover:brightness-150 text-gray-900"

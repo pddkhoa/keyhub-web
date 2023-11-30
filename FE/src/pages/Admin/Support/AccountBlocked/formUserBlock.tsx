@@ -1,44 +1,37 @@
 import { Loading } from "@/components/Loading/loading";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
-import React from "react";
+import User from "@/types/user";
 
-interface ConfirmReportProps {
+interface FormUserBlockProps {
   setFlag: {
     on: () => void;
     off: () => void;
     toggle: () => void;
   };
-  dataUserReport: any;
-  setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBlock: React.Dispatch<React.SetStateAction<boolean>>;
+  dataUserBlock: User;
 }
 
-export const ConfirmReport: React.FC<ConfirmReportProps> = ({
+export const FormUserBlock: React.FC<FormUserBlockProps> = ({
   setFlag,
-  dataUserReport,
-  setEvalute,
+  dataUserBlock,
+  setUnBlock,
 }) => {
   const { isLoading, sendRequest } = useFetch();
 
-  const handleEvalute = async (report: any) => {
-    setEvalute(false);
-
+  const handleUnBlock = async () => {
     try {
-      // Assuming sendRequest returns a promise
-      const response = await sendRequest({
-        type: REQUEST_TYPE.ADMIN_EVALUTE_USER,
-        slug: report,
-        data: report,
+      await sendRequest({
+        type: REQUEST_TYPE.UNBLOCK_USER,
+        slug: dataUserBlock?.id?.toString(),
       });
-
-      setEvalute(true);
+      setUnBlock(true);
+      setFlag.off();
     } catch (error) {
-      setEvalute(false);
-
-      // Handle any errors that occurred during the request
-      console.error("Error:", error);
+      console.log(error);
+      setUnBlock(false);
     }
-    setFlag.off();
   };
 
   return (
@@ -55,7 +48,7 @@ export const ConfirmReport: React.FC<ConfirmReportProps> = ({
               <rect width="32" height="136" x="240" y="112"></rect>
               <rect width="32" height="32" x="240" y="280"></rect>
             </svg>
-            Necessitatibus dolores quasi quae?
+            Unblock account
           </h2>
           <div>
             <svg
@@ -82,24 +75,19 @@ export const ConfirmReport: React.FC<ConfirmReportProps> = ({
             <>
               <button
                 onClick={() => {
-                  handleEvalute({
-                    report_id: dataUserReport?.id,
-                    value: false,
-                  });
+                  setFlag.off();
                 }}
                 disabled={isLoading ? true : false}
                 className="px-6 py-2 rounded-sm shadow-sm bg-red-500 hover:brightness-150 text-white "
               >
-                Reject
+                Close
               </button>
               <button
-                onClick={() => {
-                  handleEvalute({ report_id: dataUserReport?.id, value: true });
-                }}
+                onClick={handleUnBlock}
                 disabled={isLoading ? true : false}
                 className="px-6 py-2 rounded-sm shadow-sm bg-violet-400 hover:brightness-150 text-gray-900"
               >
-                Accept
+                Unblock User
               </button>
             </>
           )}

@@ -9,7 +9,6 @@ import {
   Area,
 } from "recharts";
 import { useMedia } from "react-use";
-import SimpleBar from "simplebar-react";
 import WidgetCard from "@/components/ui/widgetCard";
 
 const data = [
@@ -75,100 +74,77 @@ const data = [
   },
 ];
 
+const filterOptions = ["Week", "Month", "Year"];
+
 export default function ResponseRate({ className }: { className?: string }) {
   const isTablet = useMedia("(max-width: 820px)", false);
   const [startDate, setStartDate] = useState<Date>(new Date());
   return (
     <WidgetCard
-      title="Response Rate"
+      title="Statistics Table of Blogs"
       className={className}
       description={
         <>
           <span className="flex items-center gap-1">
-            <span className="inline-flex h-3 w-3 rounded-[2px] bg-[#3872FA]" />
-            Creation Time
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="ms-1 inline-flex h-3 w-3 rounded-[2px] bg-[#10b981]" />
-            Response Time
+            <span className="inline-flex h-3 w-3 rounded-[2px] bg-[#10b981]" />
+            Number Blog
           </span>
         </>
       }
       descriptionClassName="text-gray-500 mt-1.5 flex flex-col md:flex-row items-center gap-2"
       action={
-        <DatePicker
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)}
-          dateFormat="yyyy"
-          placeholderText="Select Year"
-          showYearPicker
-          maxDate={new Date()}
-          inputProps={{ variant: "text", inputClassName: "p-0 px-1 h-auto" }}
-          popperPlacement="bottom-end"
-          className="w-[100px]"
+        <ButtonGroupAction
+          options={filterOptions}
+          onChange={(data) => handleFilterBy(data)}
+          className="-ms-2 mb-3 @lg:mb-0 @lg:ms-0"
         />
       }
     >
-      <SimpleBar>
-        <div className="h-96 w-full pt-9">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-            {...(isTablet && { minWidth: "700px" })}
+      <div className="h-[25.5rem] w-full py-9">
+        <ResponsiveContainer
+          className={"h-full w-full"}
+          {...(isTablet && { minWidth: "700px" })}
+        >
+          <AreaChart
+            data={data}
+            height={700}
+            margin={{
+              left: -2,
+              right: 2,
+              bottom: 10,
+            }}
+            className="[&_.recharts-cartesian-axis-tick-value]:fill-white  rtl:[&_.recharts-cartesian-axis.yAxis]:-translate-x-12 [&_.recharts-cartesian-grid-vertical]:opacity-0 "
           >
-            <AreaChart
-              data={data}
-              margin={{
-                left: -5,
-                right: 5,
-                bottom: 10,
-              }}
-              className="[&_.recharts-cartesian-axis-tick-value]:fill-gray-500 rtl:[&_.recharts-cartesian-axis.yAxis]:-translate-x-12 [&_.recharts-cartesian-grid-vertical]:opacity-0"
-            >
-              <defs>
-                <linearGradient id="newCustomer" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ffdadf" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="oldCustomer" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#dbeafe" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="#3872FA" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="8 10" strokeOpacity={0.435} />
-              <XAxis
-                dataKey="month"
-                axisLine={false}
-                tickLine={false}
-                tickMargin={20}
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tickMargin={20}
-                unit="hrs"
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                type="natural"
-                dataKey="responseTime"
-                stroke="#10b981"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#newCustomer)"
-              />
-              <Area
-                type="natural"
-                dataKey="creationTime"
-                stroke="#3872FA"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#oldCustomer)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </SimpleBar>
+            <defs>
+              <linearGradient id="newCustomer" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#ffdadf" stopOpacity={0.1} />
+                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="oldCustomer" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#dbeafe" stopOpacity={0.1} />
+                <stop offset="95%" stopColor="#3872FA" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="8 10" strokeOpacity={0.435} />
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tickMargin={20}
+            />
+            <YAxis axisLine={false} tickLine={false} tickMargin={20} />
+            <Tooltip content={<CustomTooltip />} />
+            <Area
+              type="natural"
+              dataKey="responseTime"
+              stroke="#10b981"
+              strokeWidth={2}
+              fillOpacity={1}
+              fill="url(#newCustomer)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </WidgetCard>
   );
 }
@@ -178,7 +154,7 @@ export function addSpacesToCamelCase(str: string) {
 }
 
 import cn from "@/lib/class-names";
-import { DatePicker } from "@/components/ui/datepicker";
+import { AdvancedRadio } from "rizzui";
 
 function isValidHexColor(colorCode: string) {
   const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -191,11 +167,11 @@ export function CustomTooltip({ active, payload, label, className }: any) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-md border border-gray-300 bg-gray-0 shadow-2xl dark:bg-gray-100",
+        "overflow-hidden rounded-md border border-gray-300 bg-gray-0 shadow-2xl bg-gray-100",
         className
       )}
     >
-      <div className="label mb-0.5 block bg-gray-100 p-2 px-2.5 text-center font-lexend text-xs font-semibold capitalize text-gray-600 dark:bg-gray-200/60 dark:text-gray-700">
+      <div className="label mb-0.5 block bg-gray-100 p-2 px-2.5 text-center font-lexend text-xs font-semibold capitalize text-gray-600 bg-gray-200/60 ">
         {label}
       </div>
       <div className="px-3 py-1.5 text-xs">
@@ -208,7 +184,7 @@ export function CustomTooltip({ active, payload, label, className }: any) {
               className="me-1.5 h-2 w-2 rounded-full"
               style={{
                 backgroundColor: isValidHexColor(item.fill)
-                  ? item.fill === "#fff"
+                  ? item.fill === "#0000"
                     ? item.stroke
                     : item.fill
                   : item.stroke,
@@ -218,13 +194,59 @@ export function CustomTooltip({ active, payload, label, className }: any) {
               <span className="capitalize">
                 {addSpacesToCamelCase(item.dataKey)}:
               </span>{" "}
-              <span className="font-medium text-gray-900 dark:text-gray-700">
-                {item.value}
-              </span>
+              <span className="font-medium text-gray-700">{item.value}</span>
             </div>
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+type ButtonGroupActionProps = {
+  name?: string;
+  options: string[];
+  defaultActive?: string;
+  onChange: (data: string) => void;
+  className?: string;
+  btnClassName?: string;
+  activeClassName?: string;
+};
+export function ButtonGroupAction({
+  name = "filter",
+  options,
+  onChange,
+  className,
+  btnClassName,
+  defaultActive,
+  activeClassName,
+}: ButtonGroupActionProps) {
+  const [state, setState] = useState(
+    defaultActive ? defaultActive : options[options.length - 1]
+  );
+  function handleOnChange(value: string) {
+    setState(() => value);
+    onChange && onChange(value);
+  }
+
+  return (
+    <div className={cn("flex items-center gap-1 font-medium", className)}>
+      {options.map((item) => (
+        <AdvancedRadio
+          key={`filter-${item}`}
+          name={name}
+          value={item}
+          onChange={(e) => handleOnChange(e.target.value)}
+          className={cn(
+            "rounded-md px-3 py-1.5 transition-all duration-200 hover:cursor-pointer",
+            state === item ? "bg-gray-100 text-gray-700" : "text-gray-600",
+            btnClassName,
+            state === item && activeClassName
+          )}
+        >
+          {item}
+        </AdvancedRadio>
+      ))}
     </div>
   );
 }

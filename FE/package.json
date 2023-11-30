@@ -58,7 +58,7 @@
     "rc-pagination": "^3.7.0",
     "rc-table": "^7.36.0",
     "react": "^18.2.0",
-    "react-datepicker": "^4.23.0",
+    "react-datepicker": "^4.24.0",
     "react-dom": "^18.2.0",
     "react-editor-js": "^2.1.0",
     "react-hot-toast": "^2.4.1",

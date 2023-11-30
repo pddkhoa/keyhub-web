@@ -8,6 +8,7 @@ import "./detailBlog.css";
 import { Comments } from "@/components/Comment/comment";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
+import convertDate from "@/components/FormatDate/formatDate";
 
 const DetailBlog = () => {
   // const blog = useSelector((state: RootState) => state.blog.blog.result);
@@ -15,7 +16,6 @@ const DetailBlog = () => {
   const blogData = useSelector((state: RootState) => state.blog.detailBlog);
 
   const { id } = useParams();
-  // const blog_id = Number(id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,6 +108,12 @@ const DetailBlog = () => {
     }
   }
 
+  const formatDate = (date: any) => {
+    const inputDate = date;
+    const formattedDate = inputDate && convertDate(inputDate);
+    return formattedDate;
+  };
+
   // Tạo đối tượng dữ liệu cho Editor.js
   const editorData = {
     time: new Date(),
@@ -158,7 +164,7 @@ const DetailBlog = () => {
           <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center text-gray-400">
             <div className="flex items-center md:space-x-2">
               <p className="text-sm">
-                {blogData?.users?.name} • July 19th, 2021
+                {blogData?.users?.name} • {formatDate(blogData?.create_date)}
               </p>
             </div>
             <p className="flex-shrink-0 mt-3 text-sm md:mt-0">

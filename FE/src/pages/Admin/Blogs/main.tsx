@@ -14,28 +14,15 @@ const Main = () => {
   const listAllBlog = useSelector(
     (state: RootState) => state.admin.listAllBlog
   );
-  const sizeAllBlog = useSelector(
-    (state: RootState) => state.admin.sizeAllBlog
-  );
 
-  const [index, setIndex] = useState<number>(1);
+  const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
+    setIsDelete(false);
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_ALLBLOG,
-      slug: index.toString(),
     });
-  }, [index]);
-
-  useEffect(() => {
-    sendRequest({
-      type: REQUEST_TYPE.ADMIN_GET_SIZE_ALLBLOG,
-    });
-  }, []);
-
-  const handlePageChange = (pageIndex: number) => {
-    setIndex(pageIndex);
-  };
+  }, [isDelete]);
 
   return (
     <div className="grid grid-cols-1 gap-6 pl-16 h-full 3xl:gap-8 shadow-2xl py-16 ">
@@ -51,15 +38,10 @@ const Main = () => {
             className="opacity-90 text-white shadow-2xl"
             data={listAllBlog}
             enableSearch
+            enablePagination
             getColumns={getColumnsBlogs}
+            setIsDelete={setIsDelete}
           />
-          <div className="flex justify-end">
-            <Pagination
-              page={index}
-              setPage={handlePageChange}
-              maxPage={sizeAllBlog ? sizeAllBlog : 100}
-            />
-          </div>
         </>
       )}
     </div>

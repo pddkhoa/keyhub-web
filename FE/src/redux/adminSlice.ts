@@ -20,8 +20,9 @@ const adminSlice = createSlice({
     listUserBlock: [] as any[],
     sizeUserBlock: 0 as number,
     isLoadingUpdate: false,
-
     categoriesById: {} as CategoryType,
+
+    dataChartCircle: {} as any,
   },
   reducers: {
     getListAllBlogSuccess: (state, action) => {
@@ -117,6 +118,32 @@ const adminSlice = createSlice({
         (cate) => cate.id !== categoriesId
       );
     },
+    deleteAdminBlogSuccess: (state, action) => {
+      const deletedBlogId = action.payload;
+      state.listAllBlog = state.listAllBlog.filter(
+        (blog) => blog.id !== +deletedBlogId
+      );
+    },
+
+    evaluteBlogSuccess: (state, action) => {
+      const { report_id } = action.payload;
+
+      state.listBlogReport = state.listBlogReport.filter(
+        (report) => report.id !== report_id
+      );
+    },
+
+    unBlockSuccess: (state, action) => {
+      const user_id = action.payload;
+
+      state.listBlogReport = state.listUserBlock.filter(
+        (user) => user.id !== user_id
+      );
+    },
+
+    getDataChartCircleSuccess: (state, action) => {
+      state.dataChartCircle = action.payload;
+    },
   },
 });
 
@@ -144,6 +171,10 @@ export const {
   deleteTagSuccess,
   evaluteUserSuccess,
   deleteCategoriesSuccess,
+  deleteAdminBlogSuccess,
+  evaluteBlogSuccess,
+  unBlockSuccess,
+  getDataChartCircleSuccess,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

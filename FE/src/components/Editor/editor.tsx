@@ -3,13 +3,12 @@ import EditorJS from "@editorjs/editorjs";
 import edjsHTML from "editorjs-html";
 
 import "./style.css";
-import { Button } from "../ui/button";
 
 import { DetailBlog } from "./editDetail";
 import TagType from "@/types/tags";
 import CategoryType from "@/types/categories";
 
-import { Loader2, PenTool, Settings2, ShieldCheck } from "lucide-react";
+import { PenTool, Settings2, ShieldCheck } from "lucide-react";
 
 import { EditorOutput } from "./output";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +19,7 @@ import { useFormik } from "formik";
 import { showToast } from "@/hooks/useToast";
 import { createBlogSuccess } from "@/redux/blogSlice";
 import ClientServices from "@/services/client/client";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useFetch from "@/hooks/useFetch";
 
 interface ReportType {
@@ -34,7 +33,6 @@ interface ReportType {
 }
 
 const Editor = () => {
-  const { sendRequest } = useFetch();
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -432,10 +430,14 @@ const Editor = () => {
               </button>
               {Step === "STEP_THREE" ? (
                 isLoading ? (
-                  <Button className="px-5 py-1.5 float-right" disabled>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </Button>
+                  <button
+                    className={`px-5 py-1.5 float-right button-save-end cursor-not-allowed
+                      
+                  `}
+                    disabled
+                  >
+                    Please Wait..
+                  </button>
                 ) : (
                   <button
                     type="submit"

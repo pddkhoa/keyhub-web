@@ -1,27 +1,35 @@
-import DeletePopover from "@/components/Popover/delete";
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
-import User from "@/types/user";
 import { useNavigate } from "react-router-dom";
-import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
+import { Tooltip, ActionIcon, cn, AvatarProps, Avatar, Badge } from "rizzui";
 
 type Columns = {
   data: any[];
   sortConfig?: any;
   handleSelectAll: any;
   checkedItems: string[];
-  onDeleteItem: (id: string) => void;
+  onDeleteItem: (report: any) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
-  onDeleteBlog: (id: string) => void;
+  onDeleteUser?: (report: any) => void;
+  index?: number;
+  setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisplayCreate: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  };
+  setDataUserBlock?: any;
 };
 
-export const getColumnsBlogs = ({
+export const getColumnsUsersBlock = ({
   data,
   sortConfig,
-  onDeleteItem,
+  setDisplayModal,
+  setDisplayCreate,
   onHeaderCellClick,
-  onDeleteBlog,
+  setDataUserBlock,
+  index,
 }: Columns) => [
   {
     title: <HeaderCell title="#" />,
@@ -31,34 +39,47 @@ export const getColumnsBlogs = ({
 
     render: (id: number) => id,
   },
-  {
-    title: <HeaderCell title="Blogs" />,
-    dataIndex: "title",
-    key: "title",
-    width: 250,
 
-    render: (title: string) => title,
-  },
   {
     title: <HeaderCell title="Author" />,
     dataIndex: "users",
     key: "users",
     width: 150,
-    render: (users: User) => (
-      <AvatarCard
-        src={users?.avatar?.toString()}
-        name={users?.name}
-        description={`HPT-${users?.second_name}`}
-      />
+    render: (_: string, row: any) => (
+      <>
+        <AvatarCard
+          src={row.avatar}
+          name={row.name}
+          description={`@-${row.username}`}
+        />
+      </>
     ),
   },
   {
-    title: <HeaderCell title="Categories" />,
-    dataIndex: "categories",
-    key: "categories",
+    title: <HeaderCell title="Email" />,
+    dataIndex: "email",
+    key: "email",
     width: 100,
 
-    render: (categories: any) => categories?.name,
+    render: (email: any) => email,
+  },
+
+  {
+    title: <HeaderCell title="Role" />,
+    dataIndex: "role",
+    key: "role",
+    width: 100,
+
+    render: (role: any) => getStatusBadge(role),
+  },
+
+  {
+    title: <HeaderCell title="Phone" />,
+    dataIndex: "phone",
+    key: "phone",
+    width: 100,
+
+    render: (phone: any) => phone,
   },
 
   {
@@ -67,14 +88,14 @@ export const getColumnsBlogs = ({
         title="Created"
         sortable
         ascending={
-          sortConfig?.direction === "asc" && sortConfig?.key === "create_date"
+          sortConfig?.direction === "asc" && sortConfig?.key === "createDate"
         }
       />
     ),
-    onHeaderCell: () => onHeaderCellClick("create_date"),
-    dataIndex: "create_date",
-    key: "create_date",
-    width: 100,
+    onHeaderCell: () => onHeaderCellClick("createDate"),
+    dataIndex: "createDate",
+    key: "createDate",
+    width: 200,
     render: (value: Date) => <DateCell date={value} />,
   },
 
@@ -82,7 +103,7 @@ export const getColumnsBlogs = ({
     title: <HeaderCell align="center" title="Action" />,
     dataIndex: "action",
     key: "action",
-    width: 140,
+    width: 200,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-center gap-3 ">
         <Tooltip
@@ -98,7 +119,13 @@ export const getColumnsBlogs = ({
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <PencilIcon data={row} />
+            <PencilIcon
+              onClick={() => {
+                setDisplayCreate.on();
+                setDisplayModal("USER_BLOCK");
+                setDataUserBlock(row);
+              }}
+            />
           </ActionIcon>
         </Tooltip>
         <Tooltip
@@ -109,24 +136,45 @@ export const getColumnsBlogs = ({
           color="invert"
         >
           <ActionIcon
-            onClick={() => {}}
             tag="span"
             size="sm"
             variant="outline"
             className="hover:brightness-150 cursor-pointer"
           >
-            <EyeIcon data={row} className="h-4 w-4" />
+            <EyeIcon className="h-4 w-4" data={row} index={index} />
           </ActionIcon>
         </Tooltip>
-        <DeletePopover
-          title={`Delete the invoice`}
-          description={`Are you sure you want to delete this #${row.id} invoice?`}
-          onDelete={() => onDeleteBlog(row.id.toString())}
-        />
       </div>
     ),
   },
 ];
+
+function getStatusBadge(status: string) {
+  switch (status) {
+    case "ADMIN":
+      return (
+        <div className="flex items-center">
+          <Badge className="bg-yellow-400" renderAsDot />
+          <div className="ms-2 font-medium text-yellow-400">{status}</div>
+        </div>
+      );
+    case "USER":
+      return (
+        <div className="flex items-center">
+          <Badge className="bg-purple-600" renderAsDot />
+          <div className="ms-2 font-medium text-purple-600">{status}</div>
+        </div>
+      );
+
+    default:
+      return (
+        <div className="flex items-center">
+          <Badge renderAsDot className="bg-gray-400" />
+          <div className="ms-2 font-medium text-gray-600">{status}</div>
+        </div>
+      );
+  }
+}
 
 interface DateCellProps {
   date: Date;
@@ -182,7 +230,12 @@ export function AvatarCard({
     <figure className={cn("flex items-center gap-3", className)}>
       <figcaption className=" gap-5 items-center  flex">
         <Avatar name={name} src={src} {...avatarProps} />
-        <div className="font-lexend text-sm font-medium text-white">{name}</div>
+        <div className="flex flex-col mt-1">
+          <div className="font-lexend text-sm font-medium text-white">
+            {name}
+          </div>
+          <div className="text-sm  text-gray-400">{description}</div>
+        </div>
       </figcaption>
     </figure>
   );
@@ -192,10 +245,12 @@ export function EyeIcon({
   strokeWidth,
   onClick,
   data,
+  index,
   ...props
 }: React.SVGProps<SVGSVGElement> & {
   onClick?: () => void;
   data?: any;
+  index?: number;
 }) {
   const navigate = useNavigate();
 
@@ -203,17 +258,20 @@ export function EyeIcon({
     if (onClick) {
       onClick();
     } else {
-      navigate(`${data.id}`);
+      // Navigate to the desired page when the icon is clicked
+      navigate(`/admin/users/${data.id}`, {
+        state: { rowData: data, indexPage: index },
+      });
     }
   };
   return (
     <svg
-      onClick={handleClick}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={strokeWidth ?? 1.5}
       stroke="currentColor"
+      onClick={handleClick}
       {...props}
     >
       <path
@@ -232,25 +290,10 @@ export function EyeIcon({
 
 export function PencilIcon({
   strokeWidth,
-  onClick,
-  data,
   ...props
-}: React.SVGProps<SVGSVGElement> & {
-  onClick?: () => void;
-  data?: any;
-}) {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
-    } else {
-      navigate(`/admin/editor/${data.id}`, { state: data });
-    }
-  };
+}: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      onClick={handleClick}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

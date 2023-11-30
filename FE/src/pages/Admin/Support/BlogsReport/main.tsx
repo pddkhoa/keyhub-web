@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { REQUEST_TYPE } from "@/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import Pagination from "@/components/Pagination/pagination";
 import { Loading } from "@/components/Loading/loading";
 import { getColumnsBlogsReport } from "./column";
 
@@ -14,30 +13,15 @@ const Main = () => {
   const listBlogReport = useSelector(
     (state: RootState) => state.admin.listBlogReport
   );
-  const sizeBlogReport = useSelector(
-    (state: RootState) => state.admin.sizeBlogReport
-  );
 
-  const [index, setIndex] = useState<number>(1);
+  const [evalute, setEvalute] = useState(false);
 
   useEffect(() => {
+    setEvalute(false);
     sendRequest({
       type: REQUEST_TYPE.ADMIN_GET_BLOG_REPORT,
-      slug: index.toString(),
     });
-  }, [index]);
-
-  console.log(listBlogReport);
-
-  useEffect(() => {
-    sendRequest({
-      type: REQUEST_TYPE.ADMIN_GET_SIZE_BLOG_REPORT,
-    });
-  }, []);
-
-  const handlePageChange = (pageIndex: number) => {
-    setIndex(pageIndex);
-  };
+  }, [evalute]);
 
   return (
     <div className="grid grid-cols-1 gap-6 pl-16 h-full 3xl:gap-8 shadow-2xl py-16 ">
@@ -53,15 +37,10 @@ const Main = () => {
             className="opacity-90 text-white shadow-2xl"
             data={listBlogReport}
             enableSearch
+            enablePagination
             getColumns={getColumnsBlogsReport}
+            setEvalute={setEvalute}
           />
-          <div className="flex justify-end">
-            <Pagination
-              page={index}
-              setPage={handlePageChange}
-              maxPage={sizeBlogReport ? sizeBlogReport : 0}
-            />
-          </div>
         </>
       )}
     </div>

@@ -66,6 +66,7 @@ export enum REQUEST_TYPE {
   GET_LIST_USER_FOLLOWER = "get_list_user_follower",
   GET_LIST_USER_FOLLOWING = "get_list_user_following",
   GET_LIST_USER_SEARCH = "get_list_user_search",
+  UNBLOCK_USER = "unblock_user",
 
   // comment
   GET_COMMENT = "get_commnet",
@@ -107,8 +108,12 @@ export enum REQUEST_TYPE {
 
   ADMIN_ADD_TAG = "admin_add_tag",
   ADMIN_DELETE_TAG = "admin_delete_tag",
+  ADMIN_DELETE_BLOG = "admin_delete_blog",
 
   ADMIN_EVALUTE_USER = "admin_evalute_user",
+  ADMIN_EVALUTE_BLOG = "admin_evalute_blog",
+
+  ADMIN_CHART_CIRCLE = "admin_chart_circle",
 }
 
 export type RequestConfig = {
