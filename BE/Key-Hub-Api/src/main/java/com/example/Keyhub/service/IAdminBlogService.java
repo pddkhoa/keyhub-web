@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface IAdminBlogService {
     Long getSizeBlogViolating();
-    List<ReportResponseDTO> listBlogViolating(Users users, int index);
-    List<BlogDTO> listAllBlog(int index,Users users);
+    List<ReportResponseDTO> listBlogViolating(Users users);
+    List<BlogDTO> listAllBlog( Users users);
     int sizeAllBlog();
     StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO);
 

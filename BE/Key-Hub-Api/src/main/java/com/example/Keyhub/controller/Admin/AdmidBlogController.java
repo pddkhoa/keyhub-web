@@ -44,9 +44,9 @@ public class AdmidBlogController {
         System.out.println(auth.getPrincipal().getClass());
         return ((CustomUserDetails) auth.getPrincipal()).getUsers();
     }
-    @GetMapping("/{index}/blog-violating")
-    public ResponseEntity<GenericResponse> listBlogViolating(@PathVariable int index) {
-        List<ReportResponseDTO> listBlogRepo = adminBlogService.listBlogViolating(getUserFromAuthentication(), index);
+    @GetMapping("/blog-violating")
+    public ResponseEntity<GenericResponse> listBlogViolating() {
+        List<ReportResponseDTO> listBlogRepo = adminBlogService.listBlogViolating(getUserFromAuthentication());
         if (listBlogRepo==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -79,9 +79,9 @@ public class AdmidBlogController {
                         .build()
                 );
     }
-    @GetMapping("/{index}/all")
-    public ResponseEntity<GenericResponse> listAllBlog(@PathVariable int index) {
-        List<BlogDTO> listBlogRepo = adminBlogService.listAllBlog(index, getUserFromAuthentication());
+    @GetMapping("/all")
+    public ResponseEntity<GenericResponse> listAllBlog(  ) {
+        List<BlogDTO> listBlogRepo = adminBlogService.listAllBlog(getUserFromAuthentication());
         if (listBlogRepo == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
@@ -113,7 +113,7 @@ public class AdmidBlogController {
                 );
     }
     @PostMapping("/evalute")
-    public ResponseEntity<GenericResponse> evaluteUser(@RequestBody EvaluteRequestDTO req)
+    public ResponseEntity<GenericResponse> evaluteBlog(@RequestBody EvaluteRequestDTO req)
     {
         StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req);
         if (statusResopnes.getStatusCode()==3)

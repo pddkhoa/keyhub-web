@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface IAdminUserService {
     Users createAccountAdmin(AdminDTO adminDTOs);
-    List<ReportUserResponseDTO> listUserViolating(Users user, int index);
+    List<ReportUserResponseDTO> listUserViolating(Users user );
     Long getSizeUserViolating();
     StatusResopnes evaluteUser(Users user_id, EvaluteRequestDTO req);
     void deleteUser(BigInteger user_id, Users users);
     UserResponseDTO editUser(UserRequestAdminDTO userRequestAdminDTO, Users users);
     void disableAccount(BigInteger user_id);
-    List<UserResponseDTO> listAllUser(int index);
+    List<UserResponseDTO> listAllUser();
     int sizeAllUser();
     void unblockUser(BigInteger user_id);
-    List<UserResponseDTO> listAllUserIsBlock(int index);
+    List<UserResponseDTO> listAllUserIsBlock( );
     int sizeAllUserBlock();
 
 }

@@ -87,9 +87,9 @@ public class AdminUserController {
                     );
         }
     }
-    @GetMapping("/{index}/user-violating")
-    public ResponseEntity<GenericResponse> listUserViolating(@PathVariable int index) {
-        List<ReportUserResponseDTO> listUserViolating = adminUserService.listUserViolating(getUserFromAuthentication(), index);
+    @GetMapping("/user-violating")
+    public ResponseEntity<GenericResponse> listUserViolating() {
+        List<ReportUserResponseDTO> listUserViolating = adminUserService.listUserViolating(getUserFromAuthentication());
         if (listUserViolating==null)
         {
             return ResponseEntity.status(HttpStatus.OK)
@@ -215,10 +215,10 @@ public class AdminUserController {
                         .build()
                 );
     }
-    @GetMapping("/{index}/all")
-    public ResponseEntity<GenericResponse> getAllUserExits(@PathVariable int index)
+    @GetMapping("/all")
+    public ResponseEntity<GenericResponse> getAllUserExits()
     {
-        List<UserResponseDTO> list = adminUserService.listAllUser(index);
+        List<UserResponseDTO> list = adminUserService.listAllUser();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -241,7 +241,7 @@ public class AdminUserController {
                         .build()
                 );
     }
-    @PatchMapping("{user_id}/unblock")
+    @PostMapping("{user_id}/unblock")
     public ResponseEntity<GenericResponse> unblockUser(@PathVariable BigInteger user_id)
     {
         if (!userService.exitUser(user_id))
@@ -265,10 +265,10 @@ public class AdminUserController {
                         .build()
                 );
     }
-    @GetMapping("/{index}/block")
-    public ResponseEntity<GenericResponse> getAllUserBlock(@PathVariable int index)
+    @GetMapping("/block")
+    public ResponseEntity<GenericResponse> getAllUserBlock()
     {
-        List<UserResponseDTO> list = adminUserService.listAllUserIsBlock(index);
+        List<UserResponseDTO> list = adminUserService.listAllUserIsBlock();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)

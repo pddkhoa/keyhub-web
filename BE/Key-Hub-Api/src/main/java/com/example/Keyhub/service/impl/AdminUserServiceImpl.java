@@ -28,7 +28,6 @@ import com.example.Keyhub.service.IAdminUserService;
 import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.IUserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -94,7 +93,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
     final
     IReportRepository reportRepository;
 
-    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository, RefreshTokenRepository refreshTokenRepository) {
+    public AdminUserServiceImpl(IBlogRepository blogRepository, IUserService userService, ModelMapper mapper, ApplicationEventPublisher applicationEventPublisher, PasswordEncoder passwordEncoder, IReportUserRepository reportUserRepository, GeneralService generalService, IReportRepository reportRepository, IUserRepository userRepository, ChatServiceImpl chatService, IAvatarRepository avatarRepository, IBLogService ibLogService, ResetPassTokenRepos resetPassTokenRepo, IVerificationTokenRepos verificationTokenRepos, IBannerRepository bannerRepository, IChatRepository chatRepository, IFollowRepository iFollowRepository, IMessageRepository messageRepository, IUserFollowCategory userFollowCategory, RefreshehTokenImpl refreshehToken, ISeriesRepository seriesRepository, ISeriesImageRepository seriesImageRepository, IBlogHIdeRepository blogHIdeRepository, RefreshTokenRepository refreshTokenRepository, IBlockRepository blockRepository, IReportRepository iReportRepository) {
         this.blogRepository = blogRepository;
         this.userService = userService;
         this.mapper = mapper;
@@ -119,6 +118,8 @@ public class AdminUserServiceImpl implements IAdminUserService {
         this.seriesImageRepository = seriesImageRepository;
         this.blogHIdeRepository = blogHIdeRepository;
         this.refreshTokenRepository = refreshTokenRepository;
+        this.blockRepository = blockRepository;
+        this.iReportRepository = iReportRepository;
     }
 
     @Override
@@ -167,9 +168,8 @@ public class AdminUserServiceImpl implements IAdminUserService {
 //    }
 
     @Override
-    public List<ReportUserResponseDTO> listUserViolating(Users user, int index) {
-        int itemsPerPage = 10;
-        int startIndex = (index - 1) * itemsPerPage;
+    public List<ReportUserResponseDTO> listUserViolating(Users user) {
+
         List<ReportUser> reportUserList = reportUserRepository.findAll();
         reportUserList.sort(Comparator.comparing(ReportUser::getCreateDate).reversed());
         if (reportUserList.isEmpty())
@@ -188,17 +188,7 @@ public class AdminUserServiceImpl implements IAdminUserService {
             reportSample.setSumViolating(reportUser.getUserIdReported().getSumViolating());
             resultAll.add(reportSample);
         }
-
-        List<ReportUserResponseDTO> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, resultAll.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            result.add(resultAll.get(i));
-        }
-        if (result.isEmpty())
-        {
-            return null;
-        }
-        return result;
+        return resultAll;
     }
 
     @Override
@@ -242,9 +232,9 @@ public class AdminUserServiceImpl implements IAdminUserService {
         statusResopnes.setStatusCode(0);
         return statusResopnes;
     }
-    @Autowired
+    final
     IReportRepository iReportRepository;
-    @Autowired
+    final
     IBlockRepository blockRepository;
     @Transactional
     @Override
@@ -398,21 +388,10 @@ public class AdminUserServiceImpl implements IAdminUserService {
     }
 
     @Override
-    public List<UserResponseDTO> listAllUser(int index) {
-        int itemsPerPage = 10;
-        int startIndex = (index - 1) * itemsPerPage;
+    public List<UserResponseDTO> listAllUser( ) {
         List<Users> getAll = userRepository.findByEmailAndUsernameIsNotNull();
         getAll.sort(Comparator.comparing(Users::getCreateDate).reversed());
-        List<Users> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, getAll.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            result.add(getAll.get(i));
-        }
-        if (result.isEmpty())
-        {
-            return null;
-        }
-         return result.stream()
+         return getAll.stream()
                 .map(generalService::createUserResponse)
                 .collect(Collectors.toList());
     }
@@ -430,25 +409,13 @@ public class AdminUserServiceImpl implements IAdminUserService {
     }
 
     @Override
-    public List<UserResponseDTO> listAllUserIsBlock(int index) {
-        int itemsPerPage = 10;
-        int startIndex = (index - 1) * itemsPerPage;
+    public List<UserResponseDTO> listAllUserIsBlock( ) {
         List<Users> getAll = userRepository.findByStatus(2);
         getAll.sort(Comparator.comparing(Users::getCreateDate).reversed());
-        List<Users> result = new ArrayList<>();
-        int endIndex = Math.min(startIndex + itemsPerPage, getAll.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            result.add(getAll.get(i));
-        }
-        if (result.isEmpty())
-        {
-            return null;
-        }
-        return result.stream()
+        return getAll.stream()
                 .map(generalService::createUserResponse)
                 .collect(Collectors.toList());
     }
-
     @Override
     public int sizeAllUserBlock() {
         List<Users> getAll = userRepository.findByStatus(2);

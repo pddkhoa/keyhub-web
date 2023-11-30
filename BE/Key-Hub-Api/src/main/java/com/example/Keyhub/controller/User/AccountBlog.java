@@ -723,10 +723,19 @@ public class AccountBlog {
                             .build()
                     );
         }
-        List<TagDTO> categoryDTOS = new ArrayList<>();
-        for (Tag series : series1) {
-            TagDTO seriesDTO = modelMapper.map(series, TagDTO.class);
-            categoryDTOS.add(seriesDTO);
+        List<TagResponseDTO> categoryDTOS = new ArrayList<>();
+        for (Tag tag : series1) {
+            TagResponseDTO tagResponseDTO = new TagResponseDTO();
+            CategoryResponseCardDTO dto = new CategoryResponseCardDTO();
+            dto.setId(tag.getCategory().getId());
+            dto.setBanner(tag.getCategory().getBanner());
+            dto.setName(tag.getCategory().getName());
+            dto.setAvatar(tag.getCategory().getAvatar());
+            dto.setDescription(tag.getCategory().getDescription());
+            tagResponseDTO.setCategory(dto);
+            tagResponseDTO.setName(tag.getName());
+            tagResponseDTO.setId(tag.getId());
+            categoryDTOS.add(tagResponseDTO);
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
