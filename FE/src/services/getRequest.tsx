@@ -7,6 +7,8 @@ import {
   deleteUserSuccess,
   evaluteBlogSuccess,
   evaluteUserSuccess,
+  getBlogChartByMonthSuccess,
+  getBlogChartByYearSuccess,
   getCategoriesByIdSuccess,
   getDataChartCircleSuccess,
   getListAllBlogSuccess,
@@ -21,6 +23,7 @@ import {
   getSizeBlogReporttSuccess,
   getSizeUserBlockSuccess,
   getSizeUserReportSuccess,
+  getUserChartByYearSuccess,
   unBlockSuccess,
   updateCategoriesByIdSuccess,
   updateUserAdminSuccess,
@@ -850,6 +853,33 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getDataChartCircleSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_CHART_BLOG_MONTH:
+      return {
+        url: `${BASE_URL}/v1/admin/article-month/${slug}`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlogChartByMonthSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_CHART_BLOG_YEAR:
+      return {
+        url: `${BASE_URL}/v1/admin/article-year/${slug}`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getBlogChartByYearSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_CHART_USER_YEAR:
+      return {
+        url: `${BASE_URL}/v1/admin/user-year`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getUserChartByYearSuccess,
         isToken: true,
       };
 

@@ -23,6 +23,9 @@ const adminSlice = createSlice({
     categoriesById: {} as CategoryType,
 
     dataChartCircle: {} as any,
+    blogChartByMonth: {} as any,
+    blogChartByYear: {} as any,
+    userChartByYear: {} as any,
   },
   reducers: {
     getListAllBlogSuccess: (state, action) => {
@@ -144,6 +147,15 @@ const adminSlice = createSlice({
     getDataChartCircleSuccess: (state, action) => {
       state.dataChartCircle = action.payload;
     },
+    getBlogChartByMonthSuccess: (state, action) => {
+      state.blogChartByMonth = action.payload;
+    },
+    getBlogChartByYearSuccess: (state, action) => {
+      state.blogChartByYear = action.payload;
+    },
+    getUserChartByYearSuccess: (state, action) => {
+      state.userChartByYear = action.payload;
+    },
   },
 });
 
@@ -175,6 +187,9 @@ export const {
   evaluteBlogSuccess,
   unBlockSuccess,
   getDataChartCircleSuccess,
+  getBlogChartByMonthSuccess,
+  getBlogChartByYearSuccess,
+  getUserChartByYearSuccess,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

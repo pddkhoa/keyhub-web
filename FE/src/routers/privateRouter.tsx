@@ -13,7 +13,7 @@ const PrivateRouter = () => {
     checkRole.userDetails.users.role !== "ADMIN" ? (
       <Outlet />
     ) : (
-      <Navigate to="/admin" state={{ from: location }} replace />
+      <Navigate to="/admin/dashboard" state={{ from: location }} replace />
     )
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />

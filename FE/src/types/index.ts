@@ -114,6 +114,9 @@ export enum REQUEST_TYPE {
   ADMIN_EVALUTE_BLOG = "admin_evalute_blog",
 
   ADMIN_CHART_CIRCLE = "admin_chart_circle",
+  ADMIN_CHART_BLOG_MONTH = "admin_chart_blog_month",
+  ADMIN_CHART_BLOG_YEAR = "admin_chart_blog_year",
+  ADMIN_CHART_USER_YEAR = "admin_chart_user_year",
 }
 
 export type RequestConfig = {

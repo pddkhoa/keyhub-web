@@ -34,7 +34,7 @@ export const loginUser = async (user: any, dispatch: any, navigate: any) => {
       dispatch(getUserSuccess(userDetails.users));
       toast.success(body.message);
       if (userDetails.users.role === "ADMIN") {
-        navigate("/admin");
+        navigate("/admin/dashboard");
       } else {
         navigate("/");
       }
