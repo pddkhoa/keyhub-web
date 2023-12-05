@@ -5,8 +5,10 @@ import com.example.Keyhub.data.dto.response.CategoryResponseCardDTO;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.Category;
 import com.example.Keyhub.data.entity.Blog.FollowCategory;
+import com.example.Keyhub.data.entity.Blog.Tag;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICategoryRepository;
+import com.example.Keyhub.data.repository.ITagRepository;
 import com.example.Keyhub.data.repository.IUserFollowCategory;
 import com.example.Keyhub.service.IBLogService;
 import com.example.Keyhub.service.UploadImageService;
@@ -37,10 +39,13 @@ public class IAdminCategoryService implements com.example.Keyhub.service.IAdminC
         }
         return false;
     }
-
+    @Autowired
+    ITagRepository tagRepository;
     @Override
     public void deleteCategory(Long category) {
         Category category1 = categoryRepository.findById(category).orElseThrow(null);
+        List<Tag> listTag = tagRepository.findByCategory(category1);
+        tagRepository.deleteAll(listTag);
         List<Blog> blogList = blogRepository.findAllByCategory(category1);
         for (Blog blog : blogList)
         {

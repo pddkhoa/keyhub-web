@@ -8,9 +8,12 @@ import com.example.Keyhub.data.entity.chat.Chat;
 import com.example.Keyhub.data.entity.chat.Message;
 import com.example.Keyhub.data.repository.IChatRepository;
 import com.example.Keyhub.data.repository.IMessageRepository;
+import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.IChatService;
 import com.example.Keyhub.service.IMessageService;
 import com.example.Keyhub.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -73,10 +76,13 @@ public class MessageServiceImpl implements IMessageService {
         messageRepository.save(newMessage);
         return mapMessageToMessageResponse(newMessage);
     }
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
     @Override
     public ResponseEntity<GenericResponse> getChatMessage(Long chat_id, Users user_request) {
         Chat chat= chatService.findChatByID(chat_id);
-        if (checkInChat(chat_id,user_request.getId())) {
+
+        if (!checkInChat(chat_id,user_request.getId())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(GenericResponse.builder()
                             .success(false)

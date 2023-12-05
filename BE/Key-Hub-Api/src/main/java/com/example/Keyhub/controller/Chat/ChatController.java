@@ -42,6 +42,17 @@ public class ChatController {
     @PostMapping("/single")
     public ResponseEntity<GenericResponse> createChatHanlde(@RequestBody SigleChatRequestDTO SigleChatRequest)
     {
+        if (!userService.exitUser(SigleChatRequest.getUser_id()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found User")
+                            .build()
+                    );
+        }
         Users users = userRepository.findUsersById(SigleChatRequest.getUser_id());
         Chat chat = chatService.createChat(getUserFromAuthentication(),users.getId(),false);
         return ResponseEntity.status(HttpStatus.OK)

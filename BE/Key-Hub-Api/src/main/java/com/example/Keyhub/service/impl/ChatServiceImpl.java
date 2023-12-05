@@ -6,11 +6,8 @@ import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.chat.Chat;
 import com.example.Keyhub.data.repository.IChatRepository;
 import com.example.Keyhub.data.repository.IUserRepository;
-import com.example.Keyhub.security.jwt.JwtTokenFilter;
 import com.example.Keyhub.service.IChatService;
 import com.example.Keyhub.service.IUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +36,7 @@ public class ChatServiceImpl implements IChatService {
     @Override
     public Chat createChat(Users userCreate, BigInteger userIsCraeted, boolean isGroup) {
         Users users = userRepository.findUsersById(userIsCraeted);
+
         Chat isChatExit= chatRepository.findSigleChatByUserId(users,userCreate);
         if (isChatExit!=null)
         {
@@ -57,7 +55,6 @@ public class ChatServiceImpl implements IChatService {
     public Chat findChatByID(Long chat_id) {
        Optional<Chat> chat = chatRepository.findById(chat_id);
         return chat.orElse(null);
-
     }
 
     @Override
