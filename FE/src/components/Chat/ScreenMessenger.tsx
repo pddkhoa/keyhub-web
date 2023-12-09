@@ -178,6 +178,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
           <div className="flex-grow ml-4">
             <div className="relative w-full">
               <input
+                disabled={!chatId ? true : false}
                 type="text"
                 value={contentMessage}
                 onChange={(e) => setContentMessage(e.target.value)}
@@ -203,6 +204,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
           </div>
           <div className="ml-4">
             <button
+              disabled={!chatId ? true : false}
               onClick={handleSendMessage}
               className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
             >
