@@ -4,6 +4,7 @@ import { IconType } from "react-icons/lib";
 import {
   PiBookOpenFill,
   PiChartLineBold,
+  PiChatsCircleBold,
   PiCheckSquareOffsetFill,
   PiGearFill,
   PiHeadsetFill,
@@ -71,6 +72,13 @@ export const berylliumMenuItems: MenuItemsType[] = [
     title: "Categories",
     icon: PiBookOpenFill,
     href: "/categories",
+  },
+  {
+    id: "5",
+    name: "Messenger",
+    title: "Messenger",
+    icon: PiChatsCircleBold,
+    href: "/messenger",
   },
 ];
 export const berylliumMenuItemAtom = atom(berylliumMenuItems[0]);

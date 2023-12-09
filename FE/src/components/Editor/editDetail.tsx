@@ -25,6 +25,8 @@ import { showToast } from "@/hooks/useToast";
 import seriesType from "@/types/series";
 import ClientServices from "@/services/client/client";
 import { getAllSeries } from "@/redux/seriesSlice";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 interface ReportType {
   title: string;
@@ -63,9 +65,9 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
     report.avatar ? report.avatar : ""
   );
 
-  const seriesList = useSelector(
-    (state: RootState) => state.series.series.result
-  );
+  const seriesList = useSelector((state: RootState) => state?.series?.series);
+
+  console.log(seriesList);
   const user = useSelector((state: RootState) => state.auth.login);
   const auth = useSelector((state: RootState) => state.auth.login);
   const isSucces = useSelector((state: RootState) => state.series.isSuccess);
@@ -76,10 +78,10 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
 
   const [adding, setAdd] = useState(false);
 
+  const { sendRequest } = useFetch();
+
   useEffect(() => {
-    if (user?.data.token) {
-      getAllSeries(user?.data.token, dispatch, axiosJWT);
-    }
+    sendRequest({ type: REQUEST_TYPE.LIST_SERIES });
   }, [isSucces]);
 
   const handleUploadAvatar = async (file: File) => {
@@ -181,7 +183,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
               className={`${
                 !report.title ? "border-red-500" : " border-border"
               }`}
-              value={report.title ? report.title : ""}
+              value={report.title ? report?.title : ""}
             />
             <div className="flex justify-between">
               <div className="text-sm text-red-500">
@@ -207,7 +209,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
               onChange={(e) => {
                 setReport({ ...report, description: e.target.value });
               }}
-              value={"" || report.description}
+              value={"" || report?.description}
             />
             {/* <div className="float-right text-sm text-title-foreground">
               Characters remaining: 0/300
@@ -232,10 +234,10 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                   </SelectTrigger>
                   <SelectContent>
                     {seriesList &&
-                      seriesList.length > 0 &&
+                      seriesList?.length > 0 &&
                       seriesList.map((item) => (
-                        <SelectItem value={`${item.id}`}>
-                          {item.name}
+                        <SelectItem value={`${item?.id}`}>
+                          {item?.name}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -260,15 +262,15 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
             <div className="flex flex-col space-y-3">
               <div className="text-title-foreground">Categories</div>
               {cate &&
-                cate.length > 0 &&
+                cate?.length > 0 &&
                 cate.map((item) => (
                   <div
-                    key={item.id}
+                    key={item?.id}
                     onClick={() => {
                       handleSelectCate(item);
                     }}
                     className={`p-1.5 rounded-lg border-l-2 hover:brightness-150 cursor-pointer ${
-                      selectedCate?.id == item.id ? "bg-green-900" : "bg-input"
+                      selectedCate?.id == item?.id ? "bg-green-900" : "bg-input"
                     }`}
                   >
                     {item.name}
@@ -281,7 +283,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
               <div className="flex flex-col space-y-3">
                 <span>Selected Tags:</span>
                 <div className="w-full min-h-[100px] border rounded-lg flex flex-wrap gap-3 p-2">
-                  {selectTags && selectTags.length > 0 ? (
+                  {selectTags && selectTags?.length > 0 ? (
                     selectTags.map((item, index) => (
                       <div
                         key={index}
@@ -298,7 +300,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
               </div>
               <div className="">List Tag:</div>
               <div className="flex flex-wrap gap-3">
-                {tags && tags.length > 0 ? (
+                {tags && tags?.length > 0 ? (
                   tags.map((item, index) => (
                     <div
                       key={index}
@@ -311,7 +313,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                           : "bg-input"
                       }`}
                     >
-                      <span className="text-sm">{item.name}</span>
+                      <span className="text-sm">{item?.name}</span>
                       {selectTags.find((t) => t.id === item.id) ? (
                         <Minus className="mr-2 w-5 h-5 bg-hover rounded-full p-1" />
                       ) : (

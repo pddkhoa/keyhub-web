@@ -117,6 +117,13 @@ export enum REQUEST_TYPE {
   ADMIN_CHART_BLOG_MONTH = "admin_chart_blog_month",
   ADMIN_CHART_BLOG_YEAR = "admin_chart_blog_year",
   ADMIN_CHART_USER_YEAR = "admin_chart_user_year",
+
+  //Chat
+
+  GET_LIST_CHAT = "get_list_chat",
+  GET_LIST_CHAT_MESSAGES = "get_list_chat_messages",
+  SEND_MESSAGES = "send_messages",
+  START_CHAT = "start_chat",
 }
 
 export type RequestConfig = {

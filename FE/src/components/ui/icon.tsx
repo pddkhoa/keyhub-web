@@ -18,9 +18,9 @@ const IconDelete = ({ className }: any) => (
           y2="33"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#9cecfb"></stop>
-          <stop offset=".51" stop-color="#65c7f7"></stop>
-          <stop offset="1" stop-color="#0052d4"></stop>
+          <stop offset="0" stopColor="#9cecfb"></stop>
+          <stop offset=".51" stopColor="#65c7f7"></stop>
+          <stop offset="1" stopColor="#0052d4"></stop>
         </linearGradient>
       </defs>
       <path
@@ -55,8 +55,8 @@ const IconUnBookmark = ({ className, ...props }: any) => (
           y2="22.997"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#00C0FF"></stop>
-          <stop offset="1" stop-color="#4071FF"></stop>
+          <stop stopColor="#00C0FF"></stop>
+          <stop offset="1" stopColor="#4071FF"></stop>
         </linearGradient>
       </defs>
     </svg>
@@ -82,9 +82,9 @@ const IconBookmark = ({ className, ...props }: any) => (
           y2="32.91"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#9cecfb"></stop>
-          <stop offset=".51" stop-color="#65c7f7"></stop>
-          <stop offset="1" stop-color="#0052d4"></stop>
+          <stop offset="0" stopColor="#9cecfb"></stop>
+          <stop offset=".51" stopColor="#65c7f7"></stop>
+          <stop offset="1" stopColor="#0052d4"></stop>
         </linearGradient>
       </defs>
       <path
@@ -120,8 +120,8 @@ const IconEdit = ({ className, ...props }: any) => (
           y2="23"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#57EAEA"></stop>
-          <stop offset="1" stop-color="#2BC9FF"></stop>
+          <stop stopColor="#57EAEA"></stop>
+          <stop offset="1" stopColor="#2BC9FF"></stop>
         </linearGradient>
       </defs>
     </svg>
@@ -147,8 +147,8 @@ const IconComment = ({ className, ...props }: any) => (
           y2="13.001"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#59c173"></stop>
-          <stop offset="1" stop-color="#5d26c1"></stop>
+          <stop offset="0" stopColor="#59c173"></stop>
+          <stop offset="1" stopColor="#5d26c1"></stop>
         </linearGradient>
         <path
           fill="url(#a)"
@@ -200,8 +200,8 @@ const IconHide = ({ className, ...props }: any) => (
           y2="18.009"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#8e2de2"></stop>
-          <stop offset="1" stop-color="#4a00e0"></stop>
+          <stop offset="0" stopColor="#8e2de2"></stop>
+          <stop offset="1" stopColor="#4a00e0"></stop>
         </linearGradient>
       </defs>
       <path
@@ -230,8 +230,8 @@ const IconReport = ({ className, ...props }: any) => (
           y2="3.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#12c2e9"></stop>
-          <stop offset="1" stop-color="#c471ed"></stop>
+          <stop offset="0" stopColor="#12c2e9"></stop>
+          <stop offset="1" stopColor="#c471ed"></stop>
         </linearGradient>
       </defs>
       <path
@@ -281,8 +281,8 @@ const IconBlock = ({ className, ...props }: any) => (
     >
       <defs>
         <linearGradient id="a">
-          <stop offset="0" stop-color="#000092"></stop>
-          <stop offset="1" stop-color="#ff00f3"></stop>
+          <stop offset="0" stopColor="#000092"></stop>
+          <stop offset="1" stopColor="#ff00f3"></stop>
         </linearGradient>
         <linearGradient
           id="b"
@@ -321,8 +321,8 @@ const IconSettingAccount = ({ ...props }: any) => (
           y2="24.88"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#00c6ff"></stop>
-          <stop offset="1" stop-color="#0072ff"></stop>
+          <stop offset="0" stopColor="#00c6ff"></stop>
+          <stop offset="1" stopColor="#0072ff"></stop>
         </linearGradient>
       </defs>
       <path
@@ -352,8 +352,8 @@ const IconAddress = ({ ...props }: any) => (
           y2="71.833"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#00aeef"></stop>
-          <stop offset=".57" stop-color="#5a4ef6"></stop>
+          <stop offset="0" stopColor="#00aeef"></stop>
+          <stop offset=".57" stopColor="#5a4ef6"></stop>
         </linearGradient>
       </defs>
       <path
@@ -414,7 +414,7 @@ const IconNotification = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#834D9B"></stop>
-          <stop offset="1" stop-color="#D04ED6"></stop>
+          <stop offset="1" stopColor="#D04ED6"></stop>
         </linearGradient>
         <linearGradient
           id="paint1_linear_1_13239"
@@ -425,7 +425,7 @@ const IconNotification = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#834D9B"></stop>
-          <stop offset="1" stop-color="#D04ED6"></stop>
+          <stop offset="1" stopColor="#D04ED6"></stop>
         </linearGradient>
       </defs>
     </svg>
@@ -470,7 +470,7 @@ const IconHelp = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#854D9C"></stop>
-          <stop offset="1" stop-color="#CD4ED3"></stop>
+          <stop offset="1" stopColor="#CD4ED3"></stop>
         </linearGradient>
         <linearGradient
           id="paint1_linear_2461_9463"
@@ -481,7 +481,7 @@ const IconHelp = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#854D9C"></stop>
-          <stop offset="1" stop-color="#CD4ED3"></stop>
+          <stop offset="1" stopColor="#CD4ED3"></stop>
         </linearGradient>
         <linearGradient
           id="paint2_linear_2461_9463"
@@ -492,7 +492,7 @@ const IconHelp = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#854D9C"></stop>
-          <stop offset="1" stop-color="#CD4ED3"></stop>
+          <stop offset="1" stopColor="#CD4ED3"></stop>
         </linearGradient>
         <linearGradient
           id="paint3_linear_2461_9463"
@@ -503,7 +503,7 @@ const IconHelp = ({ ...props }: any) => (
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#854D9C"></stop>
-          <stop offset="1" stop-color="#CD4ED3"></stop>
+          <stop offset="1" stopColor="#CD4ED3"></stop>
         </linearGradient>
       </defs>
     </svg>

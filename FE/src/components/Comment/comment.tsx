@@ -230,8 +230,8 @@ export const Comment: React.FC<CommentProps> = ({
                         gradientTransform="matrix(1 0 0 -1 0 514)"
                         gradientUnits="userSpaceOnUse"
                       >
-                        <stop offset="0" stop-color="#332c81"></stop>
-                        <stop offset="1" stop-color="#e21d73"></stop>
+                        <stop offset="0" stopColor="#332c81"></stop>
+                        <stop offset="1" stopColor="#e21d73"></stop>
                       </linearGradient>
                       <path
                         fill="url(#a)"
@@ -306,8 +306,8 @@ export const Comment: React.FC<CommentProps> = ({
                         gradientTransform="matrix(1 0 0 -1 0 514)"
                         gradientUnits="userSpaceOnUse"
                       >
-                        <stop offset="0" stop-color="#332c81"></stop>
-                        <stop offset="1" stop-color="#e21d73"></stop>
+                        <stop offset="0" stopColor="#332c81"></stop>
+                        <stop offset="1" stopColor="#e21d73"></stop>
                       </linearGradient>
                       <path
                         fill="url(#a)"

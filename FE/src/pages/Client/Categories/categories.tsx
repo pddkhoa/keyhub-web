@@ -37,8 +37,8 @@ const Categories = () => {
                     y2="12"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0" stop-color="#16b0e2"></stop>
-                    <stop offset="1" stop-color="#6e5af0"></stop>
+                    <stop offset="0" stopColor="#16b0e2"></stop>
+                    <stop offset="1" stopColor="#6e5af0"></stop>
                   </linearGradient>
                   <linearGradient
                     id="b"

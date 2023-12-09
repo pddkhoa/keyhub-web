@@ -101,8 +101,8 @@ const HeaderAdmin = () => {
                             y2="24.88"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop offset="0" stop-color="#00c6ff"></stop>
-                            <stop offset="1" stop-color="#0072ff"></stop>
+                            <stop offset="0" stopColor="#00c6ff"></stop>
+                            <stop offset="1" stopColor="#0072ff"></stop>
                           </linearGradient>
                         </defs>
                         <path

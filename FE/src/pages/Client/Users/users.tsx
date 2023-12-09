@@ -152,8 +152,8 @@ const Users = () => {
                       y2="6.188"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop offset="0" stop-color="#96369f"></stop>
-                      <stop offset="1" stop-color="#01b3ed"></stop>
+                      <stop offset="0" stopColor="#96369f"></stop>
+                      <stop offset="1" stopColor="#01b3ed"></stop>
                     </linearGradient>
                     <linearGradient
                       id="b"

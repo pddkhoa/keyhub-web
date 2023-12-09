@@ -140,7 +140,7 @@ const AppRouter = () => {
             <Route path="categories" element={<Categories />} />
             <Route path="categories/:id" element={<CategoriesDetail />} />
             <Route path="user" element={<Users />} />
-            <Route path="message" element={<Message />} />
+            <Route path="messenger" element={<Message />} />
           </Route>
         </Route>
 

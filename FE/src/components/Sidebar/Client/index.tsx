@@ -1,6 +1,6 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 // import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 // import { getActiveMainMenuIndex } from "../hooks/beryllium-menu-utils";
 
 import SimpleBar from "simplebar-react";
@@ -57,10 +57,17 @@ function MenuItem({ menu }: { menu: MenuItemsType }) {
 }
 
 function MenuItems() {
+  const { width } = useWindowSize();
   return (
     <menu className="flex w-full justify-center">
       <SimpleBar className="h-[calc(100vh_-_105px)] w-full pb-5 ">
-        <ul className="flex flex-col gap-6">
+        <ul
+          className={`${
+            width < 1000
+              ? "flex flex-row justify-around py-4 items-center"
+              : "flex flex-col gap-6"
+          }`}
+        >
           {berylliumMenuItems.map((menu) => (
             <MenuItem key={menu.id} menu={menu} />
           ))}
@@ -74,21 +81,29 @@ export function BerylliumLeftSidebarFixed() {
   const { width } = useWindowSize();
   const { expandedLeft, setExpandedLeft } = useBerylliumSidebars();
 
-  useEffect(() => {
-    if (width < 1536) {
-      setExpandedLeft(false);
-    } else {
-      setExpandedLeft(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [width]);
+  // useEffect(() => {
+  //   if (width < 1536) {
+  //     setExpandedLeft(false);
+  //   } else {
+  //     setExpandedLeft(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [width]);
 
   return (
-    <aside className="fixed  overflow-y-hidden overflow-x-hidden start-0 top-0 z-50 hidden h-screen w-[90px] flex-col items-center gap-10 bg-gray-900 py-3.5 bg-gray-0 xl:flex">
+    <aside
+      className={`fixed  overflow-y-hidden overflow-x-hidden start-0 bg-gray-900  z-50 ${
+        width < 1000
+          ? "bottom-0 h-[90px] flex-row  w-full"
+          : "h-screen w-[90px] top-0 flex-col items-center gap-10  py-3.5 bg-gray-0 flex "
+      } `}
+    >
       <ActionIcon
         aria-label="open sidebar"
         variant="text"
-        className="rounded-full bg-transparent text-white transition-colors mt-16 hover:bg-gray-300  hover:enabled:text-gray-900"
+        className={`rounded-full bg-transparent text-white  transition-colors mt-16 hover:bg-gray-300  hover:enabled:text-gray-900 ${
+          width < 1000 ? "absolute  hidden  bottom-1" : ""
+        }`}
         size="xl"
         onClick={() => setExpandedLeft(!expandedLeft)}
       >
@@ -199,126 +214,3 @@ export function SidebarExpandable() {
     </div>
   );
 }
-
-// function LinkMenuItem({ item }: { item: ItemType }) {
-//   const pathname = window.location.pathname;
-//   const isActive = pathname === item.href;
-//   const Icon = item.icon;
-//   return (
-//     <Link
-//       to={item.href ?? "/"}
-//       className={cn(
-//         "flex items-center gap-3 rounded-2xl text-black px-4 py-2 font-medium duration-200 ",
-//         isActive
-//           ? "bg-primary bg-gray-100 text-primary-lighter"
-//           : "hover:bg-gray-100 hover:text-gray-900"
-//       )}
-//     >
-//       <span>
-//         <Icon className="h-[18px] w-[18px] text-white" />
-//       </span>
-//       {item.name}
-//     </Link>
-//   );
-// }
-
-// function CollapsibleMenuItem({ item }: { item: ItemType }) {
-//   const pathname = this.location.pathname();
-//   const pathnameExistInDropdowns: any = item?.subMenuItems?.filter(
-//     (dropdownItem) => dropdownItem.href === pathname
-//   );
-//   const isDropdownOpen = Boolean(pathnameExistInDropdowns?.length);
-//   const isActive = item.subMenuItems?.some(
-//     (subMenuItem) => subMenuItem.href === pathname
-//   );
-
-//   const Icon = item.icon;
-
-//   return (
-//     <Collapse
-//       defaultOpen={isDropdownOpen}
-//       className="testing [&_>_div]:mx-4 [&_>_div]:my-2 [&_>_div]:px-4 [&_>_div]:py-2 [&_>_div]:lg:my-0 [&_>_div]:2xl:mx-0 [&_>_div]:2xl:my-0"
-//       panelClassName="[&_>_a]:px-0 xl:!mt-2 2xl!:mt-2 3xl:!mt-2 [&_>_a]:mx-0 [&_>_a]:py-0 [&_>_a]:ps-4 [&_>_a]:my-0 space-y-5"
-//       header={({ open, toggle }) => (
-//         <div
-//           onClick={toggle}
-//           className={cn(
-//             "group relative text-black flex cursor-pointer items-center justify-between rounded-full px-4 py-2 font-medium duration-200",
-//             isActive || isDropdownOpen
-//               ? "bg-primary text-white bg-gray-100 text-primary-lighter"
-//               : "hover:bg-gray-100 hover:text-gray-900"
-//           )}
-//         >
-//           <span className={"flex items-center gap-3 "}>
-//             <Icon className="h-[18px] w-[18px]" />
-//             {item.name}
-//           </span>
-
-//           <PiCaretDownBold
-//             strokeWidth={3}
-//             className={cn(
-//               "h-3.5 w-3.5 -rotate-90 text-gray-500 transition-transform duration-200 rtl:rotate-90",
-//               open && "rotate-0 rtl:rotate-0",
-//               (isActive || isDropdownOpen) && "text-black text-primary-lighter"
-//             )}
-//           />
-//         </div>
-//       )}
-//     >
-//       {item?.subMenuItems?.map((subMenuItem, index) => {
-//         const isChildActive = pathname === (subMenuItem?.href as string);
-
-//         return (
-//           <Link
-//             to={subMenuItem?.href}
-//             key={subMenuItem?.name + index}
-//             className={cn(
-//               "mx-3.5 mb-0.5 flex items-center rounded-md px-3.5 py-2 font-medium capitalize duration-200 last-of-type:mb-1 lg:last-of-type:mb-2 2xl:mx-5",
-//               isChildActive
-//                 ? "text-primary"
-//                 : "text-gray-500 hover:text-primary"
-//             )}
-//           >
-//             <span
-//               className={cn(
-//                 "me-[18px] ms-1 inline-flex h-1 w-1 rounded-full bg-current transition-all duration-200",
-//                 isChildActive
-//                   ? "bg-primary text-primary ring-[1px] ring-primary"
-//                   : "opacity-40"
-//               )}
-//             />
-//             {subMenuItem?.name}
-//           </Link>
-//         );
-//       })}
-//     </Collapse>
-//   );
-// }
-
-// export function getActiveMainMenuIndex(
-//   pathname: string,
-//   menuItems: MenuItemsType[]
-// ) {
-//   let activeIndex = 0;
-//   for (let i = 0; i < menuItems.length; i++) {
-//     const menuItem = menuItems[i];
-//     for (let j = 0; j < menuItem.menuItems.length; j++) {
-//       const items = menuItem.menuItems[j];
-//       if (items.href === pathname) {
-//         activeIndex = i;
-//         break;
-//       } else {
-//         if (items.subMenuItems) {
-//           for (let k = 0; k < items.subMenuItems.length; k++) {
-//             const subMenuItem = items.subMenuItems[k];
-//             if (subMenuItem.href === pathname) {
-//               activeIndex = i;
-//               break;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return activeIndex;
-// }

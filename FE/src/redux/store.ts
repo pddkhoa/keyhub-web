@@ -7,6 +7,7 @@ import commentReducer from "./commentSlice";
 import categoriesReducer from "./categoriesSlice";
 import exploreReducer from "./exploreSlice";
 import adminReducer from "./adminSlice";
+import chatReducer from "./chatSlice";
 
 import {
   persistStore,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   explore: exploreReducer,
   admin: adminReducer,
+  chat: chatReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -19,11 +19,11 @@ export default function Layout() {
         <Header />
         <div
           className={cn(
-            "flex flex-grow flex-col gap-4 px-4 pb-6 duration-200 @container md:px-5 lg:pb-8  xl:pe-8 ",
-            expandedLeft ? "xl:ps-[400px]" : "xl:px-[66px]"
+            "flex flex-grow flex-col  ",
+            expandedLeft ? "xl:px-[400px]" : "xl:px-[96px]"
           )}
         >
-          <div className="grow xl:mt-4 bg-orange-lighter">
+          <div className="grow xl:mt-4">
             <Outlet />
           </div>
         </div>

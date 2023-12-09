@@ -56,6 +56,12 @@ import {
   getListUserFollowCateSuccess,
 } from "@/redux/categoriesSlice";
 import {
+  getListChatMessagesSuccess,
+  getListChatSuccess,
+  sendMessagesSuccess,
+  startChatMessagesSuccess,
+} from "@/redux/chatSlice";
+import {
   addComment,
   deleteComment,
   getCommentsSuccess,
@@ -880,6 +886,46 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: getUserChartByYearSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.GET_LIST_CHAT:
+      return {
+        url: `${BASE_URL}/chat/user`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListChatSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.GET_LIST_CHAT_MESSAGES:
+      return {
+        url: `${BASE_URL}/message/chat/${slug}`,
+        method: REQUEST_METHOD.GET,
+        isShowToast: false,
+        isDispatch: true,
+        action: getListChatMessagesSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.SEND_MESSAGES:
+      return {
+        url: `${BASE_URL}/message/create`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: false,
+        isDispatch: true,
+        action: sendMessagesSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.START_CHAT:
+      return {
+        url: `${BASE_URL}/chat/single`,
+        method: REQUEST_METHOD.POST,
+        isShowToast: false,
+        isDispatch: true,
+        action: startChatMessagesSuccess,
         isToken: true,
       };
 

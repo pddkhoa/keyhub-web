@@ -5,7 +5,6 @@ import useAuth from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import ClientServices from "@/services/client/client";
 import { REQUEST_TYPE } from "@/types";
-import CategoryType from "@/types/categories";
 import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
@@ -19,10 +18,13 @@ const CategoriesDetail = () => {
   const idCategories = Number(id);
   const { axiosJWT, accessToken } = useAuth();
 
-  const location = useLocation();
   const { sendRequest } = useFetch();
 
-  const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
+  // const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
+
+  const categoriesDetail = useSelector(
+    (state: RootState) => state.admin.categoriesById
+  );
   const [isFollowing, setIsFollowing] = useState(false);
 
   const [isBookmark, setIsBookmark] = useState(false);
@@ -30,11 +32,11 @@ const CategoriesDetail = () => {
   const [isHide, setIsHide] = useState(false);
 
   useEffect(() => {
-    if (location.state) {
-      setCategoriesDetail(location.state.data);
-      setIsFollowing(location.state.data.checkFollowCategory);
-    }
-  }, [location.state]);
+    sendRequest({
+      type: REQUEST_TYPE.GET_BLOG_CATEGORIES_BY_ID,
+      slug: id,
+    });
+  }, [idCategories]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -117,7 +119,7 @@ const CategoriesDetail = () => {
                 <div
                   className="w-full lg:w-1/3"
                   style={{
-                    backgroundImage: `url(${categoriesDetail.avatar})`,
+                    backgroundImage: `url(${categoriesDetail?.avatar})`,
                     backgroundPosition: "center center",
                     backgroundSize: "cover",
                   }}
@@ -136,16 +138,16 @@ const CategoriesDetail = () => {
                     ></path>
                   </svg>
                   <h2 className="text-3xl font-semibold leadi">
-                    {categoriesDetail.name}
+                    {categoriesDetail?.name}
                   </h2>
                   <p className="mt-4 mb-8 text-sm">
-                    {categoriesDetail.description}
+                    {categoriesDetail?.description}
                   </p>
                   {isFollowing ? (
                     <Button
                       variant={"gradient"}
                       onClick={() => {
-                        handleFollow(categoriesDetail.id);
+                        handleFollow(categoriesDetail?.id);
                       }}
                       className="self-start text-lg rounded-xl"
                     >
@@ -155,7 +157,7 @@ const CategoriesDetail = () => {
                     <Button
                       variant={"gradient"}
                       onClick={() => {
-                        handleFollow(categoriesDetail.id);
+                        handleFollow(categoriesDetail?.id);
                       }}
                       className="self-start text-lg rounded-xl"
                     >

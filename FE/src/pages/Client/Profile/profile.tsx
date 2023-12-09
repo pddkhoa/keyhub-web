@@ -69,6 +69,11 @@ const Profile = () => {
     sendRequest({ type: REQUEST_TYPE.GET_USER_ID, slug: userId.toString() });
   };
 
+  const handleMessages = async (id: number) => {
+    await sendRequest({ type: REQUEST_TYPE.START_CHAT, data: { user_id: id } });
+    navigate("/messenger");
+  };
+
   return (
     <div className="container mx-auto min-h-0 px-4 py-16">
       <header className="w-full p-4">
@@ -161,7 +166,13 @@ const Profile = () => {
                         </Button>
                       )}
 
-                      <Button variant={"gradient"} size={"sm"}>
+                      <Button
+                        onClick={() => {
+                          handleMessages(userId);
+                        }}
+                        variant={"gradient"}
+                        size={"sm"}
+                      >
                         Message
                       </Button>
                       <Button variant={"gradient"} size={"sm"}>
