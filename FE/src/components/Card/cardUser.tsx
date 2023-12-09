@@ -18,7 +18,7 @@ export const CardUser: React.FC<CardUserProps> = React.forwardRef(
     const [displayCreate, setDisplayCreate] = useBoolean(false);
 
     const card = (
-      <div className="flex flex-col max-w-md p-6 bg-gray-900 text-gray-100">
+      <div className="flex flex-col max-w-md p-6 bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
         <img
           src={data?.avatar?.toString()}
           alt=""
@@ -26,7 +26,7 @@ export const CardUser: React.FC<CardUserProps> = React.forwardRef(
         />
         <div>
           <div className="flex py-2 justify-between">
-            <h2 className="text-xl w-11/12  font-semibold  text-white">
+            <h2 className="text-xl w-11/12  font-semibold  text-white dark:text-black">
               {data?.name}
             </h2>
 
@@ -52,7 +52,7 @@ export const CardUser: React.FC<CardUserProps> = React.forwardRef(
           <span className="block pb-2 text-sm text-blue-600">
             @{data.second_name}
           </span>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non
             deserunt

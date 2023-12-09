@@ -23,6 +23,12 @@ const chatSlice = createSlice({
       const newChat = action.payload;
       state.getListChat.unshift(newChat);
     },
+    deleteListChatSuccess: (state, action) => {
+      const chatIdToDelete = action.payload;
+      state.getListChat = state.getListChat.filter(
+        (chat) => chat.id !== chatIdToDelete
+      );
+    },
   },
 });
 
@@ -31,6 +37,7 @@ export const {
   getListChatMessagesSuccess,
   sendMessagesSuccess,
   startChatMessagesSuccess,
+  deleteListChatSuccess,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

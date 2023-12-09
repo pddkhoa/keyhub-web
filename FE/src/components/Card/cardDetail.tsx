@@ -127,11 +127,13 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
               alt=""
               className="object-cover w-full mb-4 h-96 rounded-md"
             />
-            <p className="text-gray-500 dark:text-gray-400 text-sm py-1 ">
+            <p className="text-gray-500 dark:text-gray-500 text-sm py-1 ">
               {formatDate()}
             </p>
-            <h2 className="mb-1 text-xl font-semibold">{post.title}</h2>
-            <p className="text-sm dark:text-gray-400">{post.description}</p>
+            <h2 className="mb-1 text-xl font-semibold dark:text-black">
+              {post.title}
+            </h2>
+            <p className="text-sm dark:text-gray-500">{post.description}</p>
           </div>
           <div className="flex flex-wrap justify-between">
             <div className="flex  text-sm dark:text-gray-400">
@@ -143,7 +145,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                 <span className="group relative transition ease-out duration-300  bg-input h-8 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
                   <svg
                     className={`h-4 w-4 ${
-                      !isLike ? "text-title-foreground" : "text-red-500"
+                      !isLike ? "dark:text-black" : "text-red-500"
                     }  `}
                     fill={`${isLike ? "currentColor" : "none"}`}
                     viewBox="0 0 24 24"
@@ -158,7 +160,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                   </svg>
                   <span
                     className="absolute -top-10 left-[50%] -translate-x-[50%]
-    z-20 origin-left scale-0 px-3 rounded-lg text-title-foreground
+    z-20 origin-left scale-0 px-3 rounded-lg dark:text-black
     bg-card py-2 text-sm
     shadow-md transition-all duration-300 ease-in-out
     group-hover:scale-100"
@@ -179,7 +181,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     enable-background="new 0 0 24 24"
-                    className="w-4 h-4 text-title-foreground"
+                    className="w-4 h-4 dark:text-black"
                     viewBox="0 0 24 24"
                     id="comment"
                   >
@@ -213,7 +215,7 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
                   <span
                     className="absolute -top-10 left-[50%] -translate-x-[50%]
       z-20 origin-left scale-0 px-3 rounded-lg
-       bg-card py-2 text-sm text-title-foreground
+       bg-card py-2 text-sm dark:text-black
       shadow-md transition-all duration-300 ease-in-out
       group-hover:scale-100"
                   >

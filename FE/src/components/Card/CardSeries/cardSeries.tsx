@@ -54,7 +54,7 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
   };
 
   return (
-    <div className="max-w-lg p-4 shadow-md bg-gray-900 text-gray-100">
+    <div className="max-w-lg p-4 shadow-md bg-gray-900 text-gray-100 dark:bg-white dark:text-black">
       <div className="flex justify-between items-center pb-4 border-bottom">
         <div className="flex items-center justify-center">
           <div
@@ -76,18 +76,18 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  className="w-5 h-5"
+                  className="w-5 h-5 dark:text-black"
                   id="menumeatballs"
                 >
                   <path
-                    fill="#ffff"
+                    fill="currentColor"
                     d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
                     className="color000000 svgShape"
                   ></path>
                 </svg>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 mr-2">
+            <DropdownMenuContent className="w-56 mr-2 dark:text-white dark:bg-stone-800">
               <DropdownMenuLabel>Option</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -125,11 +125,11 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
             }}
             className="block text-gray-300 hover:brightness-150 hover:underline decoration-solid cursor-pointer"
           >
-            <h3 className="text-xl font-semibold dark:text-violet-400">
+            <h3 className="text-xl font-semibold  dark:text-black">
               {data.name}
             </h3>
           </a>
-          <p className="leadi dark:text-gray-400">{data.description}</p>
+          <p className="leadi dark:text-gray-500">{data.description}</p>
         </div>
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>

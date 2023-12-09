@@ -94,28 +94,34 @@ const Profile = () => {
                 <p className="text-lg  text-blue-700">
                   @{!isUser ? user?.second_name : userData?.second_name}
                 </p>
-                <p className="text-md break-words text-gray-400">
+                <p className="text-md break-words text-gray-500">
                   {!isUser ? user?.descriptions : userData?.descriptions}
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-10 mt-4">
                     <div className="flex flex-col ">
-                      <span className="text-gray-200 text-lg ">Posts</span>
-                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                      <span className="text-gray-200 dark:text-black text-lg ">
+                        Posts
+                      </span>
+                      <span className="text-gray-400 text-xl dark:text-black font-extrabold text-center">
                         {!isUser ? user?.sumBLog : userData?.sumBlog || 0}
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-gray-200 text-lg ">Following</span>
-                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                      <span className="text-gray-200 text-lg dark:text-black ">
+                        Following
+                      </span>
+                      <span className="text-gray-400 text-xl dark:text-black font-extrabold text-center">
                         {!isUser
                           ? user?.totalFollowing
                           : userData?.totalFollowing || 0}
                       </span>
                     </div>
                     <div className="flex flex-col ">
-                      <span className="text-gray-200 text-lg ">Follower</span>
-                      <span className="text-gray-400 text-xl font-extrabold text-center">
+                      <span className="text-gray-200 text-lg dark:text-black">
+                        Follower
+                      </span>
+                      <span className="text-gray-400 text-xl dark:text-black font-extrabold text-center">
                         {!isUser
                           ? user?.totalFollowers
                           : userData?.totalFollowers || 0}
@@ -194,7 +200,7 @@ const Profile = () => {
                               </svg>
                             </button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-56 mr-2">
+                          <DropdownMenuContent className="w-56 mr-2 dark:text-white dark:bg-stone-800">
                             <DropdownMenuLabel>Option</DropdownMenuLabel>
                             <DropdownMenuSeparator />
 
@@ -203,12 +209,12 @@ const Profile = () => {
                                 setDisplayCreate.on(),
                                   setDisplayModal("REPORT");
                               }}
-                              className="cursor-pointer"
+                              className="cursor-pointer hover:bg-white/30"
                             >
                               <IconReportUser className="w-6 h-6 mr-2" />
                               <span>Report User</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem
+                            {/* <DropdownMenuItem
                               onClick={() => {
                                 setDisplayCreate.on(), setDisplayModal("BLOCK");
                               }}
@@ -216,7 +222,7 @@ const Profile = () => {
                             >
                               <IconBlock className="w-6 h-6 mr-2" />
                               <span>Block User</span>
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </Button>

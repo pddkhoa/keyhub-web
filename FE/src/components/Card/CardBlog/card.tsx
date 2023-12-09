@@ -76,7 +76,7 @@ export const GridCard: React.FC<GridCardProps> = ({
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
   return (
-    <div className="flex flex-col max-w-lg p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md bg-gray-900 text-gray-100">
+    <div className="flex flex-col max-w-lg p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
       <div className="flex justify-between space-x-4">
         <Link
           to={`${!isUser ? `/user/${data?.id}` : "#"} `}
@@ -131,7 +131,7 @@ export const GridCard: React.FC<GridCardProps> = ({
             to={`/blog/${data?.id}`}
             className="block text-gray-300 hover:brightness-150 hover:underline decoration-solid"
           >
-            <h3 className="text-xl font-semibold h-14  line-clamp-2 ">
+            <h3 className="text-xl font-semibold h-14  line-clamp-2 dark:text-black ">
               {data?.title}
             </h3>
           </Link>

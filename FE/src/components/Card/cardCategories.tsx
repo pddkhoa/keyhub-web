@@ -56,7 +56,7 @@ export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
   const userFollowingLength = userFollowing.length - 3;
 
   return (
-    <div className="max-w-md rounded-sm  shadow-md bg-gray-900 text-gray-100">
+    <div className="max-w-md rounded-sm  shadow-md bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
       <img
         src={data.avatar.toString()}
         alt=""

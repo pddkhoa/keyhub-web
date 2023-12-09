@@ -1,8 +1,3 @@
-import Header from "../components/Header/header";
-import {
-  BerylliumLeftSidebarFixed,
-  SidebarExpandable,
-} from "@/components/Sidebar/Client";
 import cn from "@/lib/class-names";
 import { Outlet } from "react-router-dom";
 import {

@@ -61,7 +61,7 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
     },
   });
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 dark:bg-white overflow-y-scroll">
       <div className="h-full flex flex-col space-y-3">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <span className="text-lg grow text-title">Add New Series</span>

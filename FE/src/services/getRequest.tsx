@@ -56,6 +56,7 @@ import {
   getListUserFollowCateSuccess,
 } from "@/redux/categoriesSlice";
 import {
+  deleteListChatSuccess,
   getListChatMessagesSuccess,
   getListChatSuccess,
   sendMessagesSuccess,
@@ -926,6 +927,17 @@ export const getRequestConfig = (
         isShowToast: false,
         isDispatch: true,
         action: startChatMessagesSuccess,
+        isToken: true,
+      };
+
+    case REQUEST_TYPE.DELETE_CHAT:
+      return {
+        url: `${BASE_URL}/message/${slug}`,
+        method: REQUEST_METHOD.DELETE,
+        isShowToast: true,
+        isDispatch: true,
+        customAction: true,
+        action: deleteListChatSuccess,
         isToken: true,
       };
 

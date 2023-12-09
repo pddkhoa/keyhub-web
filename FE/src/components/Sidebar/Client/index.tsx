@@ -45,13 +45,13 @@ function MenuItem({ menu }: { menu: MenuItemsType }) {
     >
       <span
         className={cn(
-          "rounded-3xl bg-gray-0/0 px-4 py-2 text-white transition-colors duration-200 group-hover:bg-gray-0 group-hover:text-gray-900 group-hover:bg-gray-100",
-          isActive && "bg-gray-0 text-gray-900 bg-gray-100 "
+          "rounded-3xl bg-gray-0/0 px-4 py-2 text-white dark:text-black transition-colors duration-200 group-hover:bg-gray-0 group-hover:text-gray-900 group-hover:bg-gray-100 dark:group-hover:bg-gray-400",
+          isActive && "bg-gray-0 text-gray-900 bg-gray-100  dark:bg-gray-400"
         )}
       >
-        <Icon className="h-auto w-6" />
+        <Icon className="h-auto w-6 dark:text-black" />
       </span>
-      <span className="text-white">{menu.name}</span>
+      <span className="text-white dark:text-black">{menu.name}</span>
     </li>
   );
 }
@@ -92,7 +92,7 @@ export function BerylliumLeftSidebarFixed() {
 
   return (
     <aside
-      className={`fixed  overflow-y-hidden overflow-x-hidden start-0 bg-gray-900  z-50 ${
+      className={`fixed  overflow-y-hidden overflow-x-hidden start-0 bg-gray-900 dark:bg-gray-100  z-50 ${
         width < 1000
           ? "bottom-0 h-[90px] flex-row  w-full"
           : "h-screen w-[90px] top-0 flex-col items-center gap-10  py-3.5 bg-gray-0 flex "
@@ -101,7 +101,7 @@ export function BerylliumLeftSidebarFixed() {
       <ActionIcon
         aria-label="open sidebar"
         variant="text"
-        className={`rounded-full bg-transparent text-white  transition-colors mt-16 hover:bg-gray-300  hover:enabled:text-gray-900 ${
+        className={`rounded-full bg-transparent text-white dark:text-black dark:bg-gray-100  transition-colors mt-16 hover:bg-gray-300  hover:enabled:text-gray-900 ${
           width < 1000 ? "absolute  hidden  bottom-1" : ""
         }`}
         size="xl"
@@ -145,11 +145,11 @@ export function SidebarExpandable() {
   return (
     <div
       className={cn(
-        "fixed start-[90px] top-0 z-50 hidden h-full w-0 border-l overflow-x-hidden overflow-y-hidden duration-200 xl:flex",
+        "fixed start-[90px] top-0 z-50 hidden h-full w-0 border-l dark:border-black/20 overflow-x-hidden overflow-y-hidden duration-200 xl:flex",
         !!expandedLeft && "w-[294px]"
       )}
     >
-      <SimpleBar className="h-screen py-20  bg-gray-900 p-2 min-w-[200px]">
+      <SimpleBar className="h-screen py-20 dark:bg-gray-100   bg-gray-900 p-2 min-w-[200px]">
         <div className="outline-none items-center h-10 rounded-xl bg-gray-800  flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -169,10 +169,10 @@ export function SidebarExpandable() {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search Users"
             id="posts-search"
-            className="flex-1 outline-none ring-0 border-0 focus:ring-0 h-10 rounded-12  text-white hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+            className="flex-1 outline-none ring-0 border-0  focus:ring-0 h-10 rounded-12  text-white dark:text-black hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
           ></input>
         </div>
-        <div className="border-b mt-5" />
+        <div className="border-b dark:border-black/20 mt-5" />
         <div className="py-2 flex flex-col gap-5">
           <div className="flex flex-col">
             {isLoading ? (
@@ -190,15 +190,15 @@ export function SidebarExpandable() {
                     navigate(`/user/${user.id}`);
                   }}
                   key={user?.id}
-                  className="flex items-center space-x-2 w-full hover:bg-gray-700/75 p-2 rounded-md cursor-pointer"
+                  className="flex items-center space-x-2 w-full hover:bg-gray-700/75 dark:hover:bg-gray-400 p-2 rounded-md cursor-pointer"
                 >
                   <img
                     src={user?.avatar?.toString()}
                     alt=""
-                    className="object-cover object-center w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700"
+                    className="object-cover object-center w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700 dark:border-black/20"
                   />
                   <div className="-space-y-1">
-                    <h2 className="text-sm text-white font-semibold leadi">
+                    <h2 className="text-sm text-white dark:text-black font-semibold leadi">
                       {user?.name}
                     </h2>
                     <span className="inline-block text-xs leadi text-blue-600">

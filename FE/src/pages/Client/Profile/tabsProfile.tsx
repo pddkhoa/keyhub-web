@@ -346,7 +346,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({
             onClick={handleBlogTabClick}
             className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white    ${
               activeTab === "TAB_BLOG"
-                ? "text-white border-t-2 border-white "
+                ? "text-white dark:text-black border-t-2 border-white "
                 : ""
             } py-4 font-semibold`}
           >
@@ -370,7 +370,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({
             onClick={handleSeriesTabClick}
             className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white     ${
               activeTab === "TAB_SERIES"
-                ? "text-white border-t-2 border-white "
+                ? "text-white dark:text-black  border-t-2 border-white "
                 : ""
             } py-4 font-semibold`}
           >
@@ -383,7 +383,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({
             onClick={handleFollowingClick}
             className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white     ${
               activeTab === "TAB_FOLLOWING"
-                ? "text-white border-t-2 border-white "
+                ? "text-white border-t-2 dark:text-black  border-white "
                 : ""
             } py-4 font-semibold`}
           >
@@ -396,7 +396,7 @@ export const TabsItems: React.FC<TabsItemsProps> = ({
             onClick={handleFollowerClick}
             className={`flex items-center cursor-pointer p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white     ${
               activeTab === "TAB_FOLLOWER"
-                ? "text-white border-t-2 border-white "
+                ? "text-white border-t-2 dark:text-black  border-white "
                 : ""
             } py-4 font-semibold`}
           >

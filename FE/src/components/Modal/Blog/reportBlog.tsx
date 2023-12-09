@@ -108,12 +108,12 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
   });
 
   return (
-    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 ">
+    <div className="w-2/4 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow dark:bg-stone-200 bg-gray-900 ">
       <div className="h-full flex flex-col space-y-5">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2">
           <span className="text-lg grow text-title">Report</span>
           <button
-            className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
+            className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 dark:text-black transition-colors"
             onClick={setFlag.off}
           >
             <svg
@@ -147,11 +147,11 @@ export const ReportBlog: React.FC<ReportBlogProps> = ({ setFlag, data }) => {
                       <div className="grid gap-1.5 leading-none">
                         <label
                           htmlFor={item.id.toString()}
-                          className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-black "
                         >
                           {item.reason}
                         </label>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm dark:text-gray-500">
                           You may choice many reason
                         </p>
                       </div>

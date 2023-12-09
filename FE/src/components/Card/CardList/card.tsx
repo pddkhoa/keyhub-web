@@ -48,15 +48,15 @@ export const Card: React.FC<CardProps> = ({ data, cardType, setRemoving }) => {
         alt=""
         className="h-56 w-72 bg-gray-800 aspect-video"
       />
-      <div className="flex h-56 flex-col justify-center flex-1 p-6 bg-gray-900 ">
-        <span className="text-xs uppercase text-gray-400">{formatDate()}</span>
+      <div className="flex h-56 flex-col justify-center flex-1 p-6 bg-gray-900 dark:bg-white/70">
+        <span className="text-xs uppercase text-gray-500">{formatDate()}</span>
         <Link
           to={`/blog/${data.id}`}
-          className="text-2xl font-bold text-white  hover:underline"
+          className="text-2xl font-bold text-white dark:text-black  hover:underline"
         >
           {data.title}
         </Link>
-        <p className="my-3 text-gray-400">
+        <p className="my-3 text-gray-500">
           {data.description}
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor aliquam
           possimus quas, error esse quos.

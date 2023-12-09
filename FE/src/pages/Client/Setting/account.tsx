@@ -58,7 +58,7 @@ const SettingAccount = () => {
           Back
         </Link>
 
-        <div className=" bg-gray-900 text-gray-300 p-4  rounded-xl border">
+        <div className=" bg-gray-900 text-gray-300 p-4 dark:bg-white/70 dark:text-black rounded-xl border">
           <div className="flex flex-wrap gap-5">
             <div className="flex-none sm:flex p-2 pb-5 border-b-2 w-full ">
               <div className=" relative h-24 w-24   sm:mb-0 mb-5">
@@ -67,14 +67,14 @@ const SettingAccount = () => {
                   onClick={() => {
                     setDisplayCreate.on(), setDisplayModal(true);
                   }}
-                  className="absolute -right-4  bottom-0  text-white  bg-gray-700 p-1.5 font-medium hover:brightness-150 tracking-wider rounded-full transition ease-in duration-300"
+                  className="absolute -right-4  bottom-0  text-white  bg-gray-800 p-1.5 font-medium hover:brightness-150 tracking-wider rounded-full transition ease-in duration-300"
                 >
                   <Camera />
                 </button>
               </div>
               <div className="flex-auto ml-10  justify-evenly">
                 <div className="flex flex-col mt-7">
-                  <span className="text-2xl text-gray-300">
+                  <span className="text-2xl text-gray-300 dark:text-black">
                     {userData.name}
                   </span>
                   <span className="text-lg text-blue-700">
@@ -91,7 +91,7 @@ const SettingAccount = () => {
             </div>
           </div>
         </div>
-        <div className=" bg-gray-900 text-gray-300 gap-5 p-4 rounded-xl border">
+        <div className=" bg-gray-900 dark:text-black dark:bg-white text-gray-300 gap-5 p-4 rounded-xl border">
           <div className="md:flex">
             <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 pr-2 dark:text-gray-400 md:me-4 mb-4 md:mb-0 border-r">
               <TabListItems
@@ -125,7 +125,7 @@ const SettingAccount = () => {
                 activeTab={tabs}
               />
             </ul>
-            <div className="mx-8 bg-gray-900 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+            <div className="mx-8 bg-gray-900 dark:bg-white dark:text-black text-medium text-gray-500 dark:text-gray-400  rounded-lg w-full">
               {renderContent()}
             </div>
           </div>
@@ -162,7 +162,9 @@ export const TabListItems: React.FC<TabListItemsProps> = ({
       <div
         onClick={handleTabClick}
         className={`inline-flex items-center px-4 py-3 rounded-lg  cursor-pointer  hover:bg-blue-700 w-full hover:text-white ${
-          activeTab === tabs ? "text-white bg-blue-700 active " : "bg-gray-900"
+          activeTab === tabs
+            ? "text-white bg-blue-700 active "
+            : "bg-input text-white"
         }`}
       >
         {title}

@@ -20,7 +20,7 @@ export default function Layout() {
         <div
           className={cn(
             "flex flex-grow flex-col  ",
-            expandedLeft ? "xl:px-[400px]" : "xl:px-[96px]"
+            expandedLeft ? "xl:pl-[400px]" : "xl:pl-[116px]"
           )}
         >
           <div className="grow xl:mt-4">

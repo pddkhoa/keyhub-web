@@ -53,12 +53,12 @@ const Pagination: FC<PaginationProps> = ({ page, maxPage, setPage }) => {
           />
         </svg>
       }
-      nextLinkClassName="h-7 w-7 flex border-0 items-center justify-center text-white rounded border  hover:text-white transition-colors duration-300"
-      previousLinkClassName="h-7 w-7 flex border-0 items-center justify-center text-white rounded border  hover:text-white transition-colors duration-300"
-      pageClassName="w-fit h-fit rounded border-0 hover:bg-gray-800   text-white hover:text-white transition-colors duration-300"
-      pageLinkClassName="w-7 h-7 text-white flex  justify-center items-center"
+      nextLinkClassName="h-7 w-7 flex border-0 items-center justify-center text-white rounded border  hover:text-white transition-colors duration-300 dark:bg-black"
+      previousLinkClassName="h-7 w-7 flex border-0 items-center justify-center text-white rounded border  hover:text-white transition-colors duration-300 dark:bg-black"
+      pageClassName="w-fit h-fit rounded border-0 hover:bg-gray-800  dark:hover:bg-gray-800 text-white hover:text-white transition-colors duration-300 dark:bg-black"
+      pageLinkClassName="w-7 h-7 text-white flex  justify-center items-center "
       breakClassName=""
-      activeClassName="border-0  text-white bg-gray-800 text-white hover:bg-gray-800 hover:text-white duration-300"
+      activeClassName="border-0  text-white bg-gray-800 text-white hover:bg-gray-800 hover:text-white duration-300 dark:bg-white"
       breakLabel="..."
       breakLinkClassName="text-white"
     />

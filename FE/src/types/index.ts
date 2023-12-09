@@ -124,6 +124,7 @@ export enum REQUEST_TYPE {
   GET_LIST_CHAT_MESSAGES = "get_list_chat_messages",
   SEND_MESSAGES = "send_messages",
   START_CHAT = "start_chat",
+  DELETE_CHAT = "delete_chat",
 }
 
 export type RequestConfig = {

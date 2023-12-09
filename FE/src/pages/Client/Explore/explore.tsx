@@ -104,7 +104,7 @@ const Explore = () => {
       <div className="w-full h-full grid grid-cols-8">
         <div className="h-full w-full col-span-8 flex flex-col p-5 space-y-5 mx-auto overflow-x-hidden overflow-y-hidden ">
           <div className="w-full space-y-2">
-            <section className="px-5 py-10 bg-gray-900 text-gray-100">
+            <section className="px-5 py-10 bg-gray-900 text-gray-100 dark:bg-stone-300 dark:text-black">
               <div className="container grid grid-cols-12 mx-auto gap-y-6 md:gap-10">
                 <div className="flex flex-col justify-between col-span-12 py-2 space-y-8 md:space-y-16 md:col-span-3">
                   <div className="flex flex-col space-y-8 md:space-y-12">
@@ -112,26 +112,26 @@ const Explore = () => {
                       blogLeft.length > 0 &&
                       blogLeft.map((blog) => (
                         <div
-                          key={blog.id}
+                          key={blog?.id}
                           className="flex flex-col space-y-0.5"
                         >
                           <h3 className="flex items-center space-x-2 text-gray-400">
-                            <span className="flex-shrink-0 w-2 h-2 uppercase rounded-full bg-violet-400" />
-                            <span className="text-xs font-bold tracki uppercase">
+                            <span className="flex-shrink-0 w-2 h-2 uppercase rounded-full bg-violet-400 dark:bg-black" />
+                            <span className="text-xs font-bold tracki uppercase dark:text-black">
                               Exclusive
                             </span>
                           </h3>
                           <Link
                             to={`/blog/${blog?.id}`}
-                            className="font-base hover:underline"
+                            className="font-base hover:underline dark:text-black"
                           >
-                            {blog.title}
+                            {blog?.title}
                           </Link>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-gray-400 dark:text-gray-500">
                             {formatDate(blog?.create_date)} by
                             <Link
                               to={`/user/${blog?.users?.id}`}
-                              className="hover:underline text-violet-400"
+                              className="hover:underline text-violet-400 dark:text-blue-600"
                             >
                               {blog?.users?.name}
                             </Link>
@@ -140,29 +140,9 @@ const Explore = () => {
                       ))}
                   </div>
                   <div className="flex flex-col w-full space-y-2">
-                    <div className="flex w-full h-1 bg-opacity-10 bg-violet-400">
-                      <div className="w-1/2 h-full bg-violet-400" />
+                    <div className="flex w-full h-1 bg-opacity-10 bg-violet-400 ">
+                      <div className="w-1/2 h-full bg-violet-400 dark:bg-black" />
                     </div>
-                    <a
-                      rel="noopener noreferrer"
-                      href="#"
-                      className="flex items-center justify-between w-full"
-                    >
-                      <span className="text-xs font-bold tracki uppercase">
-                        See more exclusives
-                      </span>
-                      <svg
-                        viewBox="0 0 24 24"
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-4 stroke-current text-violet-400"
-                      >
-                        <line x1={5} y1={12} x2={19} y2={12} />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </a>
                   </div>
                 </div>
                 <div
@@ -171,7 +151,7 @@ const Explore = () => {
                     backgroundImage: `url(${blogOne?.avatar})`,
                   }}
                 >
-                  <span className="absolute px-1 pb-2 text-xs font-bold uppercase border-b-2 left-6 top-6 border-violet-400 text-gray-100">
+                  <span className="absolute px-1 pb-2 text-xs font-bold uppercase border-b-2 left-6 top-6 border-violet-400 dark:border-white text-gray-100">
                     {blogOne?.categories?.name}
                   </span>
                   <Link
@@ -185,7 +165,7 @@ const Explore = () => {
                 </div>
                 <div className="hidden py-2 xl:col-span-3 lg:col-span-4 md:hidden lg:block">
                   <div className="mb-8 space-x-5 border-b-2 border-opacity-10 border-violet-400">
-                    <div className="pb-5 text-xs font-bold uppercase border-b-2 border-violet-400">
+                    <div className="pb-5 text-xs font-bold uppercase border-b-2 border-violet-400 dark:border-black">
                       Latest
                     </div>
                   </div>
@@ -205,7 +185,7 @@ const Explore = () => {
                             >
                               {blog?.title}
                             </Link>
-                            <p className="mt-auto text-xs text-gray-400">
+                            <p className="mt-auto text-xs text-gray-400 dark:text-gray-500">
                               {formatDate(blog?.create_date)}
                               <Link
                                 to={`/user/${blog?.id}`}
@@ -223,7 +203,7 @@ const Explore = () => {
             </section>
           </div>
           <div className="w-full space-y-2">
-            <div className="max-w-screen-xl p-5 mx-auto bg-gray-900 text-gray-100">
+            <div className="max-w-screen-xl p-5 mx-auto bg-gray-900  text-gray-100 dark:bg-stone-300 dark:text-black">
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 sm:grid-cols-2">
                 {blogFive &&
                   blogFive.length > 0 &&

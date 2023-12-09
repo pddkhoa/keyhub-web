@@ -217,7 +217,7 @@ const Users = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search users"
                 id="datas-search"
-                className="flex-1 h-10 ring-0 border-0 focus:ring-0 text-white rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+                className="flex-1 h-10 ring-0 border-0 focus:ring-0 text-white dark:text-black rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
             {/* <Button variant={"gradient"}>

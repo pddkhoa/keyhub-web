@@ -338,25 +338,29 @@ const Editor = () => {
                 onClick={() => {
                   setStep("STEP_ONE");
                 }}
-                className={`flex items-center justify-center gap-2 p-4 hover:bg-gray-800 hover:text-title-foreground cursor-pointer ${
-                  Step === "STEP_ONE"
-                    ? " bg-gray-800 text-title-foreground"
-                    : null
+                className={`flex items-center  justify-center gap-2 p-4 hover:bg-gray-800 dark:text-black  cursor-pointer ${
+                  Step === "STEP_ONE" ? " bg-gray-800 text-white" : null
                 }`}
               >
                 <div className="p-2 rounded-full bg-red-800 shadow-xl">
                   <PenTool className="w-5 h-5" />
                 </div>
                 <p className="leading-none">
-                  <strong className="block font-medium"> Content </strong>
-                  <small className="mt-1"> Fill content in area. </small>
+                  <strong className="block font-medium dark:text-black">
+                    {" "}
+                    Content{" "}
+                  </strong>
+                  <small className="mt-1 dark:text-black">
+                    {" "}
+                    Fill content in area.{" "}
+                  </small>
                 </p>
               </li>
               <li
                 onClick={() => {
                   setStep("STEP_TWO");
                 }}
-                className={`flex items-center justify-center gap-2 p-4 hover:bg-gray-800 hover:text-title-foreground cursor-pointer ${
+                className={`flex items-center justify-center gap-2 p-4 hover:bg-gray-800 dark:text-black hover:text-title-foreground cursor-pointer ${
                   Step === "STEP_TWO"
                     ? " bg-gray-800 text-title-foreground"
                     : null
@@ -366,8 +370,14 @@ const Editor = () => {
                   <Settings2 className="w-5 h-5" />
                 </div>
                 <p className="leading-none">
-                  <strong className="block font-medium"> Setting </strong>
-                  <small className="mt-1"> Setting my blog </small>
+                  <strong className="block font-medium dark:text-black">
+                    {" "}
+                    Setting{" "}
+                  </strong>
+                  <small className="mt-1 dark:text-black">
+                    {" "}
+                    Setting my blog{" "}
+                  </small>
                 </p>
               </li>
               <li
@@ -384,8 +394,14 @@ const Editor = () => {
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <p className="leading-none">
-                  <strong className="block font-medium"> Confirmation </strong>
-                  <small className="mt-1"> Check last one</small>
+                  <strong className="block font-medium dark:text-black">
+                    {" "}
+                    Confirmation{" "}
+                  </strong>
+                  <small className="mt-1 dark:text-black">
+                    {" "}
+                    Check last one
+                  </small>
                 </p>
               </li>
             </ol>

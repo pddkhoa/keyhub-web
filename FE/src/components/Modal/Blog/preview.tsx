@@ -12,10 +12,10 @@ type PreviewProps = {
 
 export const Preview: React.FC<PreviewProps> = ({ setFlag, data }) => {
   return (
-    <div className="w-2/4 h-2/3 sm:x-0  rounded-xl shadow bg-card brightness-125 ">
+    <div className="w-2/4 h-2/3 sm:x-0  rounded-xl shadow bg-gray-800 dark:bg-stone-200  ">
       <div className="h-full flex flex-col">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
-          <h1 className="text-lg grow text-title">Comment</h1>
+          <h1 className="text-lg grow text-title dark:text-black">Comment</h1>
           <button
             className="block w-6 h-6 p-0.5 hover:text-white hover:bg-red-500 rounded-full text-gray-500 transition-colors"
             onClick={setFlag.off}

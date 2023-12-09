@@ -48,9 +48,6 @@ const Bookmark = () => {
                 className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
-            <Button>
-              <SlidersHorizontal className="h-5 w-5" />
-            </Button>
           </div>
           <div className="mt-8 space-y-5">
             {blogBookmark && blogBookmark.length > 0 ? (

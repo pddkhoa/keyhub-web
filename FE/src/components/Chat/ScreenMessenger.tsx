@@ -10,6 +10,16 @@ import { ChatMessage } from "@/types/chat";
 import User from "@/types/user";
 import * as SockJS from "sockjs-client";
 import * as Stomp from "stompjs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { MoreHorizontalIcon } from "lucide-react";
+import { IconDelete } from "../ui/icon";
 
 interface ScreenMessengerProps {
   chatId: string | undefined;
@@ -36,6 +46,8 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
 
   const [isConnecting, setIsConnecting] = useState(false);
 
+  const [isDelete, setIsDelete] = useState(false);
+
   const [messages, setMessages] = useState([]);
 
   const [stompClient, setStompClient] = useState<Stomp.Client>();
@@ -44,10 +56,12 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
     (state: RootState) => state?.chat?.getChatMessages
   );
   useEffect(() => {
+    setIsDelete(false);
+
     if (chatId) {
       sendRequest({ type: REQUEST_TYPE.GET_LIST_CHAT_MESSAGES, slug: chatId });
     }
-  }, [chatId]);
+  }, [chatId, isDelete]);
 
   const handleSendMessage = async () => {
     if (contentMessage.trim() === "") {
@@ -96,7 +110,6 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
   useEffect(() => {
     if (isConnecting && stompClient && chatId && isAuth) {
       const res = stompClient?.subscribe(`/topic/${chatId}`, (message) => {
-        // console.log(123);
         const receivedMessage = JSON.parse(message?.body);
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       });
@@ -113,7 +126,11 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
     }
   }, [listChatMessages, chatId]);
 
-  console.log(messages);
+  const handleDeleteChat = async (id: string) => {
+    setIsDelete(false);
+    await sendRequest({ type: REQUEST_TYPE.DELETE_CHAT, slug: id });
+    setIsDelete(true);
+  };
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
@@ -127,7 +144,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
 
   return (
     <div className="flex flex-col flex-auto h-full w-full p-6 mr-24">
-      <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-800 h-full w-full p-4">
+      <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-800 dark:bg-white/90 h-full w-full p-4">
         <div
           ref={messagesContainerRef}
           className="flex flex-col h-full overflow-x-hidden mb-4"
@@ -160,7 +177,13 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
               ) : messages && chatId && messages?.length > 0 ? (
                 messages.map((chat) =>
                   chat?.user_create === isAuth ? (
-                    <ChatMe key={chat.id} data={chat} />
+                    <ChatMe
+                      key={chat.id}
+                      data={chat}
+                      onClick={() => {
+                        handleDeleteChat(chat.id);
+                      }}
+                    />
                   ) : (
                     <ChatYou key={chat.id} data={chat} userYou={userYou} />
                   )
@@ -174,7 +197,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-row items-center h-16 rounded-xl bg-gray-900 w-full px-4">
+        <div className="flex flex-row items-center h-16 rounded-xl bg-gray-900  w-full px-4">
           <div className="flex-grow ml-4">
             <div className="relative w-full">
               <input
@@ -236,9 +259,13 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
 interface ChatProps {
   data: ChatMessage;
   userYou?: User;
+  onClick?: () => void;
 }
 
-export const ChatMe: React.FC<ChatProps> = ({ data }) => {
+export const ChatMe: React.FC<ChatProps> = ({ data, onClick }) => {
+  const handleDeleteChat = () => {
+    onClick();
+  };
   return (
     <div className="col-start-6 col-end-13 p-3 rounded-lg">
       <div className="flex items-center justify-start flex-row-reverse">
@@ -246,6 +273,25 @@ export const ChatMe: React.FC<ChatProps> = ({ data }) => {
         <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
           <div>{data?.content}</div>
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="inline-flex cursor-pointer  mr-4 items-center text-white justify-center rounded-xl hover:bg-slate-800 p-0.5 ">
+              <MoreHorizontalIcon />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Option</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              onClick={handleDeleteChat}
+              className="cursor-pointer h-12"
+            >
+              <IconDelete className="w-6 h-6 mr-2" />
+              <span>Delete</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
@@ -253,10 +299,12 @@ export const ChatMe: React.FC<ChatProps> = ({ data }) => {
 export const ChatYou: React.FC<ChatProps> = ({ data, userYou }) => {
   return (
     <div className="col-start-1 col-end-8 p-3 rounded-lg">
-      <div className="flex flex-row items-center">
-        <UserAvatar size={45} data={userYou?.avatar?.toString()} />
-        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-          <div>{data?.content}</div>
+      <div className="flex justify-between w-full">
+        <div className="flex flex-row  items-center">
+          <UserAvatar size={45} data={userYou?.avatar?.toString()} />
+          <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+            <div>{data?.content}</div>
+          </div>
         </div>
       </div>
     </div>

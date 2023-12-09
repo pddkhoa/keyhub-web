@@ -29,12 +29,12 @@ const Header = () => {
     sendRequest({ type: REQUEST_TYPE.LOGOUT, slug: refreshToken, data: null });
   };
   return (
-    <header className="bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-900 via-slate-900-900 to-slate-950 w-full border-border border-b-2 fixed z-50">
+    <header className="bg-gray-900 dark:bg-white/90   w-full border-border border-b-2 fixed z-50">
       <div className="mx-auto max-w-screen-3xl px-8 py-2 ">
         <div className="flex items-center justify-between gap-4">
           <div className="relative flex gap-5 justify-center items-center">
             <span className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent">
-              Rainbow Hover
+              Keyhub Social
             </span>
             {/* <SearchBar /> */}
           </div>
@@ -70,17 +70,17 @@ const Header = () => {
                 />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <div className="flex justify-center items-center cursor-pointer hover:brightness-75">
+                    <div className="flex justify-center items-center cursor-pointer ">
                       <AlphabetAvatar size={40} />
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-80 mr-4 ">
+                  <DropdownMenuContent className="w-80 mr-4  dark:text-black font-bold">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuItem
                       onClick={() => {
                         navigate("/profile");
                       }}
-                      className="cursor-pointer h-12"
+                      className="cursor-pointer h-12 dark:hover:bg-white/30"
                     >
                       <AlphabetAvatar size={40} />
                       <span className="ml-2">{userData.name}</span>
@@ -90,7 +90,7 @@ const Header = () => {
                       onClick={() => {
                         navigate("/setting");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:bg-white/30"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +122,7 @@ const Header = () => {
                       onClick={() => {
                         navigate("/draft");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ const Header = () => {
                       onClick={() => {
                         navigate("/bookmark");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +225,7 @@ const Header = () => {
                     <ModeToggle />
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

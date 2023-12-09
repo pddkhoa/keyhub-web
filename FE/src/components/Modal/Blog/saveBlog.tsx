@@ -46,7 +46,7 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({
   };
 
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal dark:bg-stone-200  overflow-y-scroll">
       <div>
         <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
           <button
@@ -105,11 +105,7 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({
             Cancle
           </Button>
           {isLoading ? (
-            <Button
-              disabled
-              title="Save"
-              className="cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2"
-            >
+            <Button disabled title="Save">
               <svg
                 viewBox="0 -0.5 25 25"
                 height="20px"
@@ -135,7 +131,6 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({
                 handleSaveBlog(id);
               }}
               title="Save"
-              className="cursor-pointer flex items-center fill-blue-400 bg-blue-950 hover:bg-blue-900 active:border active:border-blue-400 rounded-md duration-100 p-2"
             >
               <svg
                 viewBox="0 -0.5 25 25"
@@ -152,9 +147,7 @@ export const SaveBlog: React.FC<SaveBlogsProps> = ({
                   fillRule="evenodd"
                 />
               </svg>
-              <span className="text-sm text-title-foreground font-bold pr-1">
-                Save Post
-              </span>
+              Save Post
             </Button>
           )}
         </div>

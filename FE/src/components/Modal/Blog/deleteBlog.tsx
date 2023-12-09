@@ -26,7 +26,7 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({ setFlag, id }) => {
   };
 
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal dark:bg-stone-200 overflow-y-scroll">
       <div>
         <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
           <button
@@ -58,24 +58,13 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({ setFlag, id }) => {
             onClick={() => {
               setFlag.off();
             }}
-            className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
           >
             Cancel
           </Button>
           {isLoading ? (
-            <Button
-              disabled
-              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-            >
-              Please wait...
-            </Button>
+            <Button disabled>Please wait...</Button>
           ) : (
-            <Button
-              onClick={() => handleDeleteBlog(id)}
-              className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-            >
-              Delete
-            </Button>
+            <Button onClick={() => handleDeleteBlog(id)}>Delete</Button>
           )}
         </div>
       </div>

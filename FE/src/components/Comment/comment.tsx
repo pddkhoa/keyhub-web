@@ -76,7 +76,7 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
 
   return (
     <div className="flex flex-col w-full space-y-3 mt-5">
-      <div className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100">
+      <div className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 dark:text-black">
         Comments
       </div>
       <div className="relative flex flex-col  ">
@@ -256,7 +256,7 @@ export const Comment: React.FC<CommentProps> = ({
           </div>
         </div>
       </div> */}
-      <div className="flex flex-col w-full max-w-2xl p-4 divide-y rounded-md divide-gray-700 bg-gray-900 text-gray-100">
+      <div className="flex flex-col w-full max-w-2xl p-4 divide-y rounded-md divide-gray-700 bg-gray-900  text-gray-100">
         <div className="flex justify-between p-4">
           <div className="flex space-x-4">
             <div>
@@ -469,14 +469,14 @@ export const CommentForm: React.FC<CommentFormProps> = ({
   return (
     <form
       onSubmit={onSubmit}
-      className=" flex flex-col border w-full mx-auto max-w-5xl p-2  divide-y rounded-md divide-gray-700 bg-gray-900 text-gray-100"
+      className=" flex flex-col border w-full mx-auto max-w-5xl p-2  divide-y rounded-md divide-gray-700 bg-gray-900 dark:bg-white/70 dark:text-black text-gray-100"
     >
       <div className="flex justify-between p-4">
         <div className="flex space-x-4">
           <AlphabetAvatar size={50} />
         </div>
       </div>
-      <div className="space-y-2 text-sm text-gray-400">
+      <div className="space-y-2 text-sm text-gray-400 dark:text-black">
         <div
           className={`flex flex-row w-full  rounded-lg p-2 ${
             isFocused && isCheckComment ? " border-red-500 border" : null
@@ -492,7 +492,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
               onBlur={() => setIsFocused(false)}
               placeholder="Comment in area"
               value={InputComment}
-              className={`flex flex-1  bg-transparent outline-none rounded-lg text-title-foreground p-2 placeholder:text-gray-600 placeholder:italic`}
+              className={`flex flex-1  bg-transparent outline-none rounded-lg text-title-foreground p-2 placeholder:text-gray-600 dark:placeholder:text-black placeholder:italic`}
               rows={3}
             ></textarea>
           </span>
