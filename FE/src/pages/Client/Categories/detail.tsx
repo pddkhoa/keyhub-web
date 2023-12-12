@@ -115,7 +115,7 @@ const CategoriesDetail = () => {
         <>
           <section className="py-16 ">
             <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-              <div className="bg-gray-900 dark:bg-white/90 dark:text-black flex flex-col mx-auto lg:flex-row">
+              <div className="bg-gray-900 dark:bg-white/90 dark:text-black text-white flex flex-col mx-auto lg:flex-row">
                 <div
                   className="w-full lg:w-1/3"
                   style={{
@@ -187,7 +187,7 @@ const CategoriesDetail = () => {
                     value={searchTerm}
                     onBlur={handleInputBlur}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1 h-10 rounded-12 text-theme-label-tertiary dark:text-black hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
+                    className="flex-1 h-10 rounded-12 text-theme-label-tertiary text-white dark:text-black hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
                   ></input>
                 </div>
               </div>

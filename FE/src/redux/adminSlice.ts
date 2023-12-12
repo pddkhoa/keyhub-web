@@ -98,6 +98,12 @@ const adminSlice = createSlice({
       const newTag = action.payload;
       state.listAllTags.push(newTag);
     },
+    editTagSuccess: (state, action) => {
+      const editedTag = action.payload;
+      state.listAllTags = state.listAllTags.map((tag) =>
+        tag.id === editedTag.id ? editedTag : tag
+      );
+    },
     deleteTagSuccess: (state, action) => {
       const deletedTagId = action.payload;
       state.listAllTags = state.listAllTags.filter(
@@ -190,6 +196,7 @@ export const {
   getBlogChartByMonthSuccess,
   getBlogChartByYearSuccess,
   getUserChartByYearSuccess,
+  editTagSuccess,
 } = adminSlice.actions;
 
 export default adminSlice.reducer;

@@ -5,6 +5,7 @@ import {
   deleteCategoriesSuccess,
   deleteTagSuccess,
   deleteUserSuccess,
+  editTagSuccess,
   evaluteBlogSuccess,
   evaluteUserSuccess,
   getBlogChartByMonthSuccess,
@@ -797,6 +798,15 @@ export const getRequestConfig = (
         isShowToast: true,
         isDispatch: true,
         action: addNewTagSuccess,
+        isToken: true,
+      };
+    case REQUEST_TYPE.ADMIN_EDIT_TAG:
+      return {
+        url: `${BASE_URL}/v1/admin/tag/edit`,
+        method: REQUEST_METHOD.PATCH,
+        isShowToast: true,
+        isDispatch: true,
+        action: editTagSuccess,
         isToken: true,
       };
 

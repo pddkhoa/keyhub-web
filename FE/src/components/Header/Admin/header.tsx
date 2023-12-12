@@ -80,7 +80,7 @@ const HeaderAdmin = () => {
                       <span className="ml-2">{userData.name}</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem
+                    {/* <DropdownMenuItem
                       onClick={() => {
                         navigate("/setting");
                       }}
@@ -111,10 +111,10 @@ const HeaderAdmin = () => {
                         ></path>
                       </svg>
                       <span>Setting Account</span>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
 
-                    <DropdownMenuSeparator />
-                    <ModeToggle />
+                    {/* <DropdownMenuSeparator />
+                    <ModeToggle /> */}
                     <DropdownMenuItem
                       onClick={handleLogout}
                       className="cursor-pointer"

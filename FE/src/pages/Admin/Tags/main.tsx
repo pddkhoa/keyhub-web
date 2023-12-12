@@ -55,6 +55,7 @@ const Main = () => {
             enablePagination
             getColumns={getColumnsTags}
             setIsDelete={setIsDelete}
+            setIsAdd={setIsAdd}
           />
         </>
       )}

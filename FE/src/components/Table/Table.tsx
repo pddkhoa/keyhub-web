@@ -45,6 +45,7 @@ type BasicTableWidgetProps = {
   setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
   setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
   setUnBlock: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function BasicTableWidget({
@@ -59,6 +60,7 @@ export default function BasicTableWidget({
   setIsDelete,
   setEvalute,
   setUnBlock,
+  setIsAdd,
 }: BasicTableWidgetProps) {
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -231,7 +233,11 @@ export default function BasicTableWidget({
           />
         ) : null}
         {displayModal === "EDIT_TAG" ? (
-          <FormEditTag setFlag={setDisplayCreate} data={dataTag} />
+          <FormEditTag
+            setFlag={setDisplayCreate}
+            data={dataTag}
+            setIsAdd={setIsAdd}
+          />
         ) : null}
       </Modal>
     </>

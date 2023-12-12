@@ -24,8 +24,8 @@ const ListDraft = () => {
   return (
     <div className="mx-auto container  py-16">
       <div className="grid grid-cols-8 text-title p-5 gap-5">
-        <div className="col-span-6 flex flex-col">
-          <div className="flex h-12 gap-3 self-stretch items-center mb-6 typo-callout">
+        <div className="col-span-8 flex flex-col">
+          {/* <div className="flex h-12 gap-3 self-stretch items-center mb-6 typo-callout">
             <div className="items-center h-10 rounded-xl border-2 flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ const ListDraft = () => {
                 className="flex-1 h-10 rounded-12 text-theme-label-tertiary hover:text-theme-label-primary min-w-0  bg-transparent typo-body caret-theme-label-link focus:outline-none"
               ></input>
             </div>
-          </div>
+          </div> */}
           <div className="mt-8  space-y-5">
             {blogDraft && blogDraft.length > 0 ? (
               blogDraft.map((item) => (
@@ -54,35 +54,6 @@ const ListDraft = () => {
             ) : (
               <Nodata />
             )}
-          </div>
-        </div>
-        <div className="col-span-2 flex flex-col gap-5">
-          <div className="bg-white shadow-xl w-80 rounded-lg overflow-hidden">
-            <div
-              className="bg-cover bg-center h-16 p-4 flex justify-end items-center"
-              style={{
-                backgroundImage:
-                  "url(https://mosscm.com/wp-content/uploads/2017/11/news-dallas-skyline.jpg)",
-              }}
-            >
-              <p className="uppercase tracking-widest text-sm text-white bg-black py-1 px-2 rounded opacity-75 shadow-lg">
-                Dallas, TX
-              </p>
-            </div>
-            <div className="p-4 text-gray-700 flex justify-between">
-              <div>
-                <p className="text-3xl text-gray-900">
-                  <i className="wi wi-day-sunny text-yellow-500" /> 84°
-                  <span className="text-lg text-gray-500">/ 67°</span>
-                </p>
-                <p className="text-sm w-56">
-                  Mostly sunny throughout the day.
-                  <br />
-                  4-8 MPH winds.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-between items-center p-4 border-t border-gray-300 text-gray-600"></div>
           </div>
         </div>
       </div>

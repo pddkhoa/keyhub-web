@@ -108,6 +108,8 @@ export enum REQUEST_TYPE {
 
   ADMIN_ADD_TAG = "admin_add_tag",
   ADMIN_DELETE_TAG = "admin_delete_tag",
+  ADMIN_EDIT_TAG = "admin_edit_tag",
+
   ADMIN_DELETE_BLOG = "admin_delete_blog",
 
   ADMIN_EVALUTE_USER = "admin_evalute_user",
