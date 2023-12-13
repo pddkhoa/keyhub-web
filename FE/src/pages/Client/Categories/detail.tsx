@@ -25,7 +25,7 @@ const CategoriesDetail = () => {
   const categoriesDetail = useSelector(
     (state: RootState) => state.admin.categoriesById
   );
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(categoriesDetail?.checkFollowCategory);
 
   const [isBookmark, setIsBookmark] = useState(false);
   const [unBookmark, setUnBookmark] = useState(false);
@@ -143,7 +143,7 @@ const CategoriesDetail = () => {
                   <p className="mt-4 mb-8 text-sm">
                     {categoriesDetail?.description}
                   </p>
-                  {isFollowing ? (
+                  {!isFollowing ? (
                     <Button
                       variant={"gradient"}
                       onClick={() => {
