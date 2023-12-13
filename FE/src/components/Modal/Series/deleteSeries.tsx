@@ -1,12 +1,9 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import { showToast } from "@/hooks/useToast";
-import { loginSuccess } from "@/redux/authSlice";
-import { deleteSeriesSuccess } from "@/redux/seriesSlice";
+import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
-import { useDispatch, useSelector } from "react-redux";
+import { REQUEST_TYPE } from "@/types";
+import { useSelector } from "react-redux";
 
 type DeleteSeriesProps = {
   setFlag: {
@@ -18,34 +15,31 @@ type DeleteSeriesProps = {
 };
 
 export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
+  const { isLoading, sendRequest } = useFetch();
 
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const handleDeleteSeries = async (id: number) => {
-    try {
-      const { body } = await ClientServices.deleteSeries(
-        id,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        dispatch(deleteSeriesSuccess(id));
-        showToast("Delete  Thanh Cong", "success");
-        setFlag.off();
-      } else {
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-      }
-    } catch (error) {
-      console.log(error);
+    const idString = id.toString();
+    await sendRequest({
+      type: REQUEST_TYPE.DELETE_SERIES,
+      data: null,
+      slug: idString,
+    });
+
+    sendRequest({
+      type: REQUEST_TYPE.LIST_SERIES,
+    });
+    sendRequest({
+      type: REQUEST_TYPE.LIST_BLOG,
+    });
+    if (isSuccess) {
+      setFlag.off();
     }
   };
 
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal dark:bg-white overflow-y-scroll">
       <div>
         <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
           <button
@@ -77,16 +71,14 @@ export const DeleteSeries: React.FC<DeleteSeriesProps> = ({ setFlag, id }) => {
             onClick={() => {
               setFlag.off();
             }}
-            className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteSeries(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Delete
-          </Button>
+          {isLoading ? (
+            <Button disabled>Please wait..</Button>
+          ) : (
+            <Button onClick={() => handleDeleteSeries(id)}>Delete</Button>
+          )}
         </div>
       </div>
     </div>

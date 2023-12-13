@@ -1,65 +1,115 @@
+import CategoryType from "@/types/categories";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ClientServices from "@/services/client/client";
+import User from "@/types/user";
+import useBoolean from "@/hooks/useBoolean";
+import Modal from "../Modal/modal";
+import { ModalListUser } from "../Modal/modalUser";
+import useAuth from "@/hooks/useAuth";
 
-export const CardCategories = () => {
+interface CardCategoriesProps {
+  data: CategoryType;
+}
+
+export const CardCategories: React.FC<CardCategoriesProps> = ({ data }) => {
+  const { axiosJWT, accessToken } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [userFollowing, setUserFollowing] = useState<User[]>([]);
+  const [displayModal, setDisplayModal] = useState(false);
+  const [displayCreate, setDisplayCreate] = useBoolean(false);
+  const [following, setFollowing] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const { body } = await ClientServices.getUserFollowByCategories(
+          data.id,
+          accessToken,
+          axiosJWT
+        );
+
+        if (body?.success) {
+          setIsLoading(false);
+
+          setUserFollowing(body.result);
+          console.log(body.message);
+        } else {
+          setIsLoading(false);
+
+          console.error(body?.message);
+        }
+      } catch (error) {
+        setIsLoading(false);
+
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Gọi hàm fetchData khi 'following' thay đổi
+  }, [following]);
+
+  const firstThreeUsers = userFollowing.slice(0, 3);
+  const userFollowingLength = userFollowing.length - 3;
+
   return (
-    <article className="overflow-hidden relative h-full flex flex-col p-0.5  rounded-2xl  bg-gradient-to-r from-blue-500 via-violet-500 to-purple-900 shadow-2">
-      <div className="h-24 rounded-2xl bg-card">
-        <img
-          className="object-cover w-full h-full rounded-2xl"
-          src="https://daily-now-res.cloudinary.com/image/upload/s--euPjOC8Q--/f_auto,q_auto/v1696850310/public/project_board-_cover"
-          alt="Banner image for source"
-        />
-      </div>
-      <div className="flex flex-col flex-1 p-4 -mt-7 bg-card rounded-2xl ">
-        <div className="flex justify-between rounded-2xl items-end mb-3">
-          <a href="https://app.daily.dev/squads/projectboard">
-            <img
-              className="-mt-14 w-24 h-24 rounded-full z-10"
-              src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
-              alt="Project board source"
-            />
-          </a>
-          <button
-            type="button"
-            className="flex flex-row-reverse items-center p-1 pl-3 hover:bg-theme-hover active:bg-theme-active rounded-xl border border-theme-divider-secondary"
-            aria-label="Members list"
-          >
-            <span
-              className="mr-1 ml-2 min-w-[1rem] text-title-foreground"
-              aria-label="squad-members-count"
-            >
-              165
-            </span>
-            <div className="object-cover w-8 h-8 rounded-xl -ml-2 relative overflow-hidden">
-              <img
-                className="absolute block inset-0 w-full h-full m-auto object-cover lazyloaded"
-                data-src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-                alt="huydang's profile"
-                src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-              />
-            </div>
-          </button>
-        </div>
-        <div className="flex flex-col flex-1 justify-between ">
-          <div className="flex-auto mb-5">
-            <a href="https://app.daily.dev/squads/projectboard">
-              <div className="font-bold text-title">Project board</div>
-              <div className="text-title-foreground">@projectboard</div>
-            </a>
-            <div className="mt-1 line-clamp-5 text-title-foreground multi-truncate">
-              The daily.dev project board. Share your projects, ask for
-              feedback, contributions or any kind of input you need.{" "}
-            </div>
-          </div>
+    <div className="max-w-md rounded-sm  shadow-md bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
+      <img
+        src={data.avatar.toString()}
+        alt=""
+        className="object-cover object-center w-full h-60 bg-gray-500"
+      />
+      <div className="flex flex-col justify-between p-6 space-y-5">
+        <div className="space-y-2 h-15">
           <div
-            className="flex justify-between"
-            aria-label="You are not allowed to join the Squad"
+            onClick={() => {
+              setDisplayCreate.on(), setDisplayModal(true);
+            }}
+            className="flex  w-2/5 border h-12 rounded-lg hover:brightness-150  p-1.5   -space-x-1.5 cursor-pointer"
           >
-            <Button>Join Squad</Button>
-            <Button>Follow</Button>
+            {userFollowing && firstThreeUsers.length > 0
+              ? firstThreeUsers.map((item) => (
+                  <img
+                    key={item.id}
+                    alt=""
+                    className="w-8 h-8 border rounded-full bg-gray-500 border-gray-700"
+                    src={item.avatar?.toString()}
+                  />
+                ))
+              : null}
+
+            {userFollowingLength > 0 ? (
+              <span className="flex items-center justify-center w-8 h-8 font-semibold border rounded-full dark:bg-gray-900 text-gray-100 border-gray-700">
+                {" "}
+                +{userFollowingLength}
+              </span>
+            ) : null}
           </div>
+          <p className="text-xl font-semibold tracki">{data.name}</p>
         </div>
+        <Link to={`/categories/${data.id}`} className="w-full">
+          <Button
+            type="button"
+            variant={"gradient"}
+            className="rounded-sm w-full"
+          >
+            Read more
+          </Button>
+        </Link>
       </div>
-    </article>
+
+      <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+        {displayModal ? (
+          <ModalListUser
+            setFlag={setDisplayCreate}
+            data={userFollowing}
+            setFollowing={setFollowing}
+          />
+        ) : null}
+      </Modal>
+    </div>
   );
 };

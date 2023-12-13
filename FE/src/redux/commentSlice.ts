@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import CommentType from "@/types/comment";
 
 const commentSlice = createSlice({
@@ -14,29 +14,33 @@ const commentSlice = createSlice({
       state.list.push(action.payload);
     },
 
-    // Lấy danh sách comment
-    getComments(state) {
-      state.isLoading = true;
-    },
     getCommentsSuccess(state, action) {
       state.list = action.payload;
-      state.isLoading = false;
     },
     getCommentsFailed(state, action) {
       state.error = action.payload;
-      state.isLoading = false;
     },
 
     // Xóa comment
     deleteComment(state, action) {
-      state.list = state.list.filter((item) => item.id !== action.payload);
+      const deleteCommentAndChildren = (parentId: any) => {
+        state.list = state.list.filter((item) => {
+          if (item.parentComment?.id === parentId) {
+            // Đệ quy xóa comment con
+            deleteCommentAndChildren(item.id);
+            return false;
+          }
+          return item.id !== parentId;
+        });
+      };
+
+      deleteCommentAndChildren(action.payload);
     },
   },
 });
 
 export const {
   addComment,
-  getComments,
   getCommentsSuccess,
   getCommentsFailed,
   deleteComment,

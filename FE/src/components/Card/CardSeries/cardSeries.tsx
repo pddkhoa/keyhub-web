@@ -1,9 +1,6 @@
-import { createAxios } from "@/api/createInstance";
-import AlphabetAvatar from "@/components/Avatar/avatar";
 import convertDate from "@/components/FormatDate/formatDate";
 import { DeleteSeries } from "@/components/Modal/Series/deleteSeries";
 import Modal from "@/components/Modal/modal";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IconDelete } from "@/components/ui/icon";
 import useBoolean from "@/hooks/useBoolean";
+import { RootState } from "@/redux/store";
 
 import seriesType from "@/types/series";
-import { Calendar, Sticker, Trash2 } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 interface CardSeriesProps {
   data: seriesType;
@@ -31,6 +31,18 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
   setExpanded,
   setSeriesSelected,
 }) => {
+  const { id } = useParams();
+  const [isUser, setIsUser] = useState(false);
+  const userData = useSelector((state: RootState) => state.user.detail?.data);
+
+  const userId = Number(id);
+  useEffect(() => {
+    if (!userId || userData.id !== Number(userId)) {
+      const isUser = !userId || userData.id === Number(userId);
+      setIsUser(isUser);
+    }
+  }, [userId]);
+
   const [displayModal, setDisplayModal] = useState(false);
   const [displayCreate, setDisplayCreate] = useBoolean(false);
 
@@ -42,42 +54,40 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
   };
 
   return (
-    <div
-      className={`bg-card text-white w-full h-56 flex flex-col rounded-xl shadow-lg p-4  `}
-    >
-      <div className="flex items-center justify-between ">
-        <div className="flex items-center space-x-4">
-          <div className="rounded-full w-12 h-12 border border-purple-500 border-dashed p-1.5 flex justify-between items-center">
-            <span className="text-xl w-full h-full flex justify-center items-center">
-              {data.sumBlog}
+    <div className="max-w-lg p-4 shadow-md bg-gray-900 text-gray-100 dark:bg-white dark:text-black">
+      <div className="flex justify-between items-center pb-4 border-bottom">
+        <div className="flex items-center justify-center">
+          <div
+            onClick={() => {
+              setExpanded(data.id), setSeriesSelected(data);
+            }}
+            className="rounded-full w-12 h-12 border border-purple-500 border-dashed hover:brightness-150 hover:border-solid duration-700 cursor-pointer p-1.5 flex justify-between items-center"
+          >
+            <span className="text-xl w-full h-full flex justify-center items-center ">
+              {data.sumBlog}+
             </span>
           </div>
-          <div className="text-2xl truncate font-bold w-56">{data.name}</div>
         </div>
-        <div className="flex items-center space-x-4">
-          <div className="cursor-pointer">
-            <AlphabetAvatar size={50} />
-          </div>
-
+        {isUser ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="hover:brightness-150 opacity-70 rounded-full hover:bg-input p-2">
+              <button className="hover:brightness-150 opacity-70 rounded-xl hover:bg-input p-2 h-fit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  className="w-8 h-8"
+                  className="w-5 h-5 dark:text-black"
                   id="menumeatballs"
                 >
                   <path
-                    fill="#ffff"
+                    fill="currentColor"
                     d="M12 10C13.1046 10 14 10.8954 14 12 14 13.1046 13.1046 14 12 14 10.8954 14 10 13.1046 10 12 10 10.8954 10.8954 10 12 10zM4 10C5.10457 10 6 10.8954 6 12 6 13.1046 5.10457 14 4 14 2.89543 14 2 13.1046 2 12 2 10.8954 2.89543 10 4 10zM20 10C21.1046 10 22 10.8954 22 12 22 13.1046 21.1046 14 20 14 18.8954 14 18 13.1046 18 12 18 10.8954 18.8954 10 20 10z"
                     className="color000000 svgShape"
                   ></path>
                 </svg>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 mr-2">
+            <DropdownMenuContent className="w-56 mr-2 dark:text-white dark:bg-stone-800">
               <DropdownMenuLabel>Option</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -86,32 +96,41 @@ export const CardSeries: React.FC<CardSeriesProps> = ({
                 }}
                 className="cursor-pointer"
               >
-                <Trash2 className="w-5 h-5 mr-2" />
+                <IconDelete className="w-5 h-5 mr-2" />
                 <span>Delete</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        ) : null}
       </div>
-
-      <p className="mt-4 h-52 text-gray-500 font-bold text-sm whitespace-normal ">
-        {data.description}
-      </p>
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex gap-2 justify-center items-center">
-          <Calendar className="w-5 h-5 text-title-foreground" />
-          <span className="text-gray-600 text-md">{formatDate()}.</span>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <img
+            src={
+              data.image
+                ? data.image
+                : "https://source.unsplash.com/random/480x360/?4"
+            }
+            alt=""
+            className="block object-cover object-center w-full rounded-md h-72 dark:bg-gray-500"
+          />
+          <div className="flex items-center text-xs">
+            <span>{formatDate()}</span>
+          </div>
         </div>
-        <Button
-          title="Click to detail"
-          onClick={() => {
-            setExpanded(data.id), setSeriesSelected(data);
-          }}
-          className=" flex p-2 rounded-full bg-red-700 hover:brightness-75"
-        >
-          Read More
-          <Sticker className="ml-2 w-6 h-6" />
-        </Button>
+        <div className="space-y-2">
+          <a
+            onClick={() => {
+              setExpanded(data.id), setSeriesSelected(data);
+            }}
+            className="block text-gray-300 hover:brightness-150 hover:underline decoration-solid cursor-pointer"
+          >
+            <h3 className="text-xl font-semibold  dark:text-black">
+              {data.name}
+            </h3>
+          </a>
+          <p className="leadi dark:text-gray-500">{data.description}</p>
+        </div>
       </div>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal ? (

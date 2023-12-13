@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import User from "@/types/user";
 
 type AlphabetAvatarProps = {
   size: number;
@@ -19,7 +18,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
   return (
     <div
       style={style}
-      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-110 border-2 border-border  rounded-full  "
+      className="relative cursor-pointer bg-card dark:bg-black/70 flex justify-center items-center group overflow-hidden hover:brightness-105 border-2 border-border  rounded-full  "
     >
       {userData.avatar ? (
         <img
@@ -28,7 +27,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
         />
       ) : (
         <svg
-          className=" w-full h-full rounded-full bg-gray-100 text-gray-400"
+          className=" w-full h-full rounded-full bg-gray-100 text-gray-400 dark:bg-black"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +46,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
 
 type UserAvatarProps = {
   size: number;
-  data: string;
+  data: string | null;
 };
 export const UserAvatar: FC<UserAvatarProps> = ({ size, data }) => {
   const style = {
@@ -59,7 +58,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({ size, data }) => {
   return (
     <div
       style={style}
-      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-110 border-2 border-border  rounded-full  "
+      className="relative cursor-pointer bg-card flex justify-center items-center group overflow-hidden hover:brightness-105 border-2 border-border  rounded-full  "
     >
       {data ? (
         <img

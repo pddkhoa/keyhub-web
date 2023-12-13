@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { IconDelete } from "@/components/ui/icon";
-import { showToast } from "@/hooks/useToast";
-import { deleteBlogSuccess } from "@/redux/blogSlice";
-import ClientServices from "@/services/client/client";
-import { useDispatch } from "react-redux";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 type DeleteBlogsProps = {
   setFlag: {
@@ -14,31 +12,21 @@ type DeleteBlogsProps = {
   id: number;
   setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
-  setFlag,
-  id,
-  setRemoving,
-}) => {
-  const dispatch = useDispatch();
+export const DeleteBlog: React.FC<DeleteBlogsProps> = ({ setFlag, id }) => {
+  const { isLoading, sendRequest } = useFetch();
+
   const handleDeleteBlog = async (id: number) => {
+    const idString = id.toString();
     if (id) {
-      setRemoving(true);
-      const { body } = await ClientServices.deleteBlog(id);
-      if (body?.success) {
-        setRemoving(false);
-        dispatch(deleteBlogSuccess(id));
-        showToast("Delete  Thanh Cong", "success");
-        setFlag.off();
-      } else {
-        setRemoving(false);
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-      }
+      await sendRequest({ type: REQUEST_TYPE.DELETE_BLOG, slug: idString });
+
+      sendRequest({ type: REQUEST_TYPE.LIST_BLOG_DRAFT });
+      sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
     }
   };
 
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal dark:bg-stone-200 overflow-y-scroll">
       <div>
         <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
           <button
@@ -70,16 +58,14 @@ export const DeleteBlog: React.FC<DeleteBlogsProps> = ({
             onClick={() => {
               setFlag.off();
             }}
-            className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteBlog(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Delete
-          </Button>
+          {isLoading ? (
+            <Button disabled>Please wait...</Button>
+          ) : (
+            <Button onClick={() => handleDeleteBlog(id)}>Delete</Button>
+          )}
         </div>
       </div>
     </div>

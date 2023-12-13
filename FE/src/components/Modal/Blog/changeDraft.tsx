@@ -1,5 +1,6 @@
 import { createAxios } from "@/api/createInstance";
 import { Loading } from "@/components/Loading/loading";
+import useAuth from "@/hooks/useAuth";
 import { showToast } from "@/hooks/useToast";
 import { loginSuccess } from "@/redux/authSlice";
 import { RootState } from "@/redux/store";
@@ -37,10 +38,8 @@ export const ChangeDraft: React.FC<ChangeDraftProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const { axiosJWT, accessToken } = useAuth();
+
   const [isPublic, setIsPublic] = useState(false);
 
   const formik = useFormik({

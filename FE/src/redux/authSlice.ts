@@ -1,5 +1,6 @@
 import { TokenType } from "@/types/token";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import User from "@/types/user";
 
 const authSlice = createSlice({
   name: "auth",
@@ -9,10 +10,16 @@ const authSlice = createSlice({
         token: "",
         refreshToken: "",
         type: "",
+        statusCode: 0,
       },
       isFetching: false,
       error: false,
     },
+    email: "",
+    updateRegister: {} as User,
+    isLoading: false,
+    checkOffModal: false,
+    UserDetail: {} as User,
   },
   reducers: {
     loginStart: (state) => {
@@ -45,6 +52,21 @@ const authSlice = createSlice({
     logOutStart: (state) => {
       state.login.isFetching = true;
     },
+    updateRegisterEmail(state, action) {
+      state.email = action.payload;
+    },
+    updateRegister(state, action) {
+      state.updateRegister = action.payload;
+    },
+    updateVerify(state, action) {
+      state.updateRegister = action.payload !== null ? action.payload : {};
+    },
+    updateLoading(state, action) {
+      state.isLoading = action.payload.isLoading;
+    },
+    updateModal(state, action) {
+      state.checkOffModal = action.payload.checkOffModal;
+    },
   },
 });
 
@@ -56,6 +78,9 @@ export const {
   logOutSuccess,
   logOutFailed,
   updateAccessToken,
+  updateRegisterEmail,
+  updateRegister,
+  updateVerify,
 } = authSlice.actions;
 
 export default authSlice.reducer;

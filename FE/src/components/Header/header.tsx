@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { SearchBar } from "../Search/search";
 import { RootStateToken } from "../../types/token";
-import { useDispatch, useSelector } from "react-redux";
-import logoLight from "../../asset/logo-white.png";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import AlphabetAvatar from "../Avatar/avatar";
 import {
@@ -14,36 +13,38 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { ModeToggle } from "../DarkMode/modeToggle";
-import { createAxios } from "@/api/createInstance";
-import { logOutSuccess } from "@/redux/authSlice";
-import { logOut } from "@/services/access/apiRequest";
+import { ButtonAddPost } from "../ui/buttonAddPost";
+import { REQUEST_TYPE } from "@/types";
+import useFetch from "@/hooks/useFetch";
 
 const Header = () => {
   const { data } = useSelector((state: RootStateToken) => state.auth.login);
   const userData = useSelector((state: RootState) => state.user.detail.data);
   const user = useSelector((state: RootStateToken) => state.auth.login);
-  const accessToken = user?.data.token;
   const refreshToken = user?.data.refreshToken;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const axiosJWT = createAxios(user, dispatch, logOutSuccess);
+  const { sendRequest } = useFetch();
 
   const handleLogout = () => {
-    logOut(dispatch, refreshToken, navigate, accessToken, axiosJWT);
+    sendRequest({ type: REQUEST_TYPE.LOGOUT, slug: refreshToken, data: null });
   };
-
   return (
-    <header className="bg-background w-full border-border border-b-2 fixed z-50">
-      <div className="mx-auto max-w-screen-2xl px-4 py-2 ">
+    <header className="bg-gray-900 dark:bg-white/90   w-full border-border border-b-2 fixed z-50">
+      <div className="mx-auto max-w-screen-3xl px-8 py-2 ">
         <div className="flex items-center justify-between gap-4">
           <div className="relative flex gap-5 justify-center items-center">
-            <img src={logoLight} alt="logo-light" className="h-6" width={120} />
-            <SearchBar />
+            <span className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent">
+              Keyhub Social
+            </span>
+            {/* <SearchBar /> */}
           </div>
           <div className="flex gap-5 items-center justify-end mx-4">
             {data.token ? (
               <>
-                <a
+                <Link to={"/editor"}>
+                  <ButtonAddPost />
+                </Link>
+                {/* <a
                   href="#"
                   className="block shrink-0 rounded-full  p-2.5 bg-input hover:brightness-75 cursor-pointer text-title-foreground"
                 >
@@ -62,24 +63,24 @@ const Header = () => {
                       d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                     />
                   </svg>
-                </a>
+                </a> */}
                 <span
                   aria-hidden="true"
                   className="block h-6 w-px rounded-full bg-gray-200"
                 />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <div className="flex justify-center items-center cursor-pointer hover:brightness-75">
+                    <div className="flex justify-center items-center cursor-pointer ">
                       <AlphabetAvatar size={40} />
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-64 mr-4 ">
+                  <DropdownMenuContent className="w-80 mr-4  dark:text-black font-bold">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuItem
                       onClick={() => {
                         navigate("/profile");
                       }}
-                      className="cursor-pointer h-12"
+                      className="cursor-pointer h-12 dark:hover:bg-white/30"
                     >
                       <AlphabetAvatar size={40} />
                       <span className="ml-2">{userData.name}</span>
@@ -87,9 +88,9 @@ const Header = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => {
-                        navigate("/profile/update");
+                        navigate("/setting");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:bg-white/30"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +122,7 @@ const Header = () => {
                       onClick={() => {
                         navigate("/draft");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +191,7 @@ const Header = () => {
                       onClick={() => {
                         navigate("/bookmark");
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +225,7 @@ const Header = () => {
                     <ModeToggle />
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="cursor-pointer"
+                      className="cursor-pointer dark:hover:bg-white/75"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

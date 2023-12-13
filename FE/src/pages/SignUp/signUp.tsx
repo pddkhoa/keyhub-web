@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { registerUser } from "@/services/access/apiRequest";
 import * as Yup from "yup";
 import { RULES } from "@/lib/rules";
 import {
@@ -20,12 +19,13 @@ import {
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
 import { Check, Loader2, X } from "lucide-react";
-import { showToast } from "@/hooks/useToast";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
-export const SignUp = () => {
-  const navigate = useNavigate();
+const SignUp = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const [genders, setGender] = useState("Male");
-  const [isLoading, setIsLoading] = useState(false);
   const [requirementsMet, setRequirementsMet] = useState({
     length: false,
     lowercase: false,
@@ -34,7 +34,6 @@ export const SignUp = () => {
     specialChar: false,
     space: false,
   });
-
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
 
@@ -88,7 +87,6 @@ export const SignUp = () => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         username: value.username,
         email: value.email,
@@ -100,31 +98,15 @@ export const SignUp = () => {
         roles: ["user"],
       };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const reportNew = {
-        ...report,
-        confirmPass: value.confirmPass,
-      };
-      // console.log(reportNew);
-      // alert(JSON.stringify(report, null, 2));
-      try {
-        const { body } = await registerUser(report);
 
-        if (body?.success) {
-          setIsLoading(false);
-          showToast("Verify Account nhen!", "success");
-          navigate("/verify", { state: { report } });
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Erorr", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
-      }
+      sendRequest({ type: REQUEST_TYPE.REGISTER, data: report });
+
+      // registerUser(report, dispatch, navigate);
     },
   });
   return (
     <>
-      <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">
+      <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
         <div className="relative h-screen my-10  sm:flex sm:flex-row  justify-center bg-transparent ">
           <div className="flex justify-center self-center z-10">
             <div className="p-12 bg-card brightness-125 mx-auto rounded-3xl min-w-0 ">
@@ -432,3 +414,5 @@ export const SignUp = () => {
     </>
   );
 };
+
+export default SignUp;

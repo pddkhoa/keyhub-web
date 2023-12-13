@@ -1,81 +1,89 @@
-import { Button } from "../ui/button";
+import User from "@/types/user";
+import React, { useState } from "react";
+import "../../pages/Introduction/spotlight";
 
-export const CardUser = () => {
-  return (
-    <article className="overflow-hidden relative h-full flex flex-col p-0.5  rounded-2xl  bg-gradient-to-r from-blue-500 via-violet-500 to-purple-900 shadow-2">
-      <div className="h-24 rounded-2xl bg-card">
+import useBoolean from "@/hooks/useBoolean";
+import Modal from "../Modal/modal";
+import { ModalUser } from "../Modal/modalUser";
+
+interface CardUserProps {
+  data: User;
+  ref?: any;
+  setFollowing?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CardUser: React.FC<CardUserProps> = React.forwardRef(
+  ({ data, setFollowing }, ref) => {
+    const [displayModal, setDisplayModal] = useState(false);
+    const [displayCreate, setDisplayCreate] = useBoolean(false);
+
+    const card = (
+      <div className="flex flex-col max-w-md p-6 bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
         <img
-          className="object-cover w-full h-full rounded-2xl"
-          src="https://daily-now-res.cloudinary.com/image/upload/s--euPjOC8Q--/f_auto,q_auto/v1696850310/public/project_board-_cover"
-          alt="Banner image for source"
+          src={data?.avatar?.toString()}
+          alt=""
+          className="flex-shrink-0 object-cover rounded-sm sm:h-60 bg-gray-500/25 aspect-square"
         />
-      </div>
-      <div className="flex flex-col flex-1 p-4 -mt-7 bg-card rounded-2xl ">
-        <div className="flex justify-between rounded-2xl items-end mb-3">
-          <a href="https://app.daily.dev/squads/projectboard">
-            <img
-              className="-mt-14 w-24 h-24 rounded-full z-10"
-              src="https://res.cloudinary.com/daily-now/image/upload/s--cyIBVVeB--/f_auto,q_auto/v1696423241/squads/34edc2fd-c771-4d30-a118-221dd49e12bc"
-              alt="Project board source"
-            />
-          </a>
-          <button
-            type="button"
-            className="flex flex-row-reverse items-center p-1 pl-3 hover:bg-theme-hover active:bg-theme-active rounded-xl border border-theme-divider-secondary"
-            aria-label="Members list"
-          >
-            <span
-              className="mr-1 ml-2 min-w-[1rem] text-title-foreground"
-              aria-label="squad-members-count"
+        <div>
+          <div className="flex py-2 justify-between">
+            <h2 className="text-xl w-11/12  font-semibold  text-white dark:text-black">
+              {data?.name}
+            </h2>
+
+            <a
+              onClick={() => {
+                setDisplayCreate.on(), setDisplayModal(true);
+              }}
+              className="flex w-1/12 items-center justify-between cursor-pointer"
             >
-              165
-            </span>
-            <div className="object-cover w-7 h-7 rounded-xl -ml-2 relative overflow-hidden">
-              <img
-                className="absolute block inset-0 w-full h-full m-auto object-cover lazyloaded"
-                data-src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-                alt="huydang's profile"
-                src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-              />
-            </div>
-            <div className="object-cover w-7 h-7 rounded-xl -ml-2 relative overflow-hidden">
-              <img
-                className="absolute block inset-0 w-full h-full m-auto object-cover lazyloaded"
-                data-src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-                alt="huydang's profile"
-                src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-              />
-            </div>
-            <div className="object-cover w-7 h-7 rounded-xl -ml-2 relative overflow-hidden">
-              <img
-                className="absolute block inset-0 w-full h-full m-auto object-cover lazyloaded"
-                data-src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-                alt="huydang's profile"
-                src="https://daily-now-res.cloudinary.com/image/upload/v1682559224/avatars/avatar_WnYeQeO3ktOv7xv3XG2Ko.jpg"
-              />
-            </div>
-          </button>
-        </div>
-        <div className="flex flex-col flex-1 justify-between ">
-          <div className="flex-auto mb-5">
-            <a href="https://app.daily.dev/squads/projectboard">
-              <div className="font-bold text-title">Project board</div>
-              <div className="text-title-foreground">@projectboard</div>
+              <svg
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 stroke-current text-violet-400"
+              >
+                <line x1={5} y1={12} x2={19} y2={12} />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
             </a>
-            <div className="mt-1 line-clamp-5 text-title-foreground multi-truncate">
-              The daily.dev project board. Share your projects, ask for
-              feedback, contributions or any kind of input you need.{" "}
-            </div>
           </div>
-          <div
-            className="flex justify-between"
-            aria-label="You are not allowed to join the Squad"
-          >
-            <Button>Join Squad</Button>
-            <Button>Follow</Button>
-          </div>
+          <span className="block pb-2 text-sm text-blue-600">
+            @{data.second_name}
+          </span>
+          <p className="text-gray-500">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non
+            deserunt
+          </p>
         </div>
+        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+          {displayModal ? (
+            <ModalUser
+              setFlag={setDisplayCreate}
+              data={data}
+              setFollowing={setFollowing}
+            />
+          ) : null}
+        </Modal>
       </div>
-    </article>
-  );
-};
+    );
+
+    const body = <div className="bg-gray-900">{card}</div>;
+
+    const content = ref ? (
+      <div
+        ref={ref}
+        className="relative flex justify-center items-center rounded-xl"
+      >
+        {body}
+      </div>
+    ) : (
+      <div className="relative flex justify-center items-center rounded-xl">
+        {body}
+      </div>
+    );
+    return content;
+  }
+);

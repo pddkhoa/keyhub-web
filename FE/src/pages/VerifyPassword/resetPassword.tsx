@@ -6,19 +6,24 @@ import {
 } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { showToast } from "@/hooks/useToast";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { resetPassword } from "@/services/access/apiRequest";
+import { RootState } from "@/redux/store";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Check, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-export const ResetPassword = () => {
+const ResetPassword = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const location = useLocation();
-  const [email, setEmail] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState<string>();
+  const emailRegister = useSelector((state: RootState) => state.auth.email);
+
   const navigate = useNavigate();
   const [requirementsMet, setRequirementsMet] = useState({
     length: false,
@@ -52,13 +57,12 @@ export const ResetPassword = () => {
   };
 
   useEffect(() => {
-    const { state } = location;
-    if (state === null || typeof state !== "object") {
+    if (!emailRegister) {
       navigate("/login", { replace: true });
       return;
     }
-    setEmail(state.email);
-  }, [location, navigate]);
+    setEmail(emailRegister);
+  }, [location, navigate, emailRegister]);
 
   const formik = useFormik({
     initialValues: {
@@ -76,33 +80,18 @@ export const ResetPassword = () => {
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
       const report = {
         email: email,
         old_pass: value.password,
         new_pass: value.confirmPass,
       };
-
-      setIsLoading(true);
-      try {
-        const { body } = await resetPassword(report);
-        if (body?.success) {
-          setIsLoading(false);
-          showToast(body.message, "success");
-          navigate("/login");
-        } else {
-          setIsLoading(false);
-          showToast(body?.message || "Error", "error");
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      }
+      // resetPassword(report, dispatch, navigate, "/login");
+      sendRequest({ type: REQUEST_TYPE.RESETPASSWORD, data: report });
     },
   });
 
   return (
-    <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">
+    <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
       <div className="relative h-screen w-full my-10  sm:flex sm:flex-row  justify-center bg-transparent">
         <div className="flex justify-center w-full self-center z-10">
           <div className="relative bg-card  brightness-150 border-2 border-border px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
@@ -275,3 +264,5 @@ export const ResetPassword = () => {
     </div>
   );
 };
+
+export default ResetPassword;

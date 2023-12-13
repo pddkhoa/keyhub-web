@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { showToast } from "@/hooks/useToast";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { forgortPassword } from "@/services/access/apiRequest";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
-export const ForgotPassword = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+const ForgotPassword = () => {
+  const { isLoading, sendRequest } = useFetch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,26 +23,17 @@ export const ForgotPassword = () => {
       const report = {
         email: value.email,
       };
-      console.log(report);
-      setIsLoading(true);
-      try {
-        const { body } = await forgortPassword(report.email);
-        if (body?.statusCode === 200) {
-          showToast(body.message, "success");
-          setIsLoading(false);
-          navigate("/confirmmail", { state: { report } });
-        } else {
-          showToast(body?.message || "Error", "error");
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      }
+
+      // forgortPassword(report.email, dispatch, navigate);
+      sendRequest({
+        type: REQUEST_TYPE.FORFOTPASSORD,
+        data: null,
+        slug: report.email,
+      });
     },
   });
   return (
-    <div className="w-full  top-0 left-0 bg-gradient-to-b from-gray-900 via-gray-900 to-pink-950 bottom-0 leading-5 h-full overflow-auto">
+    <div className="relative bg-gradient-to-b  from-gray-900 via-gray-900 to-[rgb(7,16,45)] bottom-0 leading-5 h-full overflow-hidden">
       <div className="relative h-screen w-full  sm:flex sm:flex-row  justify-center bg-transparent">
         <div className="flex justify-center w-full self-center z-10">
           <div className="relative bg-card  brightness-150 border-2 border-border px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
@@ -82,7 +72,6 @@ export const ForgotPassword = () => {
                     <Button
                       type="submit"
                       disabled={formik.isSubmitting || !formik.isValid}
-                      className="w-full py-3 font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -129,3 +118,5 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+
+export default ForgotPassword;

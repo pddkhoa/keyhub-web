@@ -7,7 +7,7 @@ const refreshToken = async (user: any) => {
   console.log(user.data.refreshToken);
   try {
     const res = await api.post(`/api/auth/refreshtoken`, {
-      refreshToken: user?.data.refreshToken,
+      refreshToken: user?.data?.refreshToken,
     });
     return res;
   } catch (err) {
@@ -28,20 +28,17 @@ export const createAxios = (user: any, dispatch: any, stateSuccess?: any) => {
       const decodedToken = jwt_decode(user?.data.token) as any;
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken(user);
-        console.log(data);
         const refreshUser = {
           ...user.data.result,
-          token: data?.data.result.accessToken,
-          refreshToken: data?.data.result.refreshToken,
-          type: data?.data.result.tokenType,
+          token: data?.data?.result?.accessToken,
+          refreshToken: data?.data?.result?.refreshToken,
+          type: data?.data?.result?.tokenType,
         };
-        console.log(refreshUser);
         dispatch(updateAccessToken(refreshUser));
         dispatch(stateSuccess(refreshUser));
         config.headers["Authorization"] =
-          "Bearer " + data?.data.result.accessToken;
+          "Bearer " + data?.data?.result?.accessToken;
       }
-      console.log("123", config);
       return config;
     },
     (err) => {

@@ -1,10 +1,6 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
-import { IconDelete } from "@/components/ui/icon";
-import { showToast } from "@/hooks/useToast";
-import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
-import { useDispatch, useSelector } from "react-redux";
+import useFetch from "@/hooks/useFetch";
+import { REQUEST_TYPE } from "@/types";
 
 type RemoveBookmarkProps = {
   setFlag: {
@@ -13,41 +9,38 @@ type RemoveBookmarkProps = {
     toggle: () => void;
   };
   id: number;
-  setRemoving: React.Dispatch<React.SetStateAction<boolean>>;
+  setRemoving?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+  idCategories?: string;
 };
 export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
   setFlag,
   id,
-  setRemoving,
+  setUnBookmark,
+  idCategories,
 }) => {
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const dispatch = useDispatch();
-  const axiosJWT = createAxios(auth, dispatch);
-  const accessToken = auth?.data.token;
+  const { isLoading, sendRequest } = useFetch();
+
   const handleDeleteSave = async (id: number) => {
-    try {
-      setRemoving(true);
-      const { body } = await ClientServices.deleteSave(
-        id,
-        accessToken,
-        axiosJWT
-      );
-      if (body?.success) {
-        showToast("Remove  Thanh Cong", "success");
-        setFlag.off();
-        setRemoving(false);
-      } else {
-        console.log(body?.message);
-        showToast(body?.message || "Error", "error");
-        setRemoving(false);
-      }
-    } catch (error) {
-      console.log(error);
+    const idString = id.toString();
+    await sendRequest({
+      type: REQUEST_TYPE.UNBOOKMARK_BLOG,
+      data: null,
+      slug: idString,
+    });
+
+    if (setUnBookmark) {
+      setUnBookmark((prevUnBookmark) => !prevUnBookmark);
     }
+    setFlag.off();
+
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_BOOKMARK });
+    sendRequest({ type: REQUEST_TYPE.LIST_BLOG });
+    sendRequest({ type: REQUEST_TYPE.GET_BLOG_CATEGORIES, slug: idCategories });
   };
 
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-150 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal dark:bg-stone-200 overflow-y-scroll">
       <div>
         <div className="px-5 py-2 flex justify-end space-x-5 shadow border-b-2 ">
           <button
@@ -66,7 +59,6 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
         </div>
         {/*body*/}
         <div className="text-center p-5 flex-auto justify-center">
-          <IconDelete className="w-16 h-16 flex items-center  mx-auto" />
           <h2 className="text-xl font-bold py-4 text-title">Are you sure?</h2>
           <p className="text-sm text-gray-500 px-8">
             Do you really want to unbookmark your blog ? This process cannot be
@@ -79,16 +71,14 @@ export const RemoveBookmark: React.FC<RemoveBookmarkProps> = ({
             onClick={() => {
               setFlag.off();
             }}
-            className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
           >
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDeleteSave(id)}
-            className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
-          >
-            Confirm
-          </Button>
+          {isLoading ? (
+            <Button disabled>Please wait...</Button>
+          ) : (
+            <Button onClick={() => handleDeleteSave(id)}>Confirm</Button>
+          )}
         </div>
       </div>
     </div>

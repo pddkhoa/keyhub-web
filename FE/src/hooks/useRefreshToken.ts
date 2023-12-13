@@ -2,11 +2,10 @@ import { useSelector } from "react-redux";
 import api from "../api/axios";
 import { useDispatch } from "react-redux";
 import { updateAccessToken } from "../redux/authSlice";
-import { RootStateToken, TokenType } from "../types/token";
+import { RootStateToken } from "../types/token";
 
 const useRefreshToken = () => {
   const dispatch = useDispatch();
-  console.log("123");
   const auth = useSelector((state: RootStateToken) => state.auth.login);
 
   console.log(auth.data.token);

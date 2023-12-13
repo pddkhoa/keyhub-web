@@ -4,6 +4,10 @@ import seriesReducer from "./seriesSlice";
 import userReducer from "./userSlice";
 import blogReducer from "./blogSlice";
 import commentReducer from "./commentSlice";
+import categoriesReducer from "./categoriesSlice";
+import exploreReducer from "./exploreSlice";
+import adminReducer from "./adminSlice";
+import chatReducer from "./chatSlice";
 
 import {
   persistStore,
@@ -28,6 +32,10 @@ const rootReducer = combineReducers({
   user: userReducer,
   blog: blogReducer,
   comment: commentReducer,
+  categories: categoriesReducer,
+  explore: exploreReducer,
+  admin: adminReducer,
+  chat: chatReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -42,5 +50,6 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);

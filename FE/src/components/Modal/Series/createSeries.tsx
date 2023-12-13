@@ -1,18 +1,15 @@
-import { createAxios } from "@/api/createInstance";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { showToast } from "@/hooks/useToast";
+import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { loginSuccess } from "@/redux/authSlice";
-import { addSeries } from "@/redux/seriesSlice";
 import { RootState } from "@/redux/store";
-import ClientServices from "@/services/client/client";
+import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type CreateSeriesProps = {
@@ -21,13 +18,12 @@ type CreateSeriesProps = {
     off: () => void;
     toggle: () => void;
   };
-  setAdd: React.Dispatch<React.SetStateAction<boolean>>;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CreateSeries: React.FC<CreateSeriesProps> = ({
-  setFlag,
-  setAdd,
-}) => {
+export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
+  const { isLoading, sendRequest } = useFetch();
+
   const [bio, setBio] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(bio.length);
   const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -37,11 +33,7 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     setCharCount(text.length);
   };
 
-  const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth.login);
-  const axiosJWT = createAxios(auth, dispatch, loginSuccess);
-  const accessToken = auth?.data.token;
+  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const formik = useFormik({
     initialValues: {
@@ -53,43 +45,23 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({
     }),
     validateOnChange: true,
     onSubmit: async (value) => {
-      setIsLoading(true);
-      setAdd(true);
       const report = {
         name: value.name,
         description: value.description,
       };
-
-      console.log(report);
-
       try {
-        const { body } = await ClientServices.createSeries(
-          report,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setIsLoading(false);
-          setAdd(false);
+        await sendRequest({ type: REQUEST_TYPE.ADD_SERIES, data: report });
 
-          showToast("Add new series Thanh cong nha!", "success");
+        if (isSuccess === true) {
           setFlag.off();
-          dispatch(addSeries(body.result));
-        } else {
-          setIsLoading(false);
-          setAdd(false);
-
-          showToast(body?.message || "Erorr", "error");
         }
       } catch (error) {
-        setAdd(false);
-        setIsLoading(false);
         console.log(error);
       }
     },
   });
   return (
-    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-modal brightness-125 overflow-y-scroll">
+    <div className="w-1/3 h-fit 2xl:w-xl sm:x-0  rounded-xl shadow bg-gray-900 dark:bg-white overflow-y-scroll">
       <div className="h-full flex flex-col space-y-3">
         <div className="px-5 py-2 flex space-x-5 shadow border-b-2 ">
           <span className="text-lg grow text-title">Add New Series</span>

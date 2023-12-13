@@ -13,6 +13,7 @@ import { TokenType } from "@/types/token";
 import User from "@/types/user";
 import jwt_decode from "jwt-decode";
 import { getUserSuccess } from "../../redux/userSlice";
+import toast from "react-hot-toast";
 
 export const loginUser = async (user: any, dispatch: any, navigate: any) => {
   type body = {
@@ -31,15 +32,19 @@ export const loginUser = async (user: any, dispatch: any, navigate: any) => {
       const { userDetails }: any = jwt_decode(body.result.token);
       dispatch(loginSuccess(body.result));
       dispatch(getUserSuccess(userDetails.users));
-      showToast("Congratulations! Sign In Success");
-      navigate("/profile");
+      toast.success(body.message);
+      if (userDetails.users.role === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
     } else {
       dispatch(loginFailed());
-      showToast(body?.message || "Error", "error");
+      toast.error(body?.message || "Error");
     }
   } catch (err) {
     dispatch(loginFailed());
-    showToast("Error", "error");
+    console.log(err);
   }
 };
 export const registerUser = async (user: any) => {

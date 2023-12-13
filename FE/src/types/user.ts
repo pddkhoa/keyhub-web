@@ -22,6 +22,11 @@ interface User {
   banner_url: string | null;
   descriptions: string | null;
   school: string | null;
+  totalFollowers?: number;
+  totalFollowing?: number;
+  sumBlog?: number;
+  checkStatusFollow?: boolean;
+  checkFollowCategory?: boolean;
 }
 
 export default User;

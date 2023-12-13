@@ -9,9 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: " text-title hover:brightness-105",
+        default:
+          "inline-flex justify-center items-center whitespace-nowrap rounded-lg bg-slate-800 hover:bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-medium text-slate-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 transition-colors duration-150",
         gradient:
-          "bg-gradient-to-r from-violet-400 to-pink-400 text-white hover:brightness-110",
+          "cursor-pointer text-white uppercase font-semibold  bg-gradient-to-r from-violet-500 to-violet-600 leading-pro text-xs ease-soft-in tracking-tight-soft  shadow-lg hover:scale-[1.1]  rounded-full px-5 py-2 ",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
