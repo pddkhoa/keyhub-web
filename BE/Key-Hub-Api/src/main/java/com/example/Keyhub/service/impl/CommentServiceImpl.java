@@ -5,20 +5,16 @@ import com.example.Keyhub.data.dto.request.ReplyCommentDTO;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogComment;
 import com.example.Keyhub.data.entity.Blog.Comment;
-import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IBlogComment;
 import com.example.Keyhub.data.repository.IBlogRepository;
 import com.example.Keyhub.data.repository.ICommentRepository;
 import com.example.Keyhub.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +85,7 @@ public class CommentServiceImpl implements ICommentService {
         if (comment1==null)
         {return 2;}
         BlogComment blogComment = iblogComment.findAllByComment(comment1);
-        if ((blogComment.getBlog().getUser().getId().equals(users.getId())) || blogComment.getComment().getUsers().getId().equals(users.getId()))
+        if ((blogComment.getBlog().getUser().getId().equals(users.getId())) || blogComment.getComment().getUsers().getId().equals(users.getId()) || users.getRole().equals("ADMIN"))
         {
             deleteAllChildComments(comment1);
             iblogComment.delete(blogComment);

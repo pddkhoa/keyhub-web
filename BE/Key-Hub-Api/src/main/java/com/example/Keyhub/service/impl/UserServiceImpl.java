@@ -1,17 +1,12 @@
 package com.example.Keyhub.service.impl;
 
-import com.example.Keyhub.data.dto.request.ReportDTO;
-import com.example.Keyhub.data.dto.request.ReportUserDTO;
-import com.example.Keyhub.data.dto.request.SeriesDTO;
-import com.example.Keyhub.data.dto.request.UserDTO;
-import com.example.Keyhub.data.dto.response.ReportResponseDTO;
-import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
-import com.example.Keyhub.data.dto.response.SeriesResponse;
-import com.example.Keyhub.data.dto.response.UserResponseDTO;
+import com.example.Keyhub.data.dto.request.*;
+import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
 import com.example.Keyhub.data.entity.ProdfileUser.*;
 import com.example.Keyhub.data.entity.report.Block;
 import com.example.Keyhub.data.entity.report.ReportBlog;
+import com.example.Keyhub.data.entity.report.ReportComment;
 import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.repository.*;
@@ -720,6 +715,33 @@ public class UserServiceImpl implements IUserService {
         responseDTO.setId(reportUser.getId());
         return responseDTO;
     }
+    @Autowired
+    ICommentRepository commentRepository;
+    @Autowired
+    IReportCommentRepository reportCommentRepository;
+    @Override
+    public ReportCommentResponseDTO reportComment(Users users, ReportCommentDTO reportCommentDTO) {
+        Comment comment = commentRepository.findById(reportCommentDTO.getComment_id()).orElse(null);
+        ReportComment reportComment = new ReportComment();
+        if (reportCommentRepository.existsByUserAndComment(users,comment))
+        {
+            return null;
+        }
+        reportComment.setComment(comment);
+        reportComment.setReason(reportCommentDTO.getReason());
+        reportComment.setCreateDate(new Timestamp(new Date().getTime()));
+        reportComment.setUser(users);
+        reportCommentRepository.save(reportComment);
+
+        ReportCommentResponseDTO responseDTO = new ReportCommentResponseDTO();
+        responseDTO.setId(reportComment.getId());
+        responseDTO.setComment_id(generalService.createCommentResponse(comment));
+        responseDTO.setUser_reported(generalService.createUserResponse(users));
+        responseDTO.setReason(reportComment.getReason());
+        responseDTO.setCreate_at(new Timestamp(new Date().getTime()));
+        return  responseDTO;
+    }
+
     @Override
     public boolean blockUser(BigInteger user_id, Users users) {
         Users usercheck= userService.findByID(user_id);

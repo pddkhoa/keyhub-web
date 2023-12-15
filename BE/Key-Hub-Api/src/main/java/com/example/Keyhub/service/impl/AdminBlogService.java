@@ -2,27 +2,36 @@ package com.example.Keyhub.service.impl;
 
 import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
+import com.example.Keyhub.data.dto.response.ReportCommentResponseDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
 import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.Blog.Blog;
+import com.example.Keyhub.data.entity.Blog.BlogComment;
+import com.example.Keyhub.data.entity.Blog.Comment;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.report.ReportBlog;
-import com.example.Keyhub.data.repository.IBlogRepository;
-import com.example.Keyhub.data.repository.IReportRepository;
+import com.example.Keyhub.data.entity.report.ReportComment;
+import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.event.OnEvaluteApproveDeleteBlogEvent;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IAdminBlogService;
 import com.example.Keyhub.service.IBLogService;
+import com.example.Keyhub.service.ICommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AdminBlogService implements IAdminBlogService {
+    final
+    IReportCommentRepository reportCommentRepository;
     final
     IReportRepository reportRepository;
     final
@@ -30,13 +39,16 @@ public class AdminBlogService implements IAdminBlogService {
     final
     ApplicationEventPublisher applicationEventPublisher;
     final IBlogRepository blogRepository;
-
-    public AdminBlogService(IReportRepository reportRepository, GeneralService generalService, IBlogRepository blogRepository, ApplicationEventPublisher applicationEventPublisher, IBLogService ibLogService) {
+    final
+    ICommentService commentService;
+    public AdminBlogService(IReportRepository reportRepository, GeneralService generalService, IBlogRepository blogRepository, ApplicationEventPublisher applicationEventPublisher, IBLogService ibLogService, IReportCommentRepository reportCommentRepository, ICommentService commentService) {
         this.reportRepository = reportRepository;
         this.generalService = generalService;
         this.blogRepository = blogRepository;
         this.applicationEventPublisher = applicationEventPublisher;
         this.ibLogService = ibLogService;
+        this.reportCommentRepository = reportCommentRepository;
+        this.commentService = commentService;
     }
 
     @Override
@@ -110,4 +122,59 @@ public class AdminBlogService implements IAdminBlogService {
         reportRepository.delete(reportBlog);
         statusResopnes.setStatusCode(0);
         return statusResopnes; }
+
+    @Override
+    public List<ReportCommentResponseDTO> listReportComment() {
+        List<ReportComment> list = reportCommentRepository.findAll();
+        List<ReportCommentResponseDTO> responseDTO = new ArrayList<>();
+
+        return list.stream()
+                .map(response -> {
+                    ReportCommentResponseDTO reportComment = new ReportCommentResponseDTO();
+                    reportComment.setId(response.getId());
+                    reportComment.setComment_id(generalService.createCommentResponse(response.getComment()));
+                    reportComment.setUser_reported(generalService.createUserResponse(response.getUser()));
+                    reportComment.setReason(response.getReason());
+                    reportComment.setCreate_at(new Timestamp(new Date().getTime()));
+                    return reportComment;
+                }) .collect(Collectors.toList());
+    }
+    @Autowired
+    IBlogComment iBlogComment;
+    @Autowired
+    ICommentRepository commentRepository;
+    @Override
+    public StatusResopnes evaluteComment(Users users,EvaluteRequestDTO evaluteRequestDTO) {
+        StatusResopnes statusResopnes = new StatusResopnes();
+        ReportComment reportComment = reportCommentRepository.findById(evaluteRequestDTO.getReport_id()).orElse(null);
+        BlogComment blogComment = iBlogComment.findAllByComment(reportComment.getComment());
+        if (reportComment==null)
+        {
+            statusResopnes.setStatusCode(3);
+            return statusResopnes;
+        }
+        if (evaluteRequestDTO.isValue())
+        {
+            reportCommentRepository.delete(reportComment);
+            iBlogComment.delete(blogComment);
+            commentRepository.delete(reportComment.getComment());
+            statusResopnes.setStatusCode(1);
+            return statusResopnes;
+        }
+        reportCommentRepository.delete(reportComment);
+        statusResopnes.setStatusCode(0);
+        return statusResopnes;
+    }
+    private void deleteAllChildComments(Comment parentComment) {
+        List<Comment> childComments = commentRepository.findByParentComment(parentComment);
+
+        for (Comment childComment : childComments) {
+            // Đệ quy để xóa tất cả các bình luận con
+            deleteAllChildComments(childComment);
+            // Xóa bình luận con
+            BlogComment childBlogComment = iBlogComment.findAllByComment(childComment);
+            iBlogComment.delete(childBlogComment);
+            commentRepository.delete(childComment);
+        }
+    }
 }

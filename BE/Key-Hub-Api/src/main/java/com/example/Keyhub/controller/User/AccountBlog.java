@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -1131,7 +1130,37 @@ public class AccountBlog {
                         .build()
                 );
     }
-
+    @PostMapping("/report-comment")
+    public ResponseEntity<GenericResponse> reportBlog(@RequestBody ReportCommentDTO reportDTO) {
+        if (!commentRepository.existsById(reportDTO.getComment_id()))
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found comment")
+                            .build()
+                    );
+        }
+        ReportCommentResponseDTO reportComment = userService.reportComment(getUserFromAuthentication(),reportDTO);
+        if (reportComment==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("You have been report this comment")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(reportComment)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Report comment success")
+                        .build()
+                );
+    }
     @PostMapping("/{blog_id}/hide")
     public ResponseEntity<GenericResponse> getBlogLikes(@PathVariable BigInteger blog_id) {
         if (userService.hideBlog(blog_id,getUserFromAuthentication()))

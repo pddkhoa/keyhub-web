@@ -1,16 +1,10 @@
 package com.example.Keyhub.service;
 
-import com.example.Keyhub.data.dto.request.ReportDTO;
-import com.example.Keyhub.data.dto.request.ReportUserDTO;
-import com.example.Keyhub.data.dto.request.SeriesDTO;
-import com.example.Keyhub.data.dto.response.ReportResponseDTO;
-import com.example.Keyhub.data.dto.response.ReportUserResponseDTO;
-import com.example.Keyhub.data.dto.response.SeriesResponse;
-import com.example.Keyhub.data.dto.response.UserResponseDTO;
-import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
+import com.example.Keyhub.data.dto.request.*;
+import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.Series;
+import com.example.Keyhub.data.entity.ProdfileUser.AvatarUser;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import com.example.Keyhub.data.dto.request.UserDTO;
 import com.example.Keyhub.data.entity.ProdfileUser.VerificationToken;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,8 +58,10 @@ public interface IUserService {
     boolean checkFollowAndFollowBack(Users usersFollow, Users usersFollowback);
     List<UserResponseDTO> findFriend(String keyWord, Users users);
     ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO);
+    ReportCommentResponseDTO reportComment(Users users, ReportCommentDTO reportUserDTO);
     boolean blockUser(BigInteger user_id, Users users);
     List<UserResponseDTO> getAllUserIsBlockedByUserAuth(Users users);
 
     boolean exitBlock(Users users, BigInteger user_id);
+
 }
