@@ -1,302 +1,145 @@
 /** @type {import('tailwindcss').Config} */
 export const darkMode = ["class"];
 export const content = [
-  "./pages/**/*.{ts,tsx}",
-  "./components/**/*.{ts,tsx}",
-  "./app/**/*.{ts,tsx}",
-  "./src/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
 ];
 
 export const theme = {
-  container: {
-    center: true,
-    padding: "2rem",
-    screens: {
-      "2xl": "1400px",
-    },
-  },
-
-  extend: {
-    colors: {
-      border: "var(--border)",
-      input: "var(--input)",
-      background: "var(--background)",
-      foreground: "hsl(var(--,foreground))",
-      hover: "var(--hover)",
-      button: {
-        DEFAULT: "var(--button)",
-        foreground: "var(--button-foreground)",
-      },
-      modal: "var(--modal)",
-
-      title: {
-        DEFAULT: "var(--title)",
-        foreground: "var(--title-foreground)",
-      },
-
-      secondary: {
-        DEFAULT: "hsl(var(--secondary))",
-        foreground: "hsl(var(--secondary-foreground))",
-      },
-      destructive: {
-        DEFAULT: "hsl(var(--destructive))",
-        foreground: "hsl(var(--destructive-foreground))",
-      },
-      muted: {
-        DEFAULT: "hsl(var(--muted))",
-        foreground: "hsl(var(--muted-foreground))",
-      },
-      accent: {
-        DEFAULT: "hsl(var(--accent))",
-        foreground: "hsl(var(--accent-foreground))",
-      },
-      popover: {
-        DEFAULT: "hsl(var(--popover))",
-        foreground: "hsl(var(--popover-foreground))",
-      },
-      card: {
-        DEFAULT: "var(--card)",
-        foreground: "hsl(var(--card-foreground))",
-      },
-    },
-    borderRadius: {
-      lg: "var(--radius)",
-      md: "calc(var(--radius) - 2px)",
-      sm: "calc(var(--radius) - 4px)",
+    container: {
+        center: true,
+        padding: "2rem",
+        screens: {
+            "2xl": "1400px",
+        },
     },
 
-    keyframes: {
-      "face-in": {
-        "0%": {
-          opacity: 0,
+    extend: {
+        colors: {
+            border: "var(--border)",
+            input: "var(--input)",
+            background: "var(--background)",
+            foreground: "hsl(var(--,foreground))",
+            hover: "var(--hover)",
+            button: {
+                DEFAULT: "var(--button)",
+                foreground: "var(--button-foreground)",
+            },
+            modal: "var(--modal)",
+
+            title: {
+                DEFAULT: "var(--title)",
+                foreground: "var(--title-foreground)",
+            },
+
+            secondary: {
+                DEFAULT: "hsl(var(--secondary))",
+                foreground: "hsl(var(--secondary-foreground))",
+            },
+            destructive: {
+                DEFAULT: "hsl(var(--destructive))",
+                foreground: "hsl(var(--destructive-foreground))",
+            },
+            muted: {
+                DEFAULT: "hsl(var(--muted))",
+                foreground: "hsl(var(--muted-foreground))",
+            },
+            accent: {
+                DEFAULT: "hsl(var(--accent))",
+                foreground: "hsl(var(--accent-foreground))",
+            },
+            popover: {
+                DEFAULT: "hsl(var(--popover))",
+                foreground: "hsl(var(--popover-foreground))",
+            },
+            card: {
+                DEFAULT: "var(--card)",
+                foreground: "hsl(var(--card-foreground))",
+            },
         },
-        "100%": {
-          opacity: 1,
+        borderRadius: {
+            lg: "var(--radius)",
+            md: "calc(var(--radius) - 2px)",
+            sm: "calc(var(--radius) - 4px)",
         },
-      },
-      "face-out": {
-        "0%": {
-          opacity: 1,
+
+        keyframes: {
+            "face-in": {
+                "0%": {
+                    opacity: 0,
+                },
+                "100%": {
+                    opacity: 1,
+                },
+            },
+            "face-out": {
+                "0%": {
+                    opacity: 1,
+                },
+                "100%": {
+                    opacity: 0,
+                },
+            },
+            "zoom-in": {
+                "0%": {
+                    transform: "scale(0)",
+                },
+                "100%": {
+                    transform: "scale(1)",
+                },
+            },
+            "zoom-out": {
+                "0%": {
+                    opacity: 1,
+                    transform: "scale(1)",
+                },
+                "100%": {
+                    opacity: 0,
+                    transform: "scale(0)",
+                },
+            },
+            ripple: {
+                "0%": {
+                    opacity: 1,
+                    transform: "scale(0)",
+                },
+                "100%": {
+                    opacity: 0,
+                    transform: "scale(3)",
+                },
+            },
         },
-        "100%": {
-          opacity: 0,
+        animation: {
+            "face-in": "face-in 0.5s ease-out",
+            "face-out": "face-out 0.5s ease-in",
+            "zoom-in": "zoom-in 0.5s ease-out",
+            "zoom-out": "zoom-out 0.5s ease-in",
+            ripple: "ripple 1.8s ease-out infinite",
+            blink: "blink 1.4s infinite both;",
+            "scale-up": "scaleUp 500ms infinite alternate",
+            "spin-slow": "spin 4s linear infinite",
+            popup: "popup 500ms var(--popup-delay, 0ms) linear 1",
+            skeleton: "skeletonWave 1.6s linear 0.5s infinite",
+            "spinner-ease-spin": "spinnerSpin 0.8s ease infinite",
+            "spinner-linear-spin": "spinnerSpin 0.8s linear infinite",
         },
-      },
-      "zoom-in": {
-        "0%": {
-          transform: "scale(0)",
+        willChange: {
+            opacity: "opacity",
         },
-        "100%": {
-          transform: "scale(1)",
-        },
-      },
-      "zoom-out": {
-        "0%": {
-          opacity: 1,
-          transform: "scale(1)",
-        },
-        "100%": {
-          opacity: 0,
-          transform: "scale(0)",
-        },
-      },
-      ripple: {
-        "0%": {
-          opacity: 1,
-          transform: "scale(0)",
-        },
-        "100%": {
-          opacity: 0,
-          transform: "scale(3)",
-        },
-      },
     },
-    animation: {
-      "face-in": "face-in 0.5s ease-out",
-      "face-out": "face-out 0.5s ease-in",
-      "zoom-in": "zoom-in 0.5s ease-out",
-      "zoom-out": "zoom-out 0.5s ease-in",
-      ripple: "ripple 1.8s ease-out infinite",
-      blink: "blink 1.4s infinite both;",
-      "scale-up": "scaleUp 500ms infinite alternate",
-      "spin-slow": "spin 4s linear infinite",
-      popup: "popup 500ms var(--popup-delay, 0ms) linear 1",
-      skeleton: "skeletonWave 1.6s linear 0.5s infinite",
-      "spinner-ease-spin": "spinnerSpin 0.8s ease infinite",
-      "spinner-linear-spin": "spinnerSpin 0.8s linear infinite",
-    },
-    willChange: {
-      opacity: "opacity",
-    },
-  },
 };
 // eslint-disable-next-line no-undef
 export const plugins = [
-  // eslint-disable-next-line no-undef
-  require("tailwindcss-animate"),
-  // eslint-disable-next-line no-undef
-  require("@tailwindcss/line-clamp"),
-  require("@tailwindcss/forms"),
-  require("@tailwindcss/container-queries"),
-  // plugin(function ({ addVariant }) {
-  //   // required this to prevent any style on readOnly input elements
-  //   addVariant("not-read-only", "&:not(:read-only)");
-  // }),
+    // eslint-disable-next-line no-undef
+    require("tailwindcss-animate"),
+    // eslint-disable-next-line no-undef
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/container-queries"),
+    // plugin(function ({ addVariant }) {
+    //   // required this to prevent any style on readOnly input elements
+    //   addVariant("not-read-only", "&:not(:read-only)");
+    // }),
 ];
-
-// import type { Config } from 'tailwindcss';
-// import plugin from 'tailwindcss/plugin';
-// // import { withUt } from 'uploadthing/tw';
-
-// export default {
-//   content: [
-//     // './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-//     // './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-//     './src/**/*.{js,ts,jsx,tsx}',
-//     './node_modules/rizzui/dist/*.{js,ts,jsx,tsx}', // must use this line to compile and generate our RizzUI components style
-//   ],
-//   darkMode: ['class', '[data-theme="dark"]'],
-//   theme: {
-//     screens: {
-//       xs: '480px',
-//       sm: '640px',
-//       md: '768px',
-//       lg: '1024px',
-//       xl: '1280px',
-//       '2xl': '1536px',
-//       '3xl': '1920px',
-//       '4xl': '2560px', // only need to control product grid mode in ultra 4k device
-//     },
-//     colors: {
-//       white: '#ffffff',
-//       black: '#000000',
-//       current: 'currentColor',
-//       transparent: 'transparent',
-//       /*
-//        * you can use hex code color value unless you want light and dark mode color scheme,
-//        * we are using css variables for light and dark mode color scheme
-//        */
-//       gray: {
-//         0: 'rgb(var(--gray-0) / <alpha-value>)',
-//         50: 'rgb(var(--gray-50) / <alpha-value>)',
-//         100: 'rgb(var(--gray-100) / <alpha-value>)',
-//         200: 'rgb(var(--gray-200) / <alpha-value>)',
-//         300: 'rgb(var(--gray-300) / <alpha-value>)',
-//         400: 'rgb(var(--gray-400) / <alpha-value>)',
-//         500: 'rgb(var(--gray-500) / <alpha-value>)',
-//         600: 'rgb(var(--gray-600) / <alpha-value>)',
-//         700: 'rgb(var(--gray-700) / <alpha-value>)',
-//         800: 'rgb(var(--gray-800) / <alpha-value>)',
-//         900: 'rgb(var(--gray-900) / <alpha-value>)',
-//         1000: 'rgb(var(--gray-1000) / <alpha-value>)',
-//       },
-//       primary: {
-//         lighter: 'rgb(var(--primary-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--primary-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--primary-default) / <alpha-value>)',
-//         dark: 'rgb(var(--primary-dark) / <alpha-value>)',
-//       },
-//       secondary: {
-//         lighter: 'rgb(var(--secondary-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--secondary-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--secondary-default) / <alpha-value>)',
-//         dark: 'rgb(var(--secondary-dark) / <alpha-value>)',
-//       },
-//       red: {
-//         lighter: 'rgb(var(--red-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--red-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--red-default) / <alpha-value>)',
-//         dark: 'rgb(var(--red-dark) / <alpha-value>)',
-//       },
-//       orange: {
-//         lighter: 'rgb(var(--orange-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--orange-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--orange-default) / <alpha-value>)',
-//         dark: 'rgb(var(--orange-dark) / <alpha-value>)',
-//       },
-//       blue: {
-//         lighter: 'rgb(var(--blue-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--blue-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--blue-default) / <alpha-value>)',
-//         dark: 'rgb(var(--blue-dark) / <alpha-value>)',
-//       },
-//       green: {
-//         lighter: 'rgb(var(--green-lighter) / <alpha-value>)',
-//         light: 'rgb(var(--green-light) / <alpha-value>)',
-//         DEFAULT: 'rgb(var(--green-default) / <alpha-value>)',
-//         dark: 'rgb(var(--green-dark) / <alpha-value>)',
-//       },
-//     },
-//     extend: {
-//       fontFamily: {
-//         inter: ['var(--font-inter)'],
-//         lexend: ['var(--font-lexend)'],
-//       },
-//       // required these animations for the Loader component
-//       animation: {
-//         blink: 'blink 1.4s infinite both;',
-//         'scale-up': 'scaleUp 500ms infinite alternate',
-//         'spin-slow': 'spin 4s linear infinite',
-//         popup: 'popup 500ms var(--popup-delay, 0ms) linear 1',
-//         skeleton: 'skeletonWave 1.6s linear 0.5s infinite',
-//         'spinner-ease-spin': 'spinnerSpin 0.8s ease infinite',
-//         'spinner-linear-spin': 'spinnerSpin 0.8s linear infinite',
-//       },
-//       backgroundImage: {
-//         skeleton: `linear-gradient(90deg,transparent,#ecebeb,transparent)`,
-//         'skeleton-dark': `linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)`,
-//       },
-//       keyframes: {
-//         blink: {
-//           '0%': { opacity: '0.2' },
-//           '20%': { opacity: '1' },
-//           '100%': { opacity: '0.2' },
-//         },
-//         scaleUp: {
-//           '0%': { transform: 'scale(0)' },
-//           '100%': { transform: 'scale(1)' },
-//         },
-//         popup: {
-//           '0%': { transform: 'scale(0)' },
-//           '50%': { transform: 'scale(1.3)' },
-//           '100%': { transform: 'scale(1)' },
-//         },
-//         skeletonWave: {
-//           '0%': {
-//             transform: 'translateX(-100%)',
-//           },
-//           '50%': {
-//             /* +0.5s of delay between each loop */
-//             transform: 'translateX(100%)',
-//           },
-//           '100%': {
-//             transform: 'translateX(100%)',
-//           },
-//         },
-//         spinnerSpin: {
-//           '0%': {
-//             transform: 'rotate(0deg)',
-//           },
-//           '100%': {
-//             transform: 'rotate(360deg)',
-//           },
-//         },
-//       },
-//       content: {
-//         underline: 'url("/public/underline.svg")',
-//       },
-//       boxShadow: {
-//         profilePic:
-//           '0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10)',
-//       },
-//     },
-//   },
-//   plugins: [
-//     require('@tailwindcss/forms'),
-//     require('@tailwindcss/container-queries'),
-//     plugin(function ({ addVariant }) {
-//       // required this to prevent any style on readOnly input elements
-//       addVariant('not-read-only', '&:not(:read-only)');
-//     }),
-//   ],
-// } satisfies Config;

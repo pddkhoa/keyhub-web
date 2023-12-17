@@ -8,45 +8,54 @@ import categoriesReducer from "./categoriesSlice";
 import exploreReducer from "./exploreSlice";
 import adminReducer from "./adminSlice";
 import chatReducer from "./chatSlice";
+import notificationsReducer from "./notificationSlice";
 
 import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: "root",
-  version: 1,
-  storage,
+    key: "root",
+    version: 1,
+    storage,
 };
 const rootReducer = combineReducers({
-  auth: authReducer,
-  series: seriesReducer,
-  user: userReducer,
-  blog: blogReducer,
-  comment: commentReducer,
-  categories: categoriesReducer,
-  explore: exploreReducer,
-  admin: adminReducer,
-  chat: chatReducer,
+    auth: authReducer,
+    series: seriesReducer,
+    user: userReducer,
+    blog: blogReducer,
+    comment: commentReducer,
+    categories: categoriesReducer,
+    explore: exploreReducer,
+    admin: adminReducer,
+    chat: chatReducer,
+    notification: notificationsReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    FLUSH,
+                    REHYDRATE,
+                    PAUSE,
+                    PERSIST,
+                    PURGE,
+                    REGISTER,
+                ],
+            },
+        }),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

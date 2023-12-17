@@ -7,6 +7,7 @@ import api from "@/api/axios";
 import CommentType from "@/types/comment";
 import User from "@/types/user";
 import LikeType from "@/types/like";
+import { NotificationType } from "@/types/notifications";
 
 class ClientServices {
     static createBlog = async (
@@ -601,6 +602,44 @@ class ClientServices {
         };
         const res = await requestApiHelper<body>(
             axiosJWT.post(`api/v1/user-interactions/${id}/block`, null, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            })
+        );
+        return res;
+    };
+
+    static getNotification = async (
+        index: number,
+        accessToken: any,
+        axiosJWT: any
+    ) => {
+        type body = {
+            success: boolean;
+            message: string;
+            result: NotificationType[];
+            statusCode: number;
+        };
+        const res = await requestApiHelper<body>(
+            axiosJWT.get(`api/v1/blog/${index}/notication`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            })
+        );
+        return res;
+    };
+
+    static readNotification = async (
+        id: number,
+        accessToken: any,
+        axiosJWT: any
+    ) => {
+        type body = {
+            success: boolean;
+            message: string;
+            result: any;
+            statusCode: number;
+        };
+        const res = await requestApiHelper<body>(
+            axiosJWT.patch(`api/v1/blog/${id}/checkIsRead`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );

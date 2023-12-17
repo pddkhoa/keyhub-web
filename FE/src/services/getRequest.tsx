@@ -80,6 +80,7 @@ import {
     getBlogOnePopularSuccess,
     getBlogPopularSuccess,
 } from "@/redux/exploreSlice";
+import { getListNotificationSuccess } from "@/redux/notificationSlice";
 import {
     addSeries,
     deleteSeriesSuccess,
@@ -970,6 +971,17 @@ export const getRequestConfig = (
                 isDispatch: true,
                 customAction: true,
                 action: evaluteCommentReportSuccess,
+                isToken: true,
+            };
+
+        case REQUEST_TYPE.GET_LIST_NOTIFICATION:
+            return {
+                url: `${BASE_URL}/v1/blog/${slug}/notication`,
+                method: REQUEST_METHOD.GET,
+                isShowToast: false,
+                isDispatch: true,
+                customAction: true,
+                action: getListNotificationSuccess,
                 isToken: true,
             };
 
