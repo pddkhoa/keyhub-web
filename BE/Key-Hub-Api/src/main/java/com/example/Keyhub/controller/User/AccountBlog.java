@@ -1253,9 +1253,9 @@ public class AccountBlog {
                         .build()
                 );
     }
-    @GetMapping("/notication")
-    public ResponseEntity<GenericResponse> getAllNotifycation() {
-        List<NotifycationResponseDTO> list = notificationService.listNotificationRecipient(getUserFromAuthentication());
+    @GetMapping("/{index}/notication")
+    public ResponseEntity<GenericResponse> getAllNotifycation(@PathVariable int index) {
+        List<NotifycationResponseDTO> list = notificationService.listNotificationRecipient(index,getUserFromAuthentication());
         if (list==null)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

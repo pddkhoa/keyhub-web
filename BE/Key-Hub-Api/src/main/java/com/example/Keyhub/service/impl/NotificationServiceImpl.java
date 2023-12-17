@@ -75,13 +75,21 @@ public class NotificationServiceImpl implements INotificationService {
     }
 
     @Override
-    public List<NotifycationResponseDTO> listNotificationRecipient(Users users) {
+    public List<NotifycationResponseDTO> listNotificationRecipient(int index, Users users) {
         List<Notification> list = notificationRepository.findByRecipient(users);
         list.sort(Comparator.comparing(Notification::getCreateDate).reversed());
+        int itemsPerPage = 5;
+        int startIndex = (index - 1) * itemsPerPage;
+        List<Notification> result = new ArrayList<>();
+        int endIndex = Math.min(startIndex + itemsPerPage, list.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(list.get(i));
+        }
+
         List<NotifycationResponseDTO> userResponseDTOs = new ArrayList<>();
         if (!list.isEmpty())
         {
-            userResponseDTOs = list.stream()
+            userResponseDTOs = result.stream()
                     .map(notification -> {
                         NotifycationResponseDTO notifycationResponseDTO = new NotifycationResponseDTO();
                         notifycationResponseDTO.setSender(generalService.createUserResponse(notification.getSender()));
