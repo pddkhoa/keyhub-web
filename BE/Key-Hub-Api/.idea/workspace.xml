@@ -4,57 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d666734-7135-4413-a16c-94d956ea684d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Diagram 1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Diagram 1.svg" beforeDir="false" />
+    <list default="true" id="2d666734-7135-4413-a16c-94d956ea684d" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/dto/response/NotifycationResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/entity/Notification/TypeNotification.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2023-09-25_08-50-27_feedbacks.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2023-09-26_11-39-44_feedbacks.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bai tap so 04b.doc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLC_TLCN HK01 23 24 (1).xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Thống nhất api.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/Admin/AdmidBlogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/Admin/AdmidBlogController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/Automation.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/Automation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/Automation.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/User/AccountBlog.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/User/AccountBlog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/data/entity/ProdfileUser/ResetPassToken.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/data/entity/ProdfileUser/ResetPassToken.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/GeneralService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/GeneralService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/IAdminBlogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/IAdminBlogService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/IUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/IUserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/AdminBlogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/AdminBlogService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/CommentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/CommentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/GeneralServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/GeneralServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/User/InteractWithUserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/controller/User/InteractWithUserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/BlogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/Keyhub/service/impl/BlogServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pexels-patricio-nahuelhual-10908051.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qodana.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/qodana.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/Admin/AdmidBlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/Admin/AdmidBlogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/Automation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/Automation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/User/AccountBlog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/User/AccountBlog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/entity/ProdfileUser/ResetPassToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/entity/ProdfileUser/ResetPassToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/GeneralService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/GeneralService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IAdminBlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IAdminBlogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/AdminBlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/AdminBlogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/CommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/GeneralServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/GeneralServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/User/InteractWithUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/controller/User/InteractWithUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/entity/Notification/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/entity/Notification/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/repository/INotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/data/repository/INotificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/INotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/INotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/BlogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/BlogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/NotificationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../KeyHub.postman_collection.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVP.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../demo_it_project.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../final_it_project.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,8 +62,16 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="Hai" />
+      </map>
     </option>
   </component>
   <component name="MarkdownSettingsMigration">
@@ -583,6 +564,15 @@
       <workItem from="1702620119981" duration="473000" />
       <workItem from="1702620795788" duration="404000" />
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <option name="closed" value="true" />
+      <created>1702779720913</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702779720913</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,6 +588,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

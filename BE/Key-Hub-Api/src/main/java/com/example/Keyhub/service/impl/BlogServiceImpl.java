@@ -11,6 +11,7 @@ import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.security.jwt.JwtProvider;
 import com.example.Keyhub.service.GeneralService;
 import com.example.Keyhub.service.IBLogService;
+import com.example.Keyhub.service.INotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class BlogServiceImpl implements IBLogService {
+
     private final IBlogRepository blogRepository;
+    final
+    INotificationService notificationService;
     final
     IBlogHIdeRepository blogHIdeRepository;
     final
@@ -48,7 +52,7 @@ public class BlogServiceImpl implements IBLogService {
     final
     GeneralService generalService;
 
-    public BlogServiceImpl(IBlogLikeRepository blogLikeRepository, IBlogRepository blogRepository, IBlogHIdeRepository blogHIdeRepository, IBlockRepository blockRepository, ISeriesImageRepository imageRepository, IReportUserRepository reportUserRepository, IBlogComment blogComment, IUserRepository userRepository, IBlogSaveRepository blogSaveRepository, IFollowRepository iFollowRepository, IUserFollowCategory userFollowCategory, ICategoryRepository categoryRepository, IBlogImange blogImange, BlogSaveService blogSaveService, ISeriesRepository seriesRepository, ITagRepository tagRepository, GeneralService generalService, IReportRepository reportRepository, ISeriesRepository iSeriesRepository) {
+    public BlogServiceImpl(IBlogLikeRepository blogLikeRepository, IBlogRepository blogRepository, IBlogHIdeRepository blogHIdeRepository, IBlockRepository blockRepository, ISeriesImageRepository imageRepository, IReportUserRepository reportUserRepository, IBlogComment blogComment, IUserRepository userRepository, IBlogSaveRepository blogSaveRepository, IFollowRepository iFollowRepository, IUserFollowCategory userFollowCategory, ICategoryRepository categoryRepository, IBlogImange blogImange, BlogSaveService blogSaveService, ISeriesRepository seriesRepository, ITagRepository tagRepository, GeneralService generalService, IReportRepository reportRepository, ISeriesRepository iSeriesRepository, INotificationService notificationService) {
         this.blogLikeRepository = blogLikeRepository;
         this.blogRepository = blogRepository;
         this.blogHIdeRepository = blogHIdeRepository;
@@ -68,6 +72,7 @@ public class BlogServiceImpl implements IBLogService {
         this.generalService = generalService;
         this.reportRepository = reportRepository;
         this.iSeriesRepository = iSeriesRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -871,6 +876,7 @@ public class BlogServiceImpl implements IBLogService {
             newBloglike.setUsers(users);
             blogLikeRepository.save(newBloglike);
             likeReponse.setStatus(true);
+            notificationService.notifyLike(Blog,users);
             BigInteger count = Blog.getLikes();
             count = count.add(BigInteger.ONE);
             Blog.setLikes(count);

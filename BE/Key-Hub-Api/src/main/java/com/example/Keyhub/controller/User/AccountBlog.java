@@ -35,6 +35,8 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/v1/blog")
 public class AccountBlog {
     final
+    INotificationService notificationService;
+    final
     ISeriesImageRepository seriesImageRepository;
     final
     GeneralService generalService;
@@ -75,7 +77,7 @@ public class AccountBlog {
     final
     ICategoryService categoryService;
 
-    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository, ICategoryService categoryService) {
+    public AccountBlog(IBlogLikeRepository blogLikeRepository, ISeriesImageRepository seriesImageRepository, IUserService userService, ICommentService commentService, ITagRepository iTagRepository, IBlogSaveRepository blogSaveRepository, ICommentRepository commentRepository, IUserRepository userRepository, Cloudinary cloudinary, IBlogSaveRepository iBlogSaveRepository, IBlogRepository blogRepository, UploadImageService uploadImageService, ModelMapper modelMapper, IBLogService ibLogService, ICategoryRepository iCategoryRepository, ISeriesRepository seriesRepository, IUserService iUserService, IBlogImange iBlogImange, IBlogComment iBlogComment, GeneralService generalService, IReportUserRepository reportUserRepository, ICategoryService categoryService, INotificationService notificationService) {
         this.blogLikeRepository = blogLikeRepository;
         this.seriesImageRepository = seriesImageRepository;
         this.userService = userService;
@@ -98,6 +100,7 @@ public class AccountBlog {
         this.generalService = generalService;
         this.reportUserRepository = reportUserRepository;
         this.categoryService = categoryService;
+        this.notificationService = notificationService;
     }
 
     private Users getUserFromAuthentication() {
@@ -1031,13 +1034,7 @@ public class AccountBlog {
                     );
         }
         Comment comment = commentService.addComment(users,blog,DTO);
-//        Notification notification = new Notification();
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        notification.setUserId(blog.getUser().getId()); //User ' Blog
-//        notification.setAction("Comment");
-//        notification.setCreatedAt(timestamp);
-//        notification.setRelatedObjectId(blog.getId());
-//        notificationService.sendNotification(notification);
+        notificationService.notifyComment(blog,users);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -1227,6 +1224,29 @@ public class AccountBlog {
                         .result(res)
                         .statusCode(HttpStatus.OK.value())
                         .message("Tag by id")
+                        .build()
+                );
+    }
+    @GetMapping("/notication")
+    public ResponseEntity<GenericResponse> getAllNotifycation() {
+        List<NotifycationResponseDTO> list = notificationService.listNotificationRecipient(getUserFromAuthentication());
+        if (list==null)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found notifycation")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Notifycation by user")
                         .build()
                 );
     }

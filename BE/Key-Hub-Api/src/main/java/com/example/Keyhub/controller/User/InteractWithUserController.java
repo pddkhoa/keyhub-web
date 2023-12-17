@@ -7,7 +7,9 @@ import com.example.Keyhub.data.entity.GenericResponse;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.IReportUserRepository;
 import com.example.Keyhub.security.userpincal.CustomUserDetails;
+import com.example.Keyhub.service.INotificationService;
 import com.example.Keyhub.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/user-interactions")
 public class InteractWithUserController {
+    @Autowired
+    INotificationService notificationService;
     private final IUserService userService;
     final
     IReportUserRepository reportUserRepository;
@@ -58,6 +62,7 @@ public class InteractWithUserController {
                     );
         }
         UserResponseDTO users = userService.followUser(getUserFromAuthentication().getId(), user_id);
+        notificationService.notifyFollow(getUserFromAuthentication(),user_id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
