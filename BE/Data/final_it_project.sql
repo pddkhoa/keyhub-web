@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 17/12/2023 15:42:50
+ Date: 17/12/2023 16:07:25
 */
 
 SET NAMES utf8mb4;
@@ -206,7 +206,7 @@ INSERT INTO `blog_like` VALUES (57, 210, 69);
 INSERT INTO `blog_like` VALUES (58, 193, 69);
 INSERT INTO `blog_like` VALUES (59, 223, 96);
 INSERT INTO `blog_like` VALUES (60, 226, 96);
-INSERT INTO `blog_like` VALUES (63, 231, 96);
+INSERT INTO `blog_like` VALUES (66, 231, 96);
 
 -- ----------------------------
 -- Table structure for blog_save
@@ -1532,7 +1532,7 @@ CREATE TABLE `hibernate_sequence`  (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (20);
+INSERT INTO `hibernate_sequence` VALUES (23);
 
 -- ----------------------------
 -- Table structure for message
@@ -1586,10 +1586,13 @@ CREATE TABLE `notification`  (
 -- Records of notification
 -- ----------------------------
 INSERT INTO `notification` VALUES (14, 96, 96, 201, b'1', 'COMMENT', '2023-12-17 15:14:34.000000');
-INSERT INTO `notification` VALUES (16, 65, 96, 231, b'1', 'LIKE', '2023-12-17 15:14:34.000000');
+INSERT INTO `notification` VALUES (16, 65, 55, 231, b'1', 'LIKE', '2023-12-17 15:14:34.000000');
 INSERT INTO `notification` VALUES (17, 65, 96, 231, b'1', 'LIKE', '2023-12-17 15:14:34.000000');
 INSERT INTO `notification` VALUES (18, 96, 96, 231, b'1', 'LIKE', '2023-12-17 15:14:28.281000');
-INSERT INTO `notification` VALUES (19, 96, 67, NULL, b'0', 'FOLLOW', '2023-12-17 15:26:57.713000');
+INSERT INTO `notification` VALUES (19, 96, 64, NULL, b'0', 'FOLLOW', '2023-12-17 15:26:57.713000');
+INSERT INTO `notification` VALUES (20, 96, 55, 231, b'0', 'LIKE', '2023-12-17 16:02:51.611000');
+INSERT INTO `notification` VALUES (21, 96, 96, 231, b'0', 'LIKE', '2023-12-17 16:02:51.611000');
+INSERT INTO `notification` VALUES (22, 96, 54, 231, b'0', 'LIKE', '2023-12-17 16:02:51.611000');
 
 -- ----------------------------
 -- Table structure for refreshtoken

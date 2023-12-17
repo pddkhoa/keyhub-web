@@ -1806,7 +1806,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/api/v1/blog/notication",
+							"raw": "http://localhost:8081/api/v1/blog/:index/notication",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1816,7 +1816,14 @@
 								"api",
 								"v1",
 								"blog",
+								":index",
 								"notication"
+							],
+							"variable": [
+								{
+									"key": "index",
+									"value": "2"
+								}
 							]
 						}
 					},
