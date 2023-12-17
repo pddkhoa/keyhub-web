@@ -12,7 +12,9 @@ import com.example.Keyhub.service.IUserService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,7 @@ public class NotificationServiceImpl implements INotificationService {
     public Notification save(Notification notification) {
         return notificationRepository.save(notification);
     }
-
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     @Override
     public void notifyComment(Blog blog, Users users) {
         Notification notification = new Notification();
@@ -43,8 +45,8 @@ public class NotificationServiceImpl implements INotificationService {
         notification.setSender(users);
         notification.setTargetBlog(blog);
         notification.setIsRead(false);
+        notification.setCreateDate(timestamp);
         notification.setType(TypeNotification.COMMENT);
-        notification.setContent(users.getName() + " commented on your post");
         save(notification);
     }
 
@@ -54,10 +56,9 @@ public class NotificationServiceImpl implements INotificationService {
         Notification notification = new Notification();
         notification.setRecipient(userisFollowed);
         notification.setSender(usersFollower);
-        notification.setTargetUser(userisFollowed);
         notification.setIsRead(false);
+        notification.setCreateDate(timestamp);
         notification.setType(TypeNotification.FOLLOW);
-        notification.setContent(usersFollower.getName() + "is following you");
         save(notification);
     }
 
@@ -68,14 +69,15 @@ public class NotificationServiceImpl implements INotificationService {
         notification.setSender(users);
         notification.setTargetBlog(blog);
         notification.setIsRead(false);
+        notification.setCreateDate(timestamp);
         notification.setType(TypeNotification.LIKE);
-        notification.setContent(users.getName() + " liked on your post");
         save(notification);
     }
 
     @Override
     public List<NotifycationResponseDTO> listNotificationRecipient(Users users) {
         List<Notification> list = notificationRepository.findByRecipient(users);
+        list.sort(Comparator.comparing(Notification::getCreateDate).reversed());
         List<NotifycationResponseDTO> userResponseDTOs = new ArrayList<>();
         if (!list.isEmpty())
         {
@@ -85,18 +87,27 @@ public class NotificationServiceImpl implements INotificationService {
                         notifycationResponseDTO.setSender(generalService.createUserResponse(notification.getSender()));
                         notifycationResponseDTO.setId(notification.getId());
                         notifycationResponseDTO.setIsRead(notification.getIsRead());
+                        notifycationResponseDTO.setCreate_date(notification.getCreateDate());
                         if (notification.getTargetBlog()!=null){
                         notifycationResponseDTO.setTargetBlog(generalService.createBlogDTO(users,notification.getTargetBlog()));}
-                        notifycationResponseDTO.setContent(notification.getContent());
+                        notifycationResponseDTO.setType(notification.getType().getValue());
                         return notifycationResponseDTO;
                     })
                     .collect(Collectors.toList());
 
         }
-        for(Notification n : list) {
-            n.setIsRead(true);
-        }
-        notificationRepository.saveAll(list);
         return userResponseDTOs;
+    }
+
+    @Override
+    public void checkIsRead(BigInteger notification) {
+        Notification notification1 = notificationRepository.findById(notification).orElse(null);
+        notification1.setIsRead(true);
+        notificationRepository.save(notification1);
+    }
+
+    @Override
+    public boolean exitNotifycation(BigInteger notification) {
+        return notificationRepository.existsById(notification);
     }
 }

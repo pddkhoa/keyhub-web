@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface INotificationRepository extends JpaRepository<Notification, BigInteger> {
     List<Notification> findByRecipient(Users users);
+    boolean existsById(BigInteger id);
 }

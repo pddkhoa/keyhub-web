@@ -14,5 +14,7 @@ public interface INotificationService {
     void notifyFollow(Users usersFollower, BigInteger usersIsFollowed);
     void notifyLike(Blog blog, Users users);
     List<NotifycationResponseDTO> listNotificationRecipient(Users users);
+    void checkIsRead(BigInteger notification);
+    boolean exitNotifycation(BigInteger notification);
 
 }

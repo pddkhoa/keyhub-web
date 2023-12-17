@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,7 +16,8 @@ public class NotifycationResponseDTO {
     private BigInteger id;
     private UserResponseDTO sender;
     private BlogDTO targetBlog;
-    private String content;
+    private String type;
     private Boolean isRead;
+    private Timestamp create_date;
 
 }

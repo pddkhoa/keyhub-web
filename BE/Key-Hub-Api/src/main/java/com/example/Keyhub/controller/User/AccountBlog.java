@@ -114,8 +114,7 @@ public class AccountBlog {
 
     @RequestMapping(value = "/upload-video", method = RequestMethod.POST)
     public ResponseEntity<GenericResponse> uploadVideo(@RequestParam MultipartFile video_file, HttpServletRequest request, HttpServletResponse response) {
-        if (!ValidatorUtils.validateMineVideoFile(video_file))
-        {
+        if (!ValidatorUtils.validateMineVideoFile(video_file)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -144,11 +143,9 @@ public class AccountBlog {
                 }
             }
         }
-        if (tempImageUrls==null)
-        {
+        if (tempImageUrls == null) {
             tempImageUrls = url;
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -169,8 +166,8 @@ public class AccountBlog {
     }
 
     private String getString(HttpServletResponse response, String url, String currentImageUrls, String tempImageUrls) {
-        Cookie tempoUrl = new Cookie("tempoUrl",tempImageUrls);
-        tempoUrl.setMaxAge(60*60*24);
+        Cookie tempoUrl = new Cookie("tempoUrl", tempImageUrls);
+        tempoUrl.setMaxAge(60 * 60 * 24);
         response.addCookie(tempoUrl);
         if (currentImageUrls != null) {
             url = currentImageUrls + "-" + url;
@@ -183,8 +180,7 @@ public class AccountBlog {
 
     @RequestMapping(value = "/upload-file", method = RequestMethod.POST)
     public ResponseEntity<GenericResponse> uploadFile(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-        if (!ValidatorUtils.validateMineFile(file))
-        {
+        if (!ValidatorUtils.validateMineFile(file)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -195,8 +191,7 @@ public class AccountBlog {
         }
         String url = uploadImageService.uploadFile(file);
         Cookie[] cookies = request.getCookies();
-        if (url==null)
-        {
+        if (url == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -223,7 +218,7 @@ public class AccountBlog {
                 }
             }
         }
-        if (tempImageUrls==null)
+        if (tempImageUrls == null)
             tempImageUrls = url;
         url = getString(response, url, currentImageUrls, tempImageUrls);
         return ResponseEntity.status(HttpStatus.OK)
@@ -235,8 +230,9 @@ public class AccountBlog {
                         .build()
                 );
     }
-    @GetMapping(value="/fetchUrl")
-    public ResponseEntity<GenericResponse> fetchUrl( HttpServletRequest request, HttpServletResponse response) {
+
+    @GetMapping(value = "/fetchUrl")
+    public ResponseEntity<GenericResponse> fetchUrl(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
 
         String tempImageUrls = null;
@@ -248,8 +244,7 @@ public class AccountBlog {
                 }
             }
         }
-        if (tempImageUrls==null)
-        {
+        if (tempImageUrls == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -265,11 +260,12 @@ public class AccountBlog {
                 .body(GenericResponse.builder()
                         .success(true)
                         .statusCode(HttpStatus.OK.value())
-                        .result(tempImageUrls   )
+                        .result(tempImageUrls)
                         .message("Get URL Success")
                         .build()
                 );
     }
+
     @RequestMapping(value = "/upload-avatar", method = RequestMethod.POST)
     public ResponseEntity<GenericResponse> uploadAvatar(@RequestParam MultipartFile file) {
         if (!ValidatorUtils.validateMineFile(file))
@@ -290,6 +286,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @Transactional
     @RequestMapping(value = "/create-blog", method = RequestMethod.POST)
     public ResponseEntity<GenericResponse> createBlog(@RequestBody BlogPostDTO body,
@@ -341,11 +338,12 @@ public class AccountBlog {
         categoryDTO.setId(newBlog.getCategory().getId());
         categoryDTO.setName(newBlog.getCategory().getName());
         blogDTO.setCategories(categoryDTO);
-        if (newBlog.getTags()!=null) {
-        List<TagDTO> tagDTOs = newBlog.getTags().stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName()))
-                .collect(Collectors.toList());
-        blogDTO.setTags(tagDTOs);}
+        if (newBlog.getTags() != null) {
+            List<TagDTO> tagDTOs = newBlog.getTags().stream()
+                    .map(tag -> new TagDTO(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+            blogDTO.setTags(tagDTOs);
+        }
         if (newBlog.getSeries() != null) {
             SeriesResponse seriesDTO = new SeriesResponse();
             seriesDTO.setId(newBlog.getSeries().getId());
@@ -366,8 +364,8 @@ public class AccountBlog {
     }
 
     @RequestMapping(value = "/draft-blog", method = RequestMethod.POST)
-    public ResponseEntity<GenericResponse> hideBlog( @RequestBody BlogPostDraftDTO body,
-                                      HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> hideBlog(@RequestBody BlogPostDraftDTO body,
+                                                    HttpServletRequest request, HttpServletResponse response) {
         List<String> errors = body.validateAndGetErrors();
         if (!errors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -424,17 +422,20 @@ public class AccountBlog {
         blogDTO.setAvatar(newBlog.getAvatar());
         blogDTO.setContent(newBlog.getContent());
         blogDTO.setDescription(newBlog.getDescription());
-        if (body.getTagIds()!=null){   CategoryDTO categoryDTO = new CategoryDTO();
+        if (body.getTagIds() != null) {
+            CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(newBlog.getCategory().getId());
             categoryDTO.setName(newBlog.getCategory().getName());
-            blogDTO.setCategories(categoryDTO);}
+            blogDTO.setCategories(categoryDTO);
+        }
 
 
-        if (newBlog.getTags()!=null) {
+        if (newBlog.getTags() != null) {
             List<TagDTO> tagDTOs = newBlog.getTags().stream()
                     .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                     .collect(Collectors.toList());
-            blogDTO.setTags(tagDTOs);}
+            blogDTO.setTags(tagDTOs);
+        }
         if (newBlog.getSeries() != null) {
             SeriesResponse seriesDTO = new SeriesResponse();
             seriesDTO.setId(newBlog.getSeries().getId());
@@ -453,6 +454,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @PostMapping("/cancel")
     public ResponseEntity<GenericResponse> cancelRequest(HttpServletResponse response) {
         Cookie emptyCookie = new Cookie("temporaryImageUrls", "");
@@ -470,16 +472,18 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @RequestMapping(value = "/image-series", method = RequestMethod.POST)
     public ResponseEntity<GenericResponse> uploadSeriesImage(@RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-        if (!ValidatorUtils.validateMineFile(file))
-        {return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(GenericResponse.builder()
-                        .success(false)
-                        .statusCode(HttpStatus.BAD_REQUEST.value())
-                        .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp. Please validate the file again.")
-                        .build()
-                );}
+        if (!ValidatorUtils.validateMineFile(file)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Request failed. This file must be png, jpg, jpeg, bmp, gif, bmp. Please validate the file again.")
+                            .build()
+                    );
+        }
         String url = uploadImageService.uploadFile(file);
         Cookie[] cookies = request.getCookies();
         String currentImageUrls = null;
@@ -506,12 +510,12 @@ public class AccountBlog {
                         .build()
                 );
     }
-    @PatchMapping("/{series_id}/edit-series")
-    public ResponseEntity<GenericResponse> editSeries( @PathVariable BigInteger series_id,@Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
 
-        Series seriesCheck= seriesRepository.findById(series_id).orElse(null);
-        if (seriesCheck==null)
-        {
+    @PatchMapping("/{series_id}/edit-series")
+    public ResponseEntity<GenericResponse> editSeries(@PathVariable BigInteger series_id, @Valid @RequestBody SeriesDTO series, HttpServletRequest request, HttpServletResponse response) {
+
+        Series seriesCheck = seriesRepository.findById(series_id).orElse(null);
+        if (seriesCheck == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -521,8 +525,8 @@ public class AccountBlog {
                     );
         }
 
-        Series seriesFind = seriesRepository.findByNameAndUser(series.getName(),getUserFromAuthentication());
-        if(seriesFind==null) {
+        Series seriesFind = seriesRepository.findByNameAndUser(series.getName(), getUserFromAuthentication());
+        if (seriesFind == null) {
             Series series1 = iUserService.editSeries(series_id, series, getUserFromAuthentication());
             Cookie[] cookies = request.getCookies();
             String currentImageUrls = null;
@@ -574,8 +578,9 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @PostMapping("/add-series")
-    public ResponseEntity<GenericResponse> addsSeries(@Valid @RequestBody SeriesDTO series, BindingResult bindingResult , HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<GenericResponse> addsSeries(@Valid @RequestBody SeriesDTO series, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
@@ -585,9 +590,9 @@ public class AccountBlog {
                             .build()
                     );
         }
-        Series seriesFind = seriesRepository.findByNameAndUser(series.getName(),getUserFromAuthentication());
-        if(seriesFind==null){
-        Series series1= iUserService.addSeries(series, getUserFromAuthentication());
+        Series seriesFind = seriesRepository.findByNameAndUser(series.getName(), getUserFromAuthentication());
+        if (seriesFind == null) {
+            Series series1 = iUserService.addSeries(series, getUserFromAuthentication());
             SeriesResponse seriesResponse = new SeriesResponse();
             seriesResponse.setId(series1.getId());
             seriesResponse.setCreateday(series1.getCreateday());
@@ -632,12 +637,12 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @Transactional
     @DeleteMapping("/remove-series/{series_id}")
-    public ResponseEntity<GenericResponse> removeSeries( @PathVariable BigInteger series_id) {
+    public ResponseEntity<GenericResponse> removeSeries(@PathVariable BigInteger series_id) {
         Series series = seriesRepository.findById(series_id).orElse(null);
-        if (series==null)
-        {
+        if (series == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -648,12 +653,11 @@ public class AccountBlog {
                     );
         }
         seriesImageRepository.findBySeries(series).ifPresent(seriesImageRepository::delete);
-        List<Blog> blogList= blogRepository.findBySeriesAndStatusOrderByCreateDateDesc(series,1);
-        for (Blog blog :blogList)
-        {
+        List<Blog> blogList = blogRepository.findBySeriesAndStatusOrderByCreateDateDesc(series, 1);
+        for (Blog blog : blogList) {
             ibLogService.deleteBlogById(blog);
         }
-        seriesRepository.deleteByIdAndUser(series_id,getUserFromAuthentication());
+        seriesRepository.deleteByIdAndUser(series_id, getUserFromAuthentication());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
@@ -662,6 +666,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/series/list")
     public ResponseEntity<GenericResponse> getBlockList() {
         Users users = getUserFromAuthentication();
@@ -684,6 +689,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/category/list")
     public ResponseEntity<GenericResponse> getListCategory() {
         List<Category> series1 = iCategoryRepository.findAll();
@@ -710,6 +716,7 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/tags/list")
     public ResponseEntity<GenericResponse> getListTag() {
         List<Tag> series1 = iTagRepository.findAll();
@@ -745,8 +752,9 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/{blog_id}")
-    public ResponseEntity<GenericResponse> getBlogById( @PathVariable BigInteger blog_id) {
+    public ResponseEntity<GenericResponse> getBlogById(@PathVariable BigInteger blog_id) {
         Blog newBlog = blogRepository.findById(blog_id).orElse(null);
         BlogDTO blogDTO = new BlogDTO();
         assert newBlog != null;
@@ -762,22 +770,19 @@ public class AccountBlog {
         blogDTO.setLikes(newBlog.getLikes());
         //IsSave - IsLike
         Users users = getUserFromAuthentication();
-        BlogLike blogLike =blogLikeRepository.findByUsersAndBlog(users,newBlog);
-        BlogSave blogSave= blogSaveRepository.findByUsersAndBlog(users,newBlog);
+        BlogLike blogLike = blogLikeRepository.findByUsersAndBlog(users, newBlog);
+        BlogSave blogSave = blogSaveRepository.findByUsersAndBlog(users, newBlog);
         blogDTO.getUsers().setCheckReportUser(reportUserRepository.existsByUserReportAndUserIdReported(users, newBlog.getUser()));
         blogDTO.setIsSave(blogSave != null);
         blogDTO.setIsLike(blogLike != null);
 
         //Views
-        if (!Objects.equals(users.getId(), newBlog.getUser().getId()))
-        {
+        if (!Objects.equals(users.getId(), newBlog.getUser().getId())) {
             Long count = newBlog.getViews();
-            if(count==null)
-            {
+            if (count == null) {
                 count = 1L;
-            }
-            else {
-                count= count+1;
+            } else {
+                count = count + 1;
             }
             newBlog.setViews(count);
             blogRepository.save(newBlog);
@@ -810,12 +815,12 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @PostMapping("/{blogId}/like")
     public ResponseEntity<?> likeBlog(@PathVariable BigInteger blogId) {
         Users user = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blogId).orElse(null);
-        if (blog==null)
-        {
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -825,9 +830,8 @@ public class AccountBlog {
                             .build()
                     );
         }
-        LikeReponse likeReponse = ibLogService.likeBlog(blog,user);
-        if (!likeReponse.getStatus())
-        {
+        LikeReponse likeReponse = ibLogService.likeBlog(blog, user);
+        if (!likeReponse.getStatus()) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -836,8 +840,7 @@ public class AccountBlog {
                             .message("Dislike blog success")
                             .build()
                     );
-        }
-        else {
+        } else {
 //            Notification notification = new Notification();
 //            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 //            notification.setUserId(blog.getUser().getId()); // User's Blog
@@ -845,22 +848,23 @@ public class AccountBlog {
 //            notification.setCreatedAt(timestamp);
 //            notification.setRelatedObjectId(blog.getId());
 //            notificationService.sendNotification(notification);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(GenericResponse.builder()
-                        .success(true)
-                        .result(likeReponse)
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Like blog success")
-                        .build()
-                );
-    }}
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(likeReponse)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Like blog success")
+                            .build()
+                    );
+        }
+    }
+
     @PostMapping("/{blogId}/save")
     public ResponseEntity<?> saveBlog(@PathVariable BigInteger blogId) {
         Users user = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blogId).orElse(null);
-        BlogSave blogCheck= iBlogSaveRepository.findByUsersAndBlog(user,blog);
-        if (blog==null)
-        {
+        BlogSave blogCheck = iBlogSaveRepository.findByUsersAndBlog(user, blog);
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -870,8 +874,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        if (blogCheck!=null)
-        {
+        if (blogCheck != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -881,7 +884,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        BlogSave blogSave= new BlogSave();
+        BlogSave blogSave = new BlogSave();
         blogSave.setBlog(blog);
         blogSave.setUsers(user);
         iBlogSaveRepository.save(blogSave);
@@ -894,14 +897,14 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @Transactional
     @DeleteMapping("/{blogId}/cancel-save")
     public ResponseEntity<?> disableSaveBlog(@PathVariable BigInteger blogId) {
         Users user = getUserFromAuthentication();
         Blog blog = blogRepository.findById(blogId).orElse(null);
-        BlogSave blogCheck= iBlogSaveRepository.findByUsersAndBlog(user,blog);
-        if (blog==null)
-        {
+        BlogSave blogCheck = iBlogSaveRepository.findByUsersAndBlog(user, blog);
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -911,8 +914,7 @@ public class AccountBlog {
                             .build()
                     );
         }
-        if (blogCheck==null)
-        {
+        if (blogCheck == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -932,12 +934,12 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @GetMapping("/user")
     public ResponseEntity<GenericResponse> getAllBlogByUser() {
         Users users = getUserFromAuthentication();
         List<BlogDTO> list = ibLogService.getAllBlogByUser(users);
-        if (list==null)
-        {
+        if (list == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -956,25 +958,24 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @PatchMapping("/{blog_id}/edit")
-    public ResponseEntity<GenericResponse> editBlogByUser(  @RequestBody  BlogEditDTO blogDTO,@PathVariable  BigInteger blog_id) {
-       if (blogDTO.getStatus_id()==1)
-       {
-           List<String> errors = blogDTO.validateAndGetErrors();
-           if (!errors.isEmpty()) {
-               return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                       .body(GenericResponse.builder()
-                               .success(false)
-                               .statusCode(HttpStatus.BAD_REQUEST.value())
-                               .message(errors.get(0))
-                               .build()
-                       );
-           }
-       }
+    public ResponseEntity<GenericResponse> editBlogByUser(@RequestBody BlogEditDTO blogDTO, @PathVariable BigInteger blog_id) {
+        if (blogDTO.getStatus_id() == 1) {
+            List<String> errors = blogDTO.validateAndGetErrors();
+            if (!errors.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(GenericResponse.builder()
+                                .success(false)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .message(errors.get(0))
+                                .build()
+                        );
+            }
+        }
         Users users = getUserFromAuthentication();
-        BlogDTO blog = ibLogService.updateBlog(blogDTO,blog_id,users);
-        if (blog==null)
-        {
+        BlogDTO blog = ibLogService.updateBlog(blogDTO, blog_id, users);
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -993,12 +994,12 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @Transactional
     @DeleteMapping("/{blog_id}/delete")
     public ResponseEntity<?> deleteBlogById(@PathVariable BigInteger blog_id) {
         Blog blog = blogRepository.findById(blog_id).orElse(null);
-        if (blog==null)
-        {
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(false)
@@ -1018,12 +1019,12 @@ public class AccountBlog {
                         .build()
                 );
     }
+
     @PostMapping("/{blog_id}/comment")
     public ResponseEntity<?> commentBlog(@PathVariable BigInteger blog_id, @RequestBody CommentDTO DTO) {
         Blog blog = blogRepository.findById(blog_id).orElse(null);
-        Users users= getUserFromAuthentication();
-        if (blog==null)
-        {
+        Users users = getUserFromAuthentication();
+        if (blog == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
                             .success(true)
@@ -1033,14 +1034,39 @@ public class AccountBlog {
                             .build()
                     );
         }
-        Comment comment = commentService.addComment(users,blog,DTO);
-        notificationService.notifyComment(blog,users);
+        Comment comment = commentService.addComment(users, blog, DTO);
+        notificationService.notifyComment(blog, users);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(GenericResponse.builder()
                         .success(true)
                         .result(comment)
                         .statusCode(HttpStatus.OK.value())
                         .message("Comment blog success")
+                        .build()
+                );
+    }
+
+    @PatchMapping("/{notifycation_id}/checkIsRead")
+    public ResponseEntity<?> checkIsRead(@PathVariable BigInteger notifycation_id) {
+        if (!notificationService.exitNotifycation(notifycation_id)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(false)
+                            .result(null)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Notifycation not found ")
+                            .build()
+                    );
+        }
+        StatusResopnes statusResopnes = new StatusResopnes();
+        statusResopnes.setStatusCode(1);
+        notificationService.checkIsRead(notifycation_id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(statusResopnes)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Notifycation is read ")
                         .build()
                 );
     }

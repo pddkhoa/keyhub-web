@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,8 +28,6 @@ public class Notification {
     @ManyToOne
     private Users sender;
 
-    @ManyToOne
-    private Users targetUser;
 
     @ManyToOne
     private Blog targetBlog;
@@ -36,8 +35,9 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private TypeNotification type; // có thể là "comment", "like", "follow"
 
-    private String content;
-
     private Boolean isRead;
+
+    @Column
+    private Timestamp createDate;
 
 }
