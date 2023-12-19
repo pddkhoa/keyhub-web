@@ -10,22 +10,23 @@ import PrivateRouter from "./privateRouter";
 import AdminRouter from "./adminRouter";
 
 const AppRouter = () => {
-  const user = useSelector((state: RootState) => state?.auth?.login?.data);
+    const user = useSelector((state: RootState) => state?.auth?.login?.data);
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        {user?.token ? (
-          jwtDecode(user?.token).userDetails.users?.role === "ADMIN" ? (
-            <Route path="*" element={<AdminRouter />} />
-          ) : (
-            <Route path="*" element={<PrivateRouter />} />
-          )
-        ) : (
-          <Route path="*" element={<PublicRouter />} />
-        )}
-      </Routes>
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<Loading />}>
+            <Routes>
+                {user?.token ? (
+                    jwtDecode(user?.token).userDetails.users?.role ===
+                    "ADMIN" ? (
+                        <Route path="*" element={<AdminRouter />} />
+                    ) : (
+                        <Route path="*" element={<PrivateRouter />} />
+                    )
+                ) : (
+                    <Route path="*" element={<PublicRouter />} />
+                )}
+            </Routes>
+        </Suspense>
+    );
 };
 export default AppRouter;

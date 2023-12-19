@@ -1,31 +1,29 @@
 import { Card } from "@/components/Card/CardList/card";
 import { Loading } from "@/components/Loading/loading";
-import { Button } from "@/components/ui/button";
 import { Nodata } from "@/components/ui/nodata";
 import useFetch from "@/hooks/useFetch";
 import { RootState } from "@/redux/store";
 import { REQUEST_TYPE } from "@/types";
-import { SlidersHorizontal } from "lucide-react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const ListDraft = () => {
-  const { isLoading, sendRequest } = useFetch();
+    const { isLoading, sendRequest } = useFetch();
 
-  const blogDraft = useSelector((state: RootState) => state.blog.blogDraft);
+    const blogDraft = useSelector((state: RootState) => state.blog.blogDraft);
 
-  useEffect(() => {
-    sendRequest({ type: REQUEST_TYPE.LIST_BLOG_DRAFT });
-  }, []);
+    useEffect(() => {
+        sendRequest({ type: REQUEST_TYPE.LIST_BLOG_DRAFT });
+    }, []);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-  return (
-    <div className="mx-auto container  py-16">
-      <div className="grid grid-cols-8 text-title p-5 gap-5">
-        <div className="col-span-8 flex flex-col">
-          {/* <div className="flex h-12 gap-3 self-stretch items-center mb-6 typo-callout">
+    if (isLoading) {
+        return <Loading />;
+    }
+    return (
+        <div className="mx-auto container  py-16">
+            <div className="grid grid-cols-8 text-title p-5 gap-5">
+                <div className="col-span-8 flex flex-col">
+                    {/* <div className="flex h-12 gap-3 self-stretch items-center mb-6 typo-callout">
             <div className="items-center h-10 rounded-xl border-2 flex-1 compact flex px-4 overflow-hidden bg-input   cursor-text ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,19 +44,23 @@ const ListDraft = () => {
               ></input>
             </div>
           </div> */}
-          <div className="mt-8  space-y-5">
-            {blogDraft && blogDraft.length > 0 ? (
-              blogDraft.map((item) => (
-                <Card data={item} key={item.id} cardType="draft" />
-              ))
-            ) : (
-              <Nodata />
-            )}
-          </div>
+                    <div className="mt-8  space-y-5">
+                        {blogDraft && blogDraft.length > 0 ? (
+                            blogDraft.map((item) => (
+                                <Card
+                                    data={item}
+                                    key={item.id}
+                                    cardType="draft"
+                                />
+                            ))
+                        ) : (
+                            <Nodata />
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ListDraft;

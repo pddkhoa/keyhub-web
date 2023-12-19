@@ -19,7 +19,8 @@ const useLoadingLazy = <T>(
     const user = useSelector((state: RootState) => state.auth.login);
     const axiosJWT = createAxios(user, dispatch, loginSuccess);
     const accessToken = user?.data.token;
-    const [isFollowing, setIsFollowing] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const isFollowing = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -52,7 +53,7 @@ const useLoadingLazy = <T>(
             }, 1000);
         };
         fetchData();
-    }, [pageNum, isFollowing, isHideBlog, isBookmark, unBookmark]); // Include isHide in the dependency array
+    }, [pageNum, isHideBlog, isBookmark, unBookmark]); // Include isHide in the dependency array
 
     return { isLoading, result, isError, hasNextPage };
 };

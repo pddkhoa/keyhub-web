@@ -1,8 +1,6 @@
 import AlphabetAvatar from "@/components/Avatar/avatar";
 import { EditAccount } from "@/components/Form/editAccount";
-import { EditNotification } from "@/components/Form/editNotification";
 import { EditPassword } from "@/components/Form/editPassword";
-import { EditPrivacy } from "@/components/Form/editPrivacy";
 import EditProfile from "@/components/Form/editProfile";
 import Modal from "@/components/Modal/modal";
 import { UploadFIle } from "@/components/Modal/uploadFile";
@@ -10,10 +8,9 @@ import { Button } from "@/components/ui/button";
 import useBoolean from "@/hooks/useBoolean";
 import { RootState } from "@/redux/store";
 import { Camera } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
-import User from "@/types/user";
 import { Link } from "react-router-dom";
 
 const SettingAccount = () => {
@@ -24,7 +21,6 @@ const SettingAccount = () => {
 
     const userData = useSelector((state: RootState) => state.user.detail.data);
 
-    const [user, setUser] = useState<User>(userData);
     const { data } = useSelector((state: RootState) => state.auth.login);
     const { userDetails }: any = jwt_decode(data.token);
 
@@ -40,7 +36,7 @@ const SettingAccount = () => {
             case "PASSWORD":
                 return <EditPassword data={userData} passwordCurrent={pwd} />;
             case "PROFILE":
-                return <EditProfile data={user} />;
+                return <EditProfile data={userData} />;
             // case "PRIVACY":
             //     return <EditPrivacy data={userData} />;
             default:

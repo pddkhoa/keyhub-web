@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ReportComment } from "../Modal/Comment/reportComment";
+import { Loading } from "../Loading/loading";
 
 interface CommentsProps {
     idBlog?: number;
@@ -75,6 +76,10 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
         );
     };
 
+    if (loading) {
+        return <Loading />;
+    }
+
     return (
         <div className="flex flex-col w-full space-y-3 mt-5">
             <div className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 dark:text-black">
@@ -110,7 +115,7 @@ interface CommentProps {
     child?: CommentType[];
     isChild?: boolean;
     activeComment: any;
-    setActiveComment: React.Dispatch<React.SetStateAction<undefined>>;
+    setActiveComment: React.Dispatch<React.SetStateAction<any>>;
     setPosting: React.Dispatch<React.SetStateAction<boolean>>;
     parentId?: number;
     childComment: any;
@@ -120,7 +125,6 @@ interface CommentProps {
 
 export const Comment: React.FC<CommentProps> = ({
     comment,
-    isChild,
     activeComment,
     setActiveComment,
     setPosting,
@@ -215,7 +219,7 @@ export const Comment: React.FC<CommentProps> = ({
                                     <button
                                         onClick={() => {
                                             setActiveComment({
-                                                id: comment.id,
+                                                id: comment?.id,
                                                 type: "replying",
                                             });
                                         }}
@@ -332,7 +336,7 @@ export const Comment: React.FC<CommentProps> = ({
 interface CommentFormProps {
     setPosting: React.Dispatch<React.SetStateAction<boolean>>;
     parentId?: number;
-    setActiveComment?: React.Dispatch<React.SetStateAction<undefined>>;
+    setActiveComment?: React.Dispatch<React.SetStateAction<any>>;
     idBlog?: number;
 }
 
@@ -361,11 +365,11 @@ export const CommentForm: React.FC<CommentFormProps> = ({
             setPosting(true);
             const { body } = await ClientServices.replyComment(
                 report,
-                selectedId,
+                selectedId as any,
                 accessToken,
                 axiosJWT
             );
-            if (body?.success) {
+            if (body?.success && setActiveComment) {
                 setPosting(false);
                 toast.success(body.message);
                 setActiveComment(null);
@@ -385,7 +389,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
             setPosting(true);
             const { body } = await ClientServices.addComment(
                 report,
-                selectedId,
+                selectedId as any,
                 accessToken,
                 axiosJWT
             );
@@ -449,7 +453,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
 
             <div className="flex flex-row gap-3 justify-end items-center p-3 px-4 border-t text-title-foreground">
                 <div className="flex  gap-5">
-                    {parentId ? (
+                    {parentId && setActiveComment ? (
                         <Button
                             onClick={() => {
                                 setActiveComment(null);

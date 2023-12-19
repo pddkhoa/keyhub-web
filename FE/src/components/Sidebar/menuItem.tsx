@@ -7,7 +7,6 @@ import {
     PiChatsCircleBold,
     PiCheckSquareOffsetFill,
     PiFlagBold,
-    PiGearFill,
     PiHeadsetFill,
     PiHouseBold,
     PiLightning,

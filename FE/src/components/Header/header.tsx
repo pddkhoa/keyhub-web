@@ -234,11 +234,11 @@ const Header = () => {
                                                     >
                                                         <stop
                                                             offset="0"
-                                                            stop-color="#00c6ff"
+                                                            stopColor="#00c6ff"
                                                         ></stop>
                                                         <stop
                                                             offset="1"
-                                                            stop-color="#0072ff"
+                                                            stopColor="#0072ff"
                                                         ></stop>
                                                     </linearGradient>
                                                 </defs>
@@ -342,15 +342,15 @@ const Header = () => {
                                                     >
                                                         <stop
                                                             offset="0"
-                                                            stop-color="#9cecfb"
+                                                            stopColor="#9cecfb"
                                                         ></stop>
                                                         <stop
                                                             offset=".51"
-                                                            stop-color="#65c7f7"
+                                                            stopColor="#65c7f7"
                                                         ></stop>
                                                         <stop
                                                             offset="1"
-                                                            stop-color="#0052d4"
+                                                            stopColor="#0052d4"
                                                         ></stop>
                                                     </linearGradient>
                                                 </defs>
@@ -376,15 +376,15 @@ const Header = () => {
                                             >
                                                 <path
                                                     fill="#5E94FF"
-                                                    fill-rule="evenodd"
+                                                    fillRule="evenodd"
                                                     d="M15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H3C2.58579 11.25 2.25 11.5858 2.25 12C2.25 12.4142 2.58579 12.75 3 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12Z"
-                                                    clip-rule="evenodd"
+                                                    clipRule="evenodd"
                                                 ></path>
                                                 <path
                                                     fill="#5E94FF"
-                                                    fill-rule="evenodd"
+                                                    fillRule="evenodd"
                                                     d="M7.03033 7.96967C6.73744 7.67678 6.26256 7.67678 5.96967 7.96967L2.46967 11.4697C2.17678 11.7626 2.17678 12.2374 2.46967 12.5303L5.96967 16.0303C6.26256 16.3232 6.73744 16.3232 7.03033 16.0303 7.32322 15.7374 7.32322 15.2626 7.03033 14.9697L4.06066 12 7.03033 9.03033C7.32322 8.73744 7.32322 8.26256 7.03033 7.96967zM8.25 4C8.25 3.58579 8.58579 3.25 9 3.25H21C21.4142 3.25 21.75 3.58579 21.75 4V20C21.75 20.4142 21.4142 20.75 21 20.75H9C8.58579 20.75 8.25 20.4142 8.25 20V17C8.25 16.5858 8.58579 16.25 9 16.25 9.41421 16.25 9.75 16.5858 9.75 17V19.25H20.25V4.75H9.75V7C9.75 7.41421 9.41421 7.75 9 7.75 8.58579 7.75 8.25 7.41421 8.25 7V4z"
-                                                    clip-rule="evenodd"
+                                                    clipRule="evenodd"
                                                 ></path>
                                             </svg>
                                             <span>Logout</span>

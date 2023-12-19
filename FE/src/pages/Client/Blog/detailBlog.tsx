@@ -159,7 +159,7 @@ const DetailBlog = () => {
                 </div>
                 <div className="output">
                     <Output
-                        data={editorData}
+                        data={editorData || undefined}
                         config={{
                             code: {
                                 className: "language-js py-4 text-white",

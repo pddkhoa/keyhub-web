@@ -1,35 +1,35 @@
 import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
-import { useNavigate } from "react-router-dom";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
 
 type Columns = {
-    data: any[];
+    data?: any[];
     sortConfig?: any;
-    handleSelectAll: any;
-    checkedItems: string[];
-    onDeleteItem: (report: any) => void;
+    onDeleteItem?: (report: any) => void;
     onHeaderCellClick: (value: string) => void;
-    onChecked?: (id: string) => void;
     onDeleteUser?: (report: any) => void;
     index?: number;
-    setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setDisplayCreate: {
+    onDeleteBlog?: (report: any) => void;
+    onDeleteCategories?: (id: any) => Promise<void>;
+    onDeleteItemTag?: (id: any) => void;
+    setDisplayModal?: React.Dispatch<React.SetStateAction<any>>;
+    setDisplayCreate?: {
         on: () => void;
         off: () => void;
         toggle: () => void;
     };
+    setDataUserReport?: any;
+    setTag?: any;
+    setDataBlog?: any;
     setDataUserBlock?: any;
     setCommentEvalute?: any;
 };
 
 export const getColumnsCommentReport = ({
-    data,
     sortConfig,
     setDisplayModal,
     setDisplayCreate,
     onHeaderCellClick,
-    setDataUserBlock,
     setCommentEvalute,
 }: Columns) => [
     {
@@ -125,13 +125,15 @@ export const getColumnsCommentReport = ({
                         variant="outline"
                         className="hover:brightness-150 cursor-pointer"
                     >
-                        <PencilIcon
-                            onClick={() => {
-                                setDisplayCreate.on();
-                                setDisplayModal("EVALUTE_COMMENT");
-                                setCommentEvalute(row);
-                            }}
-                        />
+                        {setDisplayCreate && setDisplayModal && (
+                            <PencilIcon
+                                onClick={() => {
+                                    setDisplayCreate.on();
+                                    setDisplayModal("EVALUTE_COMMENT");
+                                    setCommentEvalute(row);
+                                }}
+                            />
+                        )}
                     </ActionIcon>
                 </Tooltip>
                 {/* <Tooltip

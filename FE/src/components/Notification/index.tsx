@@ -169,7 +169,7 @@ const Notification: React.FC<NotificationProps> = React.forwardRef(
                               noti?.targetBlog?.id.toString()
                           );
                 }}
-                ref={ref}
+                ref={ref as any}
                 className="flex gap-5 hover:bg-gray-700 w-full p-1.5 rounded-md cursor-pointer"
             >
                 {body}

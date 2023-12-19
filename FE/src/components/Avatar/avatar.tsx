@@ -46,7 +46,7 @@ const AlphabetAvatar: FC<AlphabetAvatarProps> = ({ size }) => {
 
 type UserAvatarProps = {
     size: number;
-    data: string | null;
+    data?: string;
 };
 export const UserAvatar: FC<UserAvatarProps> = ({ size, data }) => {
     const style = {

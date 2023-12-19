@@ -46,7 +46,7 @@ export const ReportComment: React.FC<ReportCommentProps> = ({
         },
     ];
 
-    const [selectedReasons, setSelectedReasons] = useState([]);
+    const [selectedReasons, setSelectedReasons] = useState<any>([]);
 
     const handleCheckboxChange = (id: number) => {
         const index = selectedReasons.indexOf(id);

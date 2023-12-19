@@ -23,7 +23,7 @@ class ClientServices {
         };
 
         const res = await requestApiHelper<body>(
-            axiosJWT.post("api/v1/blog/create-blog", report, {
+            axiosJWT.post("/v1/blog/create-blog", report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -38,9 +38,7 @@ class ClientServices {
             statusCode: number;
         };
 
-        return await requestApiHelper<body>(
-            api.get("api/v1/blog/category/list")
-        );
+        return await requestApiHelper<body>(api.get("/v1/blog/category/list"));
     };
 
     static getTagByCategories = async (id: number) => {
@@ -52,7 +50,7 @@ class ClientServices {
         };
 
         return await requestApiHelper<body>(
-            api.get(`api/v1/list/blog/${id}/tags`)
+            api.get(`/v1/list/blog/${id}/tags`)
         );
     };
 
@@ -70,7 +68,7 @@ class ClientServices {
         const formData = new FormData();
         formData.append("file", file);
         const res = await requestApiHelper<body>(
-            axiosJWT.post("api/v1/blog/upload-file", formData, {
+            axiosJWT.post("/v1/blog/upload-file", formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "multipart/form-data",
@@ -95,7 +93,7 @@ class ClientServices {
         const formData = new FormData();
         formData.append("file", file);
         const res = await requestApiHelper<body>(
-            axiosJWT.post("api/v1/blog/upload-avatar", formData, {
+            axiosJWT.post("/v1/blog/upload-avatar", formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "multipart/form-data",
@@ -119,7 +117,7 @@ class ClientServices {
         };
 
         const res = await requestApiHelper<body>(
-            axiosJWT.post("api/v1/blog/draft-blog", report, {
+            axiosJWT.post("/v1/blog/draft-blog", report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -133,9 +131,7 @@ class ClientServices {
             result: string;
             statusCode: number;
         };
-        const res = await requestApiHelper<body>(
-            api.post(`api/v1/blog/cancel`)
-        );
+        const res = await requestApiHelper<body>(api.post(`v1/blog/cancel`));
         return res;
     };
 
@@ -153,7 +149,7 @@ class ClientServices {
         };
 
         const res = await requestApiHelper<body>(
-            axiosJWT.patch(`api/v1/blog/${id}/edit`, report, {
+            axiosJWT.patch(`/v1/blog/${id}/edit`, report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -171,7 +167,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${blog_id}/commentBlog`, {
+            axiosJWT.get(`/v1/list/blog/${blog_id}/commentBlog`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -191,7 +187,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/${blog_id}/comment`, content, {
+            axiosJWT.post(`/v1/blog/${blog_id}/comment`, content, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -210,7 +206,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/${blog_id}/reply-comment`, content, {
+            axiosJWT.post(`/v1/blog/${blog_id}/reply-comment`, content, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -228,7 +224,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.delete(`api/v1/blog/${id}/delete-comment`, {
+            axiosJWT.delete(`/v1/blog/${id}/delete-comment`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -247,7 +243,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${index}/popular`, {
+            axiosJWT.get(`/v1/list/blog/${index}/popular`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -265,7 +261,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${index}/new`, {
+            axiosJWT.get(`/v1/list/blog/${index}/new`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -283,7 +279,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${index}/like`, {
+            axiosJWT.get(`/v1/list/blog/${index}/like`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -301,7 +297,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${index}/views`, {
+            axiosJWT.get(`/v1/list/blog/${index}/views`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -319,10 +315,11 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/${index}/feed`, {
+            axiosJWT.get(`/v1/list/blog/${index}/feed`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
+        console.log(res);
         return res;
     };
     static getUserAll = async (
@@ -337,7 +334,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/network/${index}/all/follow`, {
+            axiosJWT.get(`/v1/network/${index}/all/follow`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -351,7 +348,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/network/follow`, {
+            axiosJWT.get(`/v1/network/follow`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -365,7 +362,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/size`, {
+            axiosJWT.get(`/v1/list/blog/size`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -383,7 +380,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/user-interactions/${id}`, {
+            axiosJWT.get(`/v1/user-interactions/${id}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -401,7 +398,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/wall/${id}/blog`, {
+            axiosJWT.get(`/v1/wall/${id}/blog`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -419,7 +416,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/wall/${id}/series`, {
+            axiosJWT.get(`/v1/wall/${id}/series`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -434,7 +431,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/categories`, {
+            axiosJWT.get(`/v1/categories`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -453,7 +450,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/list/blog/category/${id}`, {
+            axiosJWT.get(`/v1/list/blog/category/${id}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -471,7 +468,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/${id}/user/categories`, {
+            axiosJWT.get(`/v1/${id}/user/categories`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -489,7 +486,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/categories/${id}/follow`, null, {
+            axiosJWT.post(`/v1/categories/${id}/follow`, null, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -503,7 +500,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/user-interactions/${id}/follow`, null, {
+            axiosJWT.post(`/v1/user-interactions/${id}/follow`, null, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -518,7 +515,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/${id}/like`, null, {
+            axiosJWT.post(`/v1/blog/${id}/like`, null, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -532,7 +529,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/${id}/hide`, null, {
+            axiosJWT.post(`/v1/blog/${id}/hide`, null, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -550,7 +547,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/report-blog`, report, {
+            axiosJWT.post(`/v1/blog/report-blog`, report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -568,7 +565,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/user-interactions/report`, report, {
+            axiosJWT.post(`/v1/user-interactions/report`, report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -587,7 +584,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/blog/report-comment`, report, {
+            axiosJWT.post(`/v1/blog/report-comment`, report, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -601,7 +598,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.post(`api/v1/user-interactions/${id}/block`, null, {
+            axiosJWT.post(`/v1/user-interactions/${id}/block`, null, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -620,7 +617,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.get(`api/v1/blog/${index}/notication`, {
+            axiosJWT.get(`/v1/blog/${index}/notication`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );
@@ -639,7 +636,7 @@ class ClientServices {
             statusCode: number;
         };
         const res = await requestApiHelper<body>(
-            axiosJWT.patch(`api/v1/blog/${id}/checkIsRead`, {
+            axiosJWT.patch(`/v1/blog/${id}/checkIsRead`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
         );

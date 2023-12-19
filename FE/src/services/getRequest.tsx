@@ -102,7 +102,7 @@ import {
 } from "@/redux/userSlice";
 import { REQUEST_TYPE, RequestConfig, REQUEST_METHOD } from "@/types";
 
-const BASE_URL = "http://localhost:8081/api";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 export const getRequestConfig = (
     type: REQUEST_TYPE,

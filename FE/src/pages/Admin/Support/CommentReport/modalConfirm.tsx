@@ -20,24 +20,26 @@ export const ModalEvaluteComment: React.FC<ModalEvaluteCommentProps> = ({
     const { isLoading, sendRequest } = useFetch();
 
     const handleEvalute = async (report: any) => {
-        setEvalute(false);
-
-        try {
-            // Assuming sendRequest returns a promise
-            await sendRequest({
-                type: REQUEST_TYPE.ADMIN_EVALUTE_REPORT,
-                slug: report.report_id,
-                data: report,
-            });
-
-            setEvalute(true);
-        } catch (error) {
+        if (setEvalute) {
             setEvalute(false);
 
-            // Handle any errors that occurred during the request
-            console.error("Error:", error);
+            try {
+                // Assuming sendRequest returns a promise
+                await sendRequest({
+                    type: REQUEST_TYPE.ADMIN_EVALUTE_REPORT,
+                    slug: report.report_id,
+                    data: report,
+                });
+
+                setEvalute(true);
+            } catch (error) {
+                setEvalute(false);
+
+                // Handle any errors that occurred during the request
+                console.error("Error:", error);
+            }
+            setFlag.off();
         }
-        setFlag.off();
     };
 
     return (

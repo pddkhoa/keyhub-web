@@ -3,32 +3,51 @@ import React, { useState } from "react";
 import { useTable } from "../../hooks/useTable";
 import { useColumn } from "../../hooks/useColumn";
 
-type ColumnTypes = {
+type Columns = {
     data?: any[];
     sortConfig?: any;
-    checkedItems?: string[];
-    handleSelectAll?: any;
-    onDeleteItem?: (id: string) => void;
-    onHeaderCellClick?: (value: string) => void;
-    onChecked?: (id: string) => void;
+    onDeleteItem?: (report: any) => void;
+    onHeaderCellClick: (value: string) => void;
+    onDeleteUser?: (report: any) => void;
     index?: number;
+    onDeleteBlog?: (report: any) => void;
+    onDeleteCategories?: (id: any) => Promise<void>;
+    onDeleteItemTag?: (id: any) => void;
+    setDisplayModal?: React.Dispatch<React.SetStateAction<any>>;
+    setDisplayCreate?: {
+        on: () => void;
+        off: () => void;
+        toggle: () => void;
+    };
+    setDataUserReport?: any;
+    setTag?: any;
+    setDataBlog?: any;
+    setDataUserBlock?: any;
+    setCommentEvalute?: any;
 };
-
 type BasicTableWidgetProps = {
     title?: React.ReactNode;
     className?: string;
     pageSize?: number;
-
     setPageSize?: React.Dispatch<React.SetStateAction<number>>;
     getColumns: ({
         data,
         sortConfig,
-        checkedItems,
-        handleSelectAll,
         onDeleteItem,
         onHeaderCellClick,
-        onChecked,
-    }: ColumnTypes) => any;
+        onDeleteBlog,
+        onDeleteUser,
+        onDeleteCategories,
+        onDeleteItemTag,
+        setDisplayModal,
+        setDisplayCreate,
+        setDataBlog,
+        setDataUserBlock,
+        setCommentEvalute,
+        setDataUserReport,
+        setTag,
+        index,
+    }: Columns) => any;
     data?: any[];
     enablePagination?: boolean;
     variant?: "classic";
@@ -42,9 +61,9 @@ type BasicTableWidgetProps = {
     };
     sticky?: boolean;
     index?: any;
-    setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsDelete?: React.Dispatch<React.SetStateAction<boolean>>;
     setEvalute?: React.Dispatch<React.SetStateAction<boolean>>;
-    setUnBlock: React.Dispatch<React.SetStateAction<boolean>>;
+    setUnBlock?: React.Dispatch<React.SetStateAction<boolean>>;
     setIsAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -78,35 +97,43 @@ export default function BasicTableWidget({
     const [dataUserBlock, setDataUserBlock] = useState();
 
     const onDeleteBlog = async (id: any) => {
-        setIsDelete(false);
-        await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_BLOG);
-        sendRequest({
-            type: REQUEST_TYPE.ADMIN_GET_ALLBLOG,
-        });
-        setIsDelete(true);
+        if (setIsDelete) {
+            setIsDelete(false);
+            await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_BLOG);
+            sendRequest({
+                type: REQUEST_TYPE.ADMIN_GET_ALLBLOG,
+            });
+            setIsDelete(true);
+        }
     };
 
     const onDeleteItemTag = async (id: any) => {
-        setIsDelete(false);
+        if (setIsDelete) {
+            setIsDelete(false);
 
-        await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_TAG);
-        setIsDelete(true);
+            await handleDelete(id, null, REQUEST_TYPE.ADMIN_DELETE_TAG);
+            setIsDelete(true);
+        }
     };
 
     const onDeleteCategories = async (id: any) => {
-        setIsDelete(false);
+        if (setIsDelete) {
+            setIsDelete(false);
 
-        await handleDelete(id, null, REQUEST_TYPE.DELETE_CATEGORIES);
-        setIsDelete(true);
+            await handleDelete(id, null, REQUEST_TYPE.DELETE_CATEGORIES);
+            setIsDelete(true);
+        }
     };
 
     const onDeleteUser = async (report: any) => {
-        setIsDelete(false);
-        await handleDelete(null, report, REQUEST_TYPE.ADMIN_DELETE_USER);
-        sendRequest({
-            type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
-        });
-        setIsDelete(true);
+        if (setIsDelete) {
+            setIsDelete(false);
+            await handleDelete(null, report, REQUEST_TYPE.ADMIN_DELETE_USER);
+            sendRequest({
+                type: REQUEST_TYPE.ADMIN_GET_ALLUSER,
+            });
+            setIsDelete(true);
+        }
     };
 
     const [displayModal, setDisplayModal] = useState("");
@@ -135,21 +162,18 @@ export default function BasicTableWidget({
                 data,
                 sortConfig,
                 onHeaderCellClick,
-                onDeleteItemTag,
+                onDeleteBlog,
                 onDeleteUser,
-                checkedItems: selectedRowKeys,
-                onChecked: handleRowSelect,
-                handleSelectAll,
-                index,
+                onDeleteCategories,
+                onDeleteItemTag,
                 setDisplayModal,
                 setDisplayCreate,
-                setDataUserReport,
-                setTag,
-                onDeleteCategories,
-                onDeleteBlog,
                 setDataBlog,
                 setDataUserBlock,
                 setCommentEvalute,
+                setDataUserReport,
+                setTag,
+                index,
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [
@@ -213,28 +237,30 @@ export default function BasicTableWidget({
                 })}
             />
             <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
-                {displayModal === "USER_REPORT" ? (
+                {displayModal === "USER_REPORT" && setEvalute ? (
                     <ConfirmReport
                         setFlag={setDisplayCreate}
                         dataUserReport={dataUserReport}
                         setEvalute={setEvalute}
                     />
                 ) : null}
-                {displayModal === "USER_BLOCK" ? (
+                {displayModal === "USER_BLOCK" &&
+                setUnBlock &&
+                dataUserBlock ? (
                     <FormUserBlock
                         setFlag={setDisplayCreate}
                         setUnBlock={setUnBlock}
                         dataUserBlock={dataUserBlock}
                     />
                 ) : null}
-                {displayModal === "BLOG_REPORT" ? (
+                {displayModal === "BLOG_REPORT" && setEvalute ? (
                     <FormEvaluteBlog
                         setFlag={setDisplayCreate}
                         data={dataBlog}
                         setEvalute={setEvalute}
                     />
                 ) : null}
-                {displayModal === "EDIT_TAG" ? (
+                {displayModal === "EDIT_TAG" && setIsAdd ? (
                     <FormEditTag
                         setFlag={setDisplayCreate}
                         data={dataTag}
@@ -263,11 +289,11 @@ import { REQUEST_TYPE } from "@/types";
 import useFetch from "@/hooks/useFetch";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
-import { ConfirmReport } from "@/pages/Admin/Support/AccountReport/ConfirmReport";
 import { FormEditTag } from "@/pages/Admin/Tags/formEdit";
 import { FormEvaluteBlog } from "@/pages/Admin/Support/BlogsReport/formEvalute";
 import { FormUserBlock } from "@/pages/Admin/Support/AccountBlocked/formUserBlock";
 import { ModalEvaluteComment } from "@/pages/Admin/Support/CommentReport/modalConfirm";
+import { ConfirmReport } from "@/pages/Admin/Support/AccountReport/confirmReport";
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
 

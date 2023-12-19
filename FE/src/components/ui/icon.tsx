@@ -107,9 +107,9 @@ const IconEdit = ({ className, ...props }: any) => (
         >
             <path
                 fill="url(#paint0_linear_1233_4284)"
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M20.7071 1.29289C20.3166 0.902369 19.6834 0.902369 19.2929 1.29289L11.2929 9.29289C11.1831 9.40267 11.1004 9.53649 11.0513 9.68377L10.0513 12.6838C9.93154 13.0431 10.0251 13.4393 10.2929 13.7071C10.5607 13.9749 10.9569 14.0685 11.3162 13.9487L14.3162 12.9487C14.4635 12.8996 14.5973 12.8169 14.7071 12.7071L22.7071 4.70711C23.0976 4.31658 23.0976 3.68342 22.7071 3.29289L20.7071 1.29289ZM12.5811 11.4189L12.874 10.5402L20 3.41421L20.5858 4L13.4598 11.126L12.5811 11.4189ZM3 6C3 5.44772 3.44772 5 4 5H14.5C15.0523 5 15.5 4.55228 15.5 4C15.5 3.44772 15.0523 3 14.5 3H4C2.34315 3 1 4.34315 1 6V20C1 21.6569 2.34315 23 4 23H18C19.6569 23 21 21.6569 21 20V9.5C21 8.94772 20.5523 8.5 20 8.5C19.4477 8.5 19 8.94772 19 9.5V20C19 20.5523 18.5523 21 18 21H4C3.44772 21 3 20.5523 3 20V6Z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
             ></path>
             <defs>
                 <linearGradient
@@ -133,7 +133,7 @@ const IconComment = ({ className, ...props }: any) => (
     <div {...props}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            enable-background="new 0 0 24 24"
+            enableBackground="new 0 0 24 24"
             viewBox="0 0 24 24"
             className={cn(className)}
             id="comment"
@@ -369,7 +369,7 @@ const IconPassword = ({ ...props }: any) => (
     <div {...props}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            enable-background="new 0 0 24 24"
+            enableBackground="new 0 0 24 24"
             viewBox="0 0 24 24"
             className="w-10 h-10  mr-2 bg-input p-1 rounded-full"
             id="security"
@@ -490,7 +490,7 @@ const IconWarning = ({ ...props }: any) => (
                     fill="url(#c)"
                     d="m 12,298.65039 a 1,1 0 0 0 -1,1 v 5.01367 a 1,1 0 0 0 1,1 1,1 0 0 0 1,-1 v -5.01367 a 1,1 0 0 0 -1,-1 z"
                     color="#000"
-                    enable-background="accumulate"
+                    enableBackground="accumulate"
                     fontFamily="sans-serif"
                     fontWeight="400"
                     overflow="visible"
