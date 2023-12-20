@@ -135,6 +135,7 @@ public class NotificationServiceImpl implements INotificationService {
     public void deleteNotifycation(Users users, Blog blog) {
         TypeNotification type = TypeNotification.LIKE;
         Notification notification = notificationRepository.findBySenderAndTargetBlogAndType(users,blog,type);
+        if (notification!=null){
         notificationRepository.delete(notification);
-    }
+    }}
 }

@@ -7,13 +7,10 @@ import com.example.Keyhub.data.dto.response.BlogEditDTO;
 import com.example.Keyhub.data.dto.response.LikeReponse;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogImage;
-import com.example.Keyhub.data.entity.Blog.BlogSave;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
-import org.springframework.security.core.userdetails.User;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 public interface IBLogService {
     Blog createBlog(BlogPostDTO blogPostDTO, Users user);
