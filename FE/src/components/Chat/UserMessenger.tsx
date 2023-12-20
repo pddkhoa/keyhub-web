@@ -23,7 +23,7 @@ export const UserMessenger: React.FC<UserMessengerProps> = ({
     const dataUser = useSelector(
         (state: RootState) => state.auth.login.data.token
     );
-    const decode = jwtDecode(dataUser);
+    const decode = jwtDecode(dataUser) as any;
 
     const isAuth = decode?.userDetails?.users?.id;
 
