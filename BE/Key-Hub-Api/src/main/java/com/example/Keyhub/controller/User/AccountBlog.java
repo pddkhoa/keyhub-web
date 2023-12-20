@@ -789,14 +789,16 @@ public class AccountBlog {
             blogDTO.setViews(count);
         }
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(newBlog.getCategory().getId());
-        categoryDTO.setName(newBlog.getCategory().getName());
-        blogDTO.setCategories(categoryDTO);
-
+        if (newBlog.getCategory()!=null) {
+            categoryDTO.setId(newBlog.getCategory().getId());
+            categoryDTO.setName(newBlog.getCategory().getName());
+            blogDTO.setCategories(categoryDTO);
+        }
+        if (newBlog.getTags()!=null){
         List<TagDTO> tagDTOs = newBlog.getTags().stream()
                 .map(tag -> new TagDTO(tag.getId(), tag.getName()))
                 .collect(Collectors.toList());
-        blogDTO.setTags(tagDTOs);
+        blogDTO.setTags(tagDTOs);}
         if (newBlog.getSeries() != null) {
             SeriesResponse seriesDTO = new SeriesResponse();
             seriesDTO.setId(newBlog.getSeries().getId());
@@ -1027,7 +1029,7 @@ public class AccountBlog {
         if (blog == null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(GenericResponse.builder()
-                            .success(true)
+                            .success(false)
                             .result(null)
                             .statusCode(HttpStatus.OK.value())
                             .message("Not found blog")

@@ -116,7 +116,7 @@ public class AdmidBlogController {
     @PostMapping("/evalute")
     public ResponseEntity<GenericResponse> evaluteBlog(@RequestBody EvaluteRequestDTO req)
     {
-        StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req);
+        StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req,getUserFromAuthentication());
         if (statusResopnes.getStatusCode()==3)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

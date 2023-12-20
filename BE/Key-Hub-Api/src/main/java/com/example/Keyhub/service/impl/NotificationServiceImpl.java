@@ -75,6 +75,18 @@ public class NotificationServiceImpl implements INotificationService {
     }
 
     @Override
+    public void notifyDelete(Blog blog, Users users) {
+        Notification notification = new Notification();
+        notification.setRecipient(blog.getUser());
+        notification.setSender(users);
+        notification.setTargetBlog(blog);
+        notification.setIsRead(false);
+        notification.setCreateDate(timestamp);
+        notification.setType(TypeNotification.DELETE_POST);
+        save(notification);
+    }
+
+    @Override
     public List<NotifycationResponseDTO> listNotificationRecipient(int index, Users users) {
         List<Notification> list = notificationRepository.findByRecipient(users);
         list.sort(Comparator.comparing(Notification::getCreateDate).reversed());
@@ -117,5 +129,12 @@ public class NotificationServiceImpl implements INotificationService {
     @Override
     public boolean exitNotifycation(BigInteger notification) {
         return notificationRepository.existsById(notification);
+    }
+
+    @Override
+    public void deleteNotifycation(Users users, Blog blog) {
+        TypeNotification type = TypeNotification.LIKE;
+        Notification notification = notificationRepository.findBySenderAndTargetBlogAndType(users,blog,type);
+        notificationRepository.delete(notification);
     }
 }

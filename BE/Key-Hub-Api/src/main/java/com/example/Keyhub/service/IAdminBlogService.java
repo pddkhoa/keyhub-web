@@ -14,7 +14,7 @@ public interface IAdminBlogService {
     List<ReportResponseDTO> listBlogViolating(Users users);
     List<BlogDTO> listAllBlog( Users users);
     int sizeAllBlog();
-    StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO);
+    StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO,Users users);
     List<ReportCommentResponseDTO> listReportComment();
     StatusResopnes evaluteComment(Users users,EvaluteRequestDTO evaluteRequestDTO);
 }

@@ -13,10 +13,7 @@ import com.example.Keyhub.data.entity.report.ReportBlog;
 import com.example.Keyhub.data.entity.report.ReportComment;
 import com.example.Keyhub.data.repository.*;
 import com.example.Keyhub.event.OnEvaluteApproveDeleteBlogEvent;
-import com.example.Keyhub.service.GeneralService;
-import com.example.Keyhub.service.IAdminBlogService;
-import com.example.Keyhub.service.IBLogService;
-import com.example.Keyhub.service.ICommentService;
+import com.example.Keyhub.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -100,8 +97,10 @@ public class AdminBlogService implements IAdminBlogService {
     }
     final
     IBLogService ibLogService;
+    @Autowired
+    INotificationService notificationService;
     @Override
-    public StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO) {
+    public StatusResopnes evaluteBlog(EvaluteRequestDTO evaluteRequestDTO,Users users) {
         StatusResopnes statusResopnes = new StatusResopnes();
         ReportBlog reportBlog = reportRepository.findById(evaluteRequestDTO.getReport_id()).orElse(null);
         if (reportBlog==null)
@@ -113,6 +112,7 @@ public class AdminBlogService implements IAdminBlogService {
         int sumViolating = blog.getSumViolating();
         if (evaluteRequestDTO.isValue())
         {
+//            notificationService.notifyDelete(blog,users);
             applicationEventPublisher.publishEvent(new OnEvaluteApproveDeleteBlogEvent(blog));
             reportRepository.delete(reportBlog);
             ibLogService.deleteBlogById(blog);

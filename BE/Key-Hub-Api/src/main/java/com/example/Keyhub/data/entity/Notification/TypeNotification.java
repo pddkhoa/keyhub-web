@@ -4,8 +4,7 @@ public enum TypeNotification {
     COMMENT("comment"),
     LIKE("like"),
     FOLLOW("follow"),
-    DELETE_POST("delete_post");
-
+    DELETE_POST("delete");
     private String value;
 
     TypeNotification(String value) {

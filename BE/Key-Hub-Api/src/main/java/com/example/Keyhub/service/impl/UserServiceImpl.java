@@ -10,7 +10,7 @@ import com.example.Keyhub.data.entity.report.ReportComment;
 import com.example.Keyhub.data.entity.report.ReportUser;
 import com.example.Keyhub.data.payload.ProfileInfor;
 import com.example.Keyhub.data.repository.*;
-import com.example.Keyhub.security.jwt.JwtTokenFilter;
+import com.example.Keyhub.security.jwt.JwtEntryPoint;
 import com.example.Keyhub.service.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -343,6 +343,7 @@ public class UserServiceImpl implements IUserService {
         userResponseDTO.setCheckStatusFollow(true);
         return userResponseDTO;
     }
+    private static final Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
     @Override
     public UserResponseDTO followCategory(Users users, Long category_id) {
         FollowCategory followCategory = new FollowCategory();
@@ -364,6 +365,7 @@ public class UserServiceImpl implements IUserService {
     public UserResponseDTO unFollowCategory(Users users, Long category_id) {
         Category category = categoryRepository.findById(category_id).orElse(null);
         FollowCategory followCategory = iUserFollowCategory.findByUserAndCategory(users,category);
+        logger.error("Expired JWT Token -> Message: {}",followCategory.getId());
         if (followCategory!=null) {
             iUserFollowCategory.delete(followCategory);
         }
@@ -680,7 +682,6 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toList());
         return userResponseDTOs;
     }
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
     @Override
     public ReportUserResponseDTO reportUser(Users users, ReportUserDTO reportUserDTO) {
         Users user = userService.findByID(reportUserDTO.getUser_id());

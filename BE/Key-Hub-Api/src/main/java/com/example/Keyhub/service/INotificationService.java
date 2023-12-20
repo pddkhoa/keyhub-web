@@ -13,8 +13,10 @@ public interface INotificationService {
     void notifyComment(Blog blog, Users users);
     void notifyFollow(Users usersFollower, BigInteger usersIsFollowed);
     void notifyLike(Blog blog, Users users);
+    void notifyDelete(Blog blog, Users users);
     List<NotifycationResponseDTO> listNotificationRecipient( int index, Users users);
     void checkIsRead(BigInteger notification);
     boolean exitNotifycation(BigInteger notification);
+    void deleteNotifycation(Users users , Blog blog);
 
 }

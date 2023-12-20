@@ -4,6 +4,7 @@ import com.example.Keyhub.data.dto.request.BlogPostDTO;
 import com.example.Keyhub.data.dto.request.BlogPostDraftDTO;
 import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.*;
+import com.example.Keyhub.data.entity.Notification.Notification;
 import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.entity.report.ReportBlog;
@@ -52,7 +53,7 @@ public class BlogServiceImpl implements IBLogService {
     final
     GeneralService generalService;
 
-    public BlogServiceImpl(IBlogLikeRepository blogLikeRepository, IBlogRepository blogRepository, IBlogHIdeRepository blogHIdeRepository, IBlockRepository blockRepository, ISeriesImageRepository imageRepository, IReportUserRepository reportUserRepository, IBlogComment blogComment, IUserRepository userRepository, IBlogSaveRepository blogSaveRepository, IFollowRepository iFollowRepository, IUserFollowCategory userFollowCategory, ICategoryRepository categoryRepository, IBlogImange blogImange, BlogSaveService blogSaveService, ISeriesRepository seriesRepository, ITagRepository tagRepository, GeneralService generalService, IReportRepository reportRepository, ISeriesRepository iSeriesRepository, INotificationService notificationService) {
+    public BlogServiceImpl(IBlogLikeRepository blogLikeRepository, IBlogRepository blogRepository, IBlogHIdeRepository blogHIdeRepository, IBlockRepository blockRepository, ISeriesImageRepository imageRepository, IReportUserRepository reportUserRepository, IBlogComment blogComment, IUserRepository userRepository, IBlogSaveRepository blogSaveRepository, IFollowRepository iFollowRepository, IUserFollowCategory userFollowCategory, ICategoryRepository categoryRepository, IBlogImange blogImange, BlogSaveService blogSaveService, ISeriesRepository seriesRepository, ITagRepository tagRepository, GeneralService generalService, IReportRepository reportRepository, ISeriesRepository iSeriesRepository, INotificationService notificationService, INotificationRepository notificationRepository) {
         this.blogLikeRepository = blogLikeRepository;
         this.blogRepository = blogRepository;
         this.blogHIdeRepository = blogHIdeRepository;
@@ -73,6 +74,7 @@ public class BlogServiceImpl implements IBLogService {
         this.reportRepository = reportRepository;
         this.iSeriesRepository = iSeriesRepository;
         this.notificationService = notificationService;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -817,9 +819,16 @@ public class BlogServiceImpl implements IBLogService {
     IBlogComment blogComment;
     final
     IReportRepository reportRepository;
+    final
+    INotificationRepository notificationRepository;
     @Transactional
     @Override
     public void deleteBlogById(Blog blog) {
+        List<Notification> notificationList = notificationRepository.findByTargetBlog(blog);
+        if (!notificationList.isEmpty())
+        {
+            notificationRepository.deleteAll(notificationList);
+        }
         if (blog.getSeries()!=null)
         {
         Series series = seriesRepository.findById(blog.getSeries().getId()).orElse(null);
@@ -868,6 +877,7 @@ public class BlogServiceImpl implements IBLogService {
             count = count.subtract(BigInteger.ONE);
             Blog.setLikes(count);
             blogRepository.save(Blog);
+            notificationService.deleteNotifycation(users,Blog);
             blogLikeRepository.delete(blogLike);
         }
         else {
@@ -1513,7 +1523,6 @@ public class BlogServiceImpl implements IBLogService {
             if (blogHide == null) {
                 blogDTO1 = generalService.createBlogDTO(users, blogDTO);
             }
-            blogDTO1.getUsers().setCheckReportUser(reportUserRepository.existsByUserReportAndUserIdReported(users, users1));
             result.add(blogDTO1);
         }
         return result;
