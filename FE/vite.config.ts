@@ -7,6 +7,7 @@ export default defineConfig({
     plugins: [react()],
     define: {
         "process.env": dotenv.config().parsed,
+        __APP_ENV__: process.env.VITE_VERCEL_ENV,
     },
     resolve: {
         alias: {
