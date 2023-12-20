@@ -18,176 +18,190 @@ import { ReportBlog } from "../Modal/Blog/reportBlog";
 import { HideBlog } from "../Modal/Blog/hideBlog";
 
 interface CardDetailProps {
-  post: BlogPost;
-  ref?: any;
-  setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
-  isHide?: boolean;
-  isUser?: boolean;
-  setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
-  setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+    post: BlogPost;
+    ref?: any;
+    setIsHide?: React.Dispatch<React.SetStateAction<boolean>>;
+    isHide?: boolean;
+    isUser?: boolean;
+    setIsBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
+    setUnBookmark?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
-  ({ post, isUser, setIsHide, setIsBookmark, setUnBookmark }, ref) => {
-    const { axiosJWT, accessToken } = useAuth();
+    ({ post, isUser, setIsHide, setIsBookmark, setUnBookmark }, ref) => {
+        const { axiosJWT, accessToken } = useAuth();
 
-    const [isLike, setIsLike] = useState(post.isLike);
-    const [valueLike, setValueLike] = useState(post.likes);
+        const [isLike, setIsLike] = useState(post.isLike);
+        const [valueLike, setValueLike] = useState(post.likes);
 
-    // Lấy thông tin user đăng nhập
-    const userData = useSelector((state: RootState) => state.user.detail.data);
-
-    const handleLike = async (id: number) => {
-      if (!isLike) {
-        // Nếu chưa follow, thực hiện follow
-        const { body } = await ClientServices.likeBlog(
-          id,
-          accessToken,
-          axiosJWT
+        // Lấy thông tin user đăng nhập
+        const userData = useSelector(
+            (state: RootState) => state.user.detail.data
         );
-        if (body?.success) {
-          setIsLike(true);
-          setValueLike(body.result.like);
-        } else {
-          setIsLike(false);
 
-          console.log(body?.message);
-        }
-      } else {
-        // Nếu chưa follow, thực hiện follow
-        const { body } = await ClientServices.likeBlog(
-          id,
-          accessToken,
-          axiosJWT
-        );
-        if (body?.success) {
-          setIsLike(false);
-          setValueLike(body.result.like);
-        } else {
-          console.log(body?.message);
-        }
-      }
-    };
+        const handleLike = async (id: number) => {
+            if (!isLike) {
+                // Nếu chưa follow, thực hiện follow
+                const { body } = await ClientServices.likeBlog(
+                    id,
+                    accessToken,
+                    axiosJWT
+                );
+                if (body?.success) {
+                    setIsLike(true);
+                    setValueLike(body.result.like);
+                } else {
+                    setIsLike(false);
 
-    const formatDate = () => {
-      const inputDate = post?.create_date;
-      const formattedDate = inputDate && convertDate(inputDate);
-      return formattedDate;
-    };
+                    console.log(body?.message);
+                }
+            } else {
+                // Nếu chưa follow, thực hiện follow
+                const { body } = await ClientServices.likeBlog(
+                    id,
+                    accessToken,
+                    axiosJWT
+                );
+                if (body?.success) {
+                    setIsLike(false);
+                    setValueLike(body.result.like);
+                } else {
+                    console.log(body?.message);
+                }
+            }
+        };
 
-    const [displayModal, setDisplayModal] = useState("");
-    const [displayCreate, setDisplayCreate] = useBoolean(false);
+        const formatDate = () => {
+            const inputDate = post?.create_date;
+            const formattedDate = inputDate && convertDate(inputDate);
+            return formattedDate;
+        };
 
-    const body = (
-      <>
-        <div className="flex flex-col max-w-5xl  p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md  text-gray-100">
-          <div className="flex justify-between space-x-4">
-            <Link
-              to={`/user/${post.users.id}`}
-              className="flex space-x-4 hover:brightness-125"
-            >
-              {!isUser ? (
-                <UserAvatar size={50} data={post && post.users.avatar} />
-              ) : (
-                <AlphabetAvatar size={50} />
-              )}
-              <div className="flex flex-col mt-1">
-                {!isUser ? (
-                  <>
-                    <span className="text-md text-title-foreground font-bold block ">
-                      {post.users.name}
-                    </span>
-                    <span className="text-sm text-blue-600 font-normal block">
-                      @{post.users.second_name}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span className="text-md text-title-foreground font-bold block ">
-                      {userData.name}
-                    </span>
-                    <span className="text-sm text-blue-600 font-normal block">
-                      @{userData.second_name}
-                    </span>
-                  </>
-                )}
-              </div>
-            </Link>
-            <div className="">
-              <Dropdown
-                data={post}
-                setDisplayModal={setDisplayModal}
-                setDisplayCreate={setDisplayCreate}
-              />
-            </div>
-          </div>
-          <div>
-            <img
-              src={post.avatar}
-              alt=""
-              className="object-cover w-full mb-4 h-96 rounded-md"
-            />
-            <p className="text-gray-500 dark:text-gray-500 text-sm py-1 ">
-              {formatDate()}
-            </p>
-            <h2 className="mb-1 text-xl font-semibold dark:text-black">
-              {post.title}
-            </h2>
-            <p className="text-sm dark:text-gray-500">{post.description}</p>
-          </div>
-          <div className="flex flex-wrap justify-between">
-            <div className="flex  text-sm dark:text-gray-400">
-              <button
-                onClick={() => handleLike(post.id)}
-                type="button"
-                className="flex items-center p-1 space-x-1.5"
-              >
-                <span className="group relative transition ease-out duration-300  bg-input h-8 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
-                  <svg
-                    className={`h-4 w-4 ${
-                      !isLike ? "dark:text-black" : "text-red-500"
-                    }  `}
-                    fill={`${isLike ? "currentColor" : "none"}`}
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
-                    />
-                  </svg>
-                  <span
-                    className="absolute -top-10 left-[50%] -translate-x-[50%]
+        const [displayModal, setDisplayModal] = useState("");
+        const [displayCreate, setDisplayCreate] = useBoolean(false);
+
+        const body = (
+            <>
+                <div className="flex flex-col max-w-5xl  p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md  text-gray-100">
+                    <div className="flex justify-between space-x-4">
+                        <Link
+                            to={`/user/${post.users.id}`}
+                            className="flex space-x-4 hover:brightness-125"
+                        >
+                            {!isUser ? (
+                                <UserAvatar
+                                    size={50}
+                                    data={post && post.users.avatar?.toString()}
+                                />
+                            ) : (
+                                <AlphabetAvatar size={50} />
+                            )}
+                            <div className="flex flex-col mt-1">
+                                {!isUser ? (
+                                    <>
+                                        <span className="text-md text-title-foreground font-bold block ">
+                                            {post.users.name}
+                                        </span>
+                                        <span className="text-sm text-blue-600 font-normal block">
+                                            @{post.users.second_name}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="text-md text-title-foreground font-bold block ">
+                                            {userData.name}
+                                        </span>
+                                        <span className="text-sm text-blue-600 font-normal block">
+                                            @{userData.second_name}
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        </Link>
+                        <div className="">
+                            <Dropdown
+                                data={post}
+                                setDisplayModal={setDisplayModal}
+                                setDisplayCreate={setDisplayCreate}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <img
+                            src={post.avatar}
+                            alt=""
+                            className="object-cover w-full mb-4 h-96 rounded-md"
+                        />
+                        <p className="text-gray-500 dark:text-gray-500 text-sm py-1 ">
+                            {formatDate()}
+                        </p>
+                        <h2 className="mb-1 text-xl font-semibold dark:text-black">
+                            {post.title}
+                        </h2>
+                        <p className="text-sm dark:text-gray-500">
+                            {post.description}
+                        </p>
+                    </div>
+                    <div className="flex flex-wrap justify-between">
+                        <div className="flex  text-sm dark:text-gray-400">
+                            <button
+                                onClick={() => handleLike(post.id)}
+                                type="button"
+                                className="flex items-center p-1 space-x-1.5"
+                            >
+                                <span className="group relative transition ease-out duration-300  bg-input h-8 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
+                                    <svg
+                                        className={`h-4 w-4 ${
+                                            !isLike
+                                                ? "dark:text-black"
+                                                : "text-red-500"
+                                        }  `}
+                                        fill={`${
+                                            isLike ? "currentColor" : "none"
+                                        }`}
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                                        />
+                                    </svg>
+                                    <span
+                                        className="absolute -top-10 left-[50%] -translate-x-[50%]
     z-20 origin-left scale-0 px-3 rounded-lg dark:text-black
     bg-card py-2 text-sm
     shadow-md transition-all duration-300 ease-in-out
     group-hover:scale-100"
-                  >
-                    Like<span></span>
-                  </span>
-                </span>
-                <span className="text-lg text-title ">{valueLike}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setDisplayModal("PREVIEW"), setDisplayCreate.on();
-                }}
-                className="flex items-center p-1 space-x-1.5"
-              >
-                <span className="group relative transition ease-out duration-300 ml-4 bg-input h-8 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    enable-background="new 0 0 24 24"
-                    className="w-4 h-4 dark:text-black"
-                    viewBox="0 0 24 24"
-                    id="comment"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M3.0703,17.9941v1.3257c0,1.1392,0.6533,2.1274,1.665,2.5171c0.2871,0.1108,0.582,0.1646,0.8721,0.1646
+                                    >
+                                        Like<span></span>
+                                    </span>
+                                </span>
+                                <span className="text-lg text-title ">
+                                    {valueLike}
+                                </span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setDisplayModal("PREVIEW"),
+                                        setDisplayCreate.on();
+                                }}
+                                className="flex items-center p-1 space-x-1.5"
+                            >
+                                <span className="group relative transition ease-out duration-300 ml-4 bg-input h-8 px-2 py-2 text-center rounded-full hover:brightness-150 cursor-pointer hover:scale-110">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        enableBackground="new 0 0 24 24"
+                                        className="w-4 h-4 dark:text-black"
+                                        viewBox="0 0 24 24"
+                                        id="comment"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            d="M3.0703,17.9941v1.3257c0,1.1392,0.6533,2.1274,1.665,2.5171c0.2871,0.1108,0.582,0.1646,0.8721,0.1646
     		c0.666,0,1.3086-0.2842,1.7939-0.8198l1.4307-1.5781c2.2764,0.1025,4.5771-0.0059,6.8545-0.3228
     		c1.5371-0.2114,2.7617-1.4438,3.0459-3.0562c0.1099-0.5847,0.1713-1.1757,0.2094-1.7531c0.0847-0.0117,0.1729-0.0192,0.2564-0.0311
     		c1.3076-0.1826,2.3516-1.2554,2.5957-2.6641C21.9307,11.0137,22,10.2041,22,9.3701c0-0.8408-0.0693-1.6538-0.2061-2.4155
@@ -210,77 +224,79 @@ const CardDetail: React.FC<CardDetailProps> = React.forwardRef(
     		c-0.2969-0.0181-0.5957,0.1021-0.7998,0.3262l-1.75,1.9307c-0.1387,0.1523-0.2939,0.1987-0.4648,0.1313
     		c-0.1855-0.0713-0.3838-0.2798-0.3838-0.6504v-1.7197c0-0.2778-0.1152-0.5435-0.3193-0.7324
     		c-0.2695-0.2505-0.4521-0.6006-0.5186-1.0151C4.0781,15.0454,4,14.1929,4,13.3198S4.0781,11.5947,4.2344,10.7783z"
-                    ></path>
-                  </svg>
-                  <span
-                    className="absolute -top-10 left-[50%] -translate-x-[50%]
+                                        ></path>
+                                    </svg>
+                                    <span
+                                        className="absolute -top-10 left-[50%] -translate-x-[50%]
       z-20 origin-left scale-0 px-3 rounded-lg
        bg-card py-2 text-sm dark:text-black
       shadow-md transition-all duration-300 ease-in-out
       group-hover:scale-100"
-                  >
-                    Comment<span></span>
-                  </span>
-                </span>
-                <span className="text-lg text-title ">{post.sumComment}</span>
-              </button>
-            </div>
-            <div className="space-x-2 flex justify-center items-center">
-              <Link
-                to={`blog/${post.id}`}
-                className="text-blue-700 hover:brightness-150 cursor-pointer"
-              >
-                Read more
-              </Link>
-            </div>
-          </div>
-        </div>
-        <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
-          {displayModal === "DELETE" ? (
-            <DeleteBlog setFlag={setDisplayCreate} id={post.id} />
-          ) : null}
-          {displayModal === "BOOKMARK" ? (
-            <SaveBlog
-              setFlag={setDisplayCreate}
-              id={post.id}
-              setIsBookmark={setIsBookmark}
-            />
-          ) : null}
+                                    >
+                                        Comment<span></span>
+                                    </span>
+                                </span>
+                                <span className="text-lg text-title ">
+                                    {post.sumComment}
+                                </span>
+                            </button>
+                        </div>
+                        <div className="space-x-2 flex justify-center items-center">
+                            <Link
+                                to={`blog/${post.id}`}
+                                className="text-blue-700 hover:brightness-150 cursor-pointer"
+                            >
+                                Read more
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
+                    {displayModal === "DELETE" ? (
+                        <DeleteBlog setFlag={setDisplayCreate} id={post.id} />
+                    ) : null}
+                    {displayModal === "BOOKMARK" ? (
+                        <SaveBlog
+                            setFlag={setDisplayCreate}
+                            id={post.id}
+                            setIsBookmark={setIsBookmark}
+                        />
+                    ) : null}
 
-          {displayModal === "UNBOOKMARK" ? (
-            <RemoveBookmark
-              setFlag={setDisplayCreate}
-              id={post.id}
-              setUnBookmark={setUnBookmark}
-            />
-          ) : null}
-          {displayModal === "PREVIEW" ? (
-            <Preview setFlag={setDisplayCreate} data={post} />
-          ) : null}
-          {displayModal === "REPORT" ? (
-            <ReportBlog setFlag={setDisplayCreate} data={post} />
-          ) : null}
-          {displayModal === "HIDE" ? (
-            <HideBlog
-              setFlag={setDisplayCreate}
-              id={post.id}
-              setIsHide={setIsHide}
-            />
-          ) : null}
-        </Modal>
-      </>
-    );
+                    {displayModal === "UNBOOKMARK" ? (
+                        <RemoveBookmark
+                            setFlag={setDisplayCreate}
+                            id={post.id}
+                            setUnBookmark={setUnBookmark}
+                        />
+                    ) : null}
+                    {displayModal === "PREVIEW" ? (
+                        <Preview setFlag={setDisplayCreate} data={post} />
+                    ) : null}
+                    {displayModal === "REPORT" ? (
+                        <ReportBlog setFlag={setDisplayCreate} data={post} />
+                    ) : null}
+                    {displayModal === "HIDE" ? (
+                        <HideBlog
+                            setFlag={setDisplayCreate}
+                            id={post.id}
+                            setIsHide={setIsHide}
+                        />
+                    ) : null}
+                </Modal>
+            </>
+        );
 
-    const content = ref ? (
-      <article ref={ref} className="bg-card shadow rounded-lg">
-        {body}
-      </article>
-    ) : (
-      <article className="bg-card shadow rounded-lg">{body}</article>
-    );
+        const content = ref ? (
+            <article ref={ref as any} className="bg-card shadow rounded-lg">
+                {body}
+            </article>
+        ) : (
+            <article className="bg-card shadow rounded-lg">{body}</article>
+        );
 
-    return content;
-  }
+        return content;
+    }
 );
 
 export default CardDetail;

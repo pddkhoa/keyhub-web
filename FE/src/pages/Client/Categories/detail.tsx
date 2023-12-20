@@ -5,70 +5,111 @@ import useAuth from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import ClientServices from "@/services/client/client";
 import { REQUEST_TYPE } from "@/types";
-import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { debounce } from "lodash";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 const CategoriesDetail = () => {
-  const { id } = useParams();
-  const idCategories = Number(id);
-  const { axiosJWT, accessToken } = useAuth();
+    const { id } = useParams();
+    const idCategories = Number(id);
+    const { axiosJWT, accessToken } = useAuth();
 
-  const { sendRequest } = useFetch();
+    const { sendRequest } = useFetch();
 
-  // const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
+    // const [categoriesDetail, setCategoriesDetail] = useState<CategoryType>();
 
   const categoriesDetail = useSelector(
     (state: RootState) => state.admin.categoriesById
   );
   const [isFollowing, setIsFollowing] = useState(categoriesDetail?.checkFollowCategory);
 
-  const [isBookmark, setIsBookmark] = useState(false);
-  const [unBookmark, setUnBookmark] = useState(false);
-  const [isHide, setIsHide] = useState(false);
+    const [isBookmark, setIsBookmark] = useState(false);
+    const [unBookmark, setUnBookmark] = useState(false);
+    const [isHide, setIsHide] = useState(false);
 
-  useEffect(() => {
-    sendRequest({
-      type: REQUEST_TYPE.GET_BLOG_CATEGORIES_BY_ID,
-      slug: id,
-    });
-  }, [idCategories]);
+    useEffect(() => {
+        sendRequest({
+            type: REQUEST_TYPE.GET_BLOG_CATEGORIES_BY_ID,
+            slug: id,
+        });
+    }, [idCategories]);
 
-  const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
-  // Tạo debounced search function
-  const debouncedSearch = useCallback(
-    debounce(async (value) => {
-      const report = {
-        keyword: searchTerm,
-        category_id: id,
-      };
-      await sendRequest({
-        type: REQUEST_TYPE.SEARCH_BLOG_CATEGORIES,
-        data: report,
-      });
-    }, 500),
-    [searchTerm]
-  );
-  const blogFilter = useSelector(
-    (state: RootState) => state.categories.blogSearch
-  );
+    // Tạo debounced search function
+    const debouncedSearch = useCallback(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        debounce(async (_value) => {
+            const report = {
+                keyword: searchTerm,
+                category_id: id,
+            };
+            await sendRequest({
+                type: REQUEST_TYPE.SEARCH_BLOG_CATEGORIES,
+                data: report,
+            });
+        }, 500),
+        [searchTerm]
+    );
+    const blogFilter = useSelector(
+        (state: RootState) => state.categories.blogSearch
+    );
 
-  // useEffect(() => {
-  //   debouncedSearch(searchTerm);
-  // }, [searchTerm, debouncedSearch]);
+    // useEffect(() => {
+    //   debouncedSearch(searchTerm);
+    // }, [searchTerm, debouncedSearch]);
 
-  function handleInputBlur() {
-    debouncedSearch(searchTerm);
-  }
+    function handleInputBlur() {
+        debouncedSearch(searchTerm);
+    }
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      await sendRequest({ type: REQUEST_TYPE.GET_BLOG_CATEGORIES, slug: id });
+    useEffect(() => {
+        const fetchBlog = async () => {
+            await sendRequest({
+                type: REQUEST_TYPE.GET_BLOG_CATEGORIES,
+                slug: id,
+            });
+        };
+
+        fetchBlog();
+    }, [id, isBookmark, unBookmark, isHide]);
+    const blog = useSelector((state: RootState) => state.categories.listBlog);
+
+    const handleFollow = async (id: number) => {
+        if (!isFollowing) {
+            // Nếu chưa follow, thực hiện follow
+            const { body } = await ClientServices.followCategories(
+                id,
+                accessToken,
+                axiosJWT
+            );
+            if (body?.success) {
+                toast.success(body?.message);
+                setIsFollowing(true);
+            } else {
+                console.log(body?.message);
+
+                toast.error(body?.message || "Error");
+            }
+        } else {
+            // Nếu đã follow, thực hiện unfollow (tương tự)
+            const { body } = await ClientServices.followCategories(
+                id,
+                accessToken,
+                axiosJWT
+            );
+            if (body?.success) {
+                toast.success(body?.message);
+                setIsFollowing(false);
+            } else {
+                console.log(body?.message);
+                toast.error(body?.message || "Error");
+            }
+        }
+        sendRequest({ type: REQUEST_TYPE.GET_LIST_CATEGORIES });
     };
 
     fetchBlog();
@@ -227,12 +268,12 @@ const CategoriesDetail = () => {
                   Load more posts...
                 </button>
               </div> */}
-            </div>
-          </section>
-        </>
-      )}
-    </div>
-  );
+                        </div>
+                    </section>
+                </>
+            )}
+        </div>
+    );
 };
 
 export default CategoriesDetail;

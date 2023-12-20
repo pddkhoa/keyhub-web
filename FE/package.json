@@ -46,6 +46,7 @@
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.3.1",
     "editorjs-blocks-react-renderer": "^1.3.0",
     "editorjs-html": "^3.4.3",
     "editorjs-react-renderer": "^3.5.1",
@@ -80,6 +81,7 @@
     "swiper": "^10.3.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "web-vitals": "^3.5.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {
@@ -87,6 +89,7 @@
     "@editorjs/simple-image": "^1.5.1",
     "@types/node": "^20.6.0",
     "@types/react": "^18.2.15",
+    "@types/react-datepicker": "^4.19.4",
     "@types/react-dom": "^18.2.7",
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
