@@ -91,8 +91,12 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
     };
 
     const connectWS = () => {
+<<<<<<< HEAD
         const url = process.env.REACT_APP_API_URL;
         const socket = new SockJS(`${url}/ws`);
+=======
+        const socket = new SockJS(`${process.env.REACT_APP_API_URL}/ws`);
+>>>>>>> Khoa
         const temp = Stomp.over(socket);
         setStompClient(temp);
         const headers = {

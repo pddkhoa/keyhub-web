@@ -19,7 +19,6 @@ import ClientServices from "@/services/client/client";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BlogPost from "@/types/blog";
 import convertHTMLToEditorJS from "./convert";
-import { Loading } from "../Loading/loading";
 import CategoryType from "@/types/categories";
 import TagType from "@/types/tags";
 import useBoolean from "@/hooks/useBoolean";
@@ -79,8 +78,7 @@ const EditBlog = () => {
     const accessToken = auth?.data.token;
 
     const location = useLocation();
-    const loading = useState(false);
-    const [report, setReport] = useState<ReportType | null>(location.state);
+    const [report, setReport] = useState<ReportType | null>(location?.state);
     const locationState = location.state as BlogPost;
     const [displayModal, setDisplayModal] = useState(false);
     const [displayCreate, setDisplayCreate] = useBoolean(false);
@@ -203,7 +201,6 @@ const EditBlog = () => {
     const handleCancle = async () => {
         try {
             const { body } = await ClientServices.cancleBlog();
-            console.log(body);
             if (body?.success) {
                 setIsLoading(false);
                 localStorage.removeItem("editBlog");
@@ -225,7 +222,6 @@ const EditBlog = () => {
             setIsMounted(true);
         }
     }, []);
-    console.log(report);
 
     useEffect(() => {
         const init = async () => {
@@ -296,9 +292,9 @@ const EditBlog = () => {
         }
     };
 
-    if (loading) {
-        return <Loading />;
-    }
+    // if (loading) {
+    //     return <Loading />;
+    // }
 
     return (
         <div className="container  min-h-0 px-9 py-12">
