@@ -22,7 +22,6 @@ import { CreateSeries } from "../Modal/Series/createSeries";
 
 import useBoolean from "@/hooks/useBoolean";
 import { showToast } from "@/hooks/useToast";
-import seriesType from "@/types/series";
 import ClientServices from "@/services/client/client";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
@@ -135,7 +134,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
         }
     };
 
-    function handleSelectSeries(selectedValue: seriesType) {
+    function handleSelectSeries(selectedValue: any) {
         setReport({ ...report, seriesId: selectedValue });
     }
 

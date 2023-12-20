@@ -38,7 +38,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
 
     const [contentMessage, setContentMessage] = useState("");
 
-    const decode = jwtDecode(dataUser);
+    const decode = jwtDecode(dataUser) as any;
 
     const isAuth = decode?.userDetails?.users?.id;
 
