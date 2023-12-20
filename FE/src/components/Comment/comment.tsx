@@ -16,9 +16,10 @@ import { Loading } from "../Loading/loading";
 
 interface CommentsProps {
     idBlog?: number;
+    showForm?: boolean;
 }
 
-export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
+export const Comments: React.FC<CommentsProps> = ({ idBlog, showForm }) => {
     const [comment, setComment] = useState<CommentType[]>();
     const { id } = useParams();
     const blogid = Number(id);
@@ -32,12 +33,12 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
     useEffect(() => {
         setLoading(true);
         const fetchComment = async () => {
-            let selectedId = blogid; // Sử dụng giá trị ban đầu là blog_id
+            let selectedId = idBlog; // Sử dụng giá trị ban đầu là blog_id
 
-            if (!selectedId && idBlog) {
-                selectedId = idBlog; // Nếu blog_id không tồn tại, sử dụng idBlog thay thế
+            if (!selectedId && blogid) {
+                selectedId = blogid; // Nếu blog_id không tồn tại, sử dụng idBlog thay thế
             }
-            const blog_id = blogid ? blogid : selectedId;
+            const blog_id = blogid ? selectedId : (blogid as any);
             try {
                 const { body } = await ClientServices.getCommentByBlog(
                     blog_id,
@@ -65,9 +66,11 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
         fetchComment();
     }, [posting]);
 
+    console.log(comment);
+
     //Root Comment
     const rootComment = comment?.filter(
-        (comment) => comment.parentComment === null
+        (comment) => comment?.parentComment === null
     );
     // Child Comment
     const childComment = (commentId: number) => {
@@ -85,12 +88,14 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog }) => {
             <div className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-pink-100 dark:text-black">
                 Comments
             </div>
-            <div className="relative flex flex-col  ">
-                <CommentForm setPosting={setPosting} idBlog={idBlog} />
-            </div>
+            {showForm ? (
+                <div className="relative flex flex-col  ">
+                    <CommentForm setPosting={setPosting} idBlog={idBlog} />
+                </div>
+            ) : null}
 
-            {rootComment && rootComment.length > 0
-                ? rootComment.map((item) => (
+            {rootComment && rootComment?.length > 0
+                ? rootComment?.map((item) => (
                       <>
                           <Comment
                               key={item.id}

@@ -23,8 +23,6 @@ const DetailBlog = () => {
                 type: REQUEST_TYPE.GET_DETAIL,
                 slug: id,
             });
-
-            // eslint-disable-next-line react-hooks/rules-of-hooks
         };
 
         fetchData();
@@ -234,7 +232,7 @@ const DetailBlog = () => {
                 </div>
 
                 <div className="space-y-2 py-5">
-                    <Comments />
+                    <Comments showForm={true} />
                 </div>
             </div>
         </div>

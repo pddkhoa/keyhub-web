@@ -79,7 +79,7 @@ export const GridCard: React.FC<GridCardProps> = ({
         <div className="flex flex-col max-w-lg p-6 h-fit space-y-6 overflow-hidden rounded-lg shadow-md bg-gray-900 text-gray-100 dark:bg-white/90 dark:text-black">
             <div className="flex justify-between space-x-4">
                 <Link
-                    to={`${!isUser ? `/user/${data?.id}` : "#"} `}
+                    to={`${!isUser ? `/user/${data?.users?.id}` : "#"} `}
                     className="flex space-x-4 hover:brightness-125"
                 >
                     {!isUser ? (
