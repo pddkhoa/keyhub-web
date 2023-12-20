@@ -96,9 +96,8 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
         }
     }
 
-    // Tạo đối tượng dữ liệu cho Editor.js
     const editorData = {
-        time: new Date(),
+        time: new Date().getTime(),
         blocks: blocks,
         version: "2.22.2", // Thay đổi phiên bản tùy ý
     };

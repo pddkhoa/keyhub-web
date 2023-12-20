@@ -16,7 +16,7 @@ const AppRouter = () => {
         <Suspense fallback={<Loading />}>
             <Routes>
                 {user?.token ? (
-                    jwtDecode(user?.token).userDetails.users?.role ===
+                    (jwtDecode(user?.token) as any).userDetails.users?.role ===
                     "ADMIN" ? (
                         <Route path="*" element={<AdminRouter />} />
                     ) : (

@@ -127,7 +127,7 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
                                 </Label>
                                 <Select
                                     name="categories"
-                                    onValueChange={setCategories}
+                                    onValueChange={setCategories as any}
                                     defaultValue={categories?.id?.toString()}
                                 >
                                     <SelectTrigger className="w-full text-sm">

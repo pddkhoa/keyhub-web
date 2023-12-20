@@ -52,7 +52,7 @@
         "editorjs-html": "^3.4.3",
         "editorjs-react-renderer": "^3.5.1",
         "emoji-picker-react": "^4.5.16",
-        "formik": "^2.4.4",
+        "formik": "^2.4.5",
         "html-react-parser": "^4.2.2",
         "jotai": "^2.5.1",
         "jsdom": "^22.1.0",
