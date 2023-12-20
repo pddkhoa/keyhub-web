@@ -91,7 +91,7 @@ export const ScreenMessenger: React.FC<ScreenMessengerProps> = ({
     };
 
     const connectWS = () => {
-        const socket = new SockJS("http://localhost:8081/ws");
+        const socket = new SockJS(`${process.env.REACT_APP_API_URL}/ws`);
         const temp = Stomp.over(socket);
         setStompClient(temp);
         const headers = {
