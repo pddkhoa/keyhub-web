@@ -149,7 +149,6 @@ const Editor = () => {
             });
         }
     }, []);
-    console.log(report);
 
     const formik = useFormik({
         initialValues: {

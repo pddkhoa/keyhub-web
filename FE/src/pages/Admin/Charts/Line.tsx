@@ -103,8 +103,6 @@ export default function ResponseRate({ className }: { className?: string }) {
 
     const { isLoading, sendRequest } = useFetch();
 
-    console.log(convertDataChart(dataYear));
-
     useEffect(() => {
         if (startDate.getMonth())
             sendRequest({

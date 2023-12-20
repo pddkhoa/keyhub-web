@@ -28,6 +28,8 @@ const CategoriesDetail = () => {
         categoriesDetail?.checkFollowCategory
     );
 
+    const [isFollowingCate, setIsFollowingCate] = useState(false);
+
     const [isBookmark, setIsBookmark] = useState(false);
     const [unBookmark, setUnBookmark] = useState(false);
     const [isHide, setIsHide] = useState(false);
@@ -37,7 +39,7 @@ const CategoriesDetail = () => {
             type: REQUEST_TYPE.GET_BLOG_CATEGORIES_BY_ID,
             slug: id,
         });
-    }, [idCategories]);
+    }, [idCategories, isFollowingCate]);
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -82,6 +84,7 @@ const CategoriesDetail = () => {
 
     const handleFollow = async (id: number) => {
         if (!isFollowing) {
+            setIsFollowingCate(true);
             // Nếu chưa follow, thực hiện follow
             const { body } = await ClientServices.followCategories(
                 id,
@@ -91,13 +94,17 @@ const CategoriesDetail = () => {
             if (body?.success) {
                 toast.success(body?.message);
                 setIsFollowing(true);
+                setIsFollowingCate(false);
             } else {
                 console.log(body?.message);
+                setIsFollowingCate(false);
 
                 toast.error(body?.message || "Error");
             }
         } else {
             // Nếu đã follow, thực hiện unfollow (tương tự)
+            setIsFollowingCate(true);
+
             const { body } = await ClientServices.followCategories(
                 id,
                 accessToken,
@@ -106,12 +113,13 @@ const CategoriesDetail = () => {
             if (body?.success) {
                 toast.success(body?.message);
                 setIsFollowing(false);
+                setIsFollowingCate(false);
             } else {
                 console.log(body?.message);
                 toast.error(body?.message || "Error");
+                setIsFollowingCate(false);
             }
         }
-        sendRequest({ type: REQUEST_TYPE.GET_LIST_CATEGORIES });
     };
 
     return (
@@ -233,14 +241,6 @@ const CategoriesDetail = () => {
                                     <Nodata />
                                 )}
                             </div>
-                            {/* <div className="flex justify-center">
-                <button
-                  type="button"
-                  className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-900 text-gray-400"
-                >
-                  Load more posts...
-                </button>
-              </div> */}
                         </div>
                     </section>
                 </>

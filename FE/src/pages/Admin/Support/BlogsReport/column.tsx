@@ -2,6 +2,7 @@ import { HeaderCell } from "@/components/Table/Table";
 import { formatDate } from "@/lib/formate-date";
 import BlogPost from "@/types/blog";
 import User from "@/types/user";
+import { useNavigate } from "react-router-dom";
 import { Tooltip, ActionIcon, cn, AvatarProps, Avatar } from "rizzui";
 
 type Columns = {
@@ -105,6 +106,25 @@ export const getColumnsBlogsReport = ({
             <div className="flex items-center justify-center gap-3 ">
                 <Tooltip
                     size="sm"
+                    content={() => "View Invoice"}
+                    placement="top"
+                    className="bg-gray-200 [&>svg]:fill-gray-100 "
+                    color="invert"
+                >
+                    <ActionIcon
+                        onClick={() => {
+                            console.log(row);
+                        }}
+                        tag="span"
+                        size="sm"
+                        variant="outline"
+                        className="hover:brightness-150 cursor-pointer"
+                    >
+                        <EyeIcon data={row.blog} className="h-4 w-4" />
+                    </ActionIcon>
+                </Tooltip>
+                <Tooltip
+                    size="sm"
                     content={() => "Edit Invoice"}
                     placement="top"
                     className="bg-gray-200 [&>svg]:fill-gray-100 "
@@ -199,10 +219,25 @@ export function AvatarCard({
 
 export function EyeIcon({
     strokeWidth,
+    onClick,
+    data,
     ...props
-}: React.SVGProps<SVGSVGElement>) {
+}: React.SVGProps<SVGSVGElement> & {
+    onClick?: () => void;
+    data?: any;
+}) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (onClick) {
+            onClick();
+        } else {
+            navigate(`/admin/blogs/${data.id}`);
+        }
+    };
     return (
         <svg
+            onClick={handleClick}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

@@ -50,7 +50,9 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
     // const [isLoading, setIsLoading] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
 
-    const [cate, setCate] = useState<CategoryType[]>();
+    const cate = useSelector(
+        (state: RootState) => state.categories.listCategories
+    );
     const [tags, setTags] = useState<TagType[]>();
     const [selectTags, setSelectTags] = useState<TagType[]>(
         report.tagIds ? report.tagIds : []
@@ -65,7 +67,6 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
 
     const seriesList = useSelector((state: RootState) => state?.series?.series);
 
-    console.log(seriesList);
     const user = useSelector((state: RootState) => state.auth.login);
     const auth = useSelector((state: RootState) => state.auth.login);
     const isSucces = useSelector((state: RootState) => state.series.isSuccess);
@@ -106,19 +107,25 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { body } = await ClientServices.getAllCategories();
-                if (body?.success) {
-                    setCate(body.result);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchData();
+        sendRequest({ type: REQUEST_TYPE.GET_LIST_CATEGORIES });
     }, []);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const { body } = await ClientServices.getAllCategories();
+
+    //             console.log(body);
+    //             if (body?.success) {
+    //                 setCate(body.result);
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
 
     const handleSelectCate = async (cate: CategoryType) => {
         try {
@@ -172,7 +179,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                         <Textarea
                             id="title"
                             name="title"
-                            placeholder={report.title}
+                            placeholder={report?.title}
                             onChange={(e) =>
                                 setReport({ ...report, title: e.target.value })
                             }
@@ -276,7 +283,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                             </div>
                             {cate &&
                                 cate?.length > 0 &&
-                                cate.map((item) => (
+                                cate?.map((item) => (
                                     <div
                                         key={item?.id}
                                         onClick={() => {
