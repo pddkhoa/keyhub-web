@@ -11,24 +11,24 @@ import { ThemeProvider } from "./hooks/theme-provider";
 import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+    document.getElementById("root") as HTMLElement
 );
 root.render(
-  <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-    <React.StrictMode>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <BrowserRouter>
-            <App />
-            <Toaster
-              position="top-center"
-              reverseOrder={false}
-              containerStyle={{ inset: 20 }}
-              toastOptions={{ duration: 3000 }}
-            />
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
-    </React.StrictMode>
-  </ThemeProvider>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <React.StrictMode>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <BrowserRouter basename="/keyhub-web">
+                        <App />
+                        <Toaster
+                            position="top-center"
+                            reverseOrder={false}
+                            containerStyle={{ inset: 20 }}
+                            toastOptions={{ duration: 3000 }}
+                        />
+                    </BrowserRouter>
+                </PersistGate>
+            </Provider>
+        </React.StrictMode>
+    </ThemeProvider>
 );
