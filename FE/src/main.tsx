@@ -18,7 +18,7 @@ root.render(
         <React.StrictMode>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <BrowserRouter basename="/keyhub-web">
+                    <BrowserRouter>
                         <App />
                         <Toaster
                             position="top-center"
