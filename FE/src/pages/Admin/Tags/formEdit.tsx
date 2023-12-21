@@ -38,10 +38,8 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
         (state: RootState) => state.admin.listAllCategories
     );
 
-    const [categories, setCategories] = useState(
-        listCategories ? listCategories[0] : null
-    );
-    console.log(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_categories, setCategories] = useState();
     useEffect(() => {
         sendRequest({
             type: REQUEST_TYPE.ADMIN_GET_CATEGORIES,
@@ -51,7 +49,7 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
         initialValues: {
             id: data.id,
             name: data?.name,
-            categoryIds: categories,
+            categoryIds: data?.category?.id,
         },
         validationSchema: Yup.object().shape({
             name: Yup.string().matches(RULES.noBlank).required("Required"),
@@ -63,8 +61,9 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
             const report = {
                 id: data.id,
                 name: value.name,
-                categoryIds: categories?.id,
+                categoryIds: value.categoryIds,
             };
+            console.log(report);
 
             try {
                 await sendRequest({
@@ -127,8 +126,19 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
                                 </Label>
                                 <Select
                                     name="categories"
+<<<<<<< HEAD
                                     onValueChange={setCategories as any}
                                     defaultValue={categories?.id?.toString()}
+=======
+                                    onValueChange={(value: any) => {
+                                        formik.setFieldValue(
+                                            "categoryIds",
+                                            value
+                                        );
+                                        setCategories(value);
+                                    }}
+                                    defaultValue={data.category?.id?.toString()}
+>>>>>>> Khoa
                                 >
                                     <SelectTrigger className="w-full text-sm">
                                         <SelectValue placeholder="Categories" />

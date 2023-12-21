@@ -15,6 +15,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>App Media Social</title>
         <script type="text/javascript">
+            // Single Page Apps for GitHub Pages
+            // MIT License
+            // https://github.com/rafgraph/spa-github-pages
+            // This script checks to see if a redirect is present in the query string,
+            // converts it back into the correct url and adds it to the
+            // browser's history using window.history.replaceState(...),
+            // which won't cause the browser to attempt to load the new url.
+            // When the single page app is loaded further down in this file,
+            // the correct url will be waiting in the browser's history for
+            // the single page app to route accordingly.
             (function (l) {
                 if (l.search[1] === "/") {
                     var decoded = l.search
@@ -47,6 +57,14 @@
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+        <div id="fb-root"></div>
+        <script
+            async
+            defer
+            crossorigin="anonymous"
+            src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v18.0&appId=327336830141805"
+            nonce="sXxP1Jqa"
+        ></script>
         <!-- <script src="editor.js"></script> -->
     </body>
 </html>

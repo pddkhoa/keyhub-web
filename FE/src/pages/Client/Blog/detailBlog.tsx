@@ -157,7 +157,11 @@ const DetailBlog = () => {
                 </div>
                 <div className="output">
                     <Output
+<<<<<<< HEAD
                         data={editorData}
+=======
+                        data={(editorData as any) || undefined}
+>>>>>>> Khoa
                         config={{
                             code: {
                                 className: "language-js py-4 text-white",

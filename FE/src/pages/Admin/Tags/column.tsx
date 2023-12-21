@@ -48,6 +48,14 @@ export const getColumnsTags = ({
 
         render: (name: string) => <div>#{name}</div>,
     },
+    {
+        title: <HeaderCell title="Category" />,
+        dataIndex: "category",
+        key: "category",
+        width: 200,
+
+        render: (row: any) => <div>{row.name}</div>,
+    },
 
     {
         title: <HeaderCell align="center" title="Action" />,
@@ -73,6 +81,7 @@ export const getColumnsTags = ({
                                 setDisplayCreate.on();
                                 setDisplayModal("EDIT_TAG");
                                 setTag(row);
+                                console.log(row);
                             }}
                         >
                             <PencilIcon />

@@ -244,6 +244,38 @@ const IconReport = ({ className, ...props }: any) => (
 );
 IconReport.displayName = "IconReport";
 
+const IconShare = ({ className, ...props }: any) => (
+    <div {...props}>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            data-name="Gradient Line"
+            viewBox="0 0 24 24"
+            id="share"
+            className={cn(className)}
+        >
+            <defs>
+                <linearGradient
+                    id="a"
+                    x1="-8.27"
+                    x2="34.51"
+                    y1="-11.77"
+                    y2="31.01"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop offset="0" stopColor="#9cecfb"></stop>
+                    <stop offset=".51" stopColor="#65c7f7"></stop>
+                    <stop offset="1" stopColor="#0052d4"></stop>
+                </linearGradient>
+            </defs>
+            <path
+                fill="url(#a)"
+                d="M19,23a4,4,0,0,1-4-4,4.9,4.9,0,0,1,.07-.77L7.76,14.89a4,4,0,1,1,0-5.78l7.31-3.34A4.9,4.9,0,0,1,15,5a4,4,0,1,1,4,4,4,4,0,0,1-3.06-1.43L8.82,10.82a4,4,0,0,1,0,2.36l7.12,3.25A4,4,0,0,1,19,15a4,4,0,0,1,0,8Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,19,17ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10ZM19,3a2,2,0,1,0,2,2A2,2,0,0,0,19,3Z"
+            ></path>
+        </svg>
+    </div>
+);
+IconShare.displayName = "IconShare";
+
 const IconReportUser = ({ className, ...props }: any) => (
     <div {...props}>
         <svg
@@ -599,6 +631,7 @@ export {
     IconNotification,
     IconHelp,
     IconWarning,
+    IconShare,
 };
 
 export function FolderIcon({ ...props }: React.SVGProps<SVGSVGElement>) {
