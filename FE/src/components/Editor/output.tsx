@@ -129,7 +129,7 @@ export const EditorOutput: React.FC<EditorOutputProps> = ({ report }) => {
                     </div>
                     <div className="output">
                         <Output
-                            data={editorData}
+                            data={editorData as any}
                             config={{
                                 code: {
                                     className: "language-js py-4 text-white",

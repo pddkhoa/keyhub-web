@@ -238,9 +238,11 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                             <div className="col-span-4">
                                 <Select
                                     name="series"
-                                    onValueChange={handleSelectSeries}
+                                    onValueChange={handleSelectSeries as any}
                                     defaultValue={
-                                        report.seriesId ? report.seriesId : ""
+                                        report.seriesId
+                                            ? report.seriesId
+                                            : ("" as any)
                                     }
                                 >
                                     <SelectTrigger className="w-full text-sm">
