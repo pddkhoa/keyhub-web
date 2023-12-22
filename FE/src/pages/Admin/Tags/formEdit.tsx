@@ -126,10 +126,6 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
                                 </Label>
                                 <Select
                                     name="categories"
-<<<<<<< HEAD
-                                    onValueChange={setCategories as any}
-                                    defaultValue={categories?.id?.toString()}
-=======
                                     onValueChange={(value: any) => {
                                         formik.setFieldValue(
                                             "categoryIds",
@@ -138,7 +134,6 @@ export const FormEditTag: React.FC<FormAddTagProps> = ({
                                         setCategories(value);
                                     }}
                                     defaultValue={data.category?.id?.toString()}
->>>>>>> Khoa
                                 >
                                     <SelectTrigger className="w-full text-sm">
                                         <SelectValue placeholder="Categories" />
