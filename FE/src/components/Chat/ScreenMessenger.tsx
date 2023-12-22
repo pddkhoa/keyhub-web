@@ -38,11 +38,7 @@
 
 //     const [contentMessage, setContentMessage] = useState("");
 
-<<<<<<< HEAD
-    const decode = jwtDecode(dataUser) as any;
-=======
 //     const decode = jwtDecode(dataUser);
->>>>>>> Khoa
 
 //     const isAuth = (decode?.userDetails as any)?.users?.id;
 
@@ -94,16 +90,6 @@
 //         }
 //     };
 
-<<<<<<< HEAD
-    const connectWS = () => {
-        const url = process.env.REACT_APP_API_URL;
-        const socket = new SockJS(`${url}/ws`);
-        const temp = Stomp.over(socket);
-        setStompClient(temp);
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-=======
 //     const connectWS = () => {
 //         const socket = new SockJS(`${process.env.REACT_APP_API_URL}/ws`);
 //         const temp = Stomp.over(socket);
@@ -111,7 +97,6 @@
 //         const headers = {
 //             Authorization: `Bearer ${token}`,
 //         };
->>>>>>> Khoa
 
 //         temp.connect(headers, onConnect, onError);
 //     };

@@ -33,15 +33,15 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog, showForm }) => {
     useEffect(() => {
         setLoading(true);
         const fetchComment = async () => {
-            let selectedId = idBlog; // Sử dụng giá trị ban đầu là blog_id
+            let selectedId: any = idBlog; // Sử dụng giá trị ban đầu là blog_id
 
             if (!selectedId && blogid) {
                 selectedId = blogid; // Nếu blog_id không tồn tại, sử dụng idBlog thay thế
             }
-            const blog_id = blogid ? selectedId : (blogid as any);
+            // const blog_id = blogid ? selectedId : (blogid as any);
             try {
                 const { body } = await ClientServices.getCommentByBlog(
-                    blog_id,
+                    selectedId,
                     accessToken,
                     axiosJWT
                 );

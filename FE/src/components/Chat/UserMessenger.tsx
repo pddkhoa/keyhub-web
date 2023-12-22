@@ -14,18 +14,6 @@
 //     setUserYou: React.Dispatch<React.SetStateAction<User | undefined>>;
 // }
 
-<<<<<<< HEAD
-export const UserMessenger: React.FC<UserMessengerProps> = ({
-    setChatId,
-    setUserYou,
-}) => {
-    const { isLoading, sendRequest } = useFetch();
-    const listChat = useSelector((state: RootState) => state.chat.getListChat);
-    const dataUser = useSelector(
-        (state: RootState) => state.auth.login.data.token
-    );
-    const decode = jwtDecode(dataUser) as any;
-=======
 // export const UserMessenger: React.FC<UserMessengerProps> = ({
 //     setChatId,
 //     setUserYou,
@@ -36,7 +24,6 @@ export const UserMessenger: React.FC<UserMessengerProps> = ({
 //         (state: RootState) => state.auth.login.data.token
 //     );
 //     const decode = jwtDecode(dataUser);
->>>>>>> Khoa
 
 //     const isAuth = decode?.userDetails?.users?.id;
 

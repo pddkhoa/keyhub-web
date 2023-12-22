@@ -3,19 +3,12 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
-<<<<<<< HEAD
-    "scripts": {
-        "dev": "vite",
-        "build": "npm run compile && vite build",
-        "compile": "tsc",
-=======
     "homepage": "https://pddkhoa.github.io/keyhub-web/",
     "scripts": {
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist",
         "dev": "vite",
         "build": "tsc && vite build",
->>>>>>> Khoa
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
@@ -61,11 +54,7 @@
         "editorjs-html": "^3.4.3",
         "editorjs-react-renderer": "^3.5.1",
         "emoji-picker-react": "^4.5.16",
-<<<<<<< HEAD
-        "formik": "^2.4.5",
-=======
         "formik": "^2.4.4",
->>>>>>> Khoa
         "html-react-parser": "^4.2.2",
         "jotai": "^2.5.1",
         "jsdom": "^22.1.0",
@@ -114,16 +103,10 @@
         "eslint": "^8.45.0",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.3",
-<<<<<<< HEAD
-        "postcss": "^8.4.29",
-        "tailwindcss": "^3.3.5",
-        "typescript": "^5.3.3",
-=======
         "gh-pages": "^6.1.0",
         "postcss": "^8.4.29",
         "tailwindcss": "^3.3.5",
         "typescript": "^5.0.2",
->>>>>>> Khoa
         "vite": "^4.4.5"
     }
 }
