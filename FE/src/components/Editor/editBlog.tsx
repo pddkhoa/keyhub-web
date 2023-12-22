@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/redux/authSlice";
 import { createAxios } from "@/api/createInstance";
 import { RootState } from "@/redux/store";
-import { showToast } from "@/hooks/useToast";
 import ClientServices from "@/services/client/client";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BlogPost from "@/types/blog";
@@ -24,6 +23,7 @@ import TagType from "@/types/tags";
 import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ChangeDraft } from "../Modal/Blog/changeDraft";
+import toast from "react-hot-toast";
 
 interface ReportType {
     title: string;
@@ -206,10 +206,10 @@ const EditBlog = () => {
                 localStorage.removeItem("editBlog");
                 setReport({} as ReportType);
                 navigate(0);
-                showToast("cancle  Thanh cong nha!", "success");
+                toast.success("cancle  Thanh cong nha!");
             } else {
                 setIsLoading(false);
-                showToast(body?.message || "Erorr", "error");
+                toast.error(body?.message || "Erorr");
             }
         } catch (error) {
             setIsLoading(false);

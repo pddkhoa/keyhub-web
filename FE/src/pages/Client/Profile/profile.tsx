@@ -197,7 +197,7 @@ const Profile = () => {
                                                 </Button>
                                             )}
 
-                                            <Button
+                                            {/* <Button
                                                 onClick={() => {
                                                     handleMessages(userId);
                                                 }}
@@ -205,7 +205,7 @@ const Profile = () => {
                                                 size={"sm"}
                                             >
                                                 Message
-                                            </Button>
+                                            </Button> */}
                                             <Button
                                                 variant={"gradient"}
                                                 size={"sm"}

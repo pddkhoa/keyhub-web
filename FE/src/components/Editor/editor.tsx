@@ -16,10 +16,10 @@ import { loginSuccess } from "@/redux/authSlice";
 import { createAxios } from "@/api/createInstance";
 import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
-import { showToast } from "@/hooks/useToast";
 import { createBlogSuccess } from "@/redux/blogSlice";
 import ClientServices from "@/services/client/client";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface ReportType {
     title: string;
@@ -174,7 +174,6 @@ const Editor = () => {
                     avatar: report.avatar,
                 };
             }
-            console.log(reportss);
             setIsLoading(true);
             try {
                 const { body } = await ClientServices.createBlog(
@@ -188,11 +187,11 @@ const Editor = () => {
                     dispatch(createBlogSuccess);
                     localStorage.removeItem("editorContent");
                     setReport({} as ReportType);
-                    showToast("Create Thanh cong nha!", "success");
+                    toast.success("Create Thanh cong nha!");
                     navigate("/profile");
                 } else {
                     setIsLoading(false);
-                    showToast(body?.message || "Erorr", "error");
+                    toast.error(body?.message || "Erorr");
                 }
             } catch (error) {
                 setIsLoading(false);
@@ -234,11 +233,11 @@ const Editor = () => {
                 // dispatch(createBlogSuccess);
                 localStorage.removeItem("editorContent");
                 setReport({} as ReportType);
-                showToast("add daft Thanh cong nha!", "success");
+                toast.success("Add Draft Successfully");
                 navigate("/profile");
             } else {
                 setIsLoading(false);
-                showToast(body?.message || "Erorr", "error");
+                toast.error(body?.message || "Erorr");
             }
         } catch (error) {
             setIsLoading(false);
@@ -254,10 +253,10 @@ const Editor = () => {
                 localStorage.removeItem("editorContent");
                 setReport({} as ReportType);
                 navigate(0);
-                showToast("cancle  Thanh cong nha!", "success");
+                toast.success("Cancle Successfully!");
             } else {
                 setIsLoading(false);
-                showToast(body?.message || "Erorr", "error");
+                toast.error(body?.message || "Erorr");
             }
         } catch (error) {
             setIsLoading(false);

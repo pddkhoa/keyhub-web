@@ -21,10 +21,10 @@ import Modal from "../Modal/modal";
 import { CreateSeries } from "../Modal/Series/createSeries";
 
 import useBoolean from "@/hooks/useBoolean";
-import { showToast } from "@/hooks/useToast";
 import ClientServices from "@/services/client/client";
 import useFetch from "@/hooks/useFetch";
 import { REQUEST_TYPE } from "@/types";
+import toast from "react-hot-toast";
 
 interface ReportType {
     title: string;
@@ -96,7 +96,7 @@ export const DetailBlog: React.FC<CreateBlogProps> = ({
                     setUrlImage(body.result);
                     setIsUploading(false);
                 } else {
-                    showToast("Error", "error");
+                    toast.error("Error");
                     setIsUploading(false);
                 }
             }

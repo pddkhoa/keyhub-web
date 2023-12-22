@@ -125,9 +125,12 @@ const Header = () => {
             <div className="mx-auto max-w-screen-3xl px-8 py-2 ">
                 <div className="flex items-center justify-between gap-4">
                     <div className="relative flex gap-5 justify-center items-center">
-                        <span className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent">
+                        <Link
+                            to={"/"}
+                            className="bg-gradient-to-r from-violet-500 to-pink-500 via-red-500 via-yellow-400 to-green-400 bg-clip-text text-transparent"
+                        >
                             Keyhub Social
-                        </span>
+                        </Link>
                     </div>
                     <div className="flex gap-5 items-center justify-end mx-4">
                         {data.token ? (

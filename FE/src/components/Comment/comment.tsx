@@ -13,6 +13,9 @@ import useBoolean from "@/hooks/useBoolean";
 import Modal from "../Modal/modal";
 import { ReportComment } from "../Modal/Comment/reportComment";
 import { Loading } from "../Loading/loading";
+import { Nodata } from "../ui/nodata";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface CommentsProps {
     idBlog?: number;
@@ -94,23 +97,25 @@ export const Comments: React.FC<CommentsProps> = ({ idBlog, showForm }) => {
                 </div>
             ) : null}
 
-            {rootComment && rootComment?.length > 0
-                ? rootComment?.map((item) => (
-                      <>
-                          <Comment
-                              key={item.id}
-                              comment={item}
-                              child={childComment(item.id)}
-                              childComment={childComment}
-                              activeComment={activeComment}
-                              setActiveComment={setActiveComment}
-                              setPosting={setPosting}
-                              nestingLevel={0}
-                              idBlog={idBlog}
-                          />
-                      </>
-                  ))
-                : null}
+            {rootComment && rootComment?.length > 0 ? (
+                rootComment?.map((item) => (
+                    <>
+                        <Comment
+                            key={item.id}
+                            comment={item}
+                            child={childComment(item.id)}
+                            childComment={childComment}
+                            activeComment={activeComment}
+                            setActiveComment={setActiveComment}
+                            setPosting={setPosting}
+                            nestingLevel={0}
+                            idBlog={idBlog}
+                        />
+                    </>
+                ))
+            ) : (
+                <Nodata />
+            )}
         </div>
     );
 };
@@ -150,6 +155,8 @@ export const Comment: React.FC<CommentProps> = ({
     const replies: CommentType[] = childComment(comment.id);
     const sumChildComment = replies.length;
 
+    console.log(comment);
+
     const hanldeDeleteComment = async (id: number) => {
         if (id) {
             setPosting(true);
@@ -178,6 +185,9 @@ export const Comment: React.FC<CommentProps> = ({
 
     const [displayModal, setDisplayModal] = useState(false);
     const [displayCreate, setDisplayCreate] = useBoolean(false);
+    const userAuth = useSelector((state: RootState) => state.user.detail?.data);
+
+    const checkAuth = comment?.users?.id == userAuth.id;
 
     return (
         <div>
@@ -201,15 +211,17 @@ export const Comment: React.FC<CommentProps> = ({
                         </div>
                     </div>
                     <div className="flex gap-5">
-                        <button
-                            onClick={() => {
-                                setDisplayCreate.on();
-                                setDisplayModal(true);
-                            }}
-                            className="inline-flex items-center flex-column hover:brightness-150"
-                        >
-                            <IconWarning className="w-4 h-6" />
-                        </button>
+                        {!checkAuth && (
+                            <button
+                                onClick={() => {
+                                    setDisplayCreate.on();
+                                    setDisplayModal(true);
+                                }}
+                                className="inline-flex items-center flex-column hover:brightness-150"
+                            >
+                                <IconWarning className="w-4 h-6" />
+                            </button>
+                        )}
                         <button
                             onClick={() => {
                                 hanldeDeleteComment(comment.id);

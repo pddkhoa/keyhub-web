@@ -1,11 +1,11 @@
 import { Loading } from "@/components/Loading/loading";
 import useAuth from "@/hooks/useAuth";
-import { showToast } from "@/hooks/useToast";
 import ClientServices from "@/services/client/client";
 import CategoryType from "@/types/categories";
 import TagType from "@/types/tags";
 import { useFormik } from "formik";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ReportType {
     title: string;
@@ -90,12 +90,12 @@ export const ChangeDraft: React.FC<ChangeDraftProps> = ({
                     // dispatch(createBlogSuccess);
                     // localStorage.removeItem("editBlog");
                     // setReport({} as BlogPost);
-                    showToast("Edit Thanh cong nha!", "success");
+                    toast.error("Edit Successfully");
                     // navigate("/profile");
                     setFlag.off();
                 } else {
                     setIsLoading(false);
-                    showToast(body?.message || "Erorr", "error");
+                    toast.error(body?.message || "Erorr");
                 }
             } catch (error) {
                 setIsLoading(false);

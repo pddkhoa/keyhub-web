@@ -187,6 +187,9 @@ export const ModalListUser: React.FC<ModalListUserProps> = ({
 }) => {
     const { sendRequest } = useFetch();
     const [dataUser, setDataUser] = useState(initialData);
+    const userAuth = useSelector((state: RootState) => state.user.detail?.data);
+
+    console.log(userAuth.id);
 
     const handleFollow = async (id: any) => {
         setDataUser((prev) =>
@@ -255,35 +258,68 @@ export const ModalListUser: React.FC<ModalListUserProps> = ({
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-center space-x-3">
-                                            {item?.checkStatusFollow ? (
-                                                <Button
-                                                    variant={"gradient"}
-                                                    onClick={() =>
-                                                        handleFollow(item?.id)
-                                                    }
-                                                >
-                                                    UnFollow
-                                                </Button>
+                                            {userAuth?.id === item.id ? (
+                                                <Link to={`/user/${item?.id}`}>
+                                                    <Button
+                                                        type="button"
+                                                        variant={"gradient"}
+                                                        className="rounded-xl w-fit"
+                                                    >
+                                                        Visit Page
+                                                        <MousePointer2 className="ml-2 w-5 h-5 rotate-90" />
+                                                    </Button>
+                                                </Link>
+                                            ) : item?.checkStatusFollow ? (
+                                                <>
+                                                    <Button
+                                                        variant={"gradient"}
+                                                        onClick={() =>
+                                                            handleFollow(
+                                                                item?.id
+                                                            )
+                                                        }
+                                                    >
+                                                        UnFollow
+                                                    </Button>
+                                                    <Link
+                                                        to={`/user/${item?.id}`}
+                                                    >
+                                                        <Button
+                                                            type="button"
+                                                            variant={"gradient"}
+                                                            className="rounded-xl w-fit"
+                                                        >
+                                                            Visit Page
+                                                            <MousePointer2 className="ml-2 w-5 h-5 rotate-90" />
+                                                        </Button>
+                                                    </Link>
+                                                </>
                                             ) : (
-                                                <Button
-                                                    variant={"gradient"}
-                                                    onClick={() => {
-                                                        handleFollow(item?.id);
-                                                    }}
-                                                >
-                                                    Follow
-                                                </Button>
+                                                <>
+                                                    <Button
+                                                        variant={"gradient"}
+                                                        onClick={() => {
+                                                            handleFollow(
+                                                                item?.id
+                                                            );
+                                                        }}
+                                                    >
+                                                        Follow
+                                                    </Button>
+                                                    <Link
+                                                        to={`/user/${item?.id}`}
+                                                    >
+                                                        <Button
+                                                            type="button"
+                                                            variant={"gradient"}
+                                                            className="rounded-xl w-fit"
+                                                        >
+                                                            Visit Page
+                                                            <MousePointer2 className="ml-2 w-5 h-5 rotate-90" />
+                                                        </Button>
+                                                    </Link>
+                                                </>
                                             )}
-                                            <Link to={`/user/${item?.id}`}>
-                                                <Button
-                                                    type="button"
-                                                    variant={"gradient"}
-                                                    className="rounded-xl w-fit"
-                                                >
-                                                    Visit Page
-                                                    <MousePointer2 className="ml-2 w-5 h-5 rotate-90" />
-                                                </Button>
-                                            </Link>
                                         </div>
                                     </div>
                                 ))
