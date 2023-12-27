@@ -34,7 +34,6 @@ const Profile = () => {
   const { sendRequest } = useFetch();
   const [isUser, setIsUser] = useState(false);
   const user = useSelector((state: RootState) => state.user.user);
-  const [add, setAdd] = useState(false);
 
   useEffect(() => {
     const isUser = !userId || userData.id === Number(userId);
@@ -251,7 +250,7 @@ const Profile = () => {
       </section>
       <Modal flag={displayCreate} closeModal={setDisplayCreate.off}>
         {displayModal === "CREATE_SERIES" ? (
-          <CreateSeries setFlag={setDisplayCreate} setAdd={setAdd} />
+          <CreateSeries setFlag={setDisplayCreate} />
         ) : null}
         {displayModal === "REPORT" ? (
           <ReportUser setFlag={setDisplayCreate} data={user} />

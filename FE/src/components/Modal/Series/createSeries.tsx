@@ -4,12 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useFetch from "@/hooks/useFetch";
 import { RULES } from "@/lib/rules";
-import { RootState } from "@/redux/store";
 import { REQUEST_TYPE } from "@/types";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 type CreateSeriesProps = {
@@ -21,10 +19,7 @@ type CreateSeriesProps = {
   setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CreateSeries: React.FC<CreateSeriesProps> = ({
-  setFlag,
-  setAdd,
-}) => {
+export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
   const { isLoading, sendRequest } = useFetch();
 
   const [bio, setBio] = useState<string>("");
