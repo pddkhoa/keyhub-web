@@ -2,6 +2,7 @@ package com.example.Keyhub.controller.Admin;
 
 import com.example.Keyhub.data.dto.request.EvaluteRequestDTO;
 import com.example.Keyhub.data.dto.response.BlogDTO;
+import com.example.Keyhub.data.dto.response.ReportCommentResponseDTO;
 import com.example.Keyhub.data.dto.response.ReportResponseDTO;
 import com.example.Keyhub.data.dto.response.StatusResopnes;
 import com.example.Keyhub.data.entity.GenericResponse;
@@ -115,7 +116,7 @@ public class AdmidBlogController {
     @PostMapping("/evalute")
     public ResponseEntity<GenericResponse> evaluteBlog(@RequestBody EvaluteRequestDTO req)
     {
-        StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req);
+        StatusResopnes statusResopnes = adminBlogService.evaluteBlog(req,getUserFromAuthentication());
         if (statusResopnes.getStatusCode()==3)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -146,5 +147,61 @@ public class AdmidBlogController {
                         .build()
                 );
     }
-
+    @GetMapping("/comment-violating")
+    public ResponseEntity<GenericResponse> reportComment( )
+    {
+        List<ReportCommentResponseDTO> list = adminBlogService.listReportComment();
+        if (list == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(null)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Don't have report comment in system")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(list)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("There are list comment report")
+                        .build()
+                );
+    }
+    @PostMapping("/evalute-comment")
+    public ResponseEntity<GenericResponse> evaluteComment(@RequestBody EvaluteRequestDTO req)
+    {
+        StatusResopnes statusResopnes = adminBlogService.evaluteComment(getUserFromAuthentication(),req);
+        if (statusResopnes.getStatusCode()==3)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .message("Not found report")
+                            .build()
+                    );
+        }
+        if (statusResopnes.getStatusCode()==1)
+        {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GenericResponse.builder()
+                            .success(true)
+                            .result(statusResopnes)
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Delete comment success")
+                            .build()
+                    );
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GenericResponse.builder()
+                        .success(true)
+                        .result(statusResopnes)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Evalute success")
+                        .build()
+                );
+    }
 }

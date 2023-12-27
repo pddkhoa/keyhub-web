@@ -4,6 +4,7 @@ import com.example.Keyhub.data.dto.response.*;
 import com.example.Keyhub.data.entity.Blog.Blog;
 import com.example.Keyhub.data.entity.Blog.BlogLike;
 import com.example.Keyhub.data.entity.Blog.BlogSave;
+import com.example.Keyhub.data.entity.Blog.Comment;
 import com.example.Keyhub.data.entity.ProdfileUser.Follow;
 import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import com.example.Keyhub.data.repository.*;
@@ -105,5 +106,15 @@ public class GeneralServiceImpl implements GeneralService {
         List<Follow> UserFollowing = iFollowRepository.findAllByFollowing(user);
         response.setTotalFollowers(UserFollowing.size());
         return response;
+    }
+
+    @Override
+    public CommentResponse createCommentResponse(Comment comment) {
+        CommentResponse responseDTO = new CommentResponse();
+        responseDTO.setId(comment.getId());
+        responseDTO.setCreatedAt(comment.getCreatedAt());
+        responseDTO.setUsers(createUserResponse(comment.getUsers()));
+        responseDTO.setContent(comment.getContent());
+        return responseDTO;
     }
 }

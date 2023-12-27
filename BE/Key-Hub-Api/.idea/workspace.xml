@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="2d666734-7135-4413-a16c-94d956ea684d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -14,6 +15,18 @@
       <change beforePath="$PROJECT_DIR$/Thống nhất api.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pexels-patricio-nahuelhual-10908051.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../FE/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../FE/package-lock.json" afterDir="false" />
+=======
+    <list default="true" id="2d666734-7135-4413-a16c-94d956ea684d" name="Changes" comment="fix bug">
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IBLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/IBLogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Keyhub/service/impl/NotificationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+>>>>>>> Hai
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +61,16 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="Hai" />
+      </map>
     </option>
   </component>
   <component name="MarkdownSettingsMigration">
@@ -66,6 +87,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RequestMappingsPanelOrder0": "0",
@@ -93,6 +115,35 @@
     "settings.editor.selected.configurable": "preferences.sourceCode",
     "spring.configuration.checksum": "f46a1d5c9737394b17b8f6003511f4da",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelOrder2&quot;: &quot;2&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth2&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/BE_Keyhub/keyhub-web/BE/Key-Hub-Api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;f46a1d5c9737394b17b8f6003511f4da&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+>>>>>>> Hai
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
@@ -118,11 +169,11 @@
       <recent name="com.example.Keyhub.controller.Admin" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.Keyhub.event" />
-      <recent name="com.example.Keyhub.data.dto.request" />
-      <recent name="com.example.Keyhub.controller.Admin" />
       <recent name="com.example.Keyhub.data.dto.response" />
-      <recent name="com.example.Keyhub.service.impl" />
+      <recent name="com.example.Keyhub.data.dto.request" />
+      <recent name="com.example.Keyhub.data.entity.report" />
+      <recent name="com.example.Keyhub.event" />
+      <recent name="com.example.Keyhub.controller.Admin" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -534,12 +585,80 @@
       <workItem from="1702344863816" duration="10892000" />
       <workItem from="1702386086203" duration="4097000" />
       <workItem from="1702430530961" duration="32000" />
+<<<<<<< HEAD
       <workItem from="1702474917535" duration="803000" />
+=======
+      <workItem from="1702474917535" duration="3227000" />
+      <workItem from="1702512058453" duration="1166000" />
+      <workItem from="1702516126611" duration="3321000" />
+      <workItem from="1702546432860" duration="6774000" />
+      <workItem from="1702605010825" duration="5003000" />
+      <workItem from="1702620119981" duration="473000" />
+      <workItem from="1702620795788" duration="404000" />
+      <workItem from="1702800522001" duration="2851000" />
+      <workItem from="1702803608891" duration="506000" />
+      <workItem from="1702949315848" duration="1570000" />
+      <workItem from="1702950972652" duration="1033000" />
+      <workItem from="1702952281687" duration="630000" />
+      <workItem from="1702985902114" duration="853000" />
+      <workItem from="1703000870187" duration="2617000" />
+      <workItem from="1703049468569" duration="7161000" />
+      <workItem from="1703061590861" duration="4979000" />
+>>>>>>> Hai
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <option name="closed" value="true" />
+      <created>1702779720913</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702779720913</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update">
+      <option name="closed" value="true" />
+      <created>1702802683259</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702802683259</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update">
+      <option name="closed" value="true" />
+      <created>1702804115773</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702804115773</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix bug">
+      <option name="closed" value="true" />
+      <created>1703065067964</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1703065067964</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

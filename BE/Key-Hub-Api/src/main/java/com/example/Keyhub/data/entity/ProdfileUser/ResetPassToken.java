@@ -1,6 +1,4 @@
 package com.example.Keyhub.data.entity.ProdfileUser;
-
-import com.example.Keyhub.data.entity.ProdfileUser.Users;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +13,7 @@ import java.util.Calendar;
 @Setter
 @Entity
 public class ResetPassToken {
-    private static final int EXPIRATION = 60 * 1;
+    private static final int EXPIRATION = 60 * 24;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
