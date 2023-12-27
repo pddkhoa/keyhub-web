@@ -75,13 +75,13 @@ const Profile = () => {
         });
     };
 
-    const handleMessages = async (id: number) => {
-        await sendRequest({
-            type: REQUEST_TYPE.START_CHAT,
-            data: { user_id: id },
-        });
-        navigate("/messenger");
-    };
+    // const handleMessages = async (id: number) => {
+    //     await sendRequest({
+    //         type: REQUEST_TYPE.START_CHAT,
+    //         data: { user_id: id },
+    //     });
+    //     navigate("/messenger");
+    // };
 
     return (
         <div className="container mx-auto min-h-0 px-4 py-16">
