@@ -113,7 +113,7 @@ const Profile = () => {
                         Posts
                       </span>
                       <span className="text-gray-400 text-xl dark:text-black font-extrabold text-center">
-                        {!isUser ? user?.sumBLog : userData?.sumBlog || 0}
+                        {!isUser ? user?.sumBLog : userData?.sumBlog}
                       </span>
                     </div>
                     <div className="flex flex-col">
@@ -123,7 +123,7 @@ const Profile = () => {
                       <span className="text-gray-400 text-xl dark:text-black font-extrabold text-center">
                         {!isUser
                           ? user?.totalFollowing
-                          : userData?.totalFollowing || 0}
+                          : userData?.totalFollowing}
                       </span>
                     </div>
                     <div className="flex flex-col ">
