@@ -21,7 +21,10 @@ type CreateSeriesProps = {
   setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
+export const CreateSeries: React.FC<CreateSeriesProps> = ({
+  setFlag,
+  setAdd,
+}) => {
   const { isLoading, sendRequest } = useFetch();
 
   const [bio, setBio] = useState<string>("");
@@ -32,8 +35,6 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
     setBio(text);
     setCharCount(text.length);
   };
-
-  const isSuccess = useSelector((state: RootState) => state.series.isSuccess);
 
   const formik = useFormik({
     initialValues: {
@@ -51,10 +52,7 @@ export const CreateSeries: React.FC<CreateSeriesProps> = ({ setFlag }) => {
       };
       try {
         await sendRequest({ type: REQUEST_TYPE.ADD_SERIES, data: report });
-
-        if (isSuccess === true) {
-          setFlag.off();
-        }
+        setFlag.off();
       } catch (error) {
         console.log(error);
       }
